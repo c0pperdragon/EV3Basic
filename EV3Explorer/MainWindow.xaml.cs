@@ -362,6 +362,7 @@ namespace EV3Explorer
                             Console.WriteLine("finished with " + errors.Count + " errors");
                             foreach (String s in errors)
                             { Console.WriteLine(s); }
+                            ShowErrorMessages(errors);
                         }
                     }
                     catch (Exception)
@@ -393,6 +394,7 @@ namespace EV3Explorer
                             Console.WriteLine("finished with " + errors.Count + " errors");
                             foreach (String s in errors)
                             { Console.WriteLine(s); }
+                            ShowErrorMessages(errors);
                         }
                     }
                     catch (Exception)
@@ -469,6 +471,25 @@ namespace EV3Explorer
             }
         }
 
+
+        // -------------- window showing error messages ------------
+
+        private void ShowErrorMessages(List<String> lines)
+        {
+            String s = "";
+            foreach (String l in lines)
+            {
+                if (s.Length == 0)
+                {
+                    s = l;
+                }
+                else
+                {
+                    s = s + "/n" + l;
+                }
+            }
+            MessageBox.Show(s, "Compile errors"); 
+        }
 
 
 
