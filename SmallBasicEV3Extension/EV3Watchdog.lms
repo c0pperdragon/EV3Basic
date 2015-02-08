@@ -1,0 +1,18 @@
+DATA32 pingtarget      
+	
+vmthread MAIN
+{   
+	UI_DRAW(CLEAN)
+	UI_DRAW(TEXT,1,10,50,'EV3 Basic')
+	UI_DRAW(TEXT,1,10,64,'Remote session')
+	UI_DRAW(UPDATE)
+	
+watchdogloop:
+	MOVE32_32 0,pingtarget
+	
+	DATA32 name
+	TIMER_WAIT(1000,name)
+	TIMER_READY(name)
+	
+	JR_EQ32 42,pingtarget,watchdogloop
+}

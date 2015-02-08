@@ -1,0 +1,10 @@
+Sensor.SetMode(1,0)   ' touch sensor : mode touch
+'Sensor.SetMode(1,1)   ' touch sensor : mode bumps
+
+While "True"
+  LCD.Clear()
+  LCD.Text(1, 0,48, 1, "VAL="+Sensor.ReadPercentageValue(1))
+  LCD.Update()
+  
+  Program.Delay(200)
+EndWhile

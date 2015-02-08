@@ -1,0 +1,44 @@
+LCD.Clear()
+X=0
+Y=0
+
+Goto hello
+
+l1:
+if (y<60) then
+  Goto l2
+Else 
+  Goto programend
+EndIf
+
+hello:
+LCD.Text(1,0,y,1,"HELLO")
+y = y+ 16
+Goto l1
+
+
+If (1=2) then
+  l2:
+  LCD.Text(1,0,y,1,"WORLD")
+  y = y+ 16
+  Goto hello
+EndIf
+
+Sub MYSUB  
+ l5  :
+  LCD.Text(1,0,y,1,"LABEL IN SUB")
+  y=y+16
+ ' Goto totalover
+  Program.Delay(1000)
+endsub
+
+programend :
+LCD.Text(1,0,y,1,".. END")
+y = y + 16
+
+MYSUB()
+
+totalover:
+Program.Delay(10000000)
+
+

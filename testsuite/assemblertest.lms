@@ -1,0 +1,61 @@
+DATA32 globaldata1
+DATA32 globaldata2
+	
+	
+vmthread MAIN
+
+	UI_DRAW(CLEAN)
+	CALL(DRAWCIRCLE,40,40,20)
+	CALL(DRAWTEXT,'Hello Friends!'
+	UI_DRAW(UPDATE)
+
+	DATAF f
+	DATAS s 100
+	MOVE8_F 47 f
+
+	CALL PARAMETERSEQUENCE1 ('dummy' f) s
+	CALL PARAMETERSEQUENCE2 f 'dummy' f
+	
+	DATA32 timer
+	TIMER_WAIT(5000,timer)
+	TIMER_READY(timer)	
+	
+}
+
+
+subcall DRAWCIRCLE
+{
+	IN_16 x
+	IN_16 y
+	IN_16 r
+	UI_DRAW(CIRCLE, 1, x,y,r)   
+}
+
+
+subcall DRAWTEXT	
+{
+	IN_S  text 100
+	
+	UI_DRAW(TEXT, 1, 5,70, text)
+}
+
+subcall PARAMETERSEQUENCE1
+{
+	IN_S  text 100
+	IN_F  float 
+	OUT_S out 100
+	
+	STRINGS DUPLICATE text out
+}
+
+subcall PARAMETERSEQUENCE2
+{
+	IN_F  float 
+	IN_S  text 100	
+	OUT_F out
+DATA32  nixi
+	
+//	STRINGS DUPLICATE float out
+}
+
+		

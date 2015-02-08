@@ -1,0 +1,7 @@
+Motor.SchedulePowerForCount("AB", 100, 0, 2000, 0, "False")
+'Motor.Move("AB", 2000, "True")
+
+Motor.Wait("AB")
+
+EV3.SetLEDColor("RED", "NORMAL")
+Program.Delay(2000)

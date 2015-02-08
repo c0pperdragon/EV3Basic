@@ -1,0 +1,27 @@
+Motor.Speed("AB",0)
+Motor.Start("AB")
+
+while "True"
+  ' request button state
+  K = Buttons.Current
+
+  SA = 0
+  SB = 0
+  If Text.IsSubText(K, "L") then
+    SA = -50    
+  elseif Text.IsSubText(K, "R") then
+    SA = 50
+  endif
+  If Text.IsSubText(K, "U") then
+    SB = -50    
+  elseif Text.IsSubText(K, "D") then
+    SB = 50
+  endif
+  
+  ' Adjust motor speed
+  Motor.Speed("A", SA)
+  Motor.Speed("B", SB)
+  
+  ' wait a little before polling again
+  Program.Delay(100)
+Endwhile

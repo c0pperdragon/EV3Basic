@@ -1,0 +1,34 @@
+selectmode = 0
+Sensor.SetMode(1, selectmode)
+
+
+While "True"
+  LCD.MemorizeChanges()
+  LCD.Clear()      
+  LCD.Text(1, 0,0, 1, Sensor.GetName(1))
+  LCD.Text(1, 0,16, 1, "MODE: "+Sensor.GetType(1)+":"+Sensor.GetMode(1)+" ("+selectmode+")")
+  LCD.Text(1, 0,32, 1, "PERCENT: "+ Sensor.ReadPercent(1))
+  LCD.Text(1, 0,48, 1, "    RAW: "+ Sensor.ReadRaw(1))
+  For i=1 To 4
+    LCD.Text(1, 0,64+(i-1)*16, 1, Sensor.RAW(i))
+  endfor
+  For i=5 To 8
+    LCD.Text(1, 80,64+(i-5)*16, 1, Sensor.RAW(i))
+  endfor
+  LCD.Update()
+  
+  Program.Delay(200)
+  
+  click = Buttons.GetClicks()
+  If Text.IsSubText(click, "U") then
+    selectmode = selectmode+1
+    Sensor.SetMode(1, selectmode)
+  ElseIf Text.IsSubText(click,"D") then
+    selectmode = selectmode-1
+    Sensor.SetMode(1, selectmode)
+  ElseIf Text.IsSubText(click,"E") then
+    Sensor.SetMode(1, selectmode)
+  endif
+    
+  
+EndWhile

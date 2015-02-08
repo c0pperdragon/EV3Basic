@@ -1,0 +1,23 @@
+
+Assert.Equal(4+1*5, 9, "mul before plus")
+Assert.Equal(4-1*5, -1, "mul before minus")
+Assert.Equal(10/5+7, 9, "div before plus")
+Assert.Equal(4-10/5, 2, "div before minus")
+
+Assert.Equal(4*5*6/3, 40,  "left to right 1")
+Assert.Equal(4/2*6,   12,  "left to right 2")
+Assert.Equal(4/2/2,   1,  "left to right 2")
+
+If "True" or "False" and "False" Then
+  ' OK
+Else
+  Assert.Failed("OR must be weaker than AND")
+EndIf
+
+If "False" and "True" or "False" and "True" Then
+  Assert.Failed("OR is evaluated after AND")
+EndIf
+  
+If "False" And "True" <> "True" then
+  Assert.Failed("Comparator must be evaluated before AND")
+EndIf

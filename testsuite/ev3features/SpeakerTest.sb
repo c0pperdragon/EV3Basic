@@ -1,0 +1,26 @@
+V = 30
+T = 380
+
+Speaker.Tone(V, 262, T)
+Speaker.Wait()
+Speaker.Note(V, "C4", T)
+While Speaker.IsBusy()
+  Program.Delay(2)
+endwhile
+Speaker.Note(V, "E4", T)
+Speaker.Wait()
+Speaker.Note(V, "G4", T)
+Speaker.Wait()
+Speaker.Note(V, "G4", T)
+Speaker.Wait()
+Program.Delay(T)
+Speaker.Note(V, "G4", T)
+Speaker.Wait()
+Speaker.Note(V, "G4", T)
+Speaker.Wait()
+Program.Delay(T)
+Speaker.Note(V, "E4", T)
+Speaker.Wait()
+Speaker.Note(V, "E4", T)
+Speaker.Wait()
+

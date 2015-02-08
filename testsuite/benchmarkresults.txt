@@ -1,0 +1,16 @@
+1000000 instructions             total time 
+
+nothing (100000 loops)                          813
+STRINGS DUPLICATE '23' TMP_0                   6352
+ADD32 TMP_0 TMP_1 TMP_2                        5086
+MOVE32_32 TMP_0 TMP_1                          4092
+STRINGS STRING_TO_VALUE TMP_0 f               71180
+STRINGS VALUE_FORMATTED f,'%g',1023,TMP_0     90201
+MOVEF_32 f,x                                   5321
+ADDF f,f2,f3                                   4574
+MULF f,f2,f3                                   4584
+JR_EQ32 -5,c,label1            (not taken)     4279
+JR_EQ32 c,c,label1             (taken)         4752
+CALL TEST.NOOP   +   RETURN                   10995
+CALL TEST.NOOP f f2 f3 + RETURN (incl ADDF)   21995    -> param+result passing: 6424
+CALL TEST.NOOP S1 S2 + RETURN (with Strings!) 23226

@@ -1,0 +1,11 @@
+A[35] = 17
+B[2] = "hello"
+B[7] = "world"
+
+Assert.Equal(A[35], 17, "Retrieve float")
+Assert.Equal(A[3]+0, 0, "Non-existing float behaves like 0")
+
+Assert.Equal(B[2], "hello", "Retrieve string")
+Assert.Equal(B[7], "world", "Retrieve string 2")
+Assert.Equal(B[4], "", "Retrieve non-existing string")
+

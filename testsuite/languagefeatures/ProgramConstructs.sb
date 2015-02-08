@@ -1,0 +1,72 @@
+LCD.Clear()
+
+y=0
+a=-2
+tests()
+
+y=16
+a=6
+tests()
+
+y=32
+a=15
+tests()
+
+y=48
+a=25
+tests()
+
+y=64
+a=99
+tests()
+
+
+For i=0 to 9
+   LCD.Text(1, i*15, 80, 1, i)
+EndFor
+For i=10 to 3 step -2
+   LCD.Text(1, i*12, 96, 1, i)
+EndFor
+
+j=15
+While j<25
+   LCD.Text(1, j*16 - (15*16), 112, 1, j)
+   j = j+1
+endwhile
+
+
+
+
+
+Sub tests
+  
+LCD.Text(1, 0,y, 1, a)  
+  
+If a<4 Then
+  LCD.Text(1, 25,y,  1,  "a<4")
+ElseIf a<10 then
+  LCD.Text(1, 25,y,  1,  "a<10")
+ElseIf a>20 then
+  LCD.Text(1, 25,y,  1,  "a>20")
+Else 
+  LCD.Text(1, 25,y,  1,  "a=?")
+EndIf
+
+If a<=-1 Then
+  LCD.Text(1, 65,y,  1,  "a<=-1")
+ElseIf a>=50 then
+  LCD.Text(1, 65,y,  1,  "a>=50")
+ElseIf a=6 then
+  LCD.Text(1, 65,y,  1,  "a=6")
+ElseIf a<>25 then
+  LCD.Text(1, 65,y,  1,  "a<>25")
+Else
+  LCD.Text(1, 65,y,  1,  "a=?")
+EndIf
+
+EndSub
+
+
+Program.Delay(1000000)
+
+

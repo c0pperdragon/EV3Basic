@@ -1,0 +1,108 @@
+a = "long string an such"
+b = "short"
+c = "else"
+d = "TRUE"
+e = "tRUe"
+upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ <6/31#+512"
+lower = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþ <6/31#+512"
+
+'  Append
+Assert.Equal("text","text", "Assert itself is buggy")
+Assert.Equal(Text.Append("foo","bar"), "foobar", "Normal Append")
+Assert.Equal(Text.Append("","bar"), "bar", "Append with empty left side")
+Assert.Equal(Text.Append("foo""n",""), "foo""n", "Append with empty right side")
+Assert.Equal(Text.Append("",""), "", "Append with empty arguments")
+
+' ConvertToLowerCase
+Assert.Equal(Text.ConvertToLowerCase("Nixi"),"nixi", "Normal ConvertToLowerCase")
+Assert.Equal(Text.ConvertToLowerCase(""),"", "ConvertToLowerCase without parameter")
+Assert.Equal(Text.ConvertToLowerCase("ÄöüÜÖ"),"äöüüö", "ConvertToLowerCase with 'Umlaute'")
+Assert.Equal(Text.ConvertToLowerCase(upper),lower, "ConvertToLowerCase with full latin-1 range")
+
+' ConvertToUpperCase
+Assert.Equal(Text.ConvertToUpperCase("Nixi"),"NIXI", "Normal ConvertToUpperCase")
+Assert.Equal(Text.ConvertToUpperCase(""),"", "ConvertToUpperCase without parameter")
+Assert.Equal(Text.ConvertToUpperCase("ÄöüÜÖ"),"ÄÖÜÜÖ", "ConvertToUpperCase with 'Umlaute'")
+Assert.Equal(Text.ConvertToUpperCase(lower),upper, "ConvertToUpperCase with full latin-1 range")
+
+'  EndsWith
+if Text.EndsWith("mini", "ni") then
+Else
+  Assert.Failed("Normal EndsWith")
+EndIf
+if Text.EndsWith("mini", "Ni") then
+  Assert.Failed("EndsWith must be case-sensitive")
+EndIf
+If Text.EndsWith("some", "") then
+  Assert.Failed("EndsWith must not be True with empty string")
+endif
+If Text.EndsWith("", "") then
+  Assert.Failed("EndsWith must not be True with empty string even if first argument is empty")
+endif
+
+'  GetCharacter
+Assert.Equal(Text.GetCharacter(65), "A", "Normal GetCharacter")
+Assert.Equal(Text.GetCharacter(65.7), "A", "GetCharacter with fractional code")
+Assert.Equal(Text.GetCharacter(48.0), "0", "GetCharacter with 0 fractional code")
+'  values outside range (<0 or >65535 deliver nonsense in Smallbasic)
+
+' GetCharacterCode
+Assert.Equal(Text.GetCharacterCode("A"), 65, "Normal GetCharacterCode")
+Assert.Equal(Text.GetCharacterCode("Ä"), 196, "GetCharacterCode of Umlaut")
+Assert.Equal(Text.GetCharacterCode(""), 0, "GetCharacterCode of empty string")
+Assert.Equal(Text.GetCharacterCode("andmore"), 97, "GetCharacterCode of multi-letter string")
+
+' GetIndexOf
+Assert.Equal(Text.GetIndexOf(a,"trin"),7,"normal GetIndexOf")
+Assert.Equal(Text.GetIndexOf("mini","mini and more"),0,"GetIndexOf with longer second parameter")
+Assert.Equal(Text.GetIndexOf("mini","IN"),0,"GetIndexOf must check case-sensitive")
+Assert.Equal(Text.GetIndexOf("TrUe","tRue"),0,"GetIndexOf must check case-sensitive for TRUE also")
+
+' GetLength
+Assert.Equal(Text.GetLength("some"),4,"normal GetLength")
+Assert.Equal(Text.GetLength(""),0,"GetLength of empty string")
+
+'  GetSubText
+Assert.Equal(Text.GetSubText(a,4,4),   "g st", "normal GetSubText")
+Assert.Equal(Text.GetSubText(b,3,15),  "ort", "GetSubText exceeding length")
+Assert.Equal(Text.GetSubText(b,17,1),  "", "GetSubText with start > length")
+Assert.Equal(Text.GetSubText(b,4,0),   "", "GetSubText with zero length")
+Assert.Equal(Text.GetSubText(b,5,0.2),  "t", "GetSubText with fractional length < 0.2")
+Assert.Equal(Text.GetSubText(b,5,0.8),  "t", "GetSubText with fractional length < 0.8")
+Assert.Equal(Text.GetSubText(b,2,2.2),  "ho", "GetSubText with large fractional length")
+Assert.Equal(Text.GetSubText(b,0,3),  "", "GetSubText with start < 1")
+Assert.Equal(Text.GetSubText(b,-1.5,3),  "", "GetSubText with start < 0")
+Assert.Equal(Text.GetSubText(b,0.5,3),  "", "GetSubText with start < 1.0")
+Assert.Equal(Text.GetSubText(b,1.3,3), "sho", "GetSubText with fractional start")
+Assert.Equal(Text.GetSubText(b,1.7,3), "sho", "GetSubText with fractional start")
+Assert.Equal(Text.GetSubText(b,1.7,2.9), "sh", "GetSubText with fractional length")
+
+' GetSubTextToEnd
+Assert.Equal(Text.GetSubTextToEnd(a,7), "tring an such", "normal SubTextToEnd")
+Assert.Equal(Text.GetSubTextToEnd(a,0), "", "SubTextToEnd with start = 0")
+Assert.Equal(Text.GetSubTextToEnd(a,0.5), "", "SubTextToEnd with start = 0.5")
+Assert.Equal(Text.GetSubTextToEnd(a,1.8), a, "SubTextToEnd with start = 1.8")
+Assert.Equal(Text.GetSubTextToEnd(a,2.1), "ong string an such", "SubTextToEnd with start = 2.1")
+Assert.Equal(Text.GetSubTextToEnd(a,20), "", "SubTextToEnd with start > length")
+
+' IsSubText
+Assert.Equal(Text.IsSubText(a, "ong"), "True", "normal IsSubText")
+Assert.Equal(Text.IsSubText("", "ong"), "False", "IsSubText with empty first parameter")
+Assert.Equal(Text.IsSubText(a, ""), "False", "IsSubText with empty second parameter")
+
+' StartsWith
+Assert.Equal(Text.StartsWith("mini","mi"), "True", "normal StartsWith")
+Assert.Equal(Text.StartsWith("mini","MI"), "False", "StartsWith must be case-sensitive")
+Assert.Equal(Text.StartsWith("mini",""), "False", "StartsWith with empty second parameter")
+Assert.Equal(Text.StartsWith("",""), "False", "StartsWith with empty parameters")
+
+' Comparision with TRUE, true, and other
+If d=e then
+  ' ok
+Else
+  Assert.Failed(d+" and "+e+" must be equal")
+EndIf
+If "nixi"="NIXI" Then
+  Assert.Failed("different casings must not be equal")
+EndIf
+

@@ -1,0 +1,31 @@
+
+selectmode = 0
+Sensor.SetMode(1, selectmode)
+
+While "True"
+  LCD.MemorizeChanges()
+  LCD.Clear()
+  For i=1 To 4 
+      name = Sensor.GetName(i)
+      type = Sensor.GetType(i)
+      mode = Sensor.GetMode(i)
+      ready = Sensor.IsBusy(i)        
+      val = Sensor.ReadPercent(i)
+      LCD.Text(1, 0,32*i-32, 1, name+" "+type+":"+mode)
+      LCD.Text(1, 16,32*i-16, 1, val+" "+ready)  
+  endfor
+  LCD.Update()
+  Program.Delay(200)
+
+  click = Buttons.GetClicks()
+  If Text.IsSubText(click, "U") then
+    selectmode = selectmode+1
+    Sensor.SetMode(1, selectmode)
+  ElseIf Text.IsSubText(click,"D") then
+    selectmode = selectmode-1
+    Sensor.SetMode(1, selectmode)
+  ElseIf Text.IsSubText(click,"E") then
+    Sensor.SetMode(1, selectmode)
+  endif
+EndWhile
+  

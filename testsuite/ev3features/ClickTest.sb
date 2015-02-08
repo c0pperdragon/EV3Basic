@@ -1,0 +1,26 @@
+
+While "True"
+  
+  EV3.SetLEDColor("RED", "NORMAL")
+  Buttons.Wait()
+  EV3.SetLEDColor("OFF", "NORMAL")
+  
+  K = Buttons.GetClicks()
+  If Text.IsSubText(K,"U")  Then
+    Motor.Move("A", 500, "True")
+  elseIf Text.IsSubText(K,"D") then
+    Motor.Move("A",-500 "True")
+  EndIf
+  If Text.IsSubText(K,"L")  Then
+    Motor.Move("B", 500 "True")
+  elseIf Text.IsSubText(K,"R") then
+    Motor.Move("B",-500 "True")
+  EndIf
+  
+  If Text.ISSubText(Buttons.Current, "E") Then  
+    Buttons.Flush()
+  endif
+      
+EndWhile
+
+  

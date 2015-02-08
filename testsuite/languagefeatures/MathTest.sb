@@ -1,0 +1,112 @@
+' Abs
+Assert.Equal(Math.Abs(-0.5),0.5, "Normal Abs")
+Assert.Equal(Math.Abs(0.5),0.5, "Abs already positive")
+Assert.Equal(Math.Abs(0.0),0.0, "Abs zero")
+
+' ArcCos
+Assert.Near(Math.ArcCos(0.4), 1.1592794807274085998, "ArcCos 1")
+Assert.Near(Math.ArcCos(-0.8), 2.4980915447961545622, "ArcCos 2")
+
+' ArcSin
+Assert.Near(Math.ArcSin(0.4), 0.41151684606748801, "ArcSin 1")
+Assert.Near(Math.ArcSin(-0.8), -0.9272952180016122, "ArcSin 2")
+
+' ArcTan
+Assert.Near(Math.ArcTan(0.4), 0.380506377112364886, "ArcTan 1")
+Assert.Near(Math.ArcTan(-3.8), -1.3134726118238079, "ArcTan 2")
+
+' Ceiling
+Assert.Equal(Math.Ceiling(0.4), 1, "Ceiling 1")
+Assert.Equal(Math.Ceiling(-0.4), 0, "Ceiling 2")
+Assert.Equal(Math.Ceiling(-1.0), -1, "Ceiling 3")
+Assert.Equal(Math.Ceiling(12312.5), 12313, "Ceiling 4")
+
+' Cos
+Assert.Near(Math.Cos(0.5), 0.8775825618903727161, "Cos 1")
+Assert.Near(Math.Cos(2.5), -0.8011436155469337148, "Cos 2")
+
+' Floor
+Assert.Equal(Math.Floor(0.4), 0, "Floor 1")
+Assert.Equal(Math.Floor(-0.4), -1, "Floor 2")
+Assert.Equal(Math.Floor(-1.0), -1, "Floor 3")
+Assert.Equal(Math.Floor(12312.5), 12312, "Floor 4")
+
+' GetDegrees
+Assert.Near(Math.GetDegrees(0.3), 17.18873385392469626303, "GetDegrees 1")
+Assert.Near(Math.GetDegrees(-2), -114.5915590261646417535, "GetDegrees 2")
+
+' GetRadians
+Assert.Near(Math.GetRadians(17.18873385392469626303), 0.3, "GetRadians 1")
+Assert.Near(Math.GetRadians(-114.5915590261646417535), -2, "GetRadians 2")
+
+' Log
+Assert.Equal(Math.Log(100), 2, "Log 1")
+Assert.Near(Math.Log(23), 1.36172783601759287886, "Log 2")
+Assert.Near(Math.Log(0.00021), -3.677780705266080, "Log 3")
+
+' Max
+Assert.Equal(Math.Max(3,7), 7, "Max 1")
+Assert.Equal(Math.Max(-3,7), 7, "Max 2")
+Assert.Equal(Math.Max(-3,-7), -3, "Max 3")
+Assert.Equal(Math.Max(0,0), 0, "Max 4")
+
+' Min
+Assert.Equal(Math.Min(3,7), 3, "Min 1")
+Assert.Equal(Math.Min(-3,7), -3, "Min 2")
+Assert.Equal(Math.Min(-3,-7), -7, "Min 3")
+Assert.Equal(Math.Min(0,0), 0, "Min 4")
+
+' NaturalLog
+Assert.Near(Math.NaturalLog(100), 4.605170185988091368, "NaturalLog 1")
+Assert.Near(Math.NaturalLog(23), 3.135494215929149690, "NaturalLog 2")
+Assert.Near(Math.NaturalLog(0.00021), -8.46840302724680542, "NaturalLog 3")
+
+' PI
+Assert.Near(Math.PI, 3.141592653589793238, "PI")
+
+' Power
+Assert.Near(Math.Power(14,2),    196,  "Power 1")
+Assert.Near(Math.Power(1.5,2.4), 2.6461778006805155,  "Power 2")
+Assert.Near(Math.Power(13,0.1),  1.2923922207808318,  "Power 3")
+
+' Remainder
+Assert.Near(Math.Remainder(17,3), 2,       "Remainder 1")
+Assert.Near(Math.Remainder(53.7,3.2), 2.5,   "Remainder 2")
+Assert.Near(Math.Remainder(-53.7,3.2), -2.5,   "Remainder 3")
+Assert.Near(Math.Remainder(53.7,-3.2), 2.5,   "Remainder 4")
+Assert.Near(Math.Remainder(-53.7,-3.2), -2.5,   "Remainder 5")
+
+' Round
+Assert.Equal(Math.Round(234332.2), 234332, "Round 1")
+Assert.Equal(Math.Round(4.1), 4, "Round 2")   
+Assert.Equal(Math.Round(4.8), 5, "Round 3")
+'Assert.Equal(Math.Round(4.5), 4, "Round 4")      ' round at 0.5 to reach even
+Assert.Equal(Math.Round(5.5), 6, "Round 5")      ' round at 0.5 to reach even
+Assert.Equal(Math.Round(-0.8), -1, "Round 6")
+Assert.Equal(Math.Round(-1.5), -2, "Round 7")    ' round at 0.5 to reach even
+'Assert.Equal(Math.Round(-2.5), -2, "Round 8")    ' round at 0.5 to reach even
+
+' Sin
+Assert.Near(Math.Sin(0.5), 0.4794255386042030, "Sin 1")
+Assert.Near(Math.Sin(2.5), 0.5984721441039564, "Sin 2")
+
+' SquareRoot
+Assert.Near(Math.SquareRoot(2), 1.414213562373095, "SquareRoot 1")
+Assert.Near(Math.SquareRoot(17), 4.123105625617660, "SquareRoot 2")
+Assert.Equal(Math.SquareRoot(16), 4, "SquareRoot 3")
+Assert.Equal(Math.SquareRoot(0), 0, "SquareRoot 4")
+
+' Tan
+Assert.Near(Math.Tan(0.0010), 0.001000000333333, "Tan 1")
+Assert.Near(Math.Tan(3), -0.1425465430742778, "Tan 2")
+Assert.Near(Math.Tan(-3), 0.1425465430742778, "Tan 3")
+
+' Basic operations
+Assert.Equal(15/3, 5, "Division 1")
+Assert.Equal(-15/3, -5, "Division 2")
+Assert.Equal(15/-3, -5, "Division 3")
+Assert.Equal(1/0, 0, "Division 4")
+Assert.Equal(1.5*2, 3.0, "Multiplication 1")
+Assert.Equal(1.5*-2, -3, "Multiplication 2")
+Assert.Equal(1.5*-0, 0, "Multiplication 3")
+Assert.Equal(-0, 0, "Negative Zero")
