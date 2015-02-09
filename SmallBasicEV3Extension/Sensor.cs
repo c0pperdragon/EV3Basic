@@ -9,8 +9,8 @@ using EV3Communication;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// Access any sensors that are attached to the brick.
-    /// To specify the sensor, every function needs the port parameter which is the number (e.g. 1) that is also printed below the socket on the brick.
+    /// Access sensors that are attached to the brick.
+    /// To specify the sensor use the port number which is printed below the socket on the brick (e.g. 1).
     /// To access sensors of further bricks that are connected via daisy-chaining, use the next higher numbers instead (e.g. 5 - 8 will access the sensors on the first daisy-chained brick, 9-13 the sensors on the next one and so on).
     /// </summary>
     [SmallBasicType]
@@ -20,8 +20,8 @@ namespace SmallBasicEV3Extension
         private static int[] rawvalues = new int[8];
 
         /// <summary>
-        /// Get the name and mode of the currently plugged sensor. 
-        /// This function is mainly intended for diagnostic use because you normally know which sensor is plugged to which port on your model.
+        /// Get the name and mode of a currently connected sensor. 
+        /// This function is mainly intended for diagnostic use because you normally know which sensor is plugged to which port on the model.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>Description text (e.g. "TOUCH")</returns>
@@ -51,7 +51,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Get the numercial type identifier of the sensor currently plugged into the port.
+        /// Get the numercial type identifier of a currently connected sensor.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>Sensor type identifier (e.g. 16 for a touch sensor)</returns>
@@ -168,7 +168,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the
-        /// prot, this function returns immediately.
+        /// port, this function returns immediately.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         public static void Wait(Primitive port)
@@ -213,7 +213,6 @@ namespace SmallBasicEV3Extension
             c.CONST(no);
             c.CONST(0);                // 0 = don't change type
             c.CONST(-1);               // -1 = don't change mode
-            c.CONST(1);                // return 1 8-bit  value
             c.GLOBVAR(0);
             byte[] result = EV3Communicator.DirectCommand(c, 1, 0);
 
@@ -224,15 +223,15 @@ namespace SmallBasicEV3Extension
             else
             {
                 int v = result[0];
-                return new Primitive(v<0 ? "0" : (""+v));
+                return new Primitive(v>127 ? "0" : (""+v));
             }
         }
 
         /// <summary>
-        /// Read current sensor value when the result from ReadPercent() is not enough.
+        /// Read current sensor value where the result from ReadPercent() is not specific enough.
         /// Some sensor modes deliver values that can not be translated to percentage (e.g. a color index) or
-        /// that contain multiple values at once (e.g. the individual red, green, blue intensities). 
-        /// Use this function to get those values. Then retrieving a multi-value reading, get the additional
+        /// that contain multiple values at once (e.g. the individual red, green, blue light intensities). 
+        /// Use this function to get those values. After retrieving a multi-value reading, get the additional
         /// values with the Raw(index) function.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
@@ -281,7 +280,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// For sensor readings with multiple values, use this function to retieve these values.
+        /// For sensor readings with multiple values, use this function to retrieve these values.
         /// At each ReadRaw, all values are memorized until to the next ReadRaw call.
         /// </summary>
         /// <param name="index">Which value to take. 1..first value, 2..second value,...</param>

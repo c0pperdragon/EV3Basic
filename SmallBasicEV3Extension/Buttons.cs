@@ -23,7 +23,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// The buttons that are currently pressed. 
-        /// This property contains a String with the key names of all keys being pressed at the moment. 
+        /// This property contains a text with the key letters of all keys being pressed at the moment. 
         /// </summary>
         public static Primitive Current
         {
@@ -56,10 +56,10 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Checks which buttons were clicked since the last call to GetClicks andreturns a string containing their letters. 
+        /// Checks which buttons were clicked since the last call to GetClicks and returns a text containing their letters. 
         /// The 'clicked' state of the buttons is then removed. Also a sound is emitted from the brick when a click was detected.
         /// </summary>
-        /// <returns>A string containing the letters of the clicked buttons (can be empty)</returns>
+        /// <returns>A text containing the letters of the clicked buttons (can be empty)</returns>
         public static Primitive GetClicks()
         {
             ByteCodeBuffer c = new ByteCodeBuffer();

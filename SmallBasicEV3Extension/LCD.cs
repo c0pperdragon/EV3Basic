@@ -50,7 +50,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Memorize all subsequent changes to the display instead of directly drawing them. 
         /// At the next call to Update(), these changes will be finally drawn. 
-        /// You can use this feature to pevent flickering or to speed up drawing complex things to the LCD.
+        /// You can use this feature to prevent flickering or to speed up drawing complex things to the LCD.
         /// </summary>
         public static void MemorizeChanges()
         {
@@ -92,7 +92,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a single pixel on the display to a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
         public static void Pixel(Primitive color, Primitive x, Primitive y)
@@ -116,7 +116,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a straight line of pixels to a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x1">X coordinate of start point</param>
         /// <param name="y1">Y coordinate of start point</param>
         /// <param name="x2">X coordinate of end point</param>
@@ -146,7 +146,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draws a circle in the given color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">X coordinate of center point</param>
         /// <param name="y">Y coordinate of center point</param>
         /// <param name="radius">Radius of the circle</param>
@@ -173,7 +173,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Write a given text in a color to the display
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">X coordinate where text starts</param>
         /// <param name="y">Y coordinate of the top corner</param>
         /// <param name="font">Size of the letters: 0 (TINY), 1 (SMALL), 2 (BIG)</param>
@@ -211,7 +211,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Fill a rectangle with a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">Left edge of rectangle</param>
         /// <param name="y">Top edge of rectangle</param>
         /// <param name="width">Width of rectangle</param>
@@ -241,7 +241,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draw an outline of a rectangle with a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">Left edge of rectangle</param>
         /// <param name="y">Top edge of rectangle</param>
         /// <param name="width">Width of rectangle</param>
@@ -298,7 +298,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draws a filled circle with a given color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">X coordinate of center point</param>
         /// <param name="y">Y coordinate of center point</param>
         /// <param name="radius">Radius of the circle</param>
@@ -325,7 +325,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draw a bitmap file in a given color to the display.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1(BLACK)</param>
+        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
         /// <param name="x">X coordinate of left edge</param>
         /// <param name="y">Y coordinate of top edge</param>
         /// <param name="filename">Name of the file containing the bitmap</param>

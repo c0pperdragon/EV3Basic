@@ -13,7 +13,7 @@ namespace SmallBasicEV3Extension
     /// <summary>
     /// Control the Motors connected to the Brick.
     /// At any function you need to specify one or more motor ports that should be affected (e.g. "A", "BC", "ABD").
-    /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the string (e.g. "3BC", "2A").
+    /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (e.g. "3BC", "2A").
     /// </summary>
     [SmallBasicType]
     public static class Motor
@@ -24,7 +24,7 @@ namespace SmallBasicEV3Extension
         /// any scheduled motor movements.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="brake">"true", if the motor should use the brake</param>
+        /// <param name="brake">"True", if the motor should use the brake</param>
         public static void Stop(Primitive ports, Primitive brake)
         {
             int layer;
@@ -42,7 +42,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Set a power level to use for one or multiple motors.
-        /// When the motor is currently stopped, this will preset the power to use when it is started.
+        /// When the motor is currently stopped, this will preset the power level to use when it is started.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
@@ -213,7 +213,7 @@ namespace SmallBasicEV3Extension
         /// <param name="step1">Milliseconds to accelerate</param>
         /// <param name="step2">Milliseconds in uniform motion</param>
         /// <param name="step3">Milliseconds to decelerate</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void SchedulePowerForTime(Primitive ports, Primitive power, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
             int layer, nos, pwr, stp1, stp2, stp3, brk;
@@ -246,7 +246,7 @@ namespace SmallBasicEV3Extension
         /// <param name="step1">Number of degrees to accelerate</param>
         /// <param name="step2">Number of degrees in uniform motion</param>
         /// <param name="step3">Number of degrees to decelerate</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void ScheduleSpeedForCount(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
             int layer, nos, spd, stp1, stp2, stp3, brk;
@@ -279,7 +279,7 @@ namespace SmallBasicEV3Extension
         /// <param name="step1">Milliseconds to accelerate</param>
         /// <param name="step2">Milliseconds in uniform motion</param>
         /// <param name="step3">Milliseconds to decelerate</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void ScheduleSpeedForTime(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
             int layer, nos, spd, stp1, stp2, stp3, brk;
@@ -312,7 +312,7 @@ namespace SmallBasicEV3Extension
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
         /// <param name="turn">Value from -200 to 200</param>
         /// <param name="count">Number of degrees for the 'master' motor to move</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void ScheduleSyncForCount(Primitive ports, Primitive speed, Primitive turn, Primitive count, Primitive brake)
         {
             int layer, nos, spd, trn, cnt, brk;
@@ -346,7 +346,7 @@ namespace SmallBasicEV3Extension
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
         /// <param name="turn">Value from -200 to 200</param>
         /// <param name="time">Milliseconds to run. May be 0, in which case the motors run indefinitely.</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void ScheduleSyncForTime(Primitive ports, Primitive speed, Primitive turn, Primitive time, Primitive brake)
         {
             int layer, nos, spd, trn, tim, brk;
@@ -422,7 +422,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="count">Number of counts to move the motor. Can be postive (forward) or native (reverse)</param>
-        /// <param name="brake">"true", if the motor(s) should turn on the brake after movement</param>
+        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void Move(Primitive ports, Primitive count, Primitive brake)
         {
             int layer, nos, cnt, brk;

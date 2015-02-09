@@ -81,8 +81,6 @@ namespace EV3BasicCompiler
                         LibraryEntry le = new LibraryEntry(descriptorandreferences, body.ToString());
                         library[functionname] = le;
 
-                        //                        Console.WriteLine(functionname+" "+le);
-
                         currentfirstline = null;
                     }
                 }
@@ -397,25 +395,25 @@ namespace EV3BasicCompiler
             }
             else if (!vartype.Equals("F"))
             {
-                s.ThrowParseError("Can not use " + s.NextContent + " as loop counter. Is already defined to contain STRING");
+                s.ThrowParseError("Can not use " + s.NextContent + " as loop counter. Is already defined to contain text");
             }
 
             s.GetSym();
 
             parse_special("=");
 
-            Expression startexpression = parse_float_expression("Can not use a STRING as loop start value");
+            Expression startexpression = parse_float_expression("Can not use a text as loop start value");
 
             parse_keyword("TO");
 
-            Expression stopexpression = parse_float_expression("Can not use a STRING as loop stop value");
+            Expression stopexpression = parse_float_expression("Can not use a text as loop stop value");
 
             Expression testexpression;
             Expression incexpression;
             if (s.NextIsKEYWORD("STEP"))
             {
                 s.GetSym();
-                Expression stepexpression = parse_float_expression("Can not use a STRING as loop step value");
+                Expression stepexpression = parse_float_expression("Can not use a text as loop step value");
 
                 testexpression = new CallExpression(true, "CALL LE_STEP", new AtomicExpression(false, varname), stopexpression, stepexpression);
                 incexpression = new CallExpression(false, "ADDF", new AtomicExpression(false, varname), stepexpression);
@@ -568,7 +566,7 @@ namespace EV3BasicCompiler
             LibraryEntry libentry = (LibraryEntry)library[functionname];
             if (libentry == null)
             {
-                s.ThrowParseError("Undefined procedure: " + functionname);
+                s.ThrowParseError("Undefined function: " + functionname);
             }
 
             parse_special("(");
@@ -576,7 +574,8 @@ namespace EV3BasicCompiler
             List<Expression> list = new List<Expression>();
             while (list.Count < libentry.StringParamTypes.Length)
             {
-                Expression e = parse_typed_expression(libentry.StringParamTypes[list.Count]);
+                Expression e = libentry.StringParamTypes[list.Count] ? parse_string_expression() : parse_float_expression("Need a number as parameter here");
+
                 list.Add(e);
 
                 if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
@@ -594,11 +593,6 @@ namespace EV3BasicCompiler
             memorize_reference(functionname);
         }
 
-
-        private Expression parse_typed_expression(bool StringType)
-        {
-            return StringType ? parse_string_expression() : parse_float_expression("Need FLOAT value ");
-        }
 
         private Expression parse_string_expression()
         {
@@ -637,9 +631,9 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
 
-                    if (!total.StringType) s.ThrowParseError("need STRING on left side of OR");
+                    if (!total.StringType) s.ThrowParseError("need text on left side of OR");
                     Expression right = parse_and_expression();
-                    if (!right.StringType) s.ThrowParseError("need STRING on right side of OR");
+                    if (!right.StringType) s.ThrowParseError("need text on right side of OR");
                     total = new CallExpression(true, "CALL OR", total, right);
                     memorize_reference("OR");
                 }
@@ -660,9 +654,9 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
 
-                    if (!total.StringType) s.ThrowParseError("need STRING on left side of AND");
+                    if (!total.StringType) s.ThrowParseError("need text on left side of AND");
                     Expression right = parse_comparative_expression();
-                    if (!right.StringType) s.ThrowParseError("need STRING on right side of AND");
+                    if (!right.StringType) s.ThrowParseError("need text on right side of AND");
                     total = new CallExpression(true, "CALL AND", total, right);
                     memorize_reference("AND");
                 }
@@ -688,14 +682,14 @@ namespace EV3BasicCompiler
                     if (total.StringType)
                     {
                         Expression right = parse_additive_expression();
-                        if (!right.StringType) s.ThrowParseError("need STRING on right side of '='");
+                        if (!right.StringType) s.ThrowParseError("need text on right side of '='");
                         total = new CallExpression(true, "CALL EQ_STRING", total, right);
                         memorize_reference("EQ_STRING");
                     }
                     else
                     {
                         Expression right = parse_additive_expression();
-                        if (right.StringType) s.ThrowParseError("need NUMBER on right side of '='");
+                        if (right.StringType) s.ThrowParseError("need number on right side of '='");
                         total = new ComparisonExpression("CALL EQ_FLOAT", "JR_NEQF", total, right);
                         memorize_reference("EQ_FLOAT");
                     }
@@ -707,14 +701,14 @@ namespace EV3BasicCompiler
                     if (total.StringType)
                     {
                         Expression right = parse_additive_expression();
-                        if (!right.StringType) s.ThrowParseError("need STRING on right side of '<>'");
+                        if (!right.StringType) s.ThrowParseError("need text on right side of '<>'");
                         total = new CallExpression(true, "CALL NE_STRING", total, right);
                         memorize_reference("NE_STRING");
                     }
                     else
                     {
                         Expression right = parse_additive_expression();
-                        if (right.StringType) s.ThrowParseError("need NUMBER on right side of '<>'");
+                        if (right.StringType) s.ThrowParseError("need number on right side of '<>'");
                         total = new ComparisonExpression("CALL EQ_FLOAT", "JR_EQF", total, right);
                         memorize_reference("NE_FLOAT");
                     }
@@ -722,36 +716,36 @@ namespace EV3BasicCompiler
                 else if (s.NextIsSPECIAL("<"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '<'");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '<'");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '<'");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '<'");
                     total = new ComparisonExpression("CALL LT", "JR_GTEQF", total, right);
                     memorize_reference("LT");
                 }
                 else if (s.NextIsSPECIAL(">"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '>'");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '>'");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '>'");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '>'");
                     total = new ComparisonExpression("CALL GT", "JR_LTEQF", total, right);
                     memorize_reference("GT");
                 }
                 else if (s.NextIsSPECIAL("<="))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '<='");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '<='");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '<='");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '<='");
                     total = new ComparisonExpression("CALL LE", "JR_GTF", total, right);
                     memorize_reference("LE");
                 }
                 else if (s.NextIsSPECIAL(">="))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '>='");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '>='");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '>='");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '>='");
                     total = new ComparisonExpression("CALL GE", "JR_LTF", total, right);
                     memorize_reference("GE");
                 }
@@ -804,9 +798,9 @@ namespace EV3BasicCompiler
                 else if (s.NextIsSPECIAL("-"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '-'");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '-'");
                     Expression right = parse_multiplicative_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '-'");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '-'");
                     total = new CallExpression(false, "SUBF", total, right);
                 }
                 else
@@ -827,17 +821,17 @@ namespace EV3BasicCompiler
                 if (s.NextIsSPECIAL("*"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '*'");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '*'");
                     Expression right = parse_unary_minus_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '*'");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '*'");
                     total = new CallExpression(false, "MULF", total, right);
                 }
                 else if (s.NextIsSPECIAL("/"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need NUMBER on left side of '/'");
+                    if (total.StringType) s.ThrowParseError("need number on left side of '/'");
                     Expression right = parse_unary_minus_expression();
-                    if (right.StringType) s.ThrowParseError("need NUMBER on right side of '/'");
+                    if (right.StringType) s.ThrowParseError("need number on right side of '/'");
                     total = new CallExpression(false, "CALL DIV", total, right);
                     memorize_reference("DIV");
                 }
@@ -857,7 +851,7 @@ namespace EV3BasicCompiler
                 s.GetSym();
 
                 Expression e = parse_unary_minus_expression();
-                if (e.StringType) s.ThrowParseError("need NUMBER after '-'");
+                if (e.StringType) s.ThrowParseError("need number after '-'");
 
                 return new CallExpression(false, "MATH NEGATE", e);
             }
@@ -880,6 +874,10 @@ namespace EV3BasicCompiler
             else if (s.NextType == SymType.STRING)
             {
                 String val = s.NextContent;
+                if (val.Length>251)
+                {
+                    throw new Exception("Text is longer than 251 letters");
+                }
                 s.GetSym();
                 return new AtomicExpression(true, "'" + EscapeString(val) + "'");
             }
@@ -973,7 +971,7 @@ namespace EV3BasicCompiler
             }
             if (libentry.VoidReturnType)
             {
-                s.ThrowParseError("Can not use function that returns NOTHING in an expression");
+                s.ThrowParseError("Can not use function that returns nothing in an expression");
             }
 
             List<Expression> list = new List<Expression>();     // parameter list
@@ -983,7 +981,7 @@ namespace EV3BasicCompiler
 
                 while (list.Count < libentry.StringParamTypes.Length)
                 {
-                    Expression e = parse_typed_expression(libentry.StringParamTypes[list.Count]);
+                    Expression e = libentry.StringParamTypes[list.Count] ? parse_string_expression() : parse_float_expression("Need a number as parameter here");
                     list.Add(e);
 
                     if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter

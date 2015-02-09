@@ -354,6 +354,26 @@ subcall ARRAYGET_STRING   // FFS
 
 // ------------------------------------------ BASIC MODULE: PROGRAM -------------------------------------------------
 
+subcall PROGRAM.ARGUMENTCOUNT  // F
+{
+	OUT_F result
+	MOVE8_F 0 result
+}
+
+subcall PROGRAM.DIRECTORY  // S
+{
+	OUT_S result 252
+	FILENAME(GET_FOLDERNAME,252,result)
+}
+
+subcall PROGRAM.GETARGUMENT  // FF
+{
+	IN_F index
+	OUT_S result 8
+	STRINGS DUPLICATE '' result
+}
+
+
 subcall PROGRAM.DELAY    // FV
 {
 	IN_F milliseconds

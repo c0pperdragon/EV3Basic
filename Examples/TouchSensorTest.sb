@@ -1,0 +1,24 @@
+
+While "True"
+  LCD.MemorizeChanges()
+  LCD.Clear()
+  LCD.Text(1, 0,0,  1, "Plug touch sensors to")
+  LCD.Text(1, 0,12, 1, "various ports and ")
+  LCD.Text(1, 0,24, 1, "press them...")
+  
+  For s=1 To 4
+    P = Sensor.ReadPercent(s)
+    x = s*40 - 30
+    y = 60
+    If P=100 Then
+       LCD.FillRect(1,x,y, 30,30)
+       LCD.Text(1,x+2,y+10, 1, P)
+    else
+       LCD.Rect(1,x,y,30,30)    
+       LCD.Text(1,x+10,y+10, 1, P)
+     Endif
+  endfor
+  LCD.Update()
+  
+  Program.Delay(100)
+EndWhile

@@ -1,0 +1,3 @@
+LCD.Clear()
+LCD.Text(1,40,60,1,"Hello World")
+Program.Delay(10000)

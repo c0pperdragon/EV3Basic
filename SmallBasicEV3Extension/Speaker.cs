@@ -30,7 +30,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="volume">Volume can be 0 - 100</param>
         /// <param name="frequency">Frequency in Hz can be 250 - 10000</param>
-        /// <param name="duration">Duration of the tone in ms</param>
+        /// <param name="duration">Duration of the tone in milliseconds</param>
         public static void Tone(Primitive volume, Primitive frequency, Primitive duration)
         {
             int vol, frq, dur;
@@ -51,8 +51,8 @@ namespace SmallBasicEV3Extension
         /// Start playing a simple tone defined by its text representation.
         /// </summary>
         /// <param name="volume">Volume can be 0 - 100</param>
-        /// <param name="note">String defining the note: "C4" to "B7" or halftones like "C#5"</param>
-        /// <param name="duration">Duration of the tone in ms</param>
+        /// <param name="note">Text defining a note "C4" to "B7" or halftones like "C#5"</param>
+        /// <param name="duration">Duration of the tone in milliseconds</param>
         public static void Note(Primitive volume, Primitive note, Primitive duration)
         {
             int vol, dur;
@@ -112,8 +112,8 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Wait until the current sound was finished playing.
-        /// When not sound is playing, this function returns immediately.
+        /// Wait until the current sound has finished playing.
+        /// When no sound is playing, this function returns immediately.
         /// </summary>
         public static void Wait()
         {

@@ -1,0 +1,29 @@
+
+X = 80
+Y = 64
+
+While "True"
+  
+  k = Buttons.Current
+  If Text.IsSubText("L",K) then
+    X = X-1
+  ElseIf Text.IsSubText("R",K) then
+    X = X+1
+  ElseIf Text.IsSubText("U",K) then
+    Y= Y-1
+  ElseIf Text.IsSubText("D",K) then
+    Y= Y+1
+  ElseIf Text.IsSubText("E",K) then
+    Program.End()
+  endif  
+  
+  LCD.MemorizeChanges()
+  LCD.Clear()
+  LCD.Text(1, 0,0, 1, "Use directional buttons ...")
+  LCD.FillCircle(1, X,Y, 20)
+  LCD.Update()
+  
+  Program.Delay(10)
+  
+EndWhile
+  
