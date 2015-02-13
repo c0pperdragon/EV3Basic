@@ -70,6 +70,10 @@ namespace LMSAssembler
                 {
                     parameters[i] = DataType.Label;
                 }
+                else if (t.Equals("P"))
+                {
+                    parameters[i] = DataType.ParameterCount;
+                }
                 else
                 {
                     throw new Exception("Can not read opcode descriptor: "+descriptor);

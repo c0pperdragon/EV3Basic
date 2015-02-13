@@ -22,7 +22,7 @@ namespace SmallBasicEV3Extension
             get
             {
                 Int64 ticks = EV3Communicator.TicksSinceStart();
-                return new Primitive("" + (ticks / 10000.0));
+                return new Primitive(System.Math.Ceiling(ticks / 10000.0));
             }
         }
 

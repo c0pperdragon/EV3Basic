@@ -1,0 +1,382 @@
+runtime[0]=0
+A[0] = 0
+B[0] = 0 
+C[0] = 0
+
+PI = Math.PI
+
+'--------------------------------------------
+' Mersenne Twister
+'--------------------------------------------
+
+'unsigned long randM(void) {
+'   const int M = 7;
+'   const unsigned long A[2] = { 0, 0x8ebfd028 };
+'
+'   static unsigned long y[25];
+'   static int index = 25+1;
+'
+'   if (index >= 25) {
+'     int k;
+'     if (index > 25) {
+'        unsigned long r = 9, s = 3402;
+'        for (k=0 ; k<25 ; ++k) {
+'          r = 509845221 * r + 3;
+'          s *= s + 1;
+'          y[k] = s + (r >> 10);
+'        }
+'     }
+'     for (k=0 ; k<25-M ; ++k)
+'        y[k] = y[k+M] ^ (y[k] >> 1) ^ A[y[k] & 1];
+'     for (; k<25 ; ++k)
+'        y[k] = y[k+(M-25)] ^ (y[k] >> 1) ^ A[y[k] & 1];
+'     index = 0;
+'   }
+'
+'   unsigned long e = y[index++];
+'   e ^= (e << 7) & 0x2b5b2500;
+'   e ^= (e << 15) & 0xdb8b0000;
+'   e ^= (e >> 16);
+'   return e;
+'}
+
+'--------------------------------------------
+' Matrix Algebra
+'--------------------------------------------
+' matrix * matrix multiplication (matrix product)
+
+MMM_N=0     
+MMM_M=0     
+MMM_K=0
+MMM_A[0]=0
+MMM_B[0]=0
+MMM_C[0]=0
+Sub MatrixMatrixMult
+'PRAGMA NOBOUNDSCHECK
+  For i=0 To MMM_N-1
+    For j=0 To MMM_K-1
+      sum = 0
+      For s=0 To MMM_M-1
+        sum = sum + MMM_A[i*MMM_M+s]*MMM_B[s*MMM_K+j]
+      endfor
+      MMM_C[i*MMM_K+j] = sum
+    endfor
+  endfor
+'PRAGMA BOUNDSCHECK 
+EndSub
+
+
+' matrix determinant
+MD_A[0] = 0
+MD_RESULT = 0
+Sub MatrixDet1x1
+'PRAGMA NOBOUNDSCHECK
+  MD_RESULT = MD_A[0]  
+'PRAGMA BOUNDSCHECK 
+EndSub
+Sub MatrixDet2x2
+'PRAGMA NOBOUNDSCHECK
+  MD_RESULT = MD_A[0*2+0]*MD_A[1*2+1]- MD_A[0*2+1]*MD_A[1*2+0]
+'PRAGMA BOUNDSCHECK 
+EndSub 
+Sub MatrixDet3x3
+'PRAGMA NOBOUNDSCHECK
+  MD_RESULT =             MD_A[0*3+0]*MD_A[1*3+1]*MD_A[2*3+2]
+  MD_RESULT = MD_RESULT + MD_A[0*3+1]*MD_A[1*3+2]*MD_A[2*3+0]
+  MD_RESULT = MD_RESULT + MD_A[0*3+2]*MD_A[1*3+0]*MD_A[2*3+1]
+  MD_RESULT = MD_RESULT - MD_A[0*3+2]*MD_A[1*3+1]*MD_A[2*3+0]
+  MD_RESULT = MD_RESULT - MD_A[0*3+1]*MD_A[1*3+0]*MD_A[2*3+2]
+  MD_RESULT = MD_RESULT - MD_A[0*3+0]*MD_A[1*3+2]*MD_A[2*3+1]
+'PRAGMA BOUNDSCHECK 
+EndSub
+
+
+'--------------------------------------------
+' shell sort
+'--------------------------------------------
+
+shellsort_A[0] = 0  ' to simulate parameters
+shellsort_size = 0  ' to simulate parameters
+Sub shellsort
+'PRAGMA NOBOUNDSCHECK
+  increment = Math.Floor(shellsort_size / 2)
+  while (increment > 0) 
+    for i = increment to shellsort_size-1
+      j = i
+      temp = shellsort_A[i]
+      while ((j >= increment) and (shellsort_A[j-increment] > temp))
+        shellsort_A[j] = shellsort_A[j - increment]
+        j = j - increment
+      endwhile
+      shellsort_A[j] = temp
+    endfor
+
+    if increment = 2 then
+       increment = 1
+    else
+      increment = Math.Floor(increment / 2.2)
+    endif 
+  endwhile
+'PRAGMA BOUNDSCHECK
+endsub
+
+
+
+' --------------------------------------------
+'  benchmark test procedures
+' --------------------------------------------
+
+
+SUB test_Int_Add
+  i=1
+  j=11
+  k=112
+  l=1111
+  m=11111
+  n=-1
+  o=-11
+  p=-111
+  q=-1112
+  r=-11111
+  s=0
+  For x=0 to 9999
+    s=s+i
+    s=s+j
+    s=s+k
+    s=s+l
+    s=s+m
+    s=s+n
+    s=s+o
+    s=s+p
+    s=s+q
+    s=s+r
+  endfor
+ENDSUB
+
+
+SUB test_Int_Mult
+  for y=0 To 1999
+    s=1
+    for x=1 to 13 
+       s = s*x
+    endfor
+    for x=13 to 1 step -1
+'PRAGMA NODIVISIONCHECK
+       s = s/x
+'PRAGMA DIVISIONCHECK  
+    endfor
+  endfor
+ENDSUB
+
+
+SUB test_float_math
+    s=Math.PI
+  for y=0 To 4999 
+     s=s*Math.SquareRoot(s)
+     s=Math.Sin(s)
+     s=s*Math.Cos(10.5*s)
+     s=Math.Power(2.71828182846,s)
+     s=Math.SquareRoot(s)
+  endfor
+ENDSUB
+
+
+
+'long test_rand_MT(){
+'  volatile unsigned long s;
+'  int y;
+'
+'  for(y=0;y<5000;++y) {
+'     s=randM()%10001;
+'  }
+'  return s;
+'}
+
+ 
+Sub test_matrix_math
+  ' make sure arrays are big enough  
+  LA[2*2] = 0  
+  LB[2*2] = 0 
+  LO[3*3] = 0
+'PRAGMA NOBOUNDSCHECK
+  for x=1 To 250      
+    LA[0*2+0]=1
+    LA[0*2+1]=3
+    LA[1*2+0]=2
+    LA[1*2+1]=4
+
+    LB[0*2+0]=10 
+    LB[0*2+1]=30
+    LB[1*2+0]=20
+    LB[1*2+1]=40
+  
+    MMM_N = 2
+    MMM_M = 2
+    MMM_K = 2
+    MMM_A = LA
+    MMM_B = LB
+    MatrixMatrixMult()
+  
+    LA[0*2+0]=1
+    LA[0*2+1]=3
+    LA[1*2+0]=2
+    LA[1*2+1]=4
+  
+    MD_A = LA  
+    MatrixDet2x2()
+
+    LO[0*3+0]=1
+    LO[0*3+1]=4
+    LO[0*3+2]=7
+    LO[1*3+0]=2
+    LO[1*3+1]=5
+    LO[1*3+2]=8
+    LO[2*3+0]=3
+    LO[2*3+1]=6
+    LO[2*3+2]=9    
+    MD_A = LO
+    MatrixDet3x3()
+  endfor
+'PRAGMA BOUNDSCHECK  
+  s=LO[0*3+0]*LO[1*3+1]*LO[2*3+2]
+endsub
+
+
+
+SUB test_Sort
+ for y=1 To 2
+  shellsort_size = 500
+  shellsort_A = A
+  shellsort()
+
+  shellsort_size = 500
+  shellsort_A = B
+  shellsort()
+
+  shellsort_size = 500
+  shellsort_A = C
+  shellsort()
+ EndFor
+endsub
+
+SUB test_TextOut
+  for y=0 to 19
+    LCD.MemorizeChanges()
+    LCD.Clear()
+    LCD.Text(1, 0,10, 1, 0+" "+1000+" int_Add")
+    LCD.Text(1, 0,20, 1, 1+" "+1000+" int_Mult")
+    LCD.Text(1, 0,30, 1, 2+" "+1000+" float_op")
+    LCD.Text(1, 0,40, 1, 3+" "+1000+" randomize")
+    LCD.Text(1, 0,50, 1, 4+" "+1000+" matrx_algb")
+    LCD.Text(1, 0,60, 1, 5+" "+1000+" arr_sort")
+    LCD.Text(1, 0,70, 1, 6+" "+1000+" displa_txt")
+    LCD.Text(1, 0,80, 1, 7+" "+1000+" testing...")
+    LCD.Update()
+  endfor
+EndSub 
+
+SUB test_graphics
+  for y=0 To 99 
+    LCD.MemorizeChanges()
+    LCD.Clear()
+    LCD.Circle(1, 50, 40, 10)
+    LCD.FillCircle(1, 30, 24, 10)
+    LCD.Line(1, 10, 10, 60, 60)
+    LCD.Line(1, 50, 20, 90, 70)
+    LCD.Rect(1, 20, 20, 40, 40)
+    LCD.FillRect(1, 65, 25, 20, 30)
+    LCD.Circle(1, 70, 30, 15)
+    LCD.Update()
+  endfor
+endsub
+
+Sub displayValues
+  LCD.Clear()
+  LCD.Text(1, 0,10, 1, "0: " + runtime[0] + " int_Add")
+  LCD.Text(1, 0,20, 1, "1: " + runtime[1] + " int_Mult")
+  LCD.Text(1, 0,30, 1, "2: " + runtime[2] + " float_op")
+  LCD.Text(1, 0,40, 1, "3: " + runtime[3] + " randomize")
+  LCD.Text(1, 0,50, 1, "4: " + runtime[4] + " matrix_algb")
+  LCD.Text(1, 0,60, 1, "5: " + runtime[5] + " arr_sort")
+  LCD.Text(1, 0,70, 1, "6: " + runtime[6] + " displ_txt")
+  LCD.Text(1, 0,80, 1, "7: " + runtime[7] + " graphics")
+endsub
+
+
+'--- MAIN PROGRAM ----
+
+  LCD.Clear()
+  LCD.Text(1, 0,10, 1,"hw brickbench")
+  LCD.Text(1, 0,20, 1,"(C)H.Wunder 2013")
+  LCD.Text(1, 0,30, 1,"EC3Basic port: c0pperdragon")
+  LCD.Text(1, 0,50, 1,"initializing...")
+
+  for y=0 To 499
+    A[y]=Math.GetRandomNumber(30000)-1
+    B[y]=Math.GetRandomNumber(30000)-1
+    C[y]=Math.GetRandomNumber(30000)-1
+  endfor
+    
+'shellsort_A = a
+'shellsort_size = 500
+'shellsort()
+'LCD.Clear()
+'For y=0 To 9
+'  LCD.Text(1, 0,10*y, 1, y+": "+shellsort_A[y])
+'EndFor
+'LCD.Update()
+'  Buttons.Flush()
+' Buttons.Wait()
+    
+  LCD.Clear()
+  
+  time0=EV3.Time
+  test_Int_Add()
+  runtime[0]=EV3.Time - time0
+  displayValues()
+
+  time0=EV3.Time
+  test_Int_Mult()
+  runtime[1]=EV3.Time -time0
+  displayValues()
+
+  time0=EV3.Time
+  test_float_math()
+  runtime[2]=EV3.Time -time0
+  displayValues()
+
+  time0=EV3.Time
+'  test_rand_MT();
+  runtime[3]=EV3.Time-time0
+  displayValues()
+
+  time0=EV3.Time
+  test_matrix_math()
+  runtime[4]=EV3.Time-time0
+  displayValues()
+
+  time0=EV3.Time
+  test_Sort()
+  runtime[5]=EV3.Time-time0
+  displayValues()
+
+  time0=EV3.Time
+  test_TextOut()
+  runtime[6]=EV3.Time-time0
+  displayValues()
+
+  time0=EV3.Time
+  test_graphics()
+  runtime[7]=EV3.Time-time0 
+  displayValues()
+  
+
+  y=0
+  For x=0 To 7 
+    y = y + runtime[x]
+  endfor  
+  LCD.Text(1, 0,95, 1, "total ms: " + y)
+  LCD.Text(1, 0,105, 1, "benchmark: " + (50000000/y ))  
+  
+  Buttons.Flush()
+  Buttons.Wait()

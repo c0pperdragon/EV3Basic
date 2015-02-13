@@ -16,12 +16,14 @@ namespace EV3BasicCompiler
         // data used during one compilation run
         Scanner s;
         int labelcount;
-        int maxfloats;
-        int maxstrings;
+        public int maxfloats;
+        public int maxstrings;
         Hashtable variables;                    // maps varaiable names to   "S","F","[S","[F"   (e.g.  "VTEMP" -> "S")
         Hashtable constants;                    // maps value strints to constant names   (e.g.  "0.1" -> "C5")
         HashSet<LibraryEntry> references;
 
+        bool noboundscheck;
+        bool nodivisioncheck;
 
         public Compiler()
         {
@@ -104,6 +106,8 @@ namespace EV3BasicCompiler
             this.variables.Clear();
             this.constants.Clear();
             this.references.Clear();
+            this.noboundscheck = false;
+            this.nodivisioncheck = false;
             constants["0"] = "C0";                                   // always have constant 0
             constants["57.295779513082"] = "CR2D"; // conversion factor from radians to degrees
 
@@ -135,6 +139,7 @@ namespace EV3BasicCompiler
             // -- when all information is available, put parts together
             StreamWriter target = new StreamWriter(targetstream);
             target.Write(runtimeglobals);
+            target.WriteLine("DATA32 INDEX");
 
             foreach (DictionaryEntry de in constants)
             {
@@ -153,7 +158,7 @@ namespace EV3BasicCompiler
                 }
                 else if (t.StartsWith("["))
                 {
-                    target.WriteLine("DATA32 " + de.Key);
+                    target.WriteLine("ARRAY16 " + de.Key+ " 2");  // waste 16 bit, but keep alignment
                 }
             }
             for (int i = 0; i < maxfloats; i++)
@@ -242,8 +247,8 @@ namespace EV3BasicCompiler
                 s.ThrowExpectedSymbol(SymType.ID, null);
             }
             String subname = s.NextContent;
-
             s.GetSym();
+
             parse_eol();
 
             target.WriteLine("subcall SUB_" + subname);
@@ -253,7 +258,7 @@ namespace EV3BasicCompiler
             {
                 compile_statement(target);
             }
-            s.GetSym();
+            parse_keyword("ENDSUB");
             parse_eol();
 
             target.WriteLine("}");
@@ -262,7 +267,32 @@ namespace EV3BasicCompiler
 
         private void compile_statement(TextWriter target)
         {
-            if (s.NextType == SymType.EOL)
+            if (s.NextType == SymType.PRAGMA)
+            {
+                if (s.NextContent.Equals("NOBOUNDSCHECK"))
+                {
+                    noboundscheck = true;
+                }
+                else if (s.NextContent.Equals("BOUNDSCHECK"))
+                {
+                    noboundscheck = false;
+                }
+                else if (s.NextContent.Equals("NODIVISIONCHECK"))
+                {
+                    nodivisioncheck = true;
+                }
+                else if (s.NextContent.Equals("DIVISIONCHECK"))
+                {
+                    nodivisioncheck = false;
+                }
+                else
+                {
+                    throw new Exception("Unknown PRAGMA: " + s.NextContent);
+                }
+                s.GetSym();
+                return;
+            }
+            else if (s.NextType == SymType.EOL)
             {
                 s.GetSym();
                 return;
@@ -297,7 +327,7 @@ namespace EV3BasicCompiler
             parse_keyword("IF");
 
             Expression e = parse_string_expression();
-            e.GenerateJumpIfNotTrue(target, "else" + l + "_1", ref maxfloats, ref maxstrings);
+            e.GenerateJumpIfNotTrue(this, target, "else" + l + "_1");
 
             parse_keyword("THEN");
             parse_eol();
@@ -307,21 +337,21 @@ namespace EV3BasicCompiler
             {
                 if (s.NextIsKEYWORD("ELSEIF"))
                 {
-                    s.GetSym();
+                    parse_keyword("ELSEIF");
 
                     Expression e2 = parse_string_expression();
 
                     numbranches++;
                     target.WriteLine("    JR endif" + l);
                     target.WriteLine("  else" + l + "_" + numbranches + ":");
-                    e2.GenerateJumpIfNotTrue(target, "else" + l + "_" + (numbranches + 1), ref maxfloats, ref maxstrings);
+                    e2.GenerateJumpIfNotTrue(this, target, "else" + l + "_" + (numbranches + 1));
 
                     parse_keyword("THEN");
                     parse_eol();
                 }
                 else if (s.NextIsKEYWORD("ELSE"))
                 {
-                    s.GetSym();
+                    parse_keyword("ELSE");
                     parse_eol();
 
                     numbranches++;
@@ -344,11 +374,11 @@ namespace EV3BasicCompiler
                 }
             }
 
-            s.GetSym();
+            parse_keyword("ENDIF");
             parse_eol();
 
             target.WriteLine("  else" + l + "_" + (numbranches + 1) + ":");
-            target.WriteLine("  endif" + l + ":");
+             target.WriteLine("  endif" + l + ":");
         }
 
         private void compile_while(TextWriter target)
@@ -360,18 +390,18 @@ namespace EV3BasicCompiler
             Expression e = parse_string_expression();
 
             target.WriteLine("  while" + l + ":");
-            e.GenerateJumpIfNotTrue(target, "endwhile" + l, ref maxfloats, ref maxstrings);
-
+            e.GenerateJumpIfNotTrue(this, target, "endwhile" + l);
+            target.WriteLine("  whilebody" + l + ":");
             parse_eol();
 
             while (!s.NextIsKEYWORD("ENDWHILE"))
             {
                 compile_statement(target);
             }
-            s.GetSym();
+            parse_keyword("ENDWHILE");
             parse_eol();
 
-            target.WriteLine("    JR while" + l);
+            e.GenerateJumpIfTrue(this, target, "whilebody" + l);
             target.WriteLine("  endwhile" + l + ":");
         }
 
@@ -382,12 +412,9 @@ namespace EV3BasicCompiler
 
             parse_keyword("FOR");
 
-            if (s.NextType != SymType.ID)
-            {
-                s.ThrowExpectedSymbol(SymType.ID, null);
-            }
+            String basicvarname = parse_id();
 
-            String varname = "V" + s.NextContent;
+            String varname = "V" + basicvarname;
             String vartype = (String)variables[varname];
             if (vartype == null)
             {
@@ -397,8 +424,6 @@ namespace EV3BasicCompiler
             {
                 s.ThrowParseError("Can not use " + s.NextContent + " as loop counter. Is already defined to contain text");
             }
-
-            s.GetSym();
 
             parse_special("=");
 
@@ -412,36 +437,47 @@ namespace EV3BasicCompiler
             Expression incexpression;
             if (s.NextIsKEYWORD("STEP"))
             {
-                s.GetSym();
+                parse_keyword("STEP");
                 Expression stepexpression = parse_float_expression("Can not use a text as loop step value");
 
-                testexpression = new CallExpression(true, "CALL LE_STEP", new AtomicExpression(false, varname), stopexpression, stepexpression);
+                if (stepexpression.IsPositive())
+                {   // step is guaranteed to be positive - loop ends if counter gets too large
+                    testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", new AtomicExpression(false, varname), stopexpression);
+                }
+                else if (stepexpression.IsNegative())
+                {   // step is guaranteed to be negative - loop ends if counter gets too small
+                    testexpression = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", new AtomicExpression(false, varname), stopexpression);
+                }
+                else
+                {   // unknown step direction - must use a special subroutine to determine loop end
+                    testexpression = new CallExpression(true, "CALL LE_STEP", new AtomicExpression(false, varname), stopexpression, stepexpression);
+                }
                 incexpression = new CallExpression(false, "ADDF", new AtomicExpression(false, varname), stepexpression);
                 memorize_reference("LE_STEP");
             }
             else
             {
-                testexpression = new CallExpression(true, "CALL LE", new AtomicExpression(false, varname), stopexpression);
+                testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", new AtomicExpression(false, varname), stopexpression);
                 incexpression = new CallExpression(false, "ADDF", new AtomicExpression(false, varname), new AtomicExpression(false, "C1"));
                 memorize_reference("LE");
             }
             parse_eol();
 
-            startexpression.Generate(target, varname, 0, 0, ref maxfloats, ref maxstrings);
+            startexpression.Generate(this, target, varname, 0, 0);
 
             target.WriteLine("  for" + l + ":");
-
-            testexpression.GenerateJumpIfNotTrue(target, "endfor" + l, ref maxfloats, ref maxstrings);
+            testexpression.GenerateJumpIfNotTrue(this, target, "endfor" + l);
+            target.WriteLine("  forbody" + l + ":");
 
             while (!s.NextIsKEYWORD("ENDFOR"))
             {
                 compile_statement(target);
             }
-            s.GetSym();
+            parse_keyword("ENDFOR");
             parse_eol();
 
-            incexpression.Generate(target, varname, 0, 0, ref maxfloats, ref maxstrings);
-            target.WriteLine("    JR for" + l);
+            incexpression.Generate(this, target, varname, 0, 0);
+            testexpression.GenerateJumpIfTrue(this, target, "forbody" + l);
             target.WriteLine("  endfor" + l + ":");
         }
 
@@ -454,14 +490,17 @@ namespace EV3BasicCompiler
                 s.ThrowExpectedSymbol(SymType.ID, null);
             }
 
-            target.WriteLine("    JR L" + s.NextContent);
-
+            String label = s.NextContent;
             s.GetSym();
+
+            target.WriteLine("    JR L" + label);
+
             parse_eol();
         }
 
         private void compile_atomic_statement(TextWriter target)
         {
+            // get symbol for look-ahead
             if (s.NextType != SymType.ID)
             {
                 s.ThrowExpectedSymbol(SymType.ID, null);
@@ -471,30 +510,28 @@ namespace EV3BasicCompiler
 
             if (s.NextIsSPECIAL("="))
             {
-                s.GetSym();
-                compile_variable_assignment(target, id);
+                s.PushBack(SymType.ID, id);
+                compile_variable_assignment(target);
             }
             else if (s.NextIsSPECIAL("["))
             {
-                compile_array_assignment(target, id);
+                s.PushBack(SymType.ID, id);
+                compile_array_assignment(target);
             }
             else if (s.NextIsSPECIAL("."))
             {
-                s.GetSym();
-                compile_procedure_call(target, id);
+                s.PushBack(SymType.ID, id);
+                compile_procedure_call(target);
             }
             else if (s.NextIsSPECIAL("("))
             {   // subroutine call             
-
-                s.GetSym();
+                parse_special("(");
                 parse_special(")");
-
                 target.WriteLine("    CALL SUB_" + id);
             }
             else if (s.NextIsSPECIAL(":"))
             {   // jump label
-                s.GetSym();
-
+                parse_special(":");
                 target.WriteLine("  L" + id + ":");
             }
             else
@@ -503,12 +540,44 @@ namespace EV3BasicCompiler
             }
         }
 
-        private void compile_variable_assignment(TextWriter target, String basicvarname)
+        private void compile_variable_assignment(TextWriter target)
         {
+            String basicvarname = parse_id();
             String varname = "V" + basicvarname;
+            String vartype = (String)variables[varname];
+
+            parse_special("=");
+
+            // check if this is a direct variable-to-variable assignment (look ahead to EOL)
+            if (s.NextType==SymType.ID)
+            {
+                String otherid = parse_id();
+                if (s.NextType == SymType.EOL)
+                {
+                    // seems to be indeed a direct transfer
+                    String sourcevarname = "V" + otherid;
+                    String sourcetype = (String)variables[sourcevarname];
+                    if (sourcetype != null && sourcetype.StartsWith("["))
+                    {
+                        if (vartype == null)
+                        {
+                            variables[varname] = sourcetype;
+                        }
+                        else if (!vartype.Equals(sourcetype))
+                        {
+                            s.ThrowParseError("Can not assign different type to " + basicvarname);
+                        }
+                        target.WriteLine("    ARRAY COPY " + sourcevarname + " " + varname);
+                        return;
+                    }
+                }
+                // is not a direct array transfer - just un-parse the symbol and try to parse an expression
+                s.PushBack(SymType.ID, otherid);
+            }
+
+            // normal variable assignment from expression value
             Expression e = parse_expression();
             String etype = e.StringType ? "S" : "F";
-            String vartype = (String)variables[varname];
             if (vartype == null)
             {
                 variables[varname] = etype;
@@ -518,17 +587,18 @@ namespace EV3BasicCompiler
                 s.ThrowParseError("Can not assign different types to " + basicvarname);
             }
 
-            e.Generate(target, varname, 0, 0, ref maxfloats, ref maxstrings);
+            e.Generate(this, target, varname, 0, 0);
         }
 
-        private void compile_array_assignment(TextWriter target, String basicvarname)
+        private void compile_array_assignment(TextWriter target)
         {
-            String varname = "V" + basicvarname;
+            String basicvarname = parse_id();
             parse_special("[");
             Expression eidx = parse_float_expression("Can only have number as array index");
             parse_special("]");
             parse_special("=");
             Expression e = parse_expression();
+            String varname = "V" + basicvarname;
             String atype = e.StringType ? "[S" : "[F";
             String vartype = (String)variables[varname];
             if (vartype == null)
@@ -540,28 +610,37 @@ namespace EV3BasicCompiler
                 s.ThrowParseError("Can not assign different types to " + basicvarname);
             }
 
-            Expression aex;
             if (e.StringType)
             {
                 memorize_reference("ARRAYSTORE_STRING");
-                aex = new CallExpression(false, "CALL ARRAYSTORE_STRING", new AtomicExpression(false, varname), eidx, e);
+                Expression aex = new CallExpression(false, "CALL ARRAYSTORE_STRING:"+varname, eidx, e);
+                aex.Generate(this, target, null, 0, 0);
             }
             else
             {
-                memorize_reference("ARRAYSTORE_FLOAT");
-                aex = new CallExpression(false, "CALL ARRAYSTORE_FLOAT", new AtomicExpression(false, varname), eidx, e);
+                if (noboundscheck)
+                {
+                    String exprvar = e.Generate(this, target, 0, 0);
+                    String indexvar = eidx.Generate(this, target, 1, 0);
+                    target.WriteLine("    MOVEF_32 " + indexvar + " INDEX");
+                    target.WriteLine("    ARRAY_WRITE " + varname + " INDEX " + exprvar);
+                }
+                else
+                {
+                    memorize_reference("ARRAYSTORE_FLOAT");
+                    Expression aex = new CallExpression(false, "CALL ARRAYSTORE_FLOAT:" + varname, eidx, e);
+                    aex.Generate(this, target, null, 0, 0);
+                }
             }
-            aex.Generate(target, null, 0, 0, ref maxfloats, ref maxstrings);
         }
 
-        private void compile_procedure_call(TextWriter target, String objectname)
+        private void compile_procedure_call(TextWriter target)
         {
-            if (s.NextType != SymType.ID)
-            {
-                s.ThrowExpectedSymbol(SymType.ID, null);
-            }
-            String functionname = objectname + "." + s.NextContent;
-            s.GetSym();
+            String objectname = parse_id();
+            parse_special(".");
+            String elementname = parse_id();
+
+            String functionname = objectname + "." + elementname;
 
             LibraryEntry libentry = (LibraryEntry)library[functionname];
             if (libentry == null)
@@ -580,15 +659,15 @@ namespace EV3BasicCompiler
 
                 if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
                 {
-                    s.GetSym();
+                    parse_special(",");
                 }
             }
             parse_special(")");
 
             Expression ex = new CallExpression(libentry.StringReturnType, "CALL " + functionname, list);
-            ex.Generate(target,
+            ex.Generate(this, target,
                 libentry.VoidReturnType ? null : libentry.StringReturnType ? "S0" : "F0",
-                0, 0, ref maxfloats, ref maxstrings);
+                0, 0);
 
             memorize_reference(functionname);
         }
@@ -634,7 +713,7 @@ namespace EV3BasicCompiler
                     if (!total.StringType) s.ThrowParseError("need text on left side of OR");
                     Expression right = parse_and_expression();
                     if (!right.StringType) s.ThrowParseError("need text on right side of OR");
-                    total = new CallExpression(true, "CALL OR", total, right);
+                    total = new OrExpression(total, right);
                     memorize_reference("OR");
                 }
                 else
@@ -657,7 +736,7 @@ namespace EV3BasicCompiler
                     if (!total.StringType) s.ThrowParseError("need text on left side of AND");
                     Expression right = parse_comparative_expression();
                     if (!right.StringType) s.ThrowParseError("need text on right side of AND");
-                    total = new CallExpression(true, "CALL AND", total, right);
+                    total = new AndExpression(total, right);
                     memorize_reference("AND");
                 }
                 else
@@ -690,7 +769,7 @@ namespace EV3BasicCompiler
                     {
                         Expression right = parse_additive_expression();
                         if (right.StringType) s.ThrowParseError("need number on right side of '='");
-                        total = new ComparisonExpression("CALL EQ_FLOAT", "JR_NEQF", total, right);
+                        total = new ComparisonExpression("CALL EQ_FLOAT", "JR_EQF", "JR_NEQF", total, right);
                         memorize_reference("EQ_FLOAT");
                     }
                 }
@@ -709,7 +788,7 @@ namespace EV3BasicCompiler
                     {
                         Expression right = parse_additive_expression();
                         if (right.StringType) s.ThrowParseError("need number on right side of '<>'");
-                        total = new ComparisonExpression("CALL EQ_FLOAT", "JR_EQF", total, right);
+                        total = new ComparisonExpression("CALL NEQ_FLOAT", "JR_NEQF", "JR_EQF", total, right);
                         memorize_reference("NE_FLOAT");
                     }
                 }
@@ -719,7 +798,7 @@ namespace EV3BasicCompiler
                     if (total.StringType) s.ThrowParseError("need number on left side of '<'");
                     Expression right = parse_additive_expression();
                     if (right.StringType) s.ThrowParseError("need number on right side of '<'");
-                    total = new ComparisonExpression("CALL LT", "JR_GTEQF", total, right);
+                    total = new ComparisonExpression("CALL LT", "JR_LTF", "JR_GTEQF", total, right);
                     memorize_reference("LT");
                 }
                 else if (s.NextIsSPECIAL(">"))
@@ -728,7 +807,7 @@ namespace EV3BasicCompiler
                     if (total.StringType) s.ThrowParseError("need number on left side of '>'");
                     Expression right = parse_additive_expression();
                     if (right.StringType) s.ThrowParseError("need number on right side of '>'");
-                    total = new ComparisonExpression("CALL GT", "JR_LTEQF", total, right);
+                    total = new ComparisonExpression("CALL GT", "JR_GTF", "JR_LTEQF", total, right);
                     memorize_reference("GT");
                 }
                 else if (s.NextIsSPECIAL("<="))
@@ -737,7 +816,7 @@ namespace EV3BasicCompiler
                     if (total.StringType) s.ThrowParseError("need number on left side of '<='");
                     Expression right = parse_additive_expression();
                     if (right.StringType) s.ThrowParseError("need number on right side of '<='");
-                    total = new ComparisonExpression("CALL LE", "JR_GTF", total, right);
+                    total = new ComparisonExpression("CALL LE", "JR_LTEF", "JR_GTF", total, right);
                     memorize_reference("LE");
                 }
                 else if (s.NextIsSPECIAL(">="))
@@ -746,7 +825,7 @@ namespace EV3BasicCompiler
                     if (total.StringType) s.ThrowParseError("need number on left side of '>='");
                     Expression right = parse_additive_expression();
                     if (right.StringType) s.ThrowParseError("need number on right side of '>='");
-                    total = new ComparisonExpression("CALL GE", "JR_LTF", total, right);
+                    total = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", total, right);
                     memorize_reference("GE");
                 }
                 else
@@ -832,7 +911,14 @@ namespace EV3BasicCompiler
                     if (total.StringType) s.ThrowParseError("need number on left side of '/'");
                     Expression right = parse_unary_minus_expression();
                     if (right.StringType) s.ThrowParseError("need number on right side of '/'");
-                    total = new CallExpression(false, "CALL DIV", total, right);
+                    if (nodivisioncheck)
+                    {
+                        total = new CallExpression(false, "DIVF", total, right);
+                    }
+                    else
+                    {
+                        total = new CallExpression(false, "CALL DIV", total, right);
+                    }
                     memorize_reference("DIV");
                 }
                 else
@@ -852,6 +938,27 @@ namespace EV3BasicCompiler
 
                 Expression e = parse_unary_minus_expression();
                 if (e.StringType) s.ThrowParseError("need number after '-'");
+
+                // check if can directly evaluate expression
+                if (e is AtomicExpression)
+                {
+                    AtomicExpression ae = (AtomicExpression) e;
+                    if (ae.var_or_value.StartsWith("CM"))
+                    {
+                        return new AtomicExpression(false,"C"+ae.var_or_value.Substring(2));
+                    }
+                    else if (ae.var_or_value.StartsWith("C"))
+                    {
+                        String val = "-"+(ae.var_or_value.Substring(1).Replace('_', '.'));
+                        String constname = (String)constants[val];
+                        if (constname == null)
+                        {
+                            constname = "C" + val.Replace('.', '_').Replace('-','M');
+                            constants[val] = constname;
+                        }
+                        return new AtomicExpression(false, constname);
+                    }
+                }
 
                 return new CallExpression(false, "MATH NEGATE", e);
             }
@@ -902,8 +1009,8 @@ namespace EV3BasicCompiler
 
                 if (s.NextIsSPECIAL("."))
                 {
-                    s.GetSym();
-                    return parse_function_call_or_property(var_or_object);
+                    s.PushBack(SymType.ID, var_or_object);
+                    return parse_function_call_or_property();
                 }
                 else if (s.NextIsSPECIAL("["))
                 {   // is array reference
@@ -924,12 +1031,19 @@ namespace EV3BasicCompiler
                     if (vartype.Equals("[S"))
                     {
                         memorize_reference("ARRAYGET_STRING");
-                        return new CallExpression(true, "CALL ARRAYGET_STRING", new AtomicExpression(false, varname), e);
+                        return new CallExpression(true, "CALL ARRAYGET_STRING:"+varname, e);
                     }
                     else
                     {
-                        memorize_reference("ARRAYGET_FLOAT");
-                        return new CallExpression(false, "CALL ARRAYGET_FLOAT", new AtomicExpression(false, varname), e);
+                        if (noboundscheck)
+                        {
+                            return new UnsafeArrayGetExpression(varname, e);
+                        }
+                        else
+                        {
+                            memorize_reference("ARRAYGET_FLOAT");
+                            return new CallExpression(false, "CALL ARRAYGET_FLOAT:" + varname, e);
+                        }
                     }
                 }
                 else
@@ -955,14 +1069,13 @@ namespace EV3BasicCompiler
             }
         }
 
-        private Expression parse_function_call_or_property(String objectname)
+        private Expression parse_function_call_or_property()
         {
-            if (s.NextType != SymType.ID)
-            {
-                s.ThrowExpectedSymbol(SymType.ID, null);
-            }
-            String functionname = objectname + "." + s.NextContent;
-            s.GetSym();
+            String objectname = parse_id();
+            parse_special(".");
+            String elementname = parse_id();
+
+            String functionname = objectname + "." + elementname;
 
             LibraryEntry libentry = (LibraryEntry)library[functionname];
             if (libentry == null)
@@ -1007,6 +1120,17 @@ namespace EV3BasicCompiler
 
             memorize_reference(functionname);
             return new CallExpression(libentry.StringReturnType, "CALL " + functionname, list);
+        }
+
+        private String parse_id()
+        {
+            if (s.NextType!=SymType.ID)
+            {
+                s.ThrowExpectedSymbol(SymType.ID,null);
+            }
+            String id = s.NextContent;
+            s.GetSym();
+            return id;
         }
 
         private void parse_keyword(String k)

@@ -8,7 +8,7 @@ namespace EV3BasicCompiler
 {
     // ------------------------------------ TOKEN SCANNER ---------------------------------
 
-    public enum SymType : byte { ID, NUMBER, STRING, KEYWORD, SPECIAL, EOL, EOF };
+    public enum SymType : byte { ID, NUMBER, STRING, KEYWORD, SPECIAL, EOL, EOF, PRAGMA };
 
     public class Scanner
     {
@@ -21,6 +21,9 @@ namespace EV3BasicCompiler
         private int linenumber;
         private int columnnumber;
 
+        Stack<SymType> pushbackbuffer_type;
+        Stack<String> pushbackbuffer_content;
+
         public Scanner (Stream source)
         {
             reader = new StreamReader(source, System.Text.Encoding.UTF8);
@@ -29,6 +32,9 @@ namespace EV3BasicCompiler
             line = reader.ReadLine();
             linenumber = 0;
             columnnumber = 0;
+
+            pushbackbuffer_type = new Stack<SymType>();
+            pushbackbuffer_content = new Stack<String>();
         }
 
         public SymType NextType
@@ -72,6 +78,13 @@ namespace EV3BasicCompiler
 
         public void GetSym()
         {
+            if (pushbackbuffer_type.Count>0)
+            {
+                nexttype = pushbackbuffer_type.Pop();
+                nextcontent = pushbackbuffer_content.Pop();
+                return;
+            }
+
             for (; ; )
             {
                 if (line == null)
@@ -84,6 +97,15 @@ namespace EV3BasicCompiler
                 {
                     nexttype = SymType.EOL;
                     nextcontent = "";
+                    line = reader.ReadLine();
+                    linenumber++;
+                    columnnumber = 0;
+                    return;
+                }
+                if (columnnumber==0 && line.StartsWith("'PRAGMA "))
+                {
+                    nexttype = SymType.PRAGMA;
+                    nextcontent = line.Substring(8).Trim();
                     line = reader.ReadLine();
                     linenumber++;
                     columnnumber = 0;
@@ -216,6 +238,14 @@ namespace EV3BasicCompiler
                         }
                 }
             }
+        }
+
+        public void PushBack(SymType previoustype, String previouscontent)
+        {
+            pushbackbuffer_type.Push(nexttype);
+            pushbackbuffer_content.Push(nextcontent);
+            nexttype = previoustype;
+            nextcontent = previouscontent;
         }
 
 

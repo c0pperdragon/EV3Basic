@@ -7,12 +7,13 @@ namespace LMSAssembler
 {
     // data types for variables and parameters
     public enum DataType { 
-        I8,           // 8 bit signed int
-        I16,          // 16 bit signed int
-        I32,          // 32 bit signed int
-        F,            // 4 byte floating point
-        Unspecified,  // unspecified reference parameter (can not be used for variables)
-        Label         // opcode needs a jump label (can not be used for variables or parameters)
+        I8,            // 8 bit signed int
+        I16,           // 16 bit signed int
+        I32,           // 32 bit signed int
+        F,             // 4 byte floating point
+        Unspecified,   // unspecified reference parameter (can not be used for variables)
+        Label,         // opcode needs a jump label (can not be used for variables or parameters)
+        ParameterCount // a constant value specifying the number of parameters to follow
     };
 
     // specifies what the opcode (or a subcall) will do to the parameters

@@ -14,11 +14,24 @@ namespace Test
         {
             TestCompile();
             TestAssemble();
+//            TestDisassemble();
+        }
+
+        static void TestDisassemble()
+        {
+            Assembler a = new Assembler();
+
+            String f = "C:/Users/Reinhard/Documents/Program.rbf";
+            FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
+
+            a.Disassemble(fs, Console.Out);
+
+            Console.ReadKey();
         }
 
         static void TestCompile()
         {    
-            String f = "C:/Users/Reinhard/Google Drive/csharp/EV3Basic/testsuite/ev3features/SensorReading.sb";
+            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/BrickBench.sb";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
             FileStream ofs = new FileStream("c:/temp/compiledbasic.lms", FileMode.Create, FileAccess.Write);
 

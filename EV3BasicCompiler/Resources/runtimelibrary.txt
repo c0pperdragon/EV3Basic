@@ -224,63 +224,56 @@ deliverfalse:
 
 subcall ARRAYCREATE_FLOAT   // F
 {
-	OUT_32 handle
+	OUT_16 handle
 	
-	DATA16 h16
-	ARRAY CREATEF 8 h16			// create with 8 elements
-	ARRAY FILL h16 C0
-	
-	MOVE16_32 h16 handle
+	ARRAY CREATEF 8 handle			// create with 8 elements
+	ARRAY FILL handle C0
 }
 
 subcall ARRAYSTORE_FLOAT   // FFFV
 {
-	IN_32 handle
 	IN_F index
 	IN_F value	
+	IN_16 handle
 	
-	DATA16 h16
 	DATA32 index32
 	DATA32 len	
-	MOVE32_16 handle h16
 	MOVEF_32 index index32
 
-	ARRAY SIZE h16 len
+	ARRAY SIZE handle len
 	JR_LT32 index32 0 negativeindex
 	JR_LT32 index32 len arraybigenough
 
 increasesize:	
 	DATA32 doublelen
 	ADD32 len len doublelen
-	ARRAY RESIZE h16 doublelen
+	ARRAY RESIZE handle doublelen
 writeloop:	
-	ARRAY_WRITE h16 len C0
+	ARRAY_WRITE handle len C0
 	ADD32 len 1 len
 	JR_LT32 len doublelen writeloop
 	JR_GTEQ32 index32 len increasesize
 	
 arraybigenough:
-	ARRAY_WRITE h16 index32 value
+	ARRAY_WRITE handle index32 value
 negativeindex:
 }
 
 subcall ARRAYGET_FLOAT     // FFF
 {
-	IN_32 handle
 	IN_F index
 	OUT_F value
+	IN_16 handle
 	
-	DATA16 h16
 	DATA32 index32
 	DATA32 len
-	MOVE32_16 handle h16
 	MOVEF_32 index index32
 	
-	ARRAY SIZE h16 len
+	ARRAY SIZE handle len
 	JR_LT32 index32 0 outofbounds
 	JR_GTEQ32 index32 len outofbounds
 	
-	ARRAY_READ h16 index32 value
+	ARRAY_READ handle index32 value
 	RETURN
 outofbounds:
 	MOVE8_F 0 value	
@@ -288,67 +281,60 @@ outofbounds:
 
 subcall ARRAYCREATE_STRING   // F
 {
-	OUT_32 handle
+	OUT_16 handle
 
-	DATA16 h16
 	DATA8 z
 	
-	ARRAY CREATEF 504  h16     // 504 bytes are enough to store 2 strings
+	ARRAY CREATEF 504  handle     // 504 bytes are enough to store 2 strings
 	MOVE8_8 0 z
-	ARRAY FILL h16 z
-
-	MOVE16_32 h16 handle
+	ARRAY FILL handle z
 }
 
 subcall ARRAYSTORE_STRING   // FFSV
 {
-	IN_32 handle
 	IN_F index
 	IN_S value 252	
+	IN_16 handle
 	
-	DATA16 h16
 	DATA32 index32
 	DATA32 len	
-	MOVE32_16 handle h16
 	MOVEF_32 index index32
 	MUL32 index32 252 index32
 	
-	ARRAY SIZE h16 len
+	ARRAY SIZE handle len
 	JR_LT32 index32 0 negativeindex
 	JR_LT32 index32 len arraybigenough
 
 increasesize:	
 	DATA32 doublelen
 	ADD32 len len doublelen
-	ARRAY RESIZE h16 doublelen
+	ARRAY RESIZE handle doublelen
 	DATA8 zerobyte	
 	MOVE8_8 0 zerobyte
 writeloop:	
-	ARRAY_WRITE h16 len zerobyte      // only write a 0 at begin of each string (rest does not matter)
+	ARRAY_WRITE handle len zerobyte      // only write a 0 at begin of each string (rest does not matter)
 	ADD32 len 252 len
 	JR_LT32 len doublelen writeloop
 	JR_GTEQ32 index32 len increasesize
 	
 arraybigenough:
-	ARRAY WRITE_CONTENT 1 h16 index32 252 value
+	ARRAY WRITE_CONTENT 1 handle index32 252 value
 negativeindex:
 }
 	
 subcall ARRAYGET_STRING   // FFS
 {
-	IN_32 handle
 	IN_F index
 	OUT_S value 252	
+	IN_16 handle
 
-	DATA16 h16
 	DATA32 index32
-	MOVE32_16 handle h16
 	MOVEF_32 index index32
 	
 	MUL32 252 index32 index32 // every string has 252 bytes
 	MOVE8_8 0 value		  // set to empty string in case that nothing can be read
 	
-	ARRAY READ_CONTENT 1 h16 index32 252 value   // tansfer memory from program slot 1
+	ARRAY READ_CONTENT 1 handle index32 252 value   // transfer memory from program slot 1
 }
 
 
@@ -772,7 +758,7 @@ subcall TEXT.GETLENGTH      // SF
 
 // ---------------------------------------- BASIC MODULE: MATH ---------------------------------------
 
-subcall MATH_PI              // F
+subcall MATH.PI              // F
 {
 	OUT_F result
 	STRINGS STRING_TO_VALUE '3.1415926535897932384' result
@@ -2043,14 +2029,13 @@ subcall SENSOR.SETMODE		// FFV
 	DATA8 layer
 	DATA8 no
 	DATA8 mode8
-	DATA32 dummy
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
 	MOVE8_8 0 layer
 	MOVEF_8 mode mode8
 	
-	INPUT_DEVICE READY_RAW layer no 0 mode8 0 dummy	
+	INPUT_DEVICE READY_RAW layer no 0 mode8 0
 }
 
 subcall SENSOR.ISBUSY       // FS
@@ -2130,7 +2115,7 @@ subcall SENSOR.READRAW            // FF
 	SUB8 no 1 no
 	MOVE8_8 0 layer
 
-	INPUT_READEXT_8 layer no 0 -1 18 8 RAWVALUE0 RAWVALUE1 RAWVALUE2 RAWVALUE3 RAWVALUE4 RAWVALUE5 RAWVALUE6 RAWVALUE7
+	INPUT_READEXT layer no 0 -1 18 8 RAWVALUE0 RAWVALUE1 RAWVALUE2 RAWVALUE3 RAWVALUE4 RAWVALUE5 RAWVALUE6 RAWVALUE7
 	
 	JR_LT32 RAWVALUE0 0 negative
 	MOVE32_F RAWVALUE0 result

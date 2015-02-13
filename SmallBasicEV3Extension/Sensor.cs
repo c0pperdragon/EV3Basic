@@ -72,11 +72,11 @@ namespace SmallBasicEV3Extension
             
             if (result==null || result.Length<2)
             {
-                return new Primitive("0");
+                return new Primitive(0);
             }
             else
             {
-                return new Primitive("" + result[0]);
+                return new Primitive(result[0]);
             }
         }
 
@@ -104,11 +104,11 @@ namespace SmallBasicEV3Extension
 
             if (result == null || result.Length < 2)
             {
-                return new Primitive("0");
+                return new Primitive(0);
             }
             else
             {
-                return new Primitive("" + result[1]);
+                return new Primitive(result[1]);
             }
         }
        
@@ -218,12 +218,12 @@ namespace SmallBasicEV3Extension
 
             if (result == null || result.Length < 1)
             {
-                return new Primitive("0");
+                return new Primitive(0);
             }
             else
             {
                 int v = result[0];
-                return new Primitive(v>127 ? "0" : (""+v));
+                return new Primitive(v>127 ? 0 : v);
             }
         }
 

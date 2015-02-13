@@ -50,8 +50,8 @@
 2C RL8          8 8 8*
 2D RL16         16 16 16*
 2E RL32         32 32 32*
-// 2F INIT_BYTES   8* 32 8....
-30 MOVE8_8      8 8*
+2F INIT_BYTES   8* P 8         // with number of parameters specified by P
+30 MOVE8_8      8 8*        
 31 MOVE8_16     8 16*
 32 MOVE8_32     8 32*
 33 MOVE8_F      8 F*
@@ -315,9 +315,9 @@
 9918 INPUT_DEVICE GET_FIGURES        8 8 8* 8*
 9919 INPUT_DEVICE GET_CHANGES        8 8 F*
 991A INPUT_DEVICE CLR_CHANGES        8 8 
-991B INPUT_DEVICE READY_PCT          8 8 8 8 8 8*
-991C INPUT_DEVICE READY_RAW          8 8 8 8 8 32*
-991D INPUT_DEVICE READY_SI           8 8 8 8 8 F*
+991B INPUT_DEVICE READY_PCT          8 8 8 8 P 8*    // number of parameters specified by P
+991C INPUT_DEVICE READY_RAW          8 8 8 8 P 32*   // number of parameters specified by P
+991D INPUT_DEVICE READY_SI           8 8 8 8 P F*    // number of parameters specified by P
 991E INPUT_DEVICE GET_MINMAX         8 8 F* F*
 991F INPUT_DEVICE GET_BUMPS          8 8 F*
    
@@ -325,8 +325,7 @@
 9B INPUT_TEST              8 8 8*
 9C INPUT_READY             8 8 
 9D INPUT_READSI            8 8 8 8 F*
-9E INPUT_READEXT           8 8 8 8 8 8 ?*
-9E INPUT_READEXT_8         8 8 8 8 8 8 ?* ?* ?* ?* ?* ?* ?* ?*
+9E INPUT_READEXT           8 8 8 8 8 P ?*     // number of parameters specified by P
 9F INPUT_WRITE             8 8 8 8*
 // A0 OUTPUT_GET_TYPE         
 A1 OUTPUT_SET_TYPE         8 8 8

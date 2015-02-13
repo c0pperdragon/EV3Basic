@@ -370,26 +370,50 @@ namespace LMSAssembler
                         }
                     }
 
-                    // check number of parameters
-                    if (tokens.Count-paramstart != c.parameters.Length)
-                    {
-                        throw new AssemblerException("Invalid number of parameters for " + c.name);
-                    }
+                    int paramcount = c.parameters.Length;  // this is the default parameter number (can be modifed by some special opcodes)
 
                     // create opcode and parameters
                     currentobject.AddOpCode(c.opcode);
 
-                    for (int i=0; i<c.parameters.Length; i++)
+                    for (int i=0; i<paramcount; i++)
                     {
-                        if (c.parameters[i] == DataType.Label)   // special handling for jump label parameters
+                        if (paramstart + i >= tokens.Count)
+                        {
+                            throw new AssemblerException("Too few parameters for "+c.name);
+                        }
+
+                        // of more paramerters then specified, repeat the last type (can only happen for opcodes with variable parmeter number)
+                        int pidx = Math.Min(i, c.parameters.Length - 1);  
+
+                        if (c.parameters[pidx] == DataType.Label)   // special handling for jump label parameters
                         {
                             currentobject.AddLabelReference(tokens[paramstart + i]);
+                        }
+                        else if (c.parameters[pidx] == DataType.ParameterCount)   // special handling for opcodes with variable parameter number
+                        {
+                            Int32 p;
+                            if (!Int32.TryParse(tokens[paramstart+i], out p))
+                            {
+                                throw new AssemblerException("Can not decode parameter count specifier");
+                            }
+                            if (p<0 || p>127)
+                            {
+                                throw new AssemblerException("Parameter count specifier out of range");
+                            }
+                            currentobject.AddConstant(p);
+                            paramcount = c.parameters.Length - 1 + p;  // calculate number of parameters needed because of given specifier
                         }
                         else
                         {                          // normal parameters (numbers, strings, variables)
                             Object a = DecodeAndAddParameter(locals, tokens[paramstart + i]);
-                            DataTypeChecker.check(a, c.parameters[i], c.access[i]);
+                            DataTypeChecker.check(a, c.parameters[pidx], c.access[pidx]);
                         }
+                    }
+
+                    // check final number of parameters that were generated
+                    if (paramstart + paramcount != tokens.Count)
+                    {
+                        throw new AssemblerException("Invalid number of parameters for " + c.name);
                     }
                 }
             }
@@ -636,6 +660,296 @@ namespace LMSAssembler
             int b1 = s[1] - '0';
             int b0 = s[2] - '0';
             return b2 * 8 * 8 + b1 * 8 + b0;
+        }
+
+
+        // ---------------------------------- DISASSEMLER ----------------------------------------------
+
+        public void Disassemble(Stream binary, TextWriter writer)
+        {
+            Dictionary<int, String> vmobjects = new Dictionary<int,String>();
+            int didread = 0;
+
+            // read file header and object definitions
+            int magic = DataReader.Read32(binary, ref didread);
+
+            if (magic != 0x4F47454C)
+            {
+                throw new Exception("Missing LEGO header");
+            }
+            int imgsize = DataReader.Read32(binary, ref didread);
+            int version = DataReader.Read16(binary, ref didread);
+            int numobjects = DataReader.Read16(binary, ref didread);
+            int globalbytes = DataReader.Read32(binary, ref didread);
+            writer.WriteLine("Image size: " + imgsize);
+            writer.WriteLine("Version: " + version);
+            writer.WriteLine("Objects: " + numobjects);
+            writer.WriteLine("Globals bytes: " + globalbytes);
+
+            for (int i=0; i<numobjects; i++)
+            {
+                int offset = DataReader.Read32(binary, ref didread);
+                int owner = DataReader.Read16(binary, ref didread);
+                int triggercount = DataReader.Read16(binary, ref didread);
+                int localbytes = DataReader.Read32(binary, ref didread);
+                if (owner==0)
+                {
+                    if (triggercount == 0)
+                    {
+                        vmobjects[offset] = "VMTHREAD THREAD"+(i+1)+" ( "+localbytes+" locals)";                    
+                    }
+                    else if (triggercount == 1)
+                    {
+                        vmobjects[offset] = "SUBCALL SUB" + (i + 1) + " ( " + localbytes + " locals)";
+                    }
+                    else
+                    {
+                        throw new Exception("Encountered invalid triggercount value");
+                    }
+                }
+                else
+                {
+                    if (localbytes!=0)
+                    {
+                        throw new Exception("Can not have local bytes for object with owner");
+                    }
+                    vmobjects[offset] = "OBJECT "+(i+1)+" (+trigercount="+triggercount+", owner="+owner+")";
+                }
+            }
+
+            // read all objects
+            while (didread < imgsize)
+            {
+                if (!vmobjects.ContainsKey(didread))
+                {
+                    throw new Exception("No object starts at position " + didread);
+                }
+                String o = vmobjects[didread];
+                vmobjects.Remove(didread);
+                writer.WriteLine(o);
+
+                // decode parameter specifier for SUBCALL
+                if (o.StartsWith("SUBCALL"))
+                {
+                    int localpos = 0;
+                    int numpar = DataReader.Read8(binary, ref didread) & 0xff;
+                    for (int i=0; i<numpar; i++)
+                    {
+                        String prefix = "";
+                        int desc = DataReader.Read8(binary, ref didread) & 0xff;
+                        if ((desc&0x80) !=0)
+                        {
+                            prefix = "IN";
+                        }
+                        if ((desc & 0x40) != 0)
+                        {
+                            prefix = prefix + "OUT";
+                        }
+                        switch (desc & 0x07)
+                        {
+                            case 0: 
+                                writer.WriteLine(format(localpos,4) + " " +prefix+"_8");
+                                localpos += 1;
+                                break;
+                            case 1: 
+                                writer.WriteLine(format(localpos,4) + " " +prefix + "_16");
+                                localpos += 2;
+                                break;
+                            case 2: 
+                                writer.WriteLine(format(localpos,4) + " " + prefix + "_32");
+                                localpos += 4;
+                                break;
+                            case 3: 
+                                writer.WriteLine(format(localpos,4) + " " + prefix + "_F");
+                                localpos += 4;
+                                break;
+                            case 4: 
+                                int len = DataReader.Read8(binary, ref didread) & 0xff;
+                                writer.WriteLine(format(localpos,4) + " " + prefix + "_S " + len);
+                                localpos += len;
+                                break;
+                            default:
+                                throw new Exception("Can not decode subcall parameter list");
+                        }
+                    }
+                }
+
+                int objectstart = didread;
+                for (; ; )
+                {
+                    writer.Write(format(didread - objectstart,4)+ "  ");
+
+                    // decode bytecodes
+                    VMCommand cmd = ReadOpCode(binary, ref didread);
+                    if (cmd == null)
+                    {   int n;
+                        String objid = ReadParameter(binary,ref didread);
+                        if (!int.TryParse(ReadParameter(binary,ref didread), out n))
+                        {
+                            throw new Exception ("Invalid specifier for number of CALL parameters");
+                        }
+                        // special handling for CALL                         
+                        writer.Write("CALL SUB"+objid);
+                        for (int i=0; i<n; i++)
+                        {   writer.Write(" " + ReadParameter(binary,ref didread));
+                        }
+                        writer.WriteLine();
+                    }
+                    else
+                    {   // normal opcodes
+                        writer.Write(cmd.name);
+
+                        // decode parameters
+                        int numparameters = cmd.parameters.Length;
+                        for (int i = 0; i < numparameters; i++)
+                        {
+                            String p = ReadParameter(binary, ref didread);
+                            writer.Write(" " + p);
+                        }
+                        writer.WriteLine();
+
+                        if (cmd.name.Equals("OBJECT_END"))
+                        {
+                            break;
+                        }
+                    }
+                }
+            }                
+		  
+        }
+
+        VMCommand ReadOpCode(Stream binary, ref int didread)
+        {
+            int op = DataReader.Read8(binary, ref didread) & 0xff;   // get unsigned
+            if (op==0x09)   // opcode for CALL
+            {
+                return null;  
+            }
+
+            // check if there is  a single-byte opcode
+            foreach (var de in commands)
+            {
+                VMCommand cmd = de.Value;
+                if (cmd.opcode.Length==1 && cmd.opcode[0]==op)
+                {
+                    return cmd;
+                }
+            }
+            // extend search to get two-byte opcodes as well
+            int op1 = DataReader.Read8(binary, ref didread) & 0xff;
+            foreach (var de in commands)
+            {
+                VMCommand cmd = de.Value;
+                if (cmd.opcode.Length == 2 && cmd.opcode[0] == op && cmd.opcode[1]==op1)
+                {
+                    return cmd;
+                }
+            }
+            throw new Exception("Unrecognized opcode: " + op + "("+op1+")");
+        }
+
+        String ReadParameter(Stream binary, ref int didread)
+        {
+            int x = DataReader.Read8(binary, ref didread) & 0xff;
+
+            if ((x&0x80) == 0)
+            {   // short format
+                if ((x&0x40) == 0)
+                {   // constant
+                    if ((x&0x20)==0)
+                    {   // positive constant
+                        return "" + (x&0x1f);
+                    }
+                    else
+                    {   // negative constant
+                        return "" + (-32 + (x&0x1f));
+                    }
+                }  
+                else
+                {   // variable
+                    if ((x&0x20)==0)
+                    {   // local index
+                        return "LOCAL" + (x & 0x1f);
+                    }
+                    else
+                    {   // global index
+                        return "GLOBAL" + (x & 0x1f);
+                    }
+                }
+            }
+            else
+            {   // long format
+                if ((x&0x40) == 0)
+                {   // constant
+                    if ((x&0x20) == 0)
+                    {   // value
+                        if ((x&0x07)==0 || (x&0x07)==4)
+                        {   // zero-terminated string
+                            String s = "";
+                            for (; ; )
+                            {
+                                int c = DataReader.Read8(binary, ref didread) & 0xff;
+                                if (c == 0)
+                                {
+                                    return "'" + s + "'";
+                                }
+                                s = s + (char)c;
+                            }
+                        }
+                        else
+                        {   // other constant numeral
+                            return "" + ReadExtraBytes(binary, ref didread, x);
+                        }
+                    }
+                    else
+                    {   // label
+                        return "offset" + ReadExtraBytes(binary, ref didread, x);
+                    }
+                }
+                else
+                {   // variable
+                    if ((x & 0x20) == 0)
+                    {   // local
+                        return "LOCAL" + ReadExtraBytes(binary, ref didread, x);
+                    }
+                    else
+                    {   // global
+                        if ((x & 0x10) == 0)
+                        {   // value
+                            return "GLOBAL" + ReadExtraBytes(binary, ref didread, x);
+                        }
+                        else
+                        {   // handle
+                            return "@GLOBAL" + ReadExtraBytes(binary, ref didread, x);
+                        }
+                    }
+                }
+            }
+        }
+
+        int ReadExtraBytes(Stream binary, ref int didread, int firstbyte)
+        {
+            switch (firstbyte & 0x07)
+            {
+                case 1:
+                    return DataReader.Read8(binary,ref didread);
+                case 2:
+                    return DataReader.Read16(binary,ref didread);
+                case 3:
+                    return DataReader.Read32(binary,ref didread);
+                default:
+                    throw new Exception("Can not decode parameter " + firstbyte);            
+            }
+        }
+
+        static String format(int number, int places)
+        {
+            String s = "" + number;
+            while (s.Length<places)
+            {
+                s = " " + s;
+            }
+            return s;
         }
     }
 }

@@ -41,6 +41,7 @@
     <Compile Include="Assembler.cs" />
     <Compile Include="AssemblerException.cs" />
     <Compile Include="DataArea.cs" />
+    <Compile Include="DataReader.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="DataWriter.cs" />
     <Compile Include="LMSObject.cs" />

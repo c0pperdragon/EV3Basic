@@ -9,3 +9,10 @@ Assert.Equal(B[2], "hello", "Retrieve string")
 Assert.Equal(B[7], "world", "Retrieve string 2")
 Assert.Equal(B[4], "", "Retrieve non-existing string")
 
+C = A        ' copy a whole float array
+Assert.Equal(C[35], 17, "Copied float array")
+
+D = B        ' copy a whole string array
+Assert.Equal(D[7], "world", "After string array copy")
+Assert.Equal(D[4], "", "Empty in copy")
+
