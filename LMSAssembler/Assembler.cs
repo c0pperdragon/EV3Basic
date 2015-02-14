@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Globalization;
 
 namespace LMSAssembler
 {
@@ -392,7 +393,7 @@ namespace LMSAssembler
                         else if (c.parameters[pidx] == DataType.ParameterCount)   // special handling for opcodes with variable parameter number
                         {
                             Int32 p;
-                            if (!Int32.TryParse(tokens[paramstart+i], out p))
+                            if (!Int32.TryParse(tokens[paramstart+i], NumberStyles.Integer, CultureInfo.InvariantCulture, out p))
                             {
                                 throw new AssemblerException("Can not decode parameter count specifier");
                             }
@@ -420,7 +421,7 @@ namespace LMSAssembler
         }
 
         // decodes a parameter and adds it to bytecode stream. 
-        // return either DataElement, int or String  (for type checking)         
+        // return either DataElement, int, double, or String  (for type checking)         
         private Object DecodeAndAddParameter(DataArea locals, String p)
         { 
             // this must be a variable
@@ -450,12 +451,18 @@ namespace LMSAssembler
             else if ( (p[0]>='0' && p[0]<='9') || p[0]=='-')
             {
                 Int32 c;
-                if (!Int32.TryParse(p, out c))
+                double d;
+                if (Int32.TryParse(p, NumberStyles.Integer, CultureInfo.InvariantCulture, out c))
                 {
-                    throw new AssemblerException("Can not decode number");
+                    currentobject.AddConstant(c);
+                    return c;
                 }
-                currentobject.AddConstant(c);
-                return c;
+                if (double.TryParse(p, NumberStyles.Float, CultureInfo.InvariantCulture, out d))
+                {
+                    currentobject.AddFloatConstant(d);
+                    return d;
+                }
+                throw new AssemblerException("Can not decode number: "+p);
             }
             // this must be a string literal
             else if (p[0]=='\'')
@@ -619,7 +626,7 @@ namespace LMSAssembler
                 throw new AssemblerException("Too many elements for command");
             }
             long l;
-            if (Int64.TryParse(tokens[position],out l))
+            if (Int64.TryParse(tokens[position], NumberStyles.Integer, CultureInfo.InvariantCulture, out l))
             {
                 if (l<1 || l>Int16.MaxValue)
                 {
@@ -784,7 +791,7 @@ namespace LMSAssembler
                     if (cmd == null)
                     {   int n;
                         String objid = ReadParameter(binary,ref didread);
-                        if (!int.TryParse(ReadParameter(binary,ref didread), out n))
+                        if (!int.TryParse(ReadParameter(binary,ref didread),NumberStyles.Integer, CultureInfo.InvariantCulture, out n))
                         {
                             throw new Exception ("Invalid specifier for number of CALL parameters");
                         }

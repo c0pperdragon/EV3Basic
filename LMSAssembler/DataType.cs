@@ -29,11 +29,11 @@ namespace LMSAssembler
 
     public class DataTypeChecker
     {
-        // the argument value can be:  int, String, DataElement
+        // the argument value can be:  int, double, String, DataElement
 
         public static void check(Object argument, DataType parameter_datatype, AccessType parameter_accesstype)
         {
-            // check if it is permitted to pass a variable
+            // check if it is permitted to pass this variable
             if (argument is DataElement)
             {
                 DataElement e = (DataElement)argument;
@@ -43,7 +43,7 @@ namespace LMSAssembler
                     throw new AssemblerException("Using variable of wrong type for call: " + e.name);
                 }
             }
-            // check in which cases a constant value is permitted
+            // check in which cases a constant integer value is permitted
             else if (argument is int)
             {
                 int c = (int)argument;
@@ -73,6 +73,18 @@ namespace LMSAssembler
                         break;      // must be implicitly in range
                     default:
                         throw new AssemblerException("Constant value " + c + " does not fit the parameter type "+parameter_datatype);
+                }
+            }
+            // check in which cases a constant float value is permitted
+            else if (argument is double)
+            {
+                if (parameter_datatype != DataType.F && parameter_datatype != DataType.Unspecified)
+                {
+                    throw new AssemblerException("Can not use float literal '" + argument + "' for this parameter type");
+                }
+                if (parameter_accesstype != AccessType.Read)
+                {
+                    throw new AssemblerException("Can not use float literal '" + argument + "' for output parameter");
                 }
             }
             // check in which cases a string literal is permitted

@@ -7,10 +7,8 @@ namespace EV3BasicCompiler
 {
     class LibraryEntry
     {
-        public readonly bool VoidReturnType;
-        public readonly bool StringReturnType;
-
-        public readonly bool[] StringParamTypes;
+        public readonly ExpressionType returnType;
+        public readonly ExpressionType[] paramTypes;
 
         public readonly String[] references;
 
@@ -19,13 +17,12 @@ namespace EV3BasicCompiler
         public LibraryEntry(String[] descriptor_and_references, String code)
         {
             String descriptor = descriptor_and_references[0];
-            VoidReturnType = descriptor.EndsWith("V");
-            StringReturnType = descriptor.EndsWith("S");
+            returnType = decodeType(descriptor[descriptor.Length-1]);
 
-            StringParamTypes = new bool[descriptor.Length - 1];
-            for (int i = 0; i < StringParamTypes.Length; i++)
+            paramTypes = new ExpressionType[descriptor.Length - 1];
+            for (int i = 0; i < paramTypes.Length; i++)
             {
-                StringParamTypes[i] = descriptor[i] == 'S';
+                paramTypes[i] = decodeType(descriptor[i]);
             }
 
             references = new String[descriptor_and_references.Length - 1];
@@ -37,26 +34,28 @@ namespace EV3BasicCompiler
             programCode = code;
         }
 
+        private ExpressionType decodeType(char c)
+        {
+            switch (c)
+            {   case 'F': return ExpressionType.Number;
+                case 'S': return ExpressionType.Text;
+                case 'A': return ExpressionType.NumberArray;
+                case 'X': return ExpressionType.TextArray;
+                case 'V': return ExpressionType.Void;
+                default: throw new Exception("Can not read runtime library");
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder s = new StringBuilder();
-            for (int i = 0; i < StringParamTypes.Length; i++)
+            for (int i = 0; i < paramTypes.Length; i++)
             {
-                s.Append(StringParamTypes[i] ? "STRING " : "FLOAT ");
+                s.Append(paramTypes[i]);
+                s.Append(" ");
             }
             s.Append("-> ");
-            if (VoidReturnType)
-            {
-                s.Append("VOID");
-            }
-            else if (StringReturnType)
-            {
-                s.Append("STRING");
-            }
-            else
-            {
-                s.Append("FLOAT");
-            }
+            s.Append(returnType);
             return s.ToString();
         }
 

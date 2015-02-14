@@ -114,6 +114,18 @@ namespace LMSAssembler
             }
             program.WriteByte(0);
         }
+        public void AddFloatConstant(double fvalue)
+        {
+            // float values can be embedded in code as a 4-byte value
+            program.WriteByte((byte)0x83);
+            byte[] b = BitConverter.GetBytes((Single)fvalue);
+//            Console.WriteLine("Embedding float: " + fvalue);
+            for (int i = 0; i < b.Length; i++)
+            {
+                program.WriteByte(b[i]);
+//                Console.WriteLine("b" + i + ": " + b[i].ToString("X"));
+            }
+        }
 
         public void AddLabelReference(String label)
         {

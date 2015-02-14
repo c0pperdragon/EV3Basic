@@ -19,7 +19,7 @@ subcall DIV            // FFF
 	IN_F b
 	OUT_F result
 	
-	JR_EQF C0 b divisionbyzero	
+	JR_EQF 0.0 b divisionbyzero	
 	DIVF a b result
 	RETURN
 divisionbyzero:	
@@ -172,7 +172,7 @@ subcall LE_STEP    // FFFS
 	IN_F step
 	OUT_S result 8
 	
-	JR_LTF step,C0,negativestep	
+	JR_LTF step 0.0 negativestep	
 	JR_GTF a b deliverfalse
 delivertrue:	
 	STRINGS DUPLICATE 'True' result	
@@ -227,7 +227,7 @@ subcall ARRAYCREATE_FLOAT   // F
 	OUT_16 handle
 	
 	ARRAY CREATEF 8 handle			// create with 8 elements
-	ARRAY FILL handle C0
+	ARRAY FILL handle 0.0
 }
 
 subcall ARRAYSTORE_FLOAT   // FFFV
@@ -249,7 +249,7 @@ increasesize:
 	ADD32 len len doublelen
 	ARRAY RESIZE handle doublelen
 writeloop:	
-	ARRAY_WRITE handle len C0
+	ARRAY_WRITE handle len 0.0
 	ADD32 len 1 len
 	JR_LT32 len doublelen writeloop
 	JR_GTEQ32 index32 len increasesize
@@ -681,7 +681,7 @@ subcall TEXT.GETSUBTEXT      // SFFS
 	MOVEF_16 sublength_f sublength  // rounding towards 0
 	// special handling: a sublength >0.0 and <=1.0 must be treated as 1 (strange behaviour of SmallBasic)
 	JR_NEQ16 sublength 0 nospeciallength
-	JR_LTEQF sublength_f C0 nospeciallength
+	JR_LTEQF sublength_f 0.0 nospeciallength
 	MOVE16_16 1 sublength
 nospeciallength:
 	
@@ -777,7 +777,7 @@ subcall MATH.ARCCOS          // FF
 	OUT_F result
 
 	MATH ACOS a result
-	DIVF result CR2D result
+	DIVF result 57.295779513082 result
 }
 subcall MATH.ARCSIN          // FF
 {
@@ -785,7 +785,7 @@ subcall MATH.ARCSIN          // FF
 	OUT_F result
 
 	MATH ASIN a result
-	DIVF result CR2D result
+	DIVF result 57.295779513082 result
 }
 subcall MATH.ARCTAN          // FF
 {
@@ -793,7 +793,7 @@ subcall MATH.ARCTAN          // FF
 	OUT_F result
 
 	MATH ATAN a result
-	DIVF result CR2D result
+	DIVF result 57.295779513082 result
 }
 subcall MATH.CEILING          // FF
 {
@@ -801,7 +801,7 @@ subcall MATH.CEILING          // FF
 	OUT_F result
 
 	MATH CEIL a result
-	JR_EQF C0 result preventnegativezero	
+	JR_EQF 0.0 result preventnegativezero	
 	RETURN
 preventnegativezero:	
 	MOVE32_F 0 result
@@ -811,7 +811,7 @@ subcall MATH.COS              // FF
 	IN_F a
 	OUT_F result
 
-	MULF a CR2D a
+	MULF a 57.295779513082 a
 	MATH COS a result
 }
 subcall MATH.FLOOR          // FF
@@ -826,14 +826,14 @@ subcall MATH.GETDEGREES       // FF
 	IN_F a
 	OUT_F result
 	
-	MULF a CR2D result
+	MULF a 57.295779513082 result
 }
 subcall MATH.GETRADIANS       // FF
 {
 	IN_F a
 	OUT_F result
 
-	DIVF a CR2D result
+	DIVF a 57.295779513082 result
 }
 subcall MATH.GETRANDOMNUMBER   // FF
 {
@@ -913,7 +913,7 @@ subcall MATH.SIN            // FF
 	IN_F a
 	OUT_F result	
 	
-	MULF a CR2D a
+	MULF a 57.295779513082 a
 	MATH SIN a result
 }
 subcall MATH.SQUAREROOT      // FF
@@ -928,7 +928,7 @@ subcall MATH.TAN            // FF
 	IN_F a
 	OUT_F result
 	
-	MULF a CR2D a
+	MULF a 57.295779513082 a
 	MATH TAN a result
 }
 
@@ -1071,6 +1071,111 @@ subcall ASSERT.NEAR   // FFSV    ASSERT.FAILED
 	
 failed:	
 	CALL ASSERT.FAILED message	
+}
+
+
+// -------------------------------------- EXTENSION MODULE: VECTOR --------------------------------------------
+
+subcall VECTOR.SORT       // FAA
+{
+    IN_F  num  // number of elements
+	IN_16 a    // original array
+	IN_16 x    // where to store
+
+	ARRAY COPY a x  // copy to target (to be sorted there)
+
+	DATA32 i
+	DATA32 num32
+	DATAF v
+	MOVEF_32 num num32	
+	MOVE32_32 0 i
+loop:
+	JR_GTEQ32 i num32 endofsort
+	ARRAY_READ x i v
+	ADDF v 3.0 v
+	ARRAY_WRITE x i v
+	ADD32 i 1 i
+	JR loop
+
+endofsort:
+}
+
+subcall VECTOR.MATRIXMULT    // FFFAAA
+{
+	IN_F _N        // number of rows in result matrix
+	IN_F _M        // number of columns in result matrix
+	IN_F _K        // second dimension of A and B
+	IN_16 A        // matrix of N rows, K columns
+	IN_16 B        // matrix of K rows, M columns
+	IN_16 C        // result-matrix of N rows, M columns
+	DATA32 N
+	DATA32 M
+	DATA32 K
+	MOVEF_32 _N N
+	MOVEF_32 _M M
+	MOVEF_32 _K K
+
+	// check if the numerical parameters make sense
+	JR_LTEQ32 N 0 illegalparameter
+	JR_LTEQ32 M 0 illegalparameter
+	JR_LTEQ32 K 0 illegalparameter
+
+	// get matrix sizes and check if enough data is available
+	DATA32 ALEN
+	DATA32 BLEN
+	DATA32 CLEN
+	DATA32 MN
+	DATA32 KN 
+	DATA32 KM
+	ARRAY SIZE A ALEN
+	ARRAY SIZE B BLEN
+	ARRAY SIZE C CLEN
+	MUL32 M N MN
+	MUL32 K N KN
+	MUL32 K M KM
+	JR_LT32 ALEN KN illegalparameter
+	JR_LT32 BLEN KM illegalparameter
+
+	// enlarge result matrix if necessary
+	JR_GTEQ32 MN CLEN c_is_big_enough
+	ARRAY RESIZE C MN
+c_is_big_enough:
+
+	DATA32 I
+	MOVE32_32 0 I
+loop_rows:	
+	DATA32 J
+	MOVE32_32 0 J
+loop_columns:
+    DATAF SUM
+	MOVEF_F 0.0 SUM
+
+    DATA32 AIDX 
+	MUL32 I K AIDX
+	DATA32 BIDX
+	MOVE32_32 J BIDX
+loop_scalarproduct:
+	DATAF TMP
+	DATAF PROD
+	ARRAY_READ A AIDX PROD
+	ARRAY_READ B BIDX TMP
+    MULF PROD TMP PROD
+	ADDF SUM PROD SUM
+	ADD32 AIDX 1 AIDX
+	ADD32 BIDX M BIDX
+	JR_LT32 BIDX KM loop_scalarproduct
+
+	DATA32 CIDX
+	MUL32 I M CIDX
+	ADD32 J CIDX CIDX
+	ARRAY_WRITE C CIDX SUM
+
+	ADD32 J 1 J 
+	JR_LT32 J M loop_columns
+	ADD32 I 1 I
+	JR_LT32 I N loop_rows
+
+illegalparameter:
 }
 
 // ------------------------------------------ EV3 MODULE: EV3 -------------------------------------------------

@@ -1,0 +1,31 @@
+' Bespiel - Steuerung für ein Fahrzeug
+
+' Vorwärts
+Motor.Power("A",50)
+Motor.Start("A")
+
+While "True"
+  
+ ' Infrot-Sensor (Port 1) liest Entfernung zum Hindernis und stoppt Fahrzeug 
+ If Sensor.ReadPercent(1) < 15 then
+   Motor.Stop("A","True")
+ endif
+ ' Druck auf Touch-Sensor (Port 2) lässt Fahrzeug wieder fahren
+ If Sensor.ReadPercent(2)=100 Then
+   Motor.Start("A")
+ endif
+ 
+ ' Unabhängig davon wird alle 3 Sekunden die LED-Farbe gewechselt
+ F = Math.Remainder(Math.Floor(EV3.Time/3000), 3)
+ If f=0 Then
+   EV3.SetLEDColor("RED", "NORMAL")
+ ElseIf F=1 then
+   EV3.SetLEDColor("ORANGE", "NORMAL")
+ ElseIf F=2 then
+   EV3.SetLEDColor("GREEN", "NORMAL")
+ endif   
+ 
+ ' Kurze Pause vor dem nächsten Durchgang
+ Program.Delay(10)
+
+EndWhile

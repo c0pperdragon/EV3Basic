@@ -158,7 +158,7 @@ SUB test_Int_Mult
   for y=0 To 1999
     s=1
     for x=1 to 13 
-       s = s*x
+      s = s*x
     endfor
     for x=13 to 1 step -1
 'PRAGMA NODIVISIONCHECK
@@ -171,12 +171,18 @@ ENDSUB
 
 SUB test_float_math
     s=Math.PI
-  for y=0 To 4999 
+'  for y=0 To 4999 
+'     s=s*Math.SquareRoot(s)
+'     s=Math.Sin(s)
+'     s=s*Math.Cos(10.5*s)
+'     s=Math.SquareRoot(s)
+'     s=Math.Power(2.71828182846,s)
+'  endfor
+  for y=1 To 1000
      s=s*Math.SquareRoot(s)
      s=Math.Sin(s)
-     s=s*Math.Cos(10.5*s)
      s=Math.Power(2.71828182846,s)
-     s=Math.SquareRoot(s)
+     s=s*s
   endfor
 ENDSUB
 
@@ -210,13 +216,14 @@ Sub test_matrix_math
     LB[1*2+0]=20
     LB[1*2+1]=40
   
-    MMM_N = 2
-    MMM_M = 2
-    MMM_K = 2
-    MMM_A = LA
-    MMM_B = LB
-    MatrixMatrixMult()
-  
+'    MMM_N = 2
+'    MMM_M = 2
+'    MMM_K = 2
+'    MMM_A = LA
+'    MMM_B = LB
+'    MatrixMatrixMult()
+    LCD = Vector.MatrixMult(2,2,2,LA,LB)
+
     LA[0*2+0]=1
     LA[0*2+1]=3
     LA[1*2+0]=2

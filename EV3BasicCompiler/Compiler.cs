@@ -4,6 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Collections;
+using System.Globalization;
+
+
+// Identifier types in assembler output
+//  Vxxx     variable name (xxxx is from basic source)
+//  Lxxx:    custom jump label (xxxx is from basic source)
+//  Fnn      nth temporary float storage
+//  Snn      nth temporary string storage
+//  Ann      nth temporary float array handle
+//  Xnn      nth temporary string array handle
 
 namespace EV3BasicCompiler
 {
@@ -16,10 +26,9 @@ namespace EV3BasicCompiler
         // data used during one compilation run
         Scanner s;
         int labelcount;
-        public int maxfloats;
-        public int maxstrings;
-        Hashtable variables;                    // maps varaiable names to   "S","F","[S","[F"   (e.g.  "VTEMP" -> "S")
-        Hashtable constants;                    // maps value strints to constant names   (e.g.  "0.1" -> "C5")
+        Dictionary<String,ExpressionType> variables; 
+        Dictionary<ExpressionType, int> reservedtemporaries;
+        Dictionary<ExpressionType, int> maxreservedtemporaries;
         HashSet<LibraryEntry> references;
 
         bool noboundscheck;
@@ -29,9 +38,10 @@ namespace EV3BasicCompiler
         {
             library = new Hashtable();
 
-            variables = new Hashtable();
-            constants = new Hashtable();
+            variables = new Dictionary<String, ExpressionType>();
             references = new HashSet<LibraryEntry>();
+            reservedtemporaries = new Dictionary<ExpressionType, int>();
+            maxreservedtemporaries = new Dictionary<ExpressionType, int>();
 
             readLibrary();
         }
@@ -101,17 +111,14 @@ namespace EV3BasicCompiler
 
             // initialize sybmol tables and other dynamic stuff
             this.labelcount = 0;
-            this.maxfloats = 1;     // at least FLOAT_0  needs to be defined
-            this.maxstrings = 1;    // at least STRING_0 needs to be defined
             this.variables.Clear();
-            this.constants.Clear();
             this.references.Clear();
+            this.reservedtemporaries.Clear();
+            this.maxreservedtemporaries.Clear();
             this.noboundscheck = false;
             this.nodivisioncheck = false;
-            constants["0"] = "C0";                                   // always have constant 0
-            constants["57.295779513082"] = "CR2D"; // conversion factor from radians to degrees
 
-            // perpare buffers to keep parts of the output
+            // prepare buffers to keep parts of the output
             StringWriter mainprogram = new StringWriter();
             StringWriter subroutines = new StringWriter();
 
@@ -141,66 +148,56 @@ namespace EV3BasicCompiler
             target.Write(runtimeglobals);
             target.WriteLine("DATA32 INDEX");
 
-            foreach (DictionaryEntry de in constants)
+            StringWriter initlist = new StringWriter();
+            foreach (String vname in variables.Keys)
             {
-                target.WriteLine("DATAF " + de.Value);
+                switch (variables[vname])
+                {
+                    case ExpressionType.Number:
+                        target.WriteLine("DATAF " + vname);
+                        initlist.WriteLine("    MOVEF_F 0.0 " + vname);
+                        break;
+                    case ExpressionType.Text:
+                        target.WriteLine("DATAS " + vname + " 252");
+                        initlist.WriteLine("    STRINGS DUPLICATE '' " + vname);
+                        break;
+                    case ExpressionType.NumberArray:
+                        target.WriteLine("ARRAY16 " + vname + " 2");  // waste 16 bit, but keep alignment
+                        initlist.WriteLine("    CALL ARRAYCREATE_FLOAT " + vname);
+                        memorize_reference("ARRAYCREATE_FLOAT");
+                        break;
+                    case ExpressionType.TextArray:
+                        target.WriteLine("ARRAY16 " + vname + " 2");  // waste 16 bit, but keep alignment
+                        initlist.WriteLine("    CALL ARRAYCREATE_STRING " + vname);
+                        memorize_reference("ARRAYCREATE_STRING");
+                        break;
+                }
             }
-            foreach (DictionaryEntry de in variables)
-            {
-                String t = (String)de.Value;
-                if (t.Equals("S"))
-                {
-                    target.WriteLine("DATAS " + de.Key + " 252");
-                }
-                else if (t.Equals("F"))
-                {
-                    target.WriteLine("DATAF " + de.Key);
-                }
-                else if (t.StartsWith("["))
-                {
-                    target.WriteLine("ARRAY16 " + de.Key+ " 2");  // waste 16 bit, but keep alignment
-                }
-            }
-            for (int i = 0; i < maxfloats; i++)
+
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Number) && i<maxreservedtemporaries[ExpressionType.Number]; i++)
             {
                 target.WriteLine("DATAF F" + i);
             }
-            for (int i = 0; i < maxstrings; i++)
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Text) && i < maxreservedtemporaries[ExpressionType.Text]; i++)
             {
                 target.WriteLine("DATAS S" + i + " 252");
+            }
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.NumberArray) && i < maxreservedtemporaries[ExpressionType.NumberArray]; i++)
+            {
+                target.WriteLine("ARRAY16 A" + i + " 2");
+                initlist.WriteLine("    CALL ARRAYCREATE_FLOAT A" + i);
+            }
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.TextArray) && i < maxreservedtemporaries[ExpressionType.TextArray]; i++)
+            {
+                target.WriteLine("ARRAY16 X" + i + " 2");
+                initlist.WriteLine("    CALL ARRAYCREATE_STRING X" + i);
             }
             target.WriteLine();
 
             target.WriteLine("vmthread MAIN");
             target.WriteLine("{");
-            foreach (DictionaryEntry de in constants)
-            {
-                target.WriteLine("    STRINGS STRING_TO_VALUE '" + de.Key + "' " + de.Value);
-            }
-            foreach (DictionaryEntry de in variables)
-            {
-                String t = (String)de.Value;
-                if (t.Equals("S"))
-                {
-                    target.WriteLine("    STRINGS DUPLICATE '' " + de.Key);
-                }
-                else if (t.Equals("F"))
-                {
-                    target.WriteLine("    MOVEF_F C0 " + de.Key);
-                }
-                else if (t.Equals("[S"))
-                {
-                    target.WriteLine("    CALL ARRAYCREATE_STRING " + de.Key);
-                    memorize_reference("ARRAYCREATE_STRING");
-                }
-                else if (t.Equals("[F"))
-                {
-                    target.WriteLine("    CALL ARRAYCREATE_FLOAT " + de.Key);
-                    memorize_reference("ARRAYCREATE_FLOAT");
-                }
-            }
-
-
+            target.Write(initlist.ToString());
+            
             target.WriteLine();
             target.Write(mainprogram.ToString());
             target.WriteLine("}");
@@ -215,6 +212,38 @@ namespace EV3BasicCompiler
             }
             target.Flush();
         }
+
+        // ----------- handling of temporary variables ---------------
+
+        public String reserveVariable(ExpressionType type)
+        {
+            if (!reservedtemporaries.ContainsKey(type))
+            {
+                reservedtemporaries[type] = 0;
+                maxreservedtemporaries[type] = 0;
+            }
+            int n = reservedtemporaries[type] + 1;
+            reservedtemporaries[type] = n;
+            maxreservedtemporaries[type] = Math.Max(n, maxreservedtemporaries[type]);
+            switch (type)
+            {
+                case ExpressionType.Number: 
+                    return "F" + (n - 1);
+                case ExpressionType.Text: 
+                    return "S" + (n - 1);
+                case ExpressionType.NumberArray: 
+                    return "A" + (n - 1);
+                case ExpressionType.TextArray: 
+                    return "X" + (n - 1);
+                default:
+                    throw new Exception("Can not allocate temporary variable of type " + type);
+            }
+        }
+        public void releaseVariable(ExpressionType type)
+        {
+            reservedtemporaries[type]--;
+        }
+
 
 
         // --------------------------- TOP-DOWN PARSER -------------------------------
@@ -326,8 +355,8 @@ namespace EV3BasicCompiler
 
             parse_keyword("IF");
 
-            Expression e = parse_string_expression();
-            e.GenerateJumpIfNotTrue(this, target, "else" + l + "_1");
+            Expression e = parse_typed_expression(ExpressionType.Text, "Need a text as a boolean value here");
+            e.GenerateJumpIfCondition(this, target, "else" + l + "_1", false);
 
             parse_keyword("THEN");
             parse_eol();
@@ -339,12 +368,12 @@ namespace EV3BasicCompiler
                 {
                     parse_keyword("ELSEIF");
 
-                    Expression e2 = parse_string_expression();
+                    Expression e2 = parse_typed_expression(ExpressionType.Text, "Need a text as a boolean value here");
 
                     numbranches++;
                     target.WriteLine("    JR endif" + l);
                     target.WriteLine("  else" + l + "_" + numbranches + ":");
-                    e2.GenerateJumpIfNotTrue(this, target, "else" + l + "_" + (numbranches + 1));
+                    e2.GenerateJumpIfCondition(this, target, "else" + l + "_" + (numbranches + 1), false);
 
                     parse_keyword("THEN");
                     parse_eol();
@@ -387,10 +416,10 @@ namespace EV3BasicCompiler
 
             parse_keyword("WHILE");
 
-            Expression e = parse_string_expression();
+            Expression e = parse_typed_expression(ExpressionType.Text, "Need a text as a boolean value here");
 
             target.WriteLine("  while" + l + ":");
-            e.GenerateJumpIfNotTrue(this, target, "endwhile" + l);
+            e.GenerateJumpIfCondition(this, target, "endwhile" + l, false);
             target.WriteLine("  whilebody" + l + ":");
             parse_eol();
 
@@ -401,7 +430,7 @@ namespace EV3BasicCompiler
             parse_keyword("ENDWHILE");
             parse_eol();
 
-            e.GenerateJumpIfTrue(this, target, "whilebody" + l);
+            e.GenerateJumpIfCondition(this, target, "whilebody" + l, true);
             target.WriteLine("  endwhile" + l + ":");
         }
 
@@ -413,60 +442,65 @@ namespace EV3BasicCompiler
             parse_keyword("FOR");
 
             String basicvarname = parse_id();
-
             String varname = "V" + basicvarname;
-            String vartype = (String)variables[varname];
-            if (vartype == null)
-            {
-                variables[varname] = "F";
+
+            if (!variables.ContainsKey(basicvarname))
+            {   
+                variables[varname] = ExpressionType.Number;
             }
-            else if (!vartype.Equals("F"))
+            else if (variables[varname] != ExpressionType.Number)
             {
-                s.ThrowParseError("Can not use " + s.NextContent + " as loop counter. Is already defined to contain text");
+                s.ThrowParseError("Can not use " + basicvarname + " as loop counter. Is already defined to contain non-number");
             }
 
             parse_special("=");
 
-            Expression startexpression = parse_float_expression("Can not use a text as loop start value");
+            Expression startexpression = parse_float_expression("Can only use a number as loop start value");
 
             parse_keyword("TO");
 
-            Expression stopexpression = parse_float_expression("Can not use a text as loop stop value");
+            Expression stopexpression = parse_float_expression("Can only use a number as loop stop value");
 
             Expression testexpression;
             Expression incexpression;
             if (s.NextIsKEYWORD("STEP"))
             {
                 parse_keyword("STEP");
-                Expression stepexpression = parse_float_expression("Can not use a text as loop step value");
+                Expression stepexpression = parse_float_expression("Can only use a number as loop step value");
 
                 if (stepexpression.IsPositive())
                 {   // step is guaranteed to be positive - loop ends if counter gets too large
-                    testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", new AtomicExpression(false, varname), stopexpression);
+                    testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", 
+                        new AtomicExpression(ExpressionType.Number, varname), stopexpression);
                 }
                 else if (stepexpression.IsNegative())
                 {   // step is guaranteed to be negative - loop ends if counter gets too small
-                    testexpression = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", new AtomicExpression(false, varname), stopexpression);
+                    testexpression = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", 
+                        new AtomicExpression(ExpressionType.Number, varname), stopexpression);
                 }
                 else
                 {   // unknown step direction - must use a special subroutine to determine loop end
-                    testexpression = new CallExpression(true, "CALL LE_STEP", new AtomicExpression(false, varname), stopexpression, stepexpression);
+                    testexpression = new CallExpression(ExpressionType.Text, "CALL LE_STEP", 
+                        new AtomicExpression(ExpressionType.Number, varname), stopexpression, stepexpression);
                 }
-                incexpression = new CallExpression(false, "ADDF", new AtomicExpression(false, varname), stepexpression);
+                incexpression = new CallExpression(ExpressionType.Number, "ADDF", 
+                    new AtomicExpression(ExpressionType.Number, varname), stepexpression);
                 memorize_reference("LE_STEP");
             }
             else
             {
-                testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", new AtomicExpression(false, varname), stopexpression);
-                incexpression = new CallExpression(false, "ADDF", new AtomicExpression(false, varname), new AtomicExpression(false, "C1"));
+                testexpression = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", 
+                    new AtomicExpression(ExpressionType.Number, varname), stopexpression);
+                incexpression = new CallExpression(ExpressionType.Number, "ADDF", 
+                    new AtomicExpression(ExpressionType.Number, varname), new NumberExpression(1.0));
                 memorize_reference("LE");
             }
             parse_eol();
 
-            startexpression.Generate(this, target, varname, 0, 0);
+            startexpression.Generate(this, target, varname);
 
             target.WriteLine("  for" + l + ":");
-            testexpression.GenerateJumpIfNotTrue(this, target, "endfor" + l);
+            testexpression.GenerateJumpIfCondition(this, target, "endfor" + l, false);
             target.WriteLine("  forbody" + l + ":");
 
             while (!s.NextIsKEYWORD("ENDFOR"))
@@ -476,8 +510,8 @@ namespace EV3BasicCompiler
             parse_keyword("ENDFOR");
             parse_eol();
 
-            incexpression.Generate(this, target, varname, 0, 0);
-            testexpression.GenerateJumpIfTrue(this, target, "forbody" + l);
+            incexpression.Generate(this, target, varname);
+            testexpression.GenerateJumpIfCondition(this, target, "forbody" + l, true);
             target.WriteLine("  endfor" + l + ":");
         }
 
@@ -543,51 +577,20 @@ namespace EV3BasicCompiler
         private void compile_variable_assignment(TextWriter target)
         {
             String basicvarname = parse_id();
-            String varname = "V" + basicvarname;
-            String vartype = (String)variables[varname];
-
             parse_special("=");
-
-            // check if this is a direct variable-to-variable assignment (look ahead to EOL)
-            if (s.NextType==SymType.ID)
-            {
-                String otherid = parse_id();
-                if (s.NextType == SymType.EOL)
-                {
-                    // seems to be indeed a direct transfer
-                    String sourcevarname = "V" + otherid;
-                    String sourcetype = (String)variables[sourcevarname];
-                    if (sourcetype != null && sourcetype.StartsWith("["))
-                    {
-                        if (vartype == null)
-                        {
-                            variables[varname] = sourcetype;
-                        }
-                        else if (!vartype.Equals(sourcetype))
-                        {
-                            s.ThrowParseError("Can not assign different type to " + basicvarname);
-                        }
-                        target.WriteLine("    ARRAY COPY " + sourcevarname + " " + varname);
-                        return;
-                    }
-                }
-                // is not a direct array transfer - just un-parse the symbol and try to parse an expression
-                s.PushBack(SymType.ID, otherid);
-            }
-
-            // normal variable assignment from expression value
             Expression e = parse_expression();
-            String etype = e.StringType ? "S" : "F";
-            if (vartype == null)
+
+            String varname = "V" + basicvarname;            
+            if (!variables.ContainsKey(varname))
             {
-                variables[varname] = etype;
+                variables[varname] = e.type;
             }
-            else if (!vartype.Equals(etype))
+            else if (variables[varname] != e.type)
             {
                 s.ThrowParseError("Can not assign different types to " + basicvarname);
             }
 
-            e.Generate(this, target, varname, 0, 0);
+            e.Generate(this, target, varname);
         }
 
         private void compile_array_assignment(TextWriter target)
@@ -598,38 +601,53 @@ namespace EV3BasicCompiler
             parse_special("]");
             parse_special("=");
             Expression e = parse_expression();
+
+            if (e.type != ExpressionType.Number && e.type != ExpressionType.Text)
+            {
+                s.ThrowParseError("Can only store numbers or strings into arrays");
+            }
+            ExpressionType atype = (e.type == ExpressionType.Number) ? ExpressionType.NumberArray : ExpressionType.TextArray;
+
             String varname = "V" + basicvarname;
-            String atype = e.StringType ? "[S" : "[F";
-            String vartype = (String)variables[varname];
-            if (vartype == null)
+            if (!variables.ContainsKey(varname))
             {
                 variables[varname] = atype;
             }
-            else if (!vartype.Equals(atype))
+            else if (variables[varname] != atype)
             {
-                s.ThrowParseError("Can not assign different types to " + basicvarname);
+                s.ThrowParseError("Can not use "+ basicvarname+" as array to store this type");
             }
 
-            if (e.StringType)
+            if (e.type==ExpressionType.Text)
             {
                 memorize_reference("ARRAYSTORE_STRING");
-                Expression aex = new CallExpression(false, "CALL ARRAYSTORE_STRING:"+varname, eidx, e);
-                aex.Generate(this, target, null, 0, 0);
+                Expression aex = new CallExpression(ExpressionType.Void, "CALL ARRAYSTORE_STRING :0 :1 "+varname, eidx, e);
+                aex.Generate(this, target, null);
             }
             else
             {
                 if (noboundscheck)
                 {
-                    String exprvar = e.Generate(this, target, 0, 0);
-                    String indexvar = eidx.Generate(this, target, 1, 0);
-                    target.WriteLine("    MOVEF_32 " + indexvar + " INDEX");
-                    target.WriteLine("    ARRAY_WRITE " + varname + " INDEX " + exprvar);
+                    if (eidx is NumberExpression)
+                    {   // index is known at compile-time
+                        int indexval = (int)(((NumberExpression)eidx).value);
+                        if (indexval >= 0)        // when negative do not store anything
+                        {
+                            Expression aex = new CallExpression(ExpressionType.Void, "ARRAY_WRITE " + varname + " " + indexval, e);
+                            aex.Generate(this, target, null);
+                        }
+                    }
+                    else
+                    {   // compute index at run-time
+                        Expression aex = new CallExpression(ExpressionType.Void, "MOVEF_32 :0 INDEX\n    ARRAY_WRITE " + varname + " INDEX :1", eidx, e);
+                        aex.Generate(this, target, null);
+                    }
                 }
                 else
                 {
                     memorize_reference("ARRAYSTORE_FLOAT");
-                    Expression aex = new CallExpression(false, "CALL ARRAYSTORE_FLOAT:" + varname, eidx, e);
-                    aex.Generate(this, target, null, 0, 0);
+                    Expression aex = new CallExpression(ExpressionType.Void, "CALL ARRAYSTORE_FLOAT :0 :1 " + varname, eidx, e);
+                    aex.Generate(this, target, null);
                 }
             }
         }
@@ -651,12 +669,10 @@ namespace EV3BasicCompiler
             parse_special("(");
 
             List<Expression> list = new List<Expression>();
-            while (list.Count < libentry.StringParamTypes.Length)
+            while (list.Count < libentry.paramTypes.Length)
             {
-                Expression e = libentry.StringParamTypes[list.Count] ? parse_string_expression() : parse_float_expression("Need a number as parameter here");
-
+                Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
                 list.Add(e);
-
                 if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
                 {
                     parse_special(",");
@@ -664,32 +680,46 @@ namespace EV3BasicCompiler
             }
             parse_special(")");
 
-            Expression ex = new CallExpression(libentry.StringReturnType, "CALL " + functionname, list);
-            ex.Generate(this, target,
-                libentry.VoidReturnType ? null : libentry.StringReturnType ? "S0" : "F0",
-                0, 0);
+            Expression ex = new CallExpression(ExpressionType.Void, "CALL " + functionname, list);
+            if (libentry.returnType==ExpressionType.Void)
+            {   ex.Generate(this, target, null);
+            }
+            else
+            {
+                String retvar = reserveVariable(libentry.returnType);
+                ex.Generate(this,target,retvar);
+                releaseVariable(libentry.returnType);
+            }
 
             memorize_reference(functionname);
         }
 
 
-        private Expression parse_string_expression()
+
+        private Expression parse_typed_expression_with_parameterconversion(ExpressionType type)
         {
             Expression e = parse_expression();
-            if (e.StringType)
-            {
-                return e;
+
+            if (e.type == ExpressionType.Number && type == ExpressionType.Text)
+            {   // can do a automatic conversion from number to text
+                return new CallExpression(ExpressionType.Text, "STRINGS VALUE_FORMATTED :0 '%g' 99", e);
             }
-            else
+            else if (e.type != type)
             {
-                return new CallExpression(true, "STRINGS VALUE_FORMATTED", e, new AtomicExpression(true, "'%g'"), new AtomicExpression(false, "99"));
+                s.ThrowParseError("Can not use this type as a call parameter");
             }
+            return e;
         }
 
         private Expression parse_float_expression(String reasonmessage)
         {
+            return parse_typed_expression(ExpressionType.Number, reasonmessage);
+        }
+
+        private Expression parse_typed_expression(ExpressionType type, String reasonmessage)
+        {
             Expression e = parse_expression();
-            if (e.StringType)
+            if (e.type!=type)
             {
                 s.ThrowParseError(reasonmessage);
             }
@@ -710,9 +740,9 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
 
-                    if (!total.StringType) s.ThrowParseError("need text on left side of OR");
+                    if (total.type!=ExpressionType.Text) s.ThrowParseError("need text on left side of OR");
                     Expression right = parse_and_expression();
-                    if (!right.StringType) s.ThrowParseError("need text on right side of OR");
+                    if (right.type!=ExpressionType.Text) s.ThrowParseError("need text on right side of OR");
                     total = new OrExpression(total, right);
                     memorize_reference("OR");
                 }
@@ -733,9 +763,9 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
 
-                    if (!total.StringType) s.ThrowParseError("need text on left side of AND");
+                    if (total.type!=ExpressionType.Text) s.ThrowParseError("need text on left side of AND");
                     Expression right = parse_comparative_expression();
-                    if (!right.StringType) s.ThrowParseError("need text on right side of AND");
+                    if (right.type!=ExpressionType.Text) s.ThrowParseError("need text on right side of AND");
                     total = new AndExpression(total, right);
                     memorize_reference("AND");
                 }
@@ -758,73 +788,79 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
 
-                    if (total.StringType)
+                    Expression right = parse_additive_expression();
+                    if (total.type != right.type)
                     {
-                        Expression right = parse_additive_expression();
-                        if (!right.StringType) s.ThrowParseError("need text on right side of '='");
-                        total = new CallExpression(true, "CALL EQ_STRING", total, right);
-                        memorize_reference("EQ_STRING");
+                        s.ThrowParseError("Need identical types on both sides of '='");
                     }
-                    else
+                    switch (total.type)
                     {
-                        Expression right = parse_additive_expression();
-                        if (right.StringType) s.ThrowParseError("need number on right side of '='");
-                        total = new ComparisonExpression("CALL EQ_FLOAT", "JR_EQF", "JR_NEQF", total, right);
-                        memorize_reference("EQ_FLOAT");
+                        case ExpressionType.Number:
+                            total = new ComparisonExpression("CALL EQ_FLOAT", "JR_EQF", "JR_NEQF", total, right);
+                            break;
+                        case ExpressionType.Text:
+                            total = new CallExpression(ExpressionType.Text, "CALL EQ_STRING", total, right);
+                            break;
+                        default:
+                            s.ThrowParseError("Can not compare arrays");
+                            break;
                     }
                 }
                 else if (s.NextIsSPECIAL("<>"))
                 {
                     s.GetSym();
 
-                    if (total.StringType)
+                    Expression right = parse_additive_expression();
+                    if (total.type != right.type)
                     {
-                        Expression right = parse_additive_expression();
-                        if (!right.StringType) s.ThrowParseError("need text on right side of '<>'");
-                        total = new CallExpression(true, "CALL NE_STRING", total, right);
-                        memorize_reference("NE_STRING");
+                        s.ThrowParseError("Need identical types on both sides of '<>'");
                     }
-                    else
+                    switch (total.type)
                     {
-                        Expression right = parse_additive_expression();
-                        if (right.StringType) s.ThrowParseError("need number on right side of '<>'");
-                        total = new ComparisonExpression("CALL NEQ_FLOAT", "JR_NEQF", "JR_EQF", total, right);
-                        memorize_reference("NE_FLOAT");
+                        case ExpressionType.Number:
+                            total = new ComparisonExpression("CALL NEQ_FLOAT", "JR_NEQF", "JR_EQF", total, right);
+                            break;
+                        case ExpressionType.Text:
+                            total = new CallExpression(ExpressionType.Text, "CALL NE_STRING", total, right);
+                            break;
+                        default:
+                            s.ThrowParseError("Can not compare arrays");
+                            break;
                     }
                 }
                 else if (s.NextIsSPECIAL("<"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '<'");
+                    if (total.type!=ExpressionType.Number) s.ThrowParseError("need number on left side of '<'");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '<'");
+                    if (right.type!=ExpressionType.Number) s.ThrowParseError("need number on right side of '<'");
                     total = new ComparisonExpression("CALL LT", "JR_LTF", "JR_GTEQF", total, right);
                     memorize_reference("LT");
                 }
                 else if (s.NextIsSPECIAL(">"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '>'");
+                    if (total.type!=ExpressionType.Number) s.ThrowParseError("need number on left side of '>'");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '>'");
+                    if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '>'");
                     total = new ComparisonExpression("CALL GT", "JR_GTF", "JR_LTEQF", total, right);
                     memorize_reference("GT");
                 }
                 else if (s.NextIsSPECIAL("<="))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '<='");
+                    if (total.type!=ExpressionType.Number) s.ThrowParseError("need number on left side of '<='");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '<='");
+                    if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '<='");
                     total = new ComparisonExpression("CALL LE", "JR_LTEF", "JR_GTF", total, right);
                     memorize_reference("LE");
                 }
                 else if (s.NextIsSPECIAL(">="))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '>='");
+                    if (total.type != ExpressionType.Number) s.ThrowParseError("need number on left side of '>='");
                     Expression right = parse_additive_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '>='");
+                    if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '>='");
                     total = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", total, right);
                     memorize_reference("GE");
                 }
@@ -850,37 +886,64 @@ namespace EV3BasicCompiler
 
                     Expression right = parse_multiplicative_expression();
 
-                    if (total.StringType)
+                    if (total.type==ExpressionType.Text)
                     {
-                        if (!right.StringType)
+                        if (right.type==ExpressionType.Number)
                         {
-                            right = new CallExpression(true, "STRINGS VALUE_FORMATTED", right, new AtomicExpression(true, "'%g'"), new AtomicExpression(false, "99"));
+                            right = new CallExpression(ExpressionType.Text, "STRINGS VALUE_FORMATTED :0 '%g' 99", right);
                         }
-                        total = new CallExpression(true, "CALL TEXT.APPEND", total, right);
+                        if (right.type!=ExpressionType.Text)
+                        {
+                            s.ThrowParseError("Can not concat arrays");
+                        }
+                        total = new CallExpression(ExpressionType.Text, "CALL TEXT.APPEND", total, right);
                         memorize_reference("TEXT.APPEND");
                     }
-                    else
+                    else if (total.type==ExpressionType.Number)
                     {
-                        if (right.StringType)
+                        if (right.type == ExpressionType.Text)
                         {
-                            total = new CallExpression(true, "STRINGS VALUE_FORMATTED", total, new AtomicExpression(true, "'%g'"), new AtomicExpression(false, "99"));
-                            total = new CallExpression(true, "CALL TEXT.APPEND", total, right);
+                            total = new CallExpression(ExpressionType.Text, "STRINGS VALUE_FORMATTED :0 '%g' 99", total);
+                            total = new CallExpression(ExpressionType.Text, "CALL TEXT.APPEND", total, right);
                             memorize_reference("TEXT.APPEND");
+                        }
+                        else if (right.type == ExpressionType.Number)
+                        {                            
+                            if (total is NumberExpression && right is NumberExpression)
+                            {   // can do compile-time calculation
+                                total = new NumberExpression(((NumberExpression)total).value + ((NumberExpression)right).value);
+                            }
+                            else
+                            {   // must calculate at run-time
+                                total = new CallExpression(ExpressionType.Number, "ADDF", total, right);
+                            }
                         }
                         else
                         {
-                            total = new CallExpression(false, "ADDF", total, right);
+                            s.ThrowParseError("Can not concat arrays");
                         }
+                    }
+                    else
+                    {
+                        s.ThrowParseError("Can not concat arrays");
                     }
                 }
 
                 else if (s.NextIsSPECIAL("-"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '-'");
-                    Expression right = parse_multiplicative_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '-'");
-                    total = new CallExpression(false, "SUBF", total, right);
+                    if (total.type != ExpressionType.Number) s.ThrowParseError("need number on left side of '-'");
+                    Expression right = parse_additive_expression();
+                    if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '-'");
+
+                    if (total is NumberExpression && right is NumberExpression)
+                    {   // can do compile-time calculation
+                        total = new NumberExpression(((NumberExpression)total).value - ((NumberExpression)right).value);
+                    }
+                    else
+                    {   // must calculate at run-time
+                        total = new CallExpression(ExpressionType.Number, "SUBF", total, right);
+                    }
                 }
                 else
                 {
@@ -900,26 +963,44 @@ namespace EV3BasicCompiler
                 if (s.NextIsSPECIAL("*"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '*'");
+                    if (total.type!=ExpressionType.Number) s.ThrowParseError("need number on left side of '*'");
                     Expression right = parse_unary_minus_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '*'");
-                    total = new CallExpression(false, "MULF", total, right);
+                    if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '*'");
+
+                    if (total is NumberExpression && right is NumberExpression)
+                    {   // can do compile-time calculation
+                        total = new NumberExpression(((NumberExpression)total).value * ((NumberExpression)right).value);
+                    }
+                    else
+                    {   // must calculate at run-time
+                        total = new CallExpression(ExpressionType.Number, "MULF", total, right);
+                    }
                 }
                 else if (s.NextIsSPECIAL("/"))
                 {
                     s.GetSym();
-                    if (total.StringType) s.ThrowParseError("need number on left side of '/'");
+                    if (total.type != ExpressionType.Number) s.ThrowParseError("need number on left side of '/'");
                     Expression right = parse_unary_minus_expression();
-                    if (right.StringType) s.ThrowParseError("need number on right side of '/'");
-                    if (nodivisioncheck)
-                    {
-                        total = new CallExpression(false, "DIVF", total, right);
+                    if (right.type!=ExpressionType.Number) s.ThrowParseError("need number on right side of '/'");
+
+                    if (total is NumberExpression && right is NumberExpression)
+                    {   // can do compile-time calculation
+                        double a = ((NumberExpression)total).value;
+                        double b = ((NumberExpression)right).value;
+                        total = new NumberExpression(b==0.0 ? 0.0 : (a/b));
                     }
                     else
-                    {
-                        total = new CallExpression(false, "CALL DIV", total, right);
+                    {   // must calculate at run-time
+                        if (nodivisioncheck)
+                        {
+                            total = new CallExpression(ExpressionType.Number, "DIVF", total, right);
+                        }
+                        else
+                        {
+                            total = new CallExpression(ExpressionType.Number, "CALL DIV", total, right);
+                            memorize_reference("DIV");
+                        }
                     }
-                    memorize_reference("DIV");
                 }
                 else
                 {
@@ -937,30 +1018,16 @@ namespace EV3BasicCompiler
                 s.GetSym();
 
                 Expression e = parse_unary_minus_expression();
-                if (e.StringType) s.ThrowParseError("need number after '-'");
+                if (e.type!=ExpressionType.Number) s.ThrowParseError("need number after '-'");
 
-                // check if can directly evaluate expression
-                if (e is AtomicExpression)
-                {
-                    AtomicExpression ae = (AtomicExpression) e;
-                    if (ae.var_or_value.StartsWith("CM"))
-                    {
-                        return new AtomicExpression(false,"C"+ae.var_or_value.Substring(2));
-                    }
-                    else if (ae.var_or_value.StartsWith("C"))
-                    {
-                        String val = "-"+(ae.var_or_value.Substring(1).Replace('_', '.'));
-                        String constname = (String)constants[val];
-                        if (constname == null)
-                        {
-                            constname = "C" + val.Replace('.', '_').Replace('-','M');
-                            constants[val] = constname;
-                        }
-                        return new AtomicExpression(false, constname);
-                    }
+                if (e is NumberExpression)
+                {   // can do compile-time calculation
+                    return new NumberExpression(-((NumberExpression)e).value);
                 }
-
-                return new CallExpression(false, "MATH NEGATE", e);
+                else
+                {   // must calculate at run-time 
+                    return new CallExpression(ExpressionType.Number, "MATH NEGATE", e);
+                }
             }
             else
             {
@@ -986,21 +1053,17 @@ namespace EV3BasicCompiler
                     throw new Exception("Text is longer than 251 letters");
                 }
                 s.GetSym();
-                return new AtomicExpression(true, "'" + EscapeString(val) + "'");
+                return new AtomicExpression(ExpressionType.Text, "'" + EscapeString(val) + "'");
             }
             else if (s.NextType == SymType.NUMBER)
             {
-                String val = s.NextContent;
-
-                String constname = (String)constants[val];
-                if (constname == null)
+                double val;
+                if (!double.TryParse(s.NextContent, NumberStyles.Float, CultureInfo.InvariantCulture, out val))
                 {
-                    constname = "C" + val.Replace('.', '_');
-                    constants[val] = constname;
+                    throw new Exception("Can not decode number: "+s.NextContent);
                 }
-
                 s.GetSym();
-                return new AtomicExpression(false, constname);
+                return new NumberExpression(val);
             }
             else if (s.NextType == SymType.ID)
             {
@@ -1015,23 +1078,31 @@ namespace EV3BasicCompiler
                 else if (s.NextIsSPECIAL("["))
                 {   // is array reference
                     String varname = "V" + var_or_object;
-                    String vartype = (String)variables[varname];
-                    if (vartype == null)
+                    if (!variables.ContainsKey(varname))
                     {
                         s.ThrowParseError("can not use array " + var_or_object + " before first assignment");
                     }
-                    if (!vartype.StartsWith("["))
-                    {
-                        s.ThrowParseError("can not use normal variable "+var_or_object+" with an index");
+                    ExpressionType atype = ExpressionType.Void;
+                    switch (variables[varname])
+                    {   case ExpressionType.NumberArray:
+                            atype = ExpressionType.Number;
+                            break;
+                        case ExpressionType.TextArray:
+                            atype = ExpressionType.Text;
+                            break;
+                        default:
+                            s.ThrowParseError("Need array to use with '[]'");
+                            break;
                     }
+
                     parse_special("[");
                     Expression e = parse_float_expression("only numbers are allowed as array index");
                     parse_special("]");
 
-                    if (vartype.Equals("[S"))
+                    if (atype==ExpressionType.Text)
                     {
                         memorize_reference("ARRAYGET_STRING");
-                        return new CallExpression(true, "CALL ARRAYGET_STRING:"+varname, e);
+                        return new CallExpression(ExpressionType.Text, "CALL ARRAYGET_STRING :0 :1 "+varname, e);
                     }
                     else
                     {
@@ -1042,7 +1113,7 @@ namespace EV3BasicCompiler
                         else
                         {
                             memorize_reference("ARRAYGET_FLOAT");
-                            return new CallExpression(false, "CALL ARRAYGET_FLOAT:" + varname, e);
+                            return new CallExpression(ExpressionType.Number, "CALL ARRAYGET_FLOAT :0 :1 " + varname, e);
                         }
                     }
                 }
@@ -1050,16 +1121,11 @@ namespace EV3BasicCompiler
                 {
                     // is variable use
                     String varname = "V" + var_or_object;
-                    String vartype = (String)variables[varname];
-                    if (vartype == null)
+                    if (!variables.ContainsKey(varname))
                     {
                         s.ThrowParseError("can not use variable " + var_or_object + " before first assignment");
                     }
-                    if (vartype.StartsWith("["))
-                    {
-                        s.ThrowParseError("can not use array " + var_or_object + " like a normal value");
-                    }
-                    return new AtomicExpression(vartype.Equals("S"), varname);
+                    return new AtomicExpression(variables[varname], varname);
                 }
             }
             else
@@ -1082,7 +1148,7 @@ namespace EV3BasicCompiler
             {
                 s.ThrowParseError("Undefined function or property: " + functionname);
             }
-            if (libentry.VoidReturnType)
+            if (libentry.returnType==ExpressionType.Void)
             {
                 s.ThrowParseError("Can not use function that returns nothing in an expression");
             }
@@ -1092,9 +1158,9 @@ namespace EV3BasicCompiler
             {   // a function call
                 parse_special("(");
 
-                while (list.Count < libentry.StringParamTypes.Length)
+                while (list.Count < libentry.paramTypes.Length)
                 {
-                    Expression e = libentry.StringParamTypes[list.Count] ? parse_string_expression() : parse_float_expression("Need a number as parameter here");
+                    Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
                     list.Add(e);
 
                     if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
@@ -1104,22 +1170,21 @@ namespace EV3BasicCompiler
                 }
                 parse_special(")");
 
-                if (list.Count < libentry.StringParamTypes.Length)
+                if (list.Count < libentry.paramTypes.Length)
                 {
                     s.ThrowParseError("Too few arguments to " + functionname);
                 }
             }
             else
             {   // a property reference
-                if (libentry.StringParamTypes.Length != 0)
+                if (libentry.paramTypes.Length != 0)
                 {
                     s.ThrowParseError("Can not reference " + functionname+" as a property");
                 }
             }
 
-
             memorize_reference(functionname);
-            return new CallExpression(libentry.StringReturnType, "CALL " + functionname, list);
+            return new CallExpression(libentry.returnType, "CALL " + functionname, list);
         }
 
         private String parse_id()
