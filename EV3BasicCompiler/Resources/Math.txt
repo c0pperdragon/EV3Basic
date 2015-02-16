@@ -1,0 +1,176 @@
+// ---------------------------------------- BASIC MODULE: MATH ---------------------------------------
+
+subcall MATH.PI              // F
+{
+	OUT_F result
+	STRINGS STRING_TO_VALUE '3.1415926535897932384' result
+}
+
+subcall MATH.ABS             // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH ABS a result
+}
+subcall MATH.ARCCOS          // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH ACOS a result
+	DIVF result 57.295779513082 result
+}
+subcall MATH.ARCSIN          // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH ASIN a result
+	DIVF result 57.295779513082 result
+}
+subcall MATH.ARCTAN          // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH ATAN a result
+	DIVF result 57.295779513082 result
+}
+subcall MATH.CEILING          // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH CEIL a result
+	JR_EQF 0.0 result preventnegativezero	
+	RETURN
+preventnegativezero:	
+	MOVE32_F 0 result
+}
+subcall MATH.COS              // FF
+{
+	IN_F a
+	OUT_F result
+
+	MULF a 57.295779513082 a
+	MATH COS a result
+}
+subcall MATH.FLOOR          // FF
+{
+	IN_F a
+	OUT_F result
+
+	MATH FLOOR a result
+}
+subcall MATH.GETDEGREES       // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MULF a 57.295779513082 result
+}
+subcall MATH.GETRADIANS       // FF
+{
+	IN_F a
+	OUT_F result
+
+	DIVF a 57.295779513082 result
+}
+subcall MATH.GETRANDOMNUMBER   // FF
+{
+	IN_F range
+	OUT_F result
+	
+	DATA16 range_16
+	DATA16 value
+	MOVEF_16 range range_16
+	
+	RANDOM 1 range_16 value
+	MOVE16_F value result
+}
+subcall MATH.LOG               // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MATH LOG a result
+}
+subcall MATH.MAX              // FFF
+{
+	IN_F a
+	IN_F b
+	OUT_F result
+	
+	JR_GTF b a biggerb
+    MOVEF_F a result	
+	RETURN
+biggerb:
+	MOVEF_F b result
+}
+subcall MATH.MIN              // FFF
+{
+	IN_F a
+	IN_F b
+	OUT_F result
+	
+	JR_GTF b a biggerb
+    MOVEF_F b result	
+	RETURN
+biggerb:
+	MOVEF_F a result
+}
+subcall MATH.NATURALLOG       // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MATH LN a result
+}
+subcall MATH.POWER            // FFF
+{
+	IN_F base
+	IN_F exponent
+	OUT_F result
+	
+	MATH POW base exponent result
+}
+subcall MATH.REMAINDER        // FFF
+{
+	IN_F dividend
+	IN_F divisor
+	OUT_F result
+	
+	MATH MOD dividend divisor result
+}
+subcall MATH.ROUND           // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MATH ROUND a result
+}
+subcall MATH.SIN            // FF
+{
+	IN_F a
+	OUT_F result	
+	
+	MULF a 57.295779513082 a
+	MATH SIN a result
+}
+subcall MATH.SQUAREROOT      // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MATH SQRT a result
+}
+subcall MATH.TAN            // FF
+{
+	IN_F a
+	OUT_F result
+	
+	MULF a 57.295779513082 a
+	MATH TAN a result
+}
+

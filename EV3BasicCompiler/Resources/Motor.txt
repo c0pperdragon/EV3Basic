@@ -1,0 +1,435 @@
+// ------------------------------------------ EV3 MODULE: MOTOR ----------------------------------------------
+
+subcall MOTORDECODEPORTSDESCRIPTOR  //  V
+{
+	IN_S descriptor 8
+	OUT_8 layer
+	OUT_8 nos
+
+	DATA8 i 
+	DATA8 c
+
+	MOVE8_8 0 layer
+	MOVE8_8 0 nos	
+	MOVE8_8 0 i
+loop:
+	READ8 descriptor i c
+	JR_EQ8 c 0 decoding_end
+	
+	JR_LT8 c 65 no_uppercase_port
+	JR_GT8 c 68 no_uppercase_port
+	SUB8 c 65 c
+	RL8  1 c c
+	OR8  nos c nos
+	JR loop_end
+no_uppercase_port:
+	JR_LT8 c 97 no_lowercase_port
+	JR_GT8 c 100 no_lowercase_port
+	SUB8 c 97 c
+	RL8  1 c c
+	OR8  nos c nos	
+	JR loop_end
+no_lowercase_port:
+	JR_LT8 c 48 loop_end
+	JR_GT8 c 51 loop_end
+	SUB8 c 48 layer
+loop_end:
+	ADD8 1 i i
+	JR loop	
+	
+decoding_end:
+	RETURN
+}
+
+subcall MOTORDECODEPORTDESCRIPTOR  //  V
+{
+	IN_S descriptor 8
+	OUT_8 layer
+	OUT_8 no
+
+	DATA8 i 
+	DATA8 c
+
+	MOVE8_8 0 layer
+	MOVE8_8 -1 no
+	MOVE8_8 0 i
+loop:
+	READ8 descriptor i c
+	JR_EQ8 c 0 decoding_end
+	
+	JR_LT8 c 65 no_uppercase_port
+	JR_GT8 c 68 no_uppercase_port
+	SUB8 c 65 c
+	MOVE8_8 c no
+	JR loop_end
+no_uppercase_port:
+	JR_LT8 c 97 no_lowercase_port
+	JR_GT8 c 100 no_lowercase_port
+	SUB8 c 97 c
+	MOVE8_8 c no
+	JR loop_end
+no_lowercase_port:
+	JR_LT8 c 48 loop_end
+	JR_GT8 c 51 loop_end
+	SUB8 c 48 layer
+loop_end:
+	ADD8 1 i i
+	JR loop	
+	
+decoding_end:
+	RETURN
+}
+
+subcall MOTOR.STOP       // SSV      MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_S brake 8
+
+	DATA8 layer
+	DATA8 nos	
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+	
+	OUTPUT_STOP layer nos brk
+}
+
+subcall MOTOR.POWER      // SFV     MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F power
+
+	DATA8 layer
+	DATA8 nos	
+	DATA8 pwr
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 power pwr
+	JR_LTEQ8 pwr 100 not_too_big
+	OUTPUT_POWER layer nos 100
+	RETURN
+not_too_big:
+	JR_GTEQ8 pwr -100 not_too_small
+	OUTPUT_POWER layer nos -100
+not_too_small:
+	OUTPUT_POWER layer nos pwr
+}
+
+subcall MOTOR.SPEED      // SFV     MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+
+	DATA8 layer
+	DATA8 nos	
+	DATA8 spd
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 speed spd
+	JR_LTEQ8 spd 100 not_too_big
+	OUTPUT_SPEED layer nos 100
+	RETURN
+not_too_big:
+	JR_GTEQ8 spd -100 not_too_small
+	OUTPUT_SPEED layer nos -100
+not_too_small:
+	OUTPUT_SPEED layer nos spd
+}
+
+subcall MOTOR.START      // SV     MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+
+	DATA8 layer
+	DATA8 nos	
+
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	OUTPUT_START layer nos
+}
+
+subcall MOTOR.GETSPEED // SF      MOTORDECODEPORTDESCRIPTOR
+{
+	IN_S ports 8
+	OUT_F result
+	
+	DATA8 layer
+	DATA8 no
+	DATA8 speed
+	DATA32 tacho
+	
+	CALL MOTORDECODEPORTDESCRIPTOR ports layer no
+	
+	JR_LT8 no 0 no_port
+	OUTPUT_READ layer no speed tacho
+	MOVE8_F speed result
+	RETURN
+no_port:
+	MOVE8_f 0 result
+}
+
+subcall MOTOR.ISBUSY   // SS    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	OUT_S result 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 busy
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+
+	OUTPUT_TEST layer nos busy
+	JR_EQ8 busy 0 notbusy
+	STRINGS DUPLICATE 'True' result
+	RETURN
+notbusy:
+	STRINGS DUPLICATE 'False' result
+}
+
+subcall MOTOR.SCHEDULEPOWERFORCOUNT   // SFFFFSV     MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F power
+	IN_F step1
+	IN_F step2
+	IN_F step3
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 pwr
+	DATA32 stp1
+	DATA32 stp2
+	DATA32 stp3	
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 power pwr
+	MOVEF_32 step1 stp1
+	MOVEF_32 step2 stp2
+	MOVEF_32 step3 stp3	
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk
+	
+	OUTPUT_STEP_POWER layer nos pwr stp1 stp2 stp3 brk
+}
+
+subcall MOTOR.SchedulePowerForTime   // SFFFFSV      MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F power
+	IN_F step1
+	IN_F step2
+	IN_F step3
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 pwr
+	DATA32 stp1
+	DATA32 stp2
+	DATA32 stp3	
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 power pwr
+	MOVEF_32 step1 stp1
+	MOVEF_32 step2 stp2
+	MOVEF_32 step3 stp3	
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+
+	OUTPUT_TIME_POWER layer nos pwr stp1 stp2 stp3 brk
+}
+
+subcall MOTOR.ScheduleSpeedForCount   // SFFFFSV    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F step1
+	IN_F step2
+	IN_F step3
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 spd
+	DATA32 stp1
+	DATA32 stp2
+	DATA32 stp3	
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 speed spd
+	MOVEF_32 step1 stp1
+	MOVEF_32 step2 stp2
+	MOVEF_32 step3 stp3	
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+
+	OUTPUT_STEP_SPEED layer nos spd stp1 stp2 stp3 brk
+}
+
+subcall MOTOR.ScheduleSpeedForTime   // SFFFFSV    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F step1
+	IN_F step2
+	IN_F step3
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 spd
+	DATA32 stp1
+	DATA32 stp2
+	DATA32 stp3	
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 speed spd
+	MOVEF_32 step1 stp1
+	MOVEF_32 step2 stp2
+	MOVEF_32 step3 stp3	
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+	
+	OUTPUT_TIME_SPEED layer nos spd stp1 stp2 stp3 brk
+}
+
+subcall MOTOR.ScheduleSyncForCount   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+	IN_F count
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 spd
+	DATA16 trn
+	DATA32 cnt
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 speed spd
+	MOVEF_16 turn trn
+	MOVEF_32 count cnt
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+
+	JR_LTEQ32 cnt 0 dontmove	
+	OUTPUT_STEP_SYNC layer nos spd trn cnt brk	
+dontmove:	
+}
+
+subcall MOTOR.ScheduleSyncForTime   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+	IN_F time
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos
+	DATA8 spd
+	DATA16 trn
+	DATA32 tim
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_8 speed spd
+	MOVEF_16 turn trn
+	MOVEF_32 time tim	
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk
+	
+	OUTPUT_TIME_SYNC layer nos spd trn tim brk
+}
+
+subcall MOTOR.RESETCOUNT    // SV        MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	
+	DATA8 layer
+	DATA8 nos
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+
+	OUTPUT_CLR_COUNT layer nos
+}
+
+subcall MOTOR.GETCOUNT    // SF     MOTORDECODEPORTDESCRIPTOR
+{
+	IN_S port 8
+	OUT_F result
+	
+	DATA8 layer
+	DATA8 no
+	DATA32 tacho
+	
+	CALL MOTORDECODEPORTDESCRIPTOR port layer no
+	JR_LT8 no 0 noport
+	
+	OUTPUT_GET_COUNT layer no tacho
+	MOVE32_F tacho result
+	RETURN
+noport:	
+	MOVE8_F 0 result	
+}
+
+subcall MOTOR.MOVE     // SFSV   MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F count
+	IN_S brake 8
+
+	DATA8 layer
+	DATA8 nos
+	DATA32 cnt
+	DATA8 brk
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MOVEF_32 count cnt
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+
+	JR_EQ32 cnt 0 dontmove
+	JR_LT32 cnt 0 backwards
+
+	OUTPUT_STEP_POWER layer nos 100 0 cnt 0 brk
+	OUTPUT_READY layer nos	
+	RETURN
+	
+backwards:
+	OUTPUT_STEP_POWER layer nos -100 0 cnt 0 brk
+	OUTPUT_READY layer nos
+	
+dontmove:	
+}
+
+subcall MOTOR.WAIT     // SV   MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+
+	DATA8 layer
+	DATA8 nos
+	DATA8 busy
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+
+waiting:
+	OUTPUT_TEST layer nos busy
+	JR_EQ8 busy 0 notbusy
+	
+	DATA32 timer
+	TIMER_WAIT 2 timer
+	TIMER_READY timer
+	JR waiting
+	
+notbusy:
+}
+

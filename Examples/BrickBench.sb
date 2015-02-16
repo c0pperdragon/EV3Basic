@@ -1,7 +1,11 @@
-runtime[0]=0
-A[0] = 0
-B[0] = 0 
-C[0] = 0
+'PRAGMA NOBOUNDSCHECK
+'PRAGMA NODIVISIONCHECK
+
+
+runtime=Vector.Init(8,-1)
+A = Vector.Init(500,0)
+B = Vector.Init(500,0)
+C = Vector.Init(500,0)
 
 PI = Math.PI
 
@@ -43,89 +47,29 @@ PI = Math.PI
 '--------------------------------------------
 ' Matrix Algebra
 '--------------------------------------------
-' matrix * matrix multiplication (matrix product)
-
-MMM_N=0     
-MMM_M=0     
-MMM_K=0
-MMM_A[0]=0
-MMM_B[0]=0
-MMM_C[0]=0
-Sub MatrixMatrixMult
-'PRAGMA NOBOUNDSCHECK
-  For i=0 To MMM_N-1
-    For j=0 To MMM_K-1
-      sum = 0
-      For s=0 To MMM_M-1
-        sum = sum + MMM_A[i*MMM_M+s]*MMM_B[s*MMM_K+j]
-      endfor
-      MMM_C[i*MMM_K+j] = sum
-    endfor
-  endfor
-'PRAGMA BOUNDSCHECK 
-EndSub
-
 
 ' matrix determinant
-MD_A[0] = 0
+MD_A = Vector.Init(0,0)
 MD_RESULT = 0
 Sub MatrixDet1x1
-'PRAGMA NOBOUNDSCHECK
   MD_RESULT = MD_A[0]  
-'PRAGMA BOUNDSCHECK 
 EndSub
 Sub MatrixDet2x2
-'PRAGMA NOBOUNDSCHECK
   MD_RESULT = MD_A[0*2+0]*MD_A[1*2+1]- MD_A[0*2+1]*MD_A[1*2+0]
-'PRAGMA BOUNDSCHECK 
 EndSub 
 Sub MatrixDet3x3
-'PRAGMA NOBOUNDSCHECK
   MD_RESULT =             MD_A[0*3+0]*MD_A[1*3+1]*MD_A[2*3+2]
   MD_RESULT = MD_RESULT + MD_A[0*3+1]*MD_A[1*3+2]*MD_A[2*3+0]
   MD_RESULT = MD_RESULT + MD_A[0*3+2]*MD_A[1*3+0]*MD_A[2*3+1]
   MD_RESULT = MD_RESULT - MD_A[0*3+2]*MD_A[1*3+1]*MD_A[2*3+0]
   MD_RESULT = MD_RESULT - MD_A[0*3+1]*MD_A[1*3+0]*MD_A[2*3+2]
   MD_RESULT = MD_RESULT - MD_A[0*3+0]*MD_A[1*3+2]*MD_A[2*3+1]
-'PRAGMA BOUNDSCHECK 
 EndSub
-
-
-'--------------------------------------------
-' shell sort
-'--------------------------------------------
-
-shellsort_A[0] = 0  ' to simulate parameters
-shellsort_size = 0  ' to simulate parameters
-Sub shellsort
-'PRAGMA NOBOUNDSCHECK
-  increment = Math.Floor(shellsort_size / 2)
-  while (increment > 0) 
-    for i = increment to shellsort_size-1
-      j = i
-      temp = shellsort_A[i]
-      while ((j >= increment) and (shellsort_A[j-increment] > temp))
-        shellsort_A[j] = shellsort_A[j - increment]
-        j = j - increment
-      endwhile
-      shellsort_A[j] = temp
-    endfor
-
-    if increment = 2 then
-       increment = 1
-    else
-      increment = Math.Floor(increment / 2.2)
-    endif 
-  endwhile
-'PRAGMA BOUNDSCHECK
-endsub
-
 
 
 ' --------------------------------------------
 '  benchmark test procedures
 ' --------------------------------------------
-
 
 SUB test_Int_Add
   i=1
@@ -161,23 +105,14 @@ SUB test_Int_Mult
       s = s*x
     endfor
     for x=13 to 1 step -1
-'PRAGMA NODIVISIONCHECK
        s = s/x
-'PRAGMA DIVISIONCHECK  
     endfor
   endfor
 ENDSUB
 
 
 SUB test_float_math
-    s=Math.PI
-'  for y=0 To 4999 
-'     s=s*Math.SquareRoot(s)
-'     s=Math.Sin(s)
-'     s=s*Math.Cos(10.5*s)
-'     s=Math.SquareRoot(s)
-'     s=Math.Power(2.71828182846,s)
-'  endfor
+  s=Math.PI
   for y=1 To 1000
      s=s*Math.SquareRoot(s)
      s=Math.Sin(s)
@@ -200,11 +135,10 @@ ENDSUB
 
  
 Sub test_matrix_math
-  ' make sure arrays are big enough  
-  LA[2*2] = 0  
-  LB[2*2] = 0 
-  LO[3*3] = 0
-'PRAGMA NOBOUNDSCHECK
+  LA = Vector.Init(2*2,0)  
+  LB = Vector.Init(2*2,0)
+  LO = Vector.Init(3*3,0)
+
   for x=1 To 250      
     LA[0*2+0]=1
     LA[0*2+1]=3
@@ -216,13 +150,7 @@ Sub test_matrix_math
     LB[1*2+0]=20
     LB[1*2+1]=40
   
-'    MMM_N = 2
-'    MMM_M = 2
-'    MMM_K = 2
-'    MMM_A = LA
-'    MMM_B = LB
-'    MatrixMatrixMult()
-    LCD = Vector.MatrixMult(2,2,2,LA,LB)
+    LC = Vector.Multiply(2,2,2,LA,LB)
 
     LA[0*2+0]=1
     LA[0*2+1]=3
@@ -241,34 +169,26 @@ Sub test_matrix_math
     LO[2*3+0]=3
     LO[2*3+1]=6
     LO[2*3+2]=9    
+    
     MD_A = LO
     MatrixDet3x3()
   endfor
-'PRAGMA BOUNDSCHECK  
+
   s=LO[0*3+0]*LO[1*3+1]*LO[2*3+2]
 endsub
 
 
-
 SUB test_Sort
- for y=1 To 2
-  shellsort_size = 500
-  shellsort_A = A
-  shellsort()
-
-  shellsort_size = 500
-  shellsort_A = B
-  shellsort()
-
-  shellsort_size = 500
-  shellsort_A = C
-  shellsort()
+  for Y=1 To 30
+    T = Vector.Sort(500,A)    
+    T = Vector.Sort(500,B)
+    T = Vector.Sort(500,C)
  EndFor
 endsub
 
 SUB test_TextOut
   for y=0 to 19
-    LCD.MemorizeChanges()
+    LCD.StopUpdate()
     LCD.Clear()
     LCD.Text(1, 0,10, 1, 0+" "+1000+" int_Add")
     LCD.Text(1, 0,20, 1, 1+" "+1000+" int_Mult")
@@ -284,7 +204,7 @@ EndSub
 
 SUB test_graphics
   for y=0 To 99 
-    LCD.MemorizeChanges()
+    LCD.StopUpdate()
     LCD.Clear()
     LCD.Circle(1, 50, 40, 10)
     LCD.FillCircle(1, 30, 24, 10)
@@ -323,17 +243,6 @@ endsub
     B[y]=Math.GetRandomNumber(30000)-1
     C[y]=Math.GetRandomNumber(30000)-1
   endfor
-    
-'shellsort_A = a
-'shellsort_size = 500
-'shellsort()
-'LCD.Clear()
-'For y=0 To 9
-'  LCD.Text(1, 0,10*y, 1, y+": "+shellsort_A[y])
-'EndFor
-'LCD.Update()
-'  Buttons.Flush()
-' Buttons.Wait()
     
   LCD.Clear()
   

@@ -1,0 +1,94 @@
+
+' ----------- VECTOR OPERATIONS ----------------
+
+V = Vector.Init(5, 0)    ' create vector with 5 elements 0
+V[0] = 13                ' add some data
+V[1] = -8                ' add some data
+V[4] = 4                 ' add some data 
+
+' add 7 to every element of V and store in X
+X = Vector.Add(5, V,Vector.Init(5, 7))  
+
+' compute the scalar product of V and X and store in vector Y
+Y = Vector.Multiply(1,1,5, V,X)  
+
+' sort elements of V and store in Z
+Z = Vector.Sort(5,V)
+
+' write all to screen
+LCD.Clear()
+For i=0 To 4
+  LCD.Text(1, 10+20*i,12, 1, V[i])
+  LCD.Text(1, 10+20*i,24, 1, X[i])  
+  LCD.Text(1, 10+20*i,50, 1, Z[i])  
+endfor
+LCD.Text(1, 130,24, 1, Y[0])  
+
+Buttons.Flush()
+Buttons.Wait()
+
+' ---------- MATRIX MULTIPLICATION  ----------
+N = 4
+M = 3
+K = 2
+
+' define a 4 row, 2 column matrix
+A[2*0+0] = 2
+A[2*0+1] = -1
+A[2*1+0] = 1
+A[2*1+1] = 3
+A[2*2+0] = 1
+A[2*2+1] = 2
+A[2*3+0] = -3
+A[2*3+1] = 1
+
+' define a 2 rows, 3 column matrix
+B[3*0+0] = 3
+B[3*0+1] = -1
+B[3*0+2] = 4
+B[3*1+0] = 3
+B[3*1+1] = 2
+B[3*1+2] = -2
+
+' the resulting matrix will have 4 rows, 3 columns
+C = Vector.Multiply(N,M,K, A,B)
+
+' write on LCD
+LCD.Clear()
+For I=0 To N-1
+  For H=0 To K-1
+    LCD.Text(1, 10+30*H,60+12*I, 1, A[K*I+H])  
+  EndFor
+EndFor
+For I=0 To N-1
+  For J=0 To M-1
+    LCD.Text(1, 80+30*J,60+12*I, 1, C[M*I+J])  
+  EndFor
+EndFor
+For H=0 To K-1
+  For J=0 To M-1
+    LCD.Text(1, 80+30*J,20+12*H, 1, B[M*H+J])  
+  EndFor
+EndFor
+
+Buttons.Flush()
+Buttons.Wait()
+
+' ----------------- LARGE SORT -------------
+
+X = Vector.Init(57,0)  ' too vew numbers - will insert 0-values
+For I=0 To 57-1
+  X[i] = Math.GetRandomNumber(1099)-99   ' -99  -  999
+EndFor
+
+Y = Vector.Sort(60,X)
+
+LCD.Clear()
+For I=0 To 12-1
+  For j=0 To 5-1
+    LCD.Text(1, 36*j, 10*i, 1, Y[i*5+j])
+  endfor
+EndFor
+
+Buttons.Flush()
+Buttons.Wait()

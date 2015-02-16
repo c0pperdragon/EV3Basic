@@ -513,6 +513,8 @@ namespace LMSAssembler
             for (int i = 0; i < numobjects; i++)
             {
                 oarray[i].WriteHeader(target, totalheadersize+objectstarts[i]);
+//                oarray[i].print();
+//                Console.ReadKey();
             }
             // write all object bodies
             allbytecodes.WriteTo(target);

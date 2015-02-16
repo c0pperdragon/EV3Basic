@@ -1,0 +1,379 @@
+// ------------------------------------------ BASIC MODULE: TEXT ---------------------------------------------------
+
+subcall TEXT.APPEND     // SSS
+{
+	IN_S a 252
+	IN_S b 252
+    OUT_S result 252
+	
+	DATA16 len0
+	DATA16 len1
+	DATA16 sum
+
+	STRINGS GET_SIZE a len0
+	STRINGS GET_SIZE b len1
+	ADD16 len0,len1,sum
+	JR_GT16 sum,251,stringsizeexceeded
+
+	STRINGS ADD a b result
+	RETURN
+	
+stringsizeexceeded:	
+    STRINGS DUPLICATE a result
+}
+
+subcall TEXT.CONVERTTOLOWERCASE  // SS
+{
+	IN_S a 252
+	OUT_S result 252
+	
+	STRINGS DUPLICATE a INDIRECTMEMORY
+	DATA16 len 
+	STRINGS GET_SIZE a len
+
+	DATA32 i
+	MOVE16_32 len i
+loop:
+	SUB32 i 1 i
+	JR_LT32 i 0 endloop
+	
+	DATA8 c
+	MEMORY_READ 1 0 i 1 c	
+	JR_LT8 c 0 extendedrange    // unicode >= 128 (because c is negative)
+	JR_LT8 c 65 loop            // unicode < 65  (no conversion necessary)
+	JR_GT8 c 90 loop            // unicode > 90  (no conversion necessary)
+	ADD8 c 32 c                 // convert 'A'..'Z' -> 'a'..'z'
+	MEMORY_WRITE 1 0 i 1 c	
+	JR loop	
+extendedrange:     
+	JR_LT8 c -64 loop           // unicode < 192  (no conversion necessary)
+	JR_GT8 c -34 loop           // unicode > 222  (no conversion necessary)
+	JR_EQ8 c -41 loop           // unicode = 215  (no conversion necessary)             
+	ADD8 c 32 c                 // convert to lowercase
+	MEMORY_WRITE 1 0 i 1 c	
+	JR loop								
+endloop:	
+	STRINGS DUPLICATE INDIRECTMEMORY result
+}
+
+subcall TEXT.CONVERTTOUPPERCASE  // SS
+{
+	IN_S a 252
+	OUT_S result 252
+	
+	STRINGS DUPLICATE a INDIRECTMEMORY
+	DATA16 len 
+	STRINGS GET_SIZE a len
+
+	DATA32 i
+	MOVE16_32 len i
+loop:
+	SUB32 i 1 i
+	JR_LT32 i 0 endloop
+	
+	DATA8 c
+	MEMORY_READ 1 0 i 1 c	
+	JR_LT8 c 0 extendedrange    // unicode >= 128 (because c is negative)
+	JR_LT8 c 97 loop            // unicode < 97  (no conversion necessary)
+	JR_GT8 c 122 loop           // unicode > 122  (no conversion necessary)
+	SUB8 c 32 c                 // convert 'a'..'z' -> 'A'..'Z'
+	MEMORY_WRITE 1 0 i 1 c	
+	JR loop	
+extendedrange:     
+	JR_LT8 c -32 loop           // unicode < 224  (no conversion necessary)
+	JR_GT8 c -2 loop            // unicode > 254  (no conversion necessary)
+	JR_EQ8 c -9 loop            // unicode = 247  (no conversion necessary)             
+	SUB8 c 32 c                 // convert to lowercase
+	MEMORY_WRITE 1 0 i 1 c	
+	JR loop								
+endloop:	
+	STRINGS DUPLICATE INDIRECTMEMORY result
+}
+
+subcall TEXT.ENDSWITH    // SSS
+{
+	IN_S a 252
+	IN_S b 252
+	OUT_S result 8
+	
+	DATA16 len0
+	DATA16 len1
+	DATA8 flag
+	
+	STRINGS GET_SIZE a len0
+	STRINGS GET_SIZE b len1
+	JR_LT16 len0 len1 deliverfalse     // second string is longer
+	JR_EQ16 len1 0 deliverfalse        // second string is empty
+	JR_GT16 len0 len1 hasoversize	
+
+	STRINGS COMPARE a b flag           // have same size	
+	JR_EQ8 0 flag deliverfalse
+	STRINGS DUPLICATE 'True' result
+	RETURN
+	
+hasoversize:	
+	DATA16 oversize
+	SUB16 len0 len1 oversize
+	DATA32 offset
+	MOVE16_32 oversize offset
+	DATA32 size
+	MOVE16_32 len1 size
+	ADD32 size 1 size
+	STRINGS DUPLICATE a INDIRECTMEMORY
+	// THIS IS THE ONLY METHOD AVAILABLE FOR INDIRECT ADDRESSING	
+	// (assumes that the current program runs in slot 1)	
+	MEMORY_READ 1 0 offset size INDIRECTMEMORY
+	
+	STRINGS COMPARE INDIRECTMEMORY b flag
+	JR_EQ8 0 flag deliverfalse
+	STRINGS DUPLICATE 'True' result
+	RETURN
+	
+deliverfalse:
+	STRINGS DUPLICATE 'False' result
+}
+
+subcall TEXT.GETINDEXOF   // SSF
+{
+	IN_S a  252
+	IN_S b  252
+	OUT_F result
+
+	DATA16 la
+	DATA16 lb
+	DATA16 diff
+	DATA8 flag
+	
+	STRINGS GET_SIZE a la
+	STRINGS GET_SIZE b lb
+	JR_LTEQ16 lb 0 notfound   // empty search string
+	JR_GT16 lb la notfound  // search string is bigger than a
+	SUB16 la lb diff        // size difference
+	
+	DATAS c 252
+	STRINGS DUPLICATE b c    // prepare temporary string to have correct size
+	STRINGS DUPLICATE a INDIRECTMEMORY  // put a into addressable memory
+
+	DATA32 index
+	DATA32 endindex
+	DATA32 size
+	MOVE16_32 0 index
+	MOVE16_32 diff endindex
+	MOVE16_32 lb size
+loop:	
+	MEMORY_READ 1 0 index size c
+	STRINGS COMPARE b c flag
+	JR_EQ8 flag 0 nothere
+	
+	ADD32 index 1 index   // basic index is starts with 1
+	MOVE32_F index result
+	RETURN
+	
+nothere:	
+	ADD32 index,1,index
+	JR_LTEQ32 index endindex loop
+	
+notfound:
+	MOVE8_F 0 result
+}
+
+subcall TEXT.ISSUBTEXT   // SSS
+{
+	IN_S a  252
+	IN_S b  252
+	OUT_S result 8
+
+	DATA16 la
+	DATA16 lb
+	DATA16 diff
+	DATA8 flag
+	
+	STRINGS GET_SIZE a la
+	STRINGS GET_SIZE b lb
+	JR_LTEQ16 lb 0 notfound   // empty search string
+	JR_GT16 lb la notfound  // search string is bigger than a
+	SUB16 la lb diff        // size difference
+	
+	DATAS c 252
+	STRINGS DUPLICATE b c    // prepare temporary string to have correct size
+	STRINGS DUPLICATE a INDIRECTMEMORY  // put a into addressable memory
+
+	DATA32 index
+	DATA32 endindex
+	DATA32 size
+	MOVE16_32 0 index
+	MOVE16_32 diff endindex
+	MOVE16_32 lb size
+loop:	
+	MEMORY_READ 1 0 index size c
+	STRINGS COMPARE b c flag
+	JR_EQ8 flag 0 nothere
+	
+	STRINGS DUPLICATE 'True' result
+	RETURN
+	
+nothere:	
+	ADD32 index,1,index
+	JR_LTEQ32 index endindex loop
+	
+notfound:	
+	STRINGS DUPLICATE 'False' result
+}
+
+
+subcall TEXT.STARTSWITH    // SSS
+{
+	IN_S a 252
+	IN_S b 252
+	OUT_S result 8
+
+	DATA16 len0
+	DATA16 len1
+	DATA8 flag
+	
+	STRINGS GET_SIZE a len0
+	STRINGS GET_SIZE b len1
+	JR_LT16 len0 len1 deliverfalse     // second string is longer
+	JR_EQ16 len1 0 deliverfalse        // second string is empty
+	JR_GT16 len0 len1 hasoversize	   
+
+	STRINGS COMPARE a b flag           // have same size	
+	JR_EQ8 0 flag deliverfalse
+	STRINGS DUPLICATE 'True' result
+	RETURN
+	
+hasoversize:
+    DATA32 size
+	MOVE16_32 len1 size
+	MEMORY_WRITE 1 0 0 size a
+	MEMORY_WRITE 1 0 size 1 ''
+	STRINGS COMPARE INDIRECTMEMORY b flag
+	JR_EQ8 0 flag deliverfalse
+	STRINGS DUPLICATE 'True' result
+    RETURN
+	
+deliverfalse:
+	STRINGS DUPLICATE 'False' result
+}
+
+subcall TEXT.GETCHARACTER   // FS
+{
+	IN_F c_f
+	OUT_S result 2
+	
+	DATA32 c	
+	MOVEF_32 c_f c
+		
+   	STRINGS DUPLICATE ' ' result
+
+	JR_LT32 c,1,unsupported
+	JR_GT32 c,255,unsupported	
+	
+	MOVE32_8 c result
+	RETURN
+  unsupported:
+	MOVE8_8 1 result
+}
+
+subcall TEXT.GETCHARACTERCODE   // SF
+{
+	IN_S a 4
+	OUT_F result
+
+	DATA16 c
+	MOVE8_16 a c
+	AND16 c 255 c
+	
+	MOVE16_F c result
+}
+
+subcall TEXT.GETSUBTEXT      // SFFS
+{
+	IN_S a 252
+	IN_F start_f
+	IN_F sublength_f
+	OUT_S result 252
+
+	// convert float parameters to integer values
+	DATA16 start
+	DATA16 sublength	
+	MOVEF_16 start_f start	   // rounding towards 0
+	SUB16 start 1 start        // use index 0 for start instead of index 1		
+	MOVEF_16 sublength_f sublength  // rounding towards 0
+	// special handling: a sublength >0.0 and <=1.0 must be treated as 1 (strange behaviour of SmallBasic)
+	JR_NEQ16 sublength 0 nospeciallength
+	JR_LTEQF sublength_f 0.0 nospeciallength
+	MOVE16_16 1 sublength
+nospeciallength:
+	
+	// determine which part of the string needs to be taken (if any)
+	DATA16 len              // length of original string
+	STRINGS GET_SIZE a len
+	
+	JR_LT16 start 0 nothingremains
+	JR_LTEQ16 sublength 0 nothingremains
+	DATA16 lenafterstart
+	SUB16 len start lenafterstart
+	JR_LTEQ16 lenafterstart 0 nothingremains
+
+	JR_LTEQ16 sublength lenafterstart getfullsublength
+	MOVE16_16 lenafterstart sublength      // reduce sublength to available data
+getfullsublength:	
+
+	STRINGS DUPLICATE a INDIRECTMEMORY
+	DATA32 offset
+	DATA32 size
+	DATA32 end
+
+	MOVE16_32 start offset
+	MOVE16_32 sublength size
+	ADD32 offset size end
+
+	MEMORY_WRITE 1 0 end 1 ''    // insert string end marker
+	ADD32 size 1 size            // also copy the end marker
+	MEMORY_READ 1 0 offset size result	
+	RETURN
+	
+nothingremains:
+	STRINGS DUPLICATE '', result
+}
+
+subcall TEXT.GETSUBTEXTTOEND     // SFS
+{
+	IN_S a 252
+	IN_F start_f 
+	OUT_S result 252
+	
+	DATA16 start
+	MOVEF_16 start_f start	
+	SUB16 start 1 start   // use index 0 for start instead of index 1
+	DATA16 len
+	STRINGS GET_SIZE a len
+	
+	JR_LT16 start 0 nothingremains
+	JR_GTEQ16 start len nothingremains
+	
+	STRINGS DUPLICATE a INDIRECTMEMORY
+	DATA32 offset	
+	MOVE16_32 start offset
+	DATA32 size
+	MOVE16_32 len size
+	SUB32 size offset size
+	ADD32 size 1 size
+	MEMORY_READ 1 0 offset size result
+	RETURN
+	
+nothingremains:
+	STRINGS DUPLICATE '', result
+}
+
+subcall TEXT.GETLENGTH      // SF
+{
+	IN_S a 252
+	OUT_F result
+	
+	DATA16 tmp
+	STRINGS GET_SIZE a tmp
+	MOVE16_F tmp result
+}
+

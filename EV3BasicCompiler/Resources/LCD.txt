@@ -1,0 +1,217 @@
+// ------------------------------------------ EV3 MODULE: LCD -------------------------------------------------
+
+subcall LCD.STOPUPDATE    // V
+{
+	MOVE32_32 1 STOPLCDUPDATE
+}
+
+subcall LCD.UPDATE  // V
+{
+	MOVE32_32 0 STOPLCDUPDATE
+	UI_DRAW(UPDATE)
+}
+
+subcall LCD.CLEAR   // V
+{
+	UI_DRAW(TOPLINE,0)
+	UI_DRAW(CLEAN)
+	
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW(UPDATE)
+skipupdate:
+}
+
+subcall LCD.RECT      // FFFFFV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	IN_F w
+	IN_F h	
+	
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16
+	DATA16 w_16
+	DATA16 h_16	
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_16 w w_16
+	MOVEF_16 h h_16
+	
+	UI_DRAW RECT,col_8,x_16,y_16,w_16,h_16
+	
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
+subcall LCD.LINE    // FFFFFV
+{
+	IN_F col
+	IN_F x1
+	IN_F y1
+	IN_F x2
+	IN_F y2	
+	
+	DATA8 col_8
+	DATA16 x1_16
+	DATA16 y1_16
+	DATA16 x2_16
+	DATA16 y2_16		
+	MOVEF_8 col col_8
+	MOVEF_16 x1 x1_16
+	MOVEF_16 y1 y1_16
+	MOVEF_16 x2 x2_16
+	MOVEF_16 y2 y2_16
+	
+	UI_DRAW(LINE,col_8,x1_16,y1_16,x2_16,y2_16)
+	
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
+subcall LCD.TEXT     // FFFFSV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	IN_F font
+	IN_S text 252
+	
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16
+	DATA8 font_8	
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_8 font font_8
+	
+	UI_DRAW SELECT_FONT font_8
+	UI_DRAW TEXT col_8 x_16 y_16 text
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
+subcall LCD.CIRCLE     // FFFFV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	IN_F r
+	
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16
+	DATA16 r_16
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_16 r r_16
+	
+	UI_DRAW CIRCLE col_8 x_16 y_16 r_16
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
+subcall LCD.FILLCIRCLE     // FFFFV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	IN_F r
+	
+	DATA8 col_8	
+	DATA16 x_16
+	DATA16 y_16
+	DATA16 r_16
+
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_16 r r_16
+	
+	UI_DRAW FILLCIRCLE col_8 x_16 y_16 r_16
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:	
+}
+
+subcall LCD.FILLRECT      // FFFFFV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	IN_F w
+	IN_F h	
+	
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16
+	DATA16 w_16
+	DATA16 h_16	
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_16 w w_16
+	MOVEF_16 h h_16
+	
+	UI_DRAW FILLRECT,col_8,x_16,y_16,w_16,h_16
+	
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
+subcall LCD.INVERSERECT    // FFFFV
+{
+	IN_F x
+	IN_F y
+	IN_F w
+	IN_F h	
+	
+	DATA16 x_16
+	DATA16 y_16
+	DATA16 w_16
+	DATA16 h_16
+	
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	MOVEF_16 w w_16
+	MOVEF_16 h h_16
+	
+	UI_DRAW INVERSERECT,x_16,y_16,w_16,h_16
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:	
+}
+
+subcall LCD.PIXEL      // FFFV
+{
+	IN_F col
+	IN_F x
+	IN_F y
+	
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16	
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+
+	UI_DRAW PIXEL,col_8,x_16,y_16
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:	
+}
+

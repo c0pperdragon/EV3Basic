@@ -1,0 +1,10 @@
+
+While "True"
+  LCD.StopUpdate()
+  LCD.Clear()
+  LCD.Text(1, 30,30, 1, "Battery Level")
+  LCD.Text(1, 50,50, 2, EV3.BatteryLevel)
+  LCD.Update()
+  Program.Delay(1000)
+endwhile
+  

@@ -3,7 +3,7 @@ selectmode = 0
 Sensor.SetMode(1, selectmode)
 
 While "True"
-  LCD.MemorizeChanges()
+  LCD.StopUpdate()
   LCD.Clear()
   For i=1 To 4 
       name = Sensor.GetName(i)

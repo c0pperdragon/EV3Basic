@@ -1,6 +1,6 @@
 
 While "True"
-  LCD.MemorizeChanges()
+  LCD.StopUpdate()
   LCD.Clear()
   LCD.Text(1, 0,0,  1, "Plug touch sensors to")
   LCD.Text(1, 0,12, 1, "various ports and ")

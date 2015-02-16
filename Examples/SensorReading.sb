@@ -3,17 +3,17 @@ Sensor.SetMode(1, selectmode)
 
 
 While "True"
-  LCD.MemorizeChanges()
+  LCD.StopUpdate()
   LCD.Clear()      
   LCD.Text(1, 0,0, 1, Sensor.GetName(1))
   LCD.Text(1, 0,16, 1, "MODE: "+Sensor.GetType(1)+":"+Sensor.GetMode(1)+" ("+selectmode+")")
   LCD.Text(1, 0,32, 1, "PERCENT: "+ Sensor.ReadPercent(1))
-  LCD.Text(1, 0,48, 1, "    RAW: "+ Sensor.ReadRaw(1))
-  For i=1 To 4
-    LCD.Text(1, 0,64+(i-1)*16, 1, Sensor.RAW(i))
+  raw = Sensor.ReadRaw(1,8)
+  For i=0 To 3
+    LCD.Text(1, 0,64+i*16, 1, "RAW"+i+":"+raw[i])
   endfor
-  For i=5 To 8
-    LCD.Text(1, 80,64+(i-5)*16, 1, Sensor.RAW(i))
+  For i=4 To 7
+    LCD.Text(1, 80,64+(i-4)*16, 1, "RAW"+i+":"+raw[i])
   endfor
   LCD.Update()
   

@@ -58,6 +58,39 @@
   <ItemGroup>
     <None Include="Resources\runtimelibrary.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LCD.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Speaker.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Buttons.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Motor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sensor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EV3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vector.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Assert.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Math.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Text.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Program.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

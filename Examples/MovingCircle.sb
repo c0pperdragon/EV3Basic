@@ -17,7 +17,7 @@ While "True"
     Program.End()
   endif  
   
-  LCD.MemorizeChanges()
+  LCD.StopUpdate()
   LCD.Clear()
   LCD.Text(1, 0,0, 1, "Use directional buttons ...")
   LCD.FillCircle(1, X,Y, 20)

@@ -52,7 +52,7 @@ namespace SmallBasicEV3Extension
         /// At the next call to Update(), these changes will be finally drawn. 
         /// You can use this feature to prevent flickering or to speed up drawing complex things to the LCD.
         /// </summary>
-        public static void MemorizeChanges()
+        public static void StopUpdate()
         {
             lock (commandBuffer)
             {
@@ -61,8 +61,8 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Draw all changes to the display that have happened since the last call to MemorizeChanges().
-        /// After Update() everthing will again be drawn directly unless you use the MemorizeChanges() once more.
+        /// Draw all changes to the display that have happened since the last call to StopUpdate().
+        /// After Update() everthing will again be drawn directly unless you use the StopUpdate() once more.
         /// </summary>
         public static void Update()
         {

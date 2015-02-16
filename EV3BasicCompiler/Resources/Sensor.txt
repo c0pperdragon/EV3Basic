@@ -1,0 +1,222 @@
+// -------------------------------------------------- EV3 MODULE: SENSOR -----------------------------------
+
+subcall SENSOR.GETNAME		// FS
+{
+	IN_F port
+	OUT_S result 32
+	
+	DATA8 layer
+	DATA8 no
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+	
+	INPUT_DEVICE GET_NAME layer no 32 result
+	STRINGS STRIP result result
+}
+
+subcall SENSOR.GETTYPE		// FF
+{
+	IN_F port
+	OUT_F result
+	
+	DATA8 layer
+	DATA8 no
+	DATA8 type
+	DATA8 mode
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+	
+	INPUT_DEVICE GET_TYPEMODE layer no type mode
+	MOVE8_F type result
+}
+
+subcall SENSOR.GETMODE		// FF
+{
+	IN_F port
+	OUT_F result
+	
+	DATA8 layer
+	DATA8 no
+	DATA8 type
+	DATA8 mode
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+	
+	INPUT_DEVICE GET_TYPEMODE layer no type mode
+	MOVE8_F mode result
+}
+
+subcall SENSOR.GETDATAFORMAT    // FS
+{
+	IN_F port
+	OUT_S result 252
+
+	DATA8 layer
+	DATA8 no
+	DATA8 datasets
+	DATA8 format
+	DATA8 modes
+	DATA8 view
+	DATA16 tmp16
+	DATAS tmps 20
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+
+	INPUT_DEVICE GET_FORMAT layer no datasets format modes view
+	
+	MOVE8_16 datasets tmp16
+	STRINGS NUMBER_TO_STRING tmp16 1 result
+	
+	MOVE8_16 format tmp16
+	STRINGS NUMBER_TO_STRING tmp16 1 tmps	
+	STRINGS ADD result ',' result
+	STRINGS ADD result tmps result
+
+	MOVE8_16 modes tmp16
+	STRINGS NUMBER_TO_STRING tmp16 1 tmps	
+	STRINGS ADD result ',' result
+	STRINGS ADD result tmps result
+}
+
+subcall SENSOR.SETMODE		// FFV
+{
+	IN_F port
+	IN_F mode
+
+	DATA8 layer
+	DATA8 no
+	DATA8 mode8
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+	MOVEF_8 mode mode8
+	
+	INPUT_DEVICE READY_RAW layer no 0 mode8 0
+}
+
+subcall SENSOR.ISBUSY       // FS
+{
+	IN_F port
+	OUT_S result 8
+	
+	DATA8 layer
+	DATA8 no
+	DATA8 busy
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+
+	INPUT_TEST layer no busy
+	
+	JR_EQ8 busy 0 notbusy
+	STRINGS DUPLICATE 'True' result
+	RETURN
+notbusy:	
+	STRINGS DUPLICATE 'False' result
+}
+
+subcall SENSOR.WAIT       // FV
+{
+	IN_F port
+	
+	DATA8 layer
+	DATA8 no
+	
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+
+dotest:	
+	INPUT_TEST layer no busy
+	JR_EQ8 busy 0 notbusy
+	INPUT_READY layer no
+	JR dotest
+
+notbusy:	
+}
+
+
+subcall SENSOR.READPERCENT       // FF
+{
+	IN_F port
+	OUT_F result
+
+	DATA8 layer
+	DATA8 no
+	DATA8 percentage
+
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+
+	INPUT_READ layer no 0 -1 percentage
+	JR_LT8 percentage 0 novalue
+	
+	MOVE8_F percentage result
+	RETURN
+novalue:	
+	MOVE8_F 0 result
+}
+
+subcall SENSOR.READRAW            // FFA
+{
+	IN_F port
+	IN_F values
+	IN_16 resultarray
+	
+	DATA8 layer
+	DATA8 no
+	DATA32 values32
+		
+	MOVEF_8 port no
+	SUB8 no 1 no
+	MOVE8_8 0 layer
+	MOVEF_32 values values32
+
+	JR_LTEQ32 values32 0 arrayempty
+	ARRAY RESIZE resultarray values32
+
+	DATA8 rawvalue0
+	DATA8 rawvalue1
+	DATA8 rawvalue2
+	DATA8 rawvalue3
+	DATA8 rawvalue4
+	DATA8 rawvalue5
+	DATA8 rawvalue6
+	DATA8 rawvalue7
+	INPUT_READEXT layer no 0 -1 18 8 rawvalue0 rawvalue1 rawvalue2 rawvalue3 rawvalue4 rawvalue5 rawvalue6 rawvalue7
+	
+	DATA32 i
+	MOVE32_32 0 i
+loop:
+	DATA8 tmp8
+	DATAF tmpf
+
+	MOVEF_F 0.0 tmpf
+	JR_GTEQ32 i 8 nomoredata
+
+	MOVE32_8 i tmp8
+	READ8 rawvalue0 tmp8 tmp8
+	JR_LT8 tmp8 0 nomoredata
+	MOVE8_F tmp8 tmpf
+
+nomoredata:	
+	ARRAY_WRITE resultarray i tmpf
+
+	ADD32 i 1 i
+	JR_LT32 i values32 loop
+	RETURN
+
+arrayempty:
+	ARRAY RESIZE resultarray 0
+}

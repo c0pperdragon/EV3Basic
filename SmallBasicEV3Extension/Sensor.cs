@@ -16,9 +16,6 @@ namespace SmallBasicEV3Extension
     [SmallBasicType]
     public static class Sensor
     {
-        
-        private static int[] rawvalues = new int[8];
-
         /// <summary>
         /// Get the name and mode of a currently connected sensor. 
         /// This function is mainly intended for diagnostic use because you normally know which sensor is plugged to which port on the model.
@@ -127,14 +124,13 @@ namespace SmallBasicEV3Extension
             if (int.TryParse(mode==null?"":mode.ToString(), out mod))
             {
                 ByteCodeBuffer c = new ByteCodeBuffer();
-                c.OP(0x99);                // INPUT_DEVICE 
-                c.CONST(0x1C);             // CMD: READY_RAW = 0x1C
+                c.OP(0x9A);                // Input_Read
                 c.CONST(layer);
                 c.CONST(no);
-                c.CONST(0);                // 0 = don't change
-                c.CONST(mod);
-                c.CONST(0);                // no return values
-                EV3Communicator.DirectCommand(c, 0, 0);
+                c.CONST(0);                // 0 = don't change type
+                c.CONST(mod);              // set mode
+                c.GLOBVAR(0);
+                EV3Communicator.DirectCommand(c, 1, 0);
             }          
         }
 
@@ -231,16 +227,22 @@ namespace SmallBasicEV3Extension
         /// Read current sensor value where the result from ReadPercent() is not specific enough.
         /// Some sensor modes deliver values that can not be translated to percentage (e.g. a color index) or
         /// that contain multiple values at once (e.g. the individual red, green, blue light intensities). 
-        /// Use this function to get those values. After retrieving a multi-value reading, get the additional
-        /// values with the Raw(index) function.
+        /// Use this function to get those values. 
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>The first value of a raw reading</returns>
-        public static Primitive ReadRaw(Primitive port)
+        /// <param name="values">Requested size of result array</param>
+        /// <returns>An array holding the requested number of values. Index starts at 0. Elements that did get no data are set to 0.</returns>
+        public static Primitive ReadRaw(Primitive port, Primitive values)
         {
             int layer;
             int no;
             DecodePort(port, out layer, out no);
+
+            int _values = values;
+            if (_values<=0)
+            {
+                return new Primitive();  // no values requested - just return empty object
+            }
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x9E);                // Input_ReadExt
@@ -261,48 +263,18 @@ namespace SmallBasicEV3Extension
 
             byte[] result = EV3Communicator.DirectCommand(c, 32, 0);
 
-            if (result == null || result.Length < 32)
+            Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
+            for (int i = 0; i < _values; i++)
             {
-                return new Primitive(0);
-            }
-            else
-            {
-                lock (rawvalues)
+                double v = 0;
+                if (result != null && i*4+3 < result.Length)
                 {
-                    for (int i = 0; i < 8; i++)
-                    {
-                        rawvalues[i] = DecodeRaw(result, i * 4);
-                    }
-                };
-                int v = DecodeRaw(result, 0);
-                return new Primitive(v < 0 ? 0 : v);
-            }
-        }
-
-        /// <summary>
-        /// For sensor readings with multiple values, use this function to retrieve these values.
-        /// At each ReadRaw, all values are memorized until to the next ReadRaw call.
-        /// </summary>
-        /// <param name="index">Which value to take. 1..first value, 2..second value,...</param>
-        /// <returns>One of the components of the previous raw reading</returns>
-        public static Primitive Raw(Primitive index)
-        {
-            int idx;
-            if (int.TryParse(index==null ? "":index.ToString(), out idx))
-            {
-                if (idx >= 1 && idx <= 8)
-                {
-                    lock (rawvalues)
-                    {
-                        int v = rawvalues[idx-1];
-                        return new Primitive(v<0 ? 0:v);
-                    }
+                    v = DecodeRaw(result, i * 4);
                 }
-            }
-            return new Primitive(0);
+                map[new Primitive((double)i)] = new Primitive(v<0 ? 0:v);
+            }            
+            return Primitive.ConvertFromMap(map);
         }
-
-
 
 
         private static void DecodePort(Primitive port, out int layer, out int no)

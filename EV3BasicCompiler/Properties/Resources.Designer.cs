@@ -61,6 +61,237 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to // -------------------------------------- EXTENSION MODULE: ASSERT -----------------------------------
+        ///
+        ///subcall ASSERT.FAILED     // SV  
+        ///{
+        ///	IN_S message 252
+        ///	DATA32 timer
+        ///	
+        ///	UI_DRAW CLEAN
+        ///	UI_DRAW SELECT_FONT 1
+        ///	UI_DRAW TEXT 1 0 16 &apos;ASSERT FAILED&apos;
+        ///
+        ///	DATA8 zerobyte
+        ///	MOVE8_8 0 zerobyte
+        ///	DATA16 y
+        ///	MOVE16_16 32 y
+        ///	
+        ///linesloop:
+        ///	DATA16 len	
+        ///	STRINGS GET_SIZE message len
+        ///	JR_LTEQ16 len 20 lastline
+        ///	
+        ///	STRINGS DUPLICATE message INDIRECTMEMORY
+        ///	MEMORY_WRITE 1 0 20 1 zerobyte
+        ///	UI_DRAW TEXT 1 0  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Assert {
+            get {
+                return ResourceManager.GetString("Assert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: BUTTONS -------------------------------------------------
+        ///
+        ///subcall BUTTONS.CURRENT    // S
+        ///{
+        ///	OUT_S result 8
+        ///
+        ///	DATA8 ispressed
+        ///	
+        ///	STRINGS DUPLICATE &apos;&apos; result	
+        ///	
+        ///	UI_BUTTON PRESSED 1 ispressed
+        ///	JR_EQ8 ispressed 0 not_up
+        ///	STRINGS ADD result &apos;U&apos; result
+        ///not_up:
+        ///	UI_BUTTON PRESSED 2 ispressed
+        ///	JR_EQ8 ispressed 0 not_enter
+        ///	STRINGS ADD result &apos;E&apos; result
+        ///not_enter:
+        ///	UI_BUTTON PRESSED 3 ispressed
+        ///	JR_EQ8 ispressed 0 not_down
+        ///	STRINGS ADD  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Buttons {
+            get {
+                return ResourceManager.GetString("Buttons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: EV3 -------------------------------------------------
+        ///
+        ///subcall EV3.SETLEDCOLOR    // SSV
+        ///{
+        ///	IN_S color 8		// only receive first 7 characters
+        ///	IN_S effect 8       // only receive first 7 characters
+        ///	
+        ///	ARRAY8 color_1 4	// split up to be able to do some operations with 4 bytes each
+        ///	ARRAY8 color_2 4
+        ///	ARRAY8 effect_1 4
+        ///	ARRAY8 effect_2 4
+        ///
+        ///	STRINGS DUPLICATE color color_1
+        ///	STRINGS DUPLICATE effect effect_1	
+        ///	AND8888_32 color_1 -538976289 col [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EV3 {
+            get {
+                return ResourceManager.GetString("EV3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: LCD -------------------------------------------------
+        ///
+        ///subcall LCD.MEMORIZECHANGES    // V
+        ///{
+        ///	MOVE32_32 1 STOPLCDUPDATE
+        ///}
+        ///
+        ///subcall LCD.UPDATE  // V
+        ///{
+        ///	MOVE32_32 0 STOPLCDUPDATE
+        ///	UI_DRAW(UPDATE)
+        ///}
+        ///
+        ///subcall LCD.CLEAR   // V
+        ///{
+        ///	UI_DRAW(TOPLINE,0)
+        ///	UI_DRAW(CLEAN)
+        ///	
+        ///	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+        ///	UI_DRAW(UPDATE)
+        ///skipupdate:
+        ///}
+        ///
+        ///subcall LCD.RECT      // FFFFFV
+        ///{
+        ///	IN_F col
+        ///	IN_F x
+        ///	IN_F y
+        ///	IN_F w
+        ///	IN_F h	
+        ///	
+        ///	DATA8 col_8        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LCD {
+            get {
+                return ResourceManager.GetString("LCD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ---------------------------------------- BASIC MODULE: MATH ---------------------------------------
+        ///
+        ///subcall MATH.PI              // F
+        ///{
+        ///	OUT_F result
+        ///	STRINGS STRING_TO_VALUE &apos;3.1415926535897932384&apos; result
+        ///}
+        ///
+        ///subcall MATH.ABS             // FF
+        ///{
+        ///	IN_F a
+        ///	OUT_F result
+        ///
+        ///	MATH ABS a result
+        ///}
+        ///subcall MATH.ARCCOS          // FF
+        ///{
+        ///	IN_F a
+        ///	OUT_F result
+        ///
+        ///	MATH ACOS a result
+        ///	DIVF result 57.295779513082 result
+        ///}
+        ///subcall MATH.ARCSIN          // FF
+        ///{
+        ///	IN_F a
+        ///	OUT_F result
+        ///
+        ///	MATH ASIN a [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Math {
+            get {
+                return ResourceManager.GetString("Math", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: MOTOR ----------------------------------------------
+        ///
+        ///subcall MOTORDECODEPORTSDESCRIPTOR  //  V
+        ///{
+        ///	IN_S descriptor 8
+        ///	OUT_8 layer
+        ///	OUT_8 nos
+        ///
+        ///	DATA8 i 
+        ///	DATA8 c
+        ///
+        ///	MOVE8_8 0 layer
+        ///	MOVE8_8 0 nos	
+        ///	MOVE8_8 0 i
+        ///loop:
+        ///	READ8 descriptor i c
+        ///	JR_EQ8 c 0 decoding_end
+        ///	
+        ///	JR_LT8 c 65 no_uppercase_port
+        ///	JR_GT8 c 68 no_uppercase_port
+        ///	SUB8 c 65 c
+        ///	RL8  1 c c
+        ///	OR8  nos c nos
+        ///	JR loop_end
+        ///no_uppercase_port:
+        ///	JR_LT8 c 97 no_lowercase_port        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Motor {
+            get {
+                return ResourceManager.GetString("Motor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ BASIC MODULE: PROGRAM -------------------------------------------------
+        ///
+        ///subcall PROGRAM.ARGUMENTCOUNT  // F
+        ///{
+        ///	OUT_F result
+        ///	MOVE8_F 0 result
+        ///}
+        ///
+        ///subcall PROGRAM.DIRECTORY  // S
+        ///{
+        ///	OUT_S result 252
+        ///	FILENAME(GET_FOLDERNAME,252,result)
+        ///}
+        ///
+        ///subcall PROGRAM.GETARGUMENT  // FF
+        ///{
+        ///	IN_F index
+        ///	OUT_S result 8
+        ///	STRINGS DUPLICATE &apos;&apos; result
+        ///}
+        ///
+        ///
+        ///subcall PROGRAM.DELAY    // FV
+        ///{
+        ///	IN_F milliseconds
+        ///	
+        ///	DATA32 milliseconds_32
+        ///	MOVEF_32 milliseconds mi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Program {
+            get {
+                return ResourceManager.GetString("Program", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to // global data for various functions
         ///
         ///DATAS INDIRECTMEMORY 252
@@ -82,7 +313,7 @@ namespace EV3BasicCompiler.Properties {
         ///	IN_F b
         ///	OUT_F result
         ///	
-        ///	JR_EQF C0 b divisionbyzero	
+        ///	JR_EQF 0.0 b divisionbyzero	
         ///	DIVF a b result
         ///	RETURN
         ///divisionbyzero:	
@@ -90,11 +321,159 @@ namespace EV3BasicCompiler.Properties {
         ///	RETURN
         ///}
         ///
-        ///sub [rest of string was truncated]&quot;;.
+        ///su [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string runtimelibrary {
             get {
                 return ResourceManager.GetString("runtimelibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // -------------------------------------------------- EV3 MODULE: SENSOR -----------------------------------
+        ///
+        ///subcall SENSOR.GETNAME		// FS
+        ///{
+        ///	IN_F port
+        ///	OUT_S result 32
+        ///	
+        ///	DATA8 layer
+        ///	DATA8 no
+        ///	
+        ///	MOVEF_8 port no
+        ///	SUB8 no 1 no
+        ///	MOVE8_8 0 layer
+        ///	
+        ///	INPUT_DEVICE GET_NAME layer no 32 result
+        ///	STRINGS STRIP result result
+        ///}
+        ///
+        ///subcall SENSOR.GETTYPE		// FF
+        ///{
+        ///	IN_F port
+        ///	OUT_F result
+        ///	
+        ///	DATA8 layer
+        ///	DATA8 no
+        ///	DATA8 type
+        ///	DATA8 mode
+        ///	
+        ///	MOVEF_8 port no
+        ///	SUB8 no 1 no
+        ///	MOVE8_8 0 layer
+        ///	
+        ///	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Sensor {
+            get {
+                return ResourceManager.GetString("Sensor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: SPEAKER -------------------------------------------------
+        ///
+        ///subcall SPEAKER.STOP      // V
+        ///{
+        ///	SOUND BREAK
+        ///}
+        ///
+        ///subcall SPEAKER.TONE      // FFFV
+        ///{
+        ///	IN_F volume
+        ///	IN_F tone
+        ///	IN_F duration
+        ///	
+        ///	DATA8 vol
+        ///	DATA16 tne
+        ///	DATA16 dur
+        ///	MOVEF_8 volume vol
+        ///	MOVEF_16 tone tne
+        ///	MOVEF_16 duration dur
+        ///	
+        ///	SOUND TONE vol tne dur
+        ///}
+        ///
+        ///subcall SPEAKER.NOTE      // FSFV
+        ///{
+        ///	IN_F volume
+        ///	IN_S note 8
+        ///	IN_F duration
+        ///	
+        ///	DATA8 vol
+        ///	DATA16 tne
+        ///	DATA16 du [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Speaker {
+            get {
+                return ResourceManager.GetString("Speaker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ BASIC MODULE: TEXT ---------------------------------------------------
+        ///
+        ///subcall TEXT.APPEND     // SSS
+        ///{
+        ///	IN_S a 252
+        ///	IN_S b 252
+        ///    OUT_S result 252
+        ///	
+        ///	DATA16 len0
+        ///	DATA16 len1
+        ///	DATA16 sum
+        ///
+        ///	STRINGS GET_SIZE a len0
+        ///	STRINGS GET_SIZE b len1
+        ///	ADD16 len0,len1,sum
+        ///	JR_GT16 sum,251,stringsizeexceeded
+        ///
+        ///	STRINGS ADD a b result
+        ///	RETURN
+        ///	
+        ///stringsizeexceeded:	
+        ///    STRINGS DUPLICATE a result
+        ///}
+        ///
+        ///subcall TEXT.CONVERTTOLOWERCASE  // SS
+        ///{
+        ///	IN_S a 252 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // -------------------------------------- EXTENSION MODULE: VECTOR --------------------------------------------
+        ///
+        ///subcall VECTOR.SORT       // FAA
+        ///{
+        ///    IN_F  num  // number of elements
+        ///	IN_16 a    // original array
+        ///	IN_16 x    // where to store
+        ///
+        ///	ARRAY COPY a x  // copy to target (to be sorted there)
+        ///
+        ///	DATA32 i
+        ///	DATA32 num32
+        ///	DATAF v
+        ///	MOVEF_32 num num32	
+        ///	MOVE32_32 0 i
+        ///loop:
+        ///	JR_GTEQ32 i num32 endofsort
+        ///	ARRAY_READ x i v
+        ///	ADDF v 3.0 v
+        ///	ARRAY_WRITE x i v
+        ///	ADD32 i 1 i
+        ///	JR loop
+        ///
+        ///endofsor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Vector {
+            get {
+                return ResourceManager.GetString("Vector", resourceCulture);
             }
         }
     }

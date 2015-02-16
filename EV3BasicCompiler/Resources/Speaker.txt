@@ -1,0 +1,69 @@
+// ------------------------------------------ EV3 MODULE: SPEAKER -------------------------------------------------
+
+subcall SPEAKER.STOP      // V
+{
+	SOUND BREAK
+}
+
+subcall SPEAKER.TONE      // FFFV
+{
+	IN_F volume
+	IN_F tone
+	IN_F duration
+	
+	DATA8 vol
+	DATA16 tne
+	DATA16 dur
+	MOVEF_8 volume vol
+	MOVEF_16 tone tne
+	MOVEF_16 duration dur
+	
+	SOUND TONE vol tne dur
+}
+
+subcall SPEAKER.NOTE      // FSFV
+{
+	IN_F volume
+	IN_S note 8
+	IN_F duration
+	
+	DATA8 vol
+	DATA16 tne
+	DATA16 dur
+	MOVEF_8 volume vol
+	NOTE_TO_FREQ note tne
+	MOVEF_16 duration dur
+	
+	SOUND TONE vol tne dur
+}
+
+subcall SPEAKER.PLAY    // FSV
+{
+	IN_F volume
+	IN_S filename 252
+	
+	DATA8 vol 
+	MOVEF_8 volume vol
+	
+	SOUND PLAY vol filename
+}
+
+subcall SPEAKER.ISBUSY     // S
+{
+	OUT_S result 8
+	
+	DATA8 busy
+	SOUND_TEST busy
+	JR_EQ8 busy 0 notbusy
+	STRINGS DUPLICATE 'True' result
+	RETURN
+notbusy:
+	STRINGS DUPLICATE 'False' result
+	RETURN
+}
+
+subcall SPEAKER.WAIT     // V
+{
+	SOUND_READY
+}
+

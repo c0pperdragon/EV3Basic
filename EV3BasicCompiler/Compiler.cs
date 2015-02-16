@@ -48,11 +48,26 @@ namespace EV3BasicCompiler
 
         private void readLibrary()
         {
-            StringReader reader = new StringReader(EV3BasicCompiler.Properties.Resources.runtimelibrary);
+            runtimeglobals = "";
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.runtimelibrary);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Assert);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Buttons);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.LCD);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Math);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Motor);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Program);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Sensor);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Text);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Vector);
+        }
+
+        private void readLibraryModule(String moduletext)
+        {
+            StringReader reader = new StringReader(moduletext);
             
             String currentfirstline = null;
             StringBuilder body = new StringBuilder();
-
             StringBuilder globals = new StringBuilder();
 
             String line;
@@ -61,7 +76,7 @@ namespace EV3BasicCompiler
                 if (currentfirstline == null)
                 {
                     int idx = line.IndexOf("subcall");
-                    if (idx >= 0)
+                    if (idx== 0)
                     {
                         currentfirstline = line;
                         body.Length = 0;
@@ -83,7 +98,7 @@ namespace EV3BasicCompiler
                 else
                 {
                     body.AppendLine(line);
-                    if (line.IndexOf("}") >= 0)
+                    if (line.IndexOf("}") == 0)
                     {
                         int idx1 = currentfirstline.IndexOf("subcall") + 7;
                         int idx2 = currentfirstline.IndexOf("//", idx1);
@@ -100,7 +115,7 @@ namespace EV3BasicCompiler
 
             reader.Close();
 
-            runtimeglobals = globals.ToString();
+            runtimeglobals = runtimeglobals + globals.ToString();
         }
 
         public void Compile(Stream source, Stream targetstream, List<String> errorlist)
@@ -444,7 +459,7 @@ namespace EV3BasicCompiler
             String basicvarname = parse_id();
             String varname = "V" + basicvarname;
 
-            if (!variables.ContainsKey(basicvarname))
+            if (!variables.ContainsKey(varname))
             {   
                 variables[varname] = ExpressionType.Number;
             }

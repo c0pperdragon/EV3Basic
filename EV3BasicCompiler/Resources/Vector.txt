@@ -1,0 +1,267 @@
+// -------------------------------------- EXTENSION MODULE: VECTOR --------------------------------------------
+
+subcall VECTOR.INIT       // FFA
+{
+	IN_F size
+	IN_F value
+	IN_16 a
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+
+	ARRAY RESIZE a size32
+	ARRAY FILL a value
+	RETURN
+
+empty:
+    ARRAY RESIZE a 0
+}
+
+subcall VECTOR.ADD        // FAAA
+{
+	IN_F size
+	IN_16 a
+	IN_16 b
+	IN_16 c
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+	ARRAY RESIZE c size32
+
+	DATA32 sizea
+	DATA32 sizeb
+	ARRAY SIZE a sizea
+	ARRAY SIZE b sizeb
+
+	DATA32 i
+	MOVE32_32 0 i
+loop:
+	DATAF sum
+	DATAf tmp
+	MOVEF_F 0.0 sum
+	JR_GTEQ32 i sizea a_too_small
+	ARRAY_READ a i sum
+a_too_small:
+	JR_GTEQ32 i sizeb b_too_small
+	ARRAY_READ b i tmp
+	ADDF sum tmp sum
+b_too_small:
+    ARRAY_WRITE c i sum
+
+	ADD32 i 1 i
+	JR_LT32 i size32 loop
+loopend:
+	RETURN
+
+empty:
+    ARRAY RESIZE c 0
+}
+
+
+subcall VECTOR.SORT       // FAA
+{
+    IN_F  num  // number of elements
+	IN_16 a    // original array
+	IN_16 arr    // where to store
+
+	DATA32 elements
+	MOVEF_32 num elements
+	JR_GT32 elements 0 notempty
+    ARRAY RESIZE arr 0	
+	RETURN
+notempty:
+	// copy to destination array and resize it to correct size
+	ARRAY COPY a arr
+	ARRAY RESIZE arr elements
+	// resizing does not create 0 values, must create manually
+	DATA32 sizea
+	ARRAY SIZE a sizea
+	JR_GTEQ32 sizea elements nomoreelementsneeded
+fillloop:
+	ARRAY_WRITE arr sizea 0.0
+	ADD32 sizea 1 sizea
+	JR_LT32 sizea elements fillloop
+nomoreelementsneeded:
+
+
+                                                 // //  quickSort
+                                                 // //
+                                                 // //  This public-domain C implementation by Darel Rex Finley.
+                                                 // //
+                                                 // //  * This function assumes it is called with valid parameters.
+                                                 // //
+                                                 // //  * Example calls:
+                                                 // //    quickSort(&myArray[0],5); // sorts elements 0, 1, 2, 3, and 4
+                                                 // //    quickSort(&myArray[3],5); // sorts elements 3, 4, 5, 6, and 7
+                                                 //
+                                                 // void quickSort(int *arr, int elements) {
+                                                 // 
+                                                 //  #define  MAX_LEVELS  300
+                                                 //
+    DATAF piv                                    //  int piv;
+	DATA8 i                                      //  int i=0;
+    MOVE8_8 0 i                                 
+	DATA32 L                                     //  int L;
+	DATA32 R                                     //  int R;
+	DATA32 swap                                  //  int SWAP;
+	ARRAY32 beg 128                              //  int beg[MAX_LEVELS];
+	ARRAY32 end 128                              //  int end[MAX_LEVELS];
+                                                 
+	WRITE32 0 0 beg                              //  beg[0]=0; 
+	WRITE32 elements 0 end                       //  end[0]=elements;
+while1:                                          //  while (i>=0) {
+    READ32 beg i L                               //    L=beg[i]; 
+	READ32 end i R                               //    R=end[i]-1;
+	SUB32 R 1 R
+    JR_GTEQ32 L R else1                          //    if (L<R) {
+    ARRAY_READ arr L piv                         //      piv=arr[L];
+    JR_GTEQ32 L R endwhile2                      //      while (L<R) {
+while2:                                          
+while3:         								 //        while (arr[R]>=piv && L<R) 
+    DATAF tmpf
+	ARRAY_READ arr R tmpf
+	JR_LTF tmpf piv endwhile3
+	JR_GTEQ32 L R endwhile3
+    SUB32 R 1 R                                  //           R--; 
+	JR while3											  
+endwhile3:
+	JR_GTEQ32 L R endif2                         //        if (L<R) 
+	ARRAY_READ arr R tmpf						 //           arr[L++]=arr[R];
+	ARRAY_WRITE arr L tmpf
+	ADD32 L 1 L
+endif2:
+while4:                                          //        while (arr[L]<=piv && L<R) 
+    ARRAY_READ arr L tmpf
+	JR_GTF tmpf piv endwhile4
+	JR_GTEQ32 L R endwhile4
+	ADD32 L 1 L								     //            L++; 
+	JR while4
+endwhile4:
+	JR_GTEQ32 L R endif3						 //        if (L<R) 
+	ARRAY_READ arr L tmpf						 //            arr[R--]=arr[L]; 
+	ARRAY_WRITE arr R tmpf
+	SUB32 R 1 R
+endif3:  											     
+    JR_LT32 L R while2                           //      }
+endwhile2:
+    ARRAY_WRITE arr L piv                        //      arr[L]=piv; 
+	DATA8 ip1									 //      beg[i+1]=L+1; 
+	ADD8 i 1 ip1
+	DATA32 tmp32
+	ADD32 L 1 tmp32
+	WRITE32 tmp32 ip1 beg
+	READ32 end i tmp32  						 //      end[i+1]=end[i]; 
+	WRITE32 tmp32 ip1 end
+	WRITE32 L i end	   						     //      end[i++]=L;
+	ADD8 i 1 i
+    DATA8 im1                                    //      if (end[i]-beg[i]>end[i-1]-beg[i-1]) {
+	SUB8 i 1 im1
+	DATA32 diff1
+	DATA32 diff2
+	READ32 end i diff1
+	READ32 beg i tmp32
+	SUB32 diff1 tmp32 diff1
+	READ32 end im1 diff2
+	READ32 beg im1 tmp32
+	SUB32 diff2 tmp32 diff2
+	JR_LTEQ32 diff1 diff2 endif4
+    READ32 beg i swap                            //        swap=beg[i]; 
+	READ32 beg im1 tmp32						 //        beg[i]=beg[i-1]; 
+	WRITE32 tmp32 i beg
+	WRITE32 swap im1 beg						 //        beg[i-1]=swap;
+    READ32 end i swap                            //        swap=end[i];
+	READ32 end im1 tmp32						 //        end[i]=end[i-1]; 
+	WRITE32 tmp32 i end
+	WRITE32 swap im1 end						 //        end[i-1]=swap; 
+endif4:											 //      }
+	JR endif1									 //    }
+else1:                                           //    else {
+    SUB8 i 1 i                                   //      i--;
+endif1:											 //    }
+	JR_GTEQ8 i 0 while1  						 //  }
+												 // }    
+}
+
+subcall VECTOR.MULTIPLY    // FFFAAA
+{
+	IN_F _N        // number of rows in result matrix
+	IN_F _M        // number of columns in result matrix
+	IN_F _K        // second dimension of A and B
+	IN_16 A        // matrix of N rows, K columns
+	IN_16 B        // matrix of K rows, M columns
+	IN_16 C        // result-matrix of N rows, M columns
+	DATA32 N
+	DATA32 M
+	DATA32 K
+	MOVEF_32 _N N
+	MOVEF_32 _M M
+	MOVEF_32 _K K
+
+	// check if the numerical parameters make sense
+	JR_LTEQ32 N 0 outputempty
+	JR_LTEQ32 M 0 outputempty
+
+	// set result matrix to correct size
+	DATA32 MN
+	DATA32 KM
+	MUL32 M N MN
+	MUL32 K M KM
+	ARRAY RESIZE C MN
+	// check if the K value is at least 1 (otherwise can perform no multiplication)
+	JR_GT32 K 0 notallzero
+	ARRAY FILL C 0.0
+	RETURN
+notallzero:
+
+	// get input matrix sizes for quick retrieval
+	DATA32 ALEN
+	DATA32 BLEN
+	ARRAY SIZE A ALEN
+	ARRAY SIZE B BLEN
+
+	DATA32 CIDX
+	MOVE32_32 0 CIDX 
+	DATA32 I
+	MOVE32_32 0 I
+loop_rows:	
+	DATA32 J
+	MOVE32_32 0 J
+loop_columns:
+    DATAF SUM
+	MOVEF_F 0.0 SUM
+
+    DATA32 AIDX 
+	MUL32 I K AIDX
+	DATA32 BIDX
+	MOVE32_32 J BIDX
+loop_scalarproduct:
+	DATAF TMP
+	DATAF PROD
+	JR_GTEQ32 AIDX ALEN nosourceelements
+	JR_GTEQ32 BIDX BLEN nosourceelements
+	ARRAY_READ A AIDX PROD
+	ARRAY_READ B BIDX TMP
+    MULF PROD TMP PROD
+	ADDF SUM PROD SUM
+	ADD32 AIDX 1 AIDX
+	ADD32 BIDX M BIDX
+	JR_LT32 BIDX KM loop_scalarproduct
+nosourceelements:
+
+	ARRAY_WRITE C CIDX SUM
+	ADD32 CIDX 1 CIDX
+
+	ADD32 J 1 J 
+	JR_LT32 J M loop_columns
+	ADD32 I 1 I
+	JR_LT32 I N loop_rows
+
+	RETURN
+
+outputempty:
+	ARRAY RESIZE C 0
+}
+
+

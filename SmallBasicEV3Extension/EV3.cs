@@ -67,6 +67,31 @@ namespace SmallBasicEV3Extension
             EV3Communicator.DirectCommand(c, 0, 0);
         }
 
+        /// <summary>
+        /// The current loading level of the battery (range 0 to 100)
+        /// </summary>
+        public static Primitive BatteryLevel
+        {
+            get
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0x81);           // UI_READ
+                c.CONST(0x12);        // CMD: GET_LBATT = 0x12
+                c.GLOBVAR(0);
+                byte[] result = EV3Communicator.DirectCommand(c, 1, 0);
+                
+                if (result==null || result.Length<1 || result[0]<0)
+                {
+                    return new Primitive(0.0);
+                }
+                else
+                {
+                    return new Primitive( (double) result[0]);
+                }
+            }
+        }
+
+
 
     }
 }
