@@ -135,7 +135,8 @@ subcall SENSOR.WAIT       // FV
 	MOVEF_8 port no
 	SUB8 no 1 no
 	MOVE8_8 0 layer
-
+ 
+    DATA8 busy
 dotest:	
 	INPUT_TEST layer no busy
 	JR_EQ8 busy 0 notbusy

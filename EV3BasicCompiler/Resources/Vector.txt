@@ -25,15 +25,15 @@ subcall VECTOR.ADD        // FAAA
 	IN_16 b
 	IN_16 c
 
-	DATA32 size32
-	MOVEF_32 size size32
-	JR_LTEQ32 size32 0 empty
-	ARRAY RESIZE c size32
-
 	DATA32 sizea
 	DATA32 sizeb
 	ARRAY SIZE a sizea
 	ARRAY SIZE b sizeb
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+	ARRAY RESIZE c size32
 
 	DATA32 i
 	MOVE32_32 0 i
@@ -72,12 +72,18 @@ subcall VECTOR.SORT       // FAA
     ARRAY RESIZE arr 0	
 	RETURN
 notempty:
-	// copy to destination array and resize it to correct size
-	ARRAY COPY a arr
-	ARRAY RESIZE arr elements
-	// resizing does not create 0 values, must create manually
+	
+	// memorize the original size of the input array
 	DATA32 sizea
 	ARRAY SIZE a sizea
+
+	JR_EQ16 a arr output_is_same_array
+	// if output array is not identical to input array, transfer data
+	ARRAY COPY a arr
+output_is_same_array:
+	// resize it  to correct size
+	ARRAY RESIZE arr elements
+	// resizing does not create 0 values, must create manually
 	JR_GTEQ32 sizea elements nomoreelementsneeded
 fillloop:
 	ARRAY_WRITE arr sizea 0.0
@@ -199,28 +205,44 @@ subcall VECTOR.MULTIPLY    // FFFAAA
 	MOVEF_32 _M M
 	MOVEF_32 _K K
 
-	// check if the numerical parameters make sense
-	JR_LTEQ32 N 0 outputempty
-	JR_LTEQ32 M 0 outputempty
-
-	// set result matrix to correct size
-	DATA32 MN
-	DATA32 KM
-	MUL32 M N MN
-	MUL32 K M KM
-	ARRAY RESIZE C MN
-	// check if the K value is at least 1 (otherwise can perform no multiplication)
-	JR_GT32 K 0 notallzero
-	ARRAY FILL C 0.0
-	RETURN
-notallzero:
-
 	// get input matrix sizes for quick retrieval
 	DATA32 ALEN
 	DATA32 BLEN
 	ARRAY SIZE A ALEN
 	ARRAY SIZE B BLEN
 
+	// check if the numerical parameters make sense
+	JR_LTEQ32 N 0 outputempty
+	JR_LTEQ32 M 0 outputempty
+
+	// compute number of elements to compute
+	DATA32 MN
+	DATA32 KM
+	MUL32 M N MN
+	MUL32 K M KM
+
+	// check if the K value is at least 1 (otherwise can perform no multiplication)
+	JR_GT32 K 0 notallzero
+	ARRAY RESIZE C MN
+	ARRAY FILL C 0.0
+	RETURN
+notallzero:
+
+	// check if the output should be written into one of the input matrizes -
+	// need to create temporary storage to hold data while computation runs
+	DATA16 TARGET
+	JR_EQ16 C A needtemporary
+	JR_NEQ16 C B dontneedtemporary
+needtemporary:
+	// create computation target of correct size
+	ARRAY CREATEF MN TARGET
+	JR startcopy
+dontneedtemporary:
+	// set the result matrix to correct size
+	ARRAY RESIZE C MN
+	MOVE16_16 C TARGET
+
+startcopy:
 	DATA32 CIDX
 	MOVE32_32 0 CIDX 
 	DATA32 I
@@ -250,7 +272,7 @@ loop_scalarproduct:
 	JR_LT32 BIDX KM loop_scalarproduct
 nosourceelements:
 
-	ARRAY_WRITE C CIDX SUM
+	ARRAY_WRITE TARGET CIDX SUM
 	ADD32 CIDX 1 CIDX
 
 	ADD32 J 1 J 
@@ -258,6 +280,11 @@ nosourceelements:
 	ADD32 I 1 I
 	JR_LT32 I N loop_rows
 
+	// check if need to store temporay data to output
+	JR_EQ16 C TARGET notemporary
+	ARRAY COPY TARGET C
+	ARRAY DELETE TARGET
+notemporary:
 	RETURN
 
 outputempty:

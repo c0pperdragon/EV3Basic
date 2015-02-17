@@ -16,3 +16,6 @@ D = B        ' copy a whole string array
 Assert.Equal(D[7], "world", "After string array copy")
 Assert.Equal(D[4], "", "Empty in copy")
 
+LCD.Clear()
+LCD.Text(1, 50,50, 1,"OK")
+Buttons.Wait()

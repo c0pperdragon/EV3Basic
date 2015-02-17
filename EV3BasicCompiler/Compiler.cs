@@ -58,6 +58,7 @@ namespace EV3BasicCompiler
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Motor);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Program);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Sensor);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Speaker);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Text);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Vector);
         }
@@ -75,8 +76,7 @@ namespace EV3BasicCompiler
             {
                 if (currentfirstline == null)
                 {
-                    int idx = line.IndexOf("subcall");
-                    if (idx== 0)
+                    if (line.IndexOf("subcall")==0 || line.IndexOf("inline")==0)
                     {
                         currentfirstline = line;
                         body.Length = 0;
@@ -100,12 +100,13 @@ namespace EV3BasicCompiler
                     body.AppendLine(line);
                     if (line.IndexOf("}") == 0)
                     {
-                        int idx1 = currentfirstline.IndexOf("subcall") + 7;
+                        bool inline = currentfirstline.StartsWith("inline");
+                        int idx1 = inline ? 6:7;
                         int idx2 = currentfirstline.IndexOf("//", idx1);
                         String functionname = currentfirstline.Substring(idx1, idx2 - idx1).Trim();
                         String[] descriptorandreferences = currentfirstline.Substring(idx2 + 2).Trim().Split(new char[]{' ','\t'}, StringSplitOptions.RemoveEmptyEntries);
 
-                        LibraryEntry le = new LibraryEntry(descriptorandreferences, body.ToString());
+                        LibraryEntry le = new LibraryEntry(inline, descriptorandreferences, body.ToString());
                         library[functionname] = le;
 
                         currentfirstline = null;
@@ -197,16 +198,6 @@ namespace EV3BasicCompiler
             {
                 target.WriteLine("DATAS S" + i + " 252");
             }
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.NumberArray) && i < maxreservedtemporaries[ExpressionType.NumberArray]; i++)
-            {
-                target.WriteLine("ARRAY16 A" + i + " 2");
-                initlist.WriteLine("    CALL ARRAYCREATE_FLOAT A" + i);
-            }
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.TextArray) && i < maxreservedtemporaries[ExpressionType.TextArray]; i++)
-            {
-                target.WriteLine("ARRAY16 X" + i + " 2");
-                initlist.WriteLine("    CALL ARRAYCREATE_STRING X" + i);
-            }
             target.WriteLine();
 
             target.WriteLine("vmthread MAIN");
@@ -223,7 +214,10 @@ namespace EV3BasicCompiler
 //            {   LibraryEntry le = (LibraryEntry) de.Value;
             foreach (LibraryEntry le in references)
             {
-                target.Write(le.programCode);
+                if (!le.inline)
+                {
+                    target.Write(le.programCode);
+                }
             }
             target.Flush();
         }
@@ -246,13 +240,14 @@ namespace EV3BasicCompiler
                     return "F" + (n - 1);
                 case ExpressionType.Text: 
                     return "S" + (n - 1);
-                case ExpressionType.NumberArray: 
-                    return "A" + (n - 1);
-                case ExpressionType.TextArray: 
-                    return "X" + (n - 1);
                 default:
-                    throw new Exception("Can not allocate temporary variable of type " + type);
-            }
+                    s.ThrowParseError("Return value that is an array must be directly stored in a variable");
+                    return "";
+//                case ExpressionType.NumberArray: 
+//                    return "A" + (n - 1);
+//                case ExpressionType.TextArray: 
+//                    return "X" + (n - 1);
+          }
         }
         public void releaseVariable(ExpressionType type)
         {
@@ -263,14 +258,14 @@ namespace EV3BasicCompiler
 
         // --------------------------- TOP-DOWN PARSER -------------------------------
 
-        private void memorize_reference(String name)
+        public void memorize_reference(String name)
         {
             LibraryEntry impl = (LibraryEntry)library[name];
             if (impl == null)
             {
-                throw new Exception("Reference to undefined function: " + name);
+                s.ThrowParseError("Reference to undefined function: " + name);
             }
-            if (!references.Contains(impl))
+            else if (!references.Contains(impl))
             {
                 references.Add(impl);
                 for (int i=0; i<impl.references.Length; i++)
@@ -331,7 +326,7 @@ namespace EV3BasicCompiler
                 }
                 else
                 {
-                    throw new Exception("Unknown PRAGMA: " + s.NextContent);
+                    s.ThrowParseError("Unknown PRAGMA: " + s.NextContent);
                 }
                 s.GetSym();
                 return;
@@ -500,7 +495,6 @@ namespace EV3BasicCompiler
                 }
                 incexpression = new CallExpression(ExpressionType.Number, "ADDF", 
                     new AtomicExpression(ExpressionType.Number, varname), stepexpression);
-                memorize_reference("LE_STEP");
             }
             else
             {
@@ -508,7 +502,6 @@ namespace EV3BasicCompiler
                     new AtomicExpression(ExpressionType.Number, varname), stopexpression);
                 incexpression = new CallExpression(ExpressionType.Number, "ADDF", 
                     new AtomicExpression(ExpressionType.Number, varname), new NumberExpression(1.0));
-                memorize_reference("LE");
             }
             parse_eol();
 
@@ -635,7 +628,6 @@ namespace EV3BasicCompiler
 
             if (e.type==ExpressionType.Text)
             {
-                memorize_reference("ARRAYSTORE_STRING");
                 Expression aex = new CallExpression(ExpressionType.Void, "CALL ARRAYSTORE_STRING :0 :1 "+varname, eidx, e);
                 aex.Generate(this, target, null);
             }
@@ -660,7 +652,6 @@ namespace EV3BasicCompiler
                 }
                 else
                 {
-                    memorize_reference("ARRAYSTORE_FLOAT");
                     Expression aex = new CallExpression(ExpressionType.Void, "CALL ARRAYSTORE_FLOAT :0 :1 " + varname, eidx, e);
                     aex.Generate(this, target, null);
                 }
@@ -695,7 +686,7 @@ namespace EV3BasicCompiler
             }
             parse_special(")");
 
-            Expression ex = new CallExpression(ExpressionType.Void, "CALL " + functionname, list);
+            Expression ex = new CallExpression(ExpressionType.Void, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
             if (libentry.returnType==ExpressionType.Void)
             {   ex.Generate(this, target, null);
             }
@@ -705,8 +696,6 @@ namespace EV3BasicCompiler
                 ex.Generate(this,target,retvar);
                 releaseVariable(libentry.returnType);
             }
-
-            memorize_reference(functionname);
         }
 
 
@@ -759,7 +748,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_and_expression();
                     if (right.type!=ExpressionType.Text) s.ThrowParseError("need text on right side of OR");
                     total = new OrExpression(total, right);
-                    memorize_reference("OR");
                 }
                 else
                 {
@@ -782,7 +770,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_comparative_expression();
                     if (right.type!=ExpressionType.Text) s.ThrowParseError("need text on right side of AND");
                     total = new AndExpression(total, right);
-                    memorize_reference("AND");
                 }
                 else
                 {
@@ -850,7 +837,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_additive_expression();
                     if (right.type!=ExpressionType.Number) s.ThrowParseError("need number on right side of '<'");
                     total = new ComparisonExpression("CALL LT", "JR_LTF", "JR_GTEQF", total, right);
-                    memorize_reference("LT");
                 }
                 else if (s.NextIsSPECIAL(">"))
                 {
@@ -859,7 +845,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_additive_expression();
                     if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '>'");
                     total = new ComparisonExpression("CALL GT", "JR_GTF", "JR_LTEQF", total, right);
-                    memorize_reference("GT");
                 }
                 else if (s.NextIsSPECIAL("<="))
                 {
@@ -868,7 +853,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_additive_expression();
                     if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '<='");
                     total = new ComparisonExpression("CALL LE", "JR_LTEF", "JR_GTF", total, right);
-                    memorize_reference("LE");
                 }
                 else if (s.NextIsSPECIAL(">="))
                 {
@@ -877,7 +861,6 @@ namespace EV3BasicCompiler
                     Expression right = parse_additive_expression();
                     if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '>='");
                     total = new ComparisonExpression("CALL GE", "JR_GTEQF", "JR_LTF", total, right);
-                    memorize_reference("GE");
                 }
                 else
                 {
@@ -912,7 +895,6 @@ namespace EV3BasicCompiler
                             s.ThrowParseError("Can not concat arrays");
                         }
                         total = new CallExpression(ExpressionType.Text, "CALL TEXT.APPEND", total, right);
-                        memorize_reference("TEXT.APPEND");
                     }
                     else if (total.type==ExpressionType.Number)
                     {
@@ -920,7 +902,6 @@ namespace EV3BasicCompiler
                         {
                             total = new CallExpression(ExpressionType.Text, "STRINGS VALUE_FORMATTED :0 '%g' 99", total);
                             total = new CallExpression(ExpressionType.Text, "CALL TEXT.APPEND", total, right);
-                            memorize_reference("TEXT.APPEND");
                         }
                         else if (right.type == ExpressionType.Number)
                         {                            
@@ -1013,7 +994,6 @@ namespace EV3BasicCompiler
                         else
                         {
                             total = new CallExpression(ExpressionType.Number, "CALL DIV", total, right);
-                            memorize_reference("DIV");
                         }
                     }
                 }
@@ -1065,7 +1045,7 @@ namespace EV3BasicCompiler
                 String val = s.NextContent;
                 if (val.Length>251)
                 {
-                    throw new Exception("Text is longer than 251 letters");
+                    s.ThrowParseError("Text is longer than 251 letters");
                 }
                 s.GetSym();
                 return new AtomicExpression(ExpressionType.Text, "'" + EscapeString(val) + "'");
@@ -1075,7 +1055,7 @@ namespace EV3BasicCompiler
                 double val;
                 if (!double.TryParse(s.NextContent, NumberStyles.Float, CultureInfo.InvariantCulture, out val))
                 {
-                    throw new Exception("Can not decode number: "+s.NextContent);
+                    s.ThrowParseError("Can not decode number: "+s.NextContent);
                 }
                 s.GetSym();
                 return new NumberExpression(val);
@@ -1116,7 +1096,6 @@ namespace EV3BasicCompiler
 
                     if (atype==ExpressionType.Text)
                     {
-                        memorize_reference("ARRAYGET_STRING");
                         return new CallExpression(ExpressionType.Text, "CALL ARRAYGET_STRING :0 :1 "+varname, e);
                     }
                     else
@@ -1127,7 +1106,6 @@ namespace EV3BasicCompiler
                         }
                         else
                         {
-                            memorize_reference("ARRAYGET_FLOAT");
                             return new CallExpression(ExpressionType.Number, "CALL ARRAYGET_FLOAT :0 :1 " + varname, e);
                         }
                     }
@@ -1198,8 +1176,7 @@ namespace EV3BasicCompiler
                 }
             }
 
-            memorize_reference(functionname);
-            return new CallExpression(libentry.returnType, "CALL " + functionname, list);
+            return new CallExpression(libentry.returnType, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
         }
 
         private String parse_id()

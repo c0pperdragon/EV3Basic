@@ -1,6 +1,6 @@
 // -------------------------------------- EXTENSION MODULE: ASSERT -----------------------------------
 
-subcall ASSERT.FAILED     // SV  
+subcall ASSERT.FAILED     // SV         TEXT.GETSUBTEXT TEXT.GETSUBTEXTTOEND
 {
 	IN_S message 252
 	DATA32 timer
@@ -9,8 +9,6 @@ subcall ASSERT.FAILED     // SV
 	UI_DRAW SELECT_FONT 1
 	UI_DRAW TEXT 1 0 16 'ASSERT FAILED'
 
-	DATA8 zerobyte
-	MOVE8_8 0 zerobyte
 	DATA16 y
 	MOVE16_16 32 y
 	
@@ -19,13 +17,12 @@ linesloop:
 	STRINGS GET_SIZE message len
 	JR_LTEQ16 len 20 lastline
 	
-	STRINGS DUPLICATE message INDIRECTMEMORY
-	MEMORY_WRITE 1 0 20 1 zerobyte
-	UI_DRAW TEXT 1 0 y INDIRECTMEMORY
-	
-	ADD16 y,16,y	
-	STRINGS DUPLICATE message INDIRECTMEMORY
-	MEMORY_READ 1 0 20 232 message
+	DATAS oneline 32
+	CALL TEXT.GETSUBTEXT message 1.0 20.0 oneline
+	UI_DRAW TEXT 1 0 y oneline
+	ADD16 y 12 y
+
+	CALL TEXT.GETSUBTEXTTOEND message 21.0 message
 		
 	JR linesloop
 	

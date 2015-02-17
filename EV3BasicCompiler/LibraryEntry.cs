@@ -7,6 +7,8 @@ namespace EV3BasicCompiler
 {
     class LibraryEntry
     {
+        public readonly bool inline;
+
         public readonly ExpressionType returnType;
         public readonly ExpressionType[] paramTypes;
 
@@ -14,8 +16,9 @@ namespace EV3BasicCompiler
 
         public readonly String programCode;
 
-        public LibraryEntry(String[] descriptor_and_references, String code)
+        public LibraryEntry(bool inline, String[] descriptor_and_references, String code)
         {
+            this.inline = inline;
             String descriptor = descriptor_and_references[0];
             returnType = decodeType(descriptor[descriptor.Length-1]);
 
@@ -31,6 +34,13 @@ namespace EV3BasicCompiler
                 references[i] = descriptor_and_references[1 + i];
             }
 
+            // for inlining code, trim away "{" and "}"
+            if (inline)
+            {
+                int startbrace = code.IndexOf('{');
+                int endbrace = code.IndexOf('}');
+                code = code.Substring(startbrace + 1, endbrace - startbrace - 2).Trim();
+            }
             programCode = code;
         }
 

@@ -1,7 +1,0 @@
-
-
-For i=1 To 100000
-  LCD.Clear()
-  LCD.Text(1, 20,40, 1, EV3.Time)
-  Program.Delay(100)
-EndFor

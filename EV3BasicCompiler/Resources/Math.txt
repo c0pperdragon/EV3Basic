@@ -1,41 +1,28 @@
 // ---------------------------------------- BASIC MODULE: MATH ---------------------------------------
 
-subcall MATH.PI              // F
+inline MATH.PI              // F
 {
-	OUT_F result
-	STRINGS STRING_TO_VALUE '3.1415926535897932384' result
+	MOVEF_F 3.1415926535897932384 :0
 }
 
-subcall MATH.ABS             // FF
+inline MATH.ABS             // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH ABS a result
+	MATH ABS :0 :1
 }
-subcall MATH.ARCCOS          // FF
+inline MATH.ARCCOS          // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH ACOS a result
-	DIVF result 57.295779513082 result
+	MATH ACOS :0 :1
+	DIVF :1 57.295779513082 :1
 }
-subcall MATH.ARCSIN          // FF
+inline MATH.ARCSIN          // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH ASIN a result
-	DIVF result 57.295779513082 result
+	MATH ASIN :0 :1
+	DIVF :1 57.295779513082 :1
 }
-subcall MATH.ARCTAN          // FF
+inline MATH.ARCTAN          // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH ATAN a result
-	DIVF result 57.295779513082 result
+	MATH ATAN :0 :1
+	DIVF :1 57.295779513082 :1
 }
 subcall MATH.CEILING          // FF
 {
@@ -48,34 +35,22 @@ subcall MATH.CEILING          // FF
 preventnegativezero:	
 	MOVE32_F 0 result
 }
-subcall MATH.COS              // FF
+inline MATH.COS              // FF
 {
-	IN_F a
-	OUT_F result
-
-	MULF a 57.295779513082 a
-	MATH COS a result
+	MULF :0 57.295779513082 :1
+	MATH COS :1 :1
 }
-subcall MATH.FLOOR          // FF
+inline MATH.FLOOR          // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH FLOOR a result
+	MATH FLOOR
 }
-subcall MATH.GETDEGREES       // FF
+inline MATH.GETDEGREES       // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MULF a 57.295779513082 result
+	MULF :0 57.295779513082 :1
 }
-subcall MATH.GETRADIANS       // FF
+inline MATH.GETRADIANS       // FF
 {
-	IN_F a
-	OUT_F result
-
-	DIVF a 57.295779513082 result
+	DIVF :0 57.295779513082 :1
 }
 subcall MATH.GETRANDOMNUMBER   // FF
 {
@@ -89,12 +64,9 @@ subcall MATH.GETRANDOMNUMBER   // FF
 	RANDOM 1 range_16 value
 	MOVE16_F value result
 }
-subcall MATH.LOG               // FF
+inline MATH.LOG               // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MATH LOG a result
+	MATH LOG
 }
 subcall MATH.MAX              // FFF
 {
@@ -120,57 +92,34 @@ subcall MATH.MIN              // FFF
 biggerb:
 	MOVEF_F a result
 }
-subcall MATH.NATURALLOG       // FF
+inline MATH.NATURALLOG       // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MATH LN a result
+	MATH LN
 }
-subcall MATH.POWER            // FFF
+inline MATH.POWER            // FFF
 {
-	IN_F base
-	IN_F exponent
-	OUT_F result
-	
-	MATH POW base exponent result
+	MATH POW
 }
-subcall MATH.REMAINDER        // FFF
+inline MATH.REMAINDER        // FFF
 {
-	IN_F dividend
-	IN_F divisor
-	OUT_F result
-	
-	MATH MOD dividend divisor result
+	MATH MOD 
 }
-subcall MATH.ROUND           // FF
+inline MATH.ROUND           // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MATH ROUND a result
+	MATH ROUND 
 }
-subcall MATH.SIN            // FF
+inline MATH.SIN                // FF
 {
-	IN_F a
-	OUT_F result	
-	
-	MULF a 57.295779513082 a
-	MATH SIN a result
+	MULF :0 57.295779513082 :1
+	MATH SIN :1 :1
 }
-subcall MATH.SQUAREROOT      // FF
+inline MATH.SQUAREROOT      // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MATH SQRT a result
+	MATH SQRT
 }
-subcall MATH.TAN            // FF
+inline MATH.TAN            // FF
 {
-	IN_F a
-	OUT_F result
-	
-	MULF a 57.295779513082 a
-	MATH TAN a result
+	MULF :0 57.295779513082 :1
+	MATH TAN :1 :1
 }
 

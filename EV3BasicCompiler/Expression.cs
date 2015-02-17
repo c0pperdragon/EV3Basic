@@ -132,6 +132,21 @@ namespace EV3BasicCompiler
         {
             return var_or_string;
         }
+
+        override public void GenerateJumpIfCondition(Compiler compiler, TextWriter target, String jumplabel, bool jumpIfTrue)
+        {
+            if (type==ExpressionType.Text && var_or_string.StartsWith("'"))
+            {
+                bool isTrue = var_or_string.Equals("'TRUE'", StringComparison.InvariantCultureIgnoreCase);
+                if (jumpIfTrue == isTrue)
+                {
+                    target.WriteLine("    JR " + jumplabel);
+                }
+                return;
+            }
+            base.GenerateJumpIfCondition(compiler, target, jumplabel, jumpIfTrue);
+        }
+
     }
 
     class CallExpression : Expression
@@ -187,18 +202,7 @@ namespace EV3BasicCompiler
             String tmpoutput = null;
             if (outputvar != null)
             {
-                if ((type==ExpressionType.NumberArray || type==ExpressionType.TextArray) && arguments.Contains(outputvar))
-                {   // in the case of array operations prevent to have one parameter as output target also.
-                    // this could lead to data being overwritten while it is in use. introduce a termporary variable
-                    // for such cases
-                    tmpoutput = compiler.reserveVariable(type);
-                    releases.Add(type);
-                    arguments.Add(tmpoutput);
-                }
-                else
-                {
-                    arguments.Add(outputvar);
-                }
+                arguments.Add(outputvar);                
             }
 
             // build a function call with properly injected arguments (where this is needed)
@@ -223,10 +227,23 @@ namespace EV3BasicCompiler
             {
                 compiler.releaseVariable(et);
             }
+
+            // check if this was a call of a library method
+            if (function.StartsWith("CALL "))
+            {
+                String n = function.Substring(5).Trim();
+                int idx = n.IndexOf(' ');
+                if (idx>=0)
+                {
+                    n = n.Substring(0,idx).Trim();
+                }
+                compiler.memorize_reference(n);
+            }
         }
 
         private static String InjectPlaceholders(String format, List<String>par)
         {
+            List<int> uses = new List<int>();
             int cursor = 0;
             while (cursor < format.Length)
             {
@@ -234,7 +251,7 @@ namespace EV3BasicCompiler
                 int idx = format.IndexOf(':', cursor);
                 if (idx < 0)
                 {
-                    return format;
+                    break;
                 }
                 // get the character after the ':' to know which parameter to take
                 int pnum = format[idx + 1] - '0';
@@ -242,9 +259,16 @@ namespace EV3BasicCompiler
                 format = format.Substring(0, idx) + par[pnum] + format.Substring(idx + 2);
                 // skip the parameter that was just put in place
                 cursor = cursor + par[pnum].Length;
-                // remove the parameter so it will not be used twice
+                // memorize that his parameter was used 
+                uses.Add(pnum);
+            }
+
+            // remove the used parameters from the list, so it will not be auto-appended
+            foreach (int pnum in uses)
+            {
                 par[pnum] = null;
             }
+
             return format;
         }
     }

@@ -1,0 +1,10 @@
+
+
+For i=1 To 100000
+  LCD.StopUpdate()
+  LCD.Clear()
+  LCD.Text(1, 20,20, 1, "Time since start")
+  LCD.Text(1, 20,40, 1, EV3.Time+" ms")
+  LCD.Update()  
+  Program.Delay(100)
+EndFor

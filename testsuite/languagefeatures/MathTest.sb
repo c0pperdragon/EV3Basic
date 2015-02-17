@@ -110,3 +110,8 @@ Assert.Equal(1.5*2, 3.0, "Multiplication 1")
 Assert.Equal(1.5*-2, -3, "Multiplication 2")
 Assert.Equal(1.5*-0, 0, "Multiplication 3")
 Assert.Equal(-0, 0, "Negative Zero")
+
+
+LCD.Clear()
+LCD.Text(1,50,50,1,"OK")
+Buttons.Wait()

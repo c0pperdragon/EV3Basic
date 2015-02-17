@@ -106,3 +106,8 @@ If "nixi"="NIXI" Then
   Assert.Failed("different casings must not be equal")
 EndIf
 
+
+LCD.Clear()
+LCD.Text(1,50,50,1,"OK")
+Buttons.Wait()
+

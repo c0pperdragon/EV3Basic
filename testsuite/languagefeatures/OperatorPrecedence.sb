@@ -21,3 +21,8 @@ EndIf
 If "False" And "True" <> "True" then
   Assert.Failed("Comparator must be evaluated before AND")
 EndIf
+
+
+LCD.Clear()
+LCD.Text(1, 50,50, 1, "OK")
+Buttons.Wait()
