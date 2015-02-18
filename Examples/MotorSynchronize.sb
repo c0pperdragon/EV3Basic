@@ -1,0 +1,2 @@
+Motor.ScheduleSyncForCount("AD",100,200,1000,"false")
+Program.Delay(5000)

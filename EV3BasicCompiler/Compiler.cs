@@ -107,7 +107,7 @@ namespace EV3BasicCompiler
                         String[] descriptorandreferences = currentfirstline.Substring(idx2 + 2).Trim().Split(new char[]{' ','\t'}, StringSplitOptions.RemoveEmptyEntries);
 
                         LibraryEntry le = new LibraryEntry(inline, descriptorandreferences, body.ToString());
-                        library[functionname] = le;
+                        library[functionname.ToUpperInvariant()] = le;
 
                         currentfirstline = null;
                     }
