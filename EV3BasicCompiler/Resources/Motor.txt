@@ -30,9 +30,9 @@ no_uppercase_port:
 	OR8  nos c nos	
 	JR loop_end
 no_lowercase_port:
-	JR_LT8 c 48 loop_end
-	JR_GT8 c 51 loop_end
-	SUB8 c 48 layer
+	JR_LT8 c 49 loop_end
+	JR_GT8 c 52 loop_end
+	SUB8 c 49 layer
 loop_end:
 	ADD8 1 i i
 	JR loop	
@@ -69,9 +69,9 @@ no_uppercase_port:
 	MOVE8_8 c no
 	JR loop_end
 no_lowercase_port:
-	JR_LT8 c 48 loop_end
-	JR_GT8 c 51 loop_end
-	SUB8 c 48 layer
+	JR_LT8 c 49 loop_end
+	JR_GT8 c 52 loop_end
+	SUB8 c 49 layer
 loop_end:
 	ADD8 1 i i
 	JR loop	

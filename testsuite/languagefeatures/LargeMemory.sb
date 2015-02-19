@@ -1,0 +1,27 @@
+' Test program to chech how much memory is available for variables
+
+SIZE = 1000000
+
+LCD.Clear()
+A = Vector.Init(SIZE, 4711)
+LCD.Text(1, 10,0, 1,   "A["+(SIZE-1)+"] = " + A[SIZE-1])
+B = Vector.Init(SIZE, 815)
+LCD.Text(1, 10,12, 1,  "B["+(SIZE-1)+"] = " + B[SIZE-1])
+C = Vector.Init(SIZE, 1111)
+LCD.Text(1, 10,24, 1,  "C["+(SIZE-1)+"] = " + C[SIZE-1])
+D = Vector.Init(SIZE, 2222)
+LCD.Text(1, 10,36, 1,  "D["+(SIZE-1)+"] = " + D[SIZE-1])
+E = Vector.Init(SIZE, 3333)
+LCD.Text(1, 10,48, 1,  "E["+(SIZE-1)+"] = " + E[SIZE-1])
+F = Vector.Init(SIZE, 4444)
+LCD.Text(1, 10,60, 1,  "F["+(SIZE-1)+"] = " + F[SIZE-1])
+G = Vector.Init(SIZE, 5555)
+LCD.Text(1, 10,72, 1,  "G["+(SIZE-1)+"] = " + G[SIZE-1])
+H = Vector.Init(SIZE, 666)
+LCD.Text(1, 10,84, 1,  "H["+(SIZE-1)+"] = " + H[SIZE-1])
+I = Vector.Init(SIZE, 1234)
+LCD.Text(1, 10,96, 1,  "I["+(SIZE-1)+"] = " + I[SIZE-1])
+J = Vector.Init(SIZE, 5678)
+LCD.Text(1, 10,108, 1, "J["+(SIZE-1)+"] = " + J[SIZE-1])
+
+Buttons.Wait()

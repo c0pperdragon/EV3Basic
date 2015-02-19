@@ -97,7 +97,7 @@ namespace SmallBasicEV3Extension
 
                         // set up local ping thread to periodically send a command to the watchdog
                         // program to keep it alive (and check if the brick is still operating)
-                        (new Thread(runpings)).Start();
+                        (new System.Threading.Thread(runpings)).Start();
                     }
 
                     // finally execute the command
@@ -176,7 +176,7 @@ namespace SmallBasicEV3Extension
                         System.Environment.Exit(1);
                     }
                 }
-                Thread.Sleep(500);
+                System.Threading.Thread.Sleep(500);
             }
         }
     }

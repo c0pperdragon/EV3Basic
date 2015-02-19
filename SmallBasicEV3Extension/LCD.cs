@@ -19,6 +19,7 @@ namespace SmallBasicEV3Extension
         private static ByteCodeBuffer commandBuffer = new ByteCodeBuffer();
         private static bool autoflush = true;
 
+        // must be called while holding a lock on commandBuffer
         private static void CheckFlush()
         {
             if ( (commandBuffer.Length>0 && autoflush)

@@ -10,7 +10,8 @@ subcall SENSOR.GETNAME		// FS
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 	
 	INPUT_DEVICE GET_NAME layer no 32 result
 	STRINGS STRIP result result
@@ -28,7 +29,8 @@ subcall SENSOR.GETTYPE		// FF
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 	
 	INPUT_DEVICE GET_TYPEMODE layer no type mode
 	MOVE8_F type result
@@ -46,7 +48,8 @@ subcall SENSOR.GETMODE		// FF
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 	
 	INPUT_DEVICE GET_TYPEMODE layer no type mode
 	MOVE8_F mode result
@@ -68,7 +71,8 @@ subcall SENSOR.GETDATAFORMAT    // FS
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 
 	INPUT_DEVICE GET_FORMAT layer no datasets format modes view
 	
@@ -97,7 +101,9 @@ subcall SENSOR.SETMODE		// FFV
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
+
 	MOVEF_8 mode mode8
 	
 	INPUT_DEVICE READY_RAW layer no 0 mode8 0
@@ -114,7 +120,8 @@ subcall SENSOR.ISBUSY       // FS
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 
 	INPUT_TEST layer no busy
 	
@@ -134,7 +141,8 @@ subcall SENSOR.WAIT       // FV
 	
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
  
     DATA8 busy
 dotest:	
@@ -158,7 +166,8 @@ subcall SENSOR.READPERCENT       // FF
 
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
 
 	INPUT_READ layer no 0 -1 percentage
 	JR_LT8 percentage 0 novalue
@@ -181,7 +190,9 @@ subcall SENSOR.READRAW            // FFA
 		
 	MOVEF_8 port no
 	SUB8 no 1 no
-	MOVE8_8 0 layer
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
+
 	MOVEF_32 values values32
 
 	JR_LTEQ32 values32 0 arrayempty
