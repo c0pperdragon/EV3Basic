@@ -1,0 +1,32 @@
+	
+vmthread MAIN
+{
+loop:		
+	CALL SETLEDB 2
+
+	DATA32 timer2
+	TIMER_WAIT 500 timer2 
+	TIMER_READY timer2	
+
+	CALL SETLEDC 3
+	
+	DATA32 timer3
+	TIMER_WAIT 500 timer3
+	TIMER_READY timer3	
+
+	CALL SETLEDA 1
+	
+	DATA32 timer1
+	TIMER_WAIT 500 timer1
+	TIMER_READY timer1	
+	
+	JR loop
+}
+
+subcall SETLEDA
+subcall SETLEDB
+subcall SETLEDC
+{
+	IN_8 value
+	UI_WRITE LED value
+}

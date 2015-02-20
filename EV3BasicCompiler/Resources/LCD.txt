@@ -1,14 +1,16 @@
 // ------------------------------------------ EV3 MODULE: LCD -------------------------------------------------
 
-subcall LCD.STOPUPDATE    // V
+DATA32 STOPLCDUPDATE
+
+inline LCD.STOPUPDATE    // V
 {
 	MOVE32_32 1 STOPLCDUPDATE
 }
 
-subcall LCD.UPDATE  // V
+inline LCD.UPDATE  // V
 {
 	MOVE32_32 0 STOPLCDUPDATE
-	UI_DRAW(UPDATE)
+	UI_DRAW UPDATE
 }
 
 subcall LCD.CLEAR   // V
@@ -17,7 +19,7 @@ subcall LCD.CLEAR   // V
 	UI_DRAW(CLEAN)
 	
 	JR_NEQ32 0 STOPLCDUPDATE skipupdate
-	UI_DRAW(UPDATE)
+	UI_DRAW UPDATE
 skipupdate:
 }
 

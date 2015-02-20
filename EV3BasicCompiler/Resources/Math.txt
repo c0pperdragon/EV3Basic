@@ -11,34 +11,35 @@ inline MATH.ABS             // FF
 }
 inline MATH.ARCCOS          // FF
 {
-	MATH ACOS :0 :1
-	DIVF :1 57.295779513082 :1
+	DATAF tmpf:#
+	MATH ACOS :0 tmpf:#
+	DIVF tmpf:# 57.295779513082 :1
 }
 inline MATH.ARCSIN          // FF
 {
-	MATH ASIN :0 :1
-	DIVF :1 57.295779513082 :1
+	DATAF tmpf:#
+	MATH ASIN :0 tmpf:#
+	DIVF tmpf:# 57.295779513082 :1
 }
 inline MATH.ARCTAN          // FF
 {
-	MATH ATAN :0 :1
-	DIVF :1 57.295779513082 :1
+	DATAF tmpf:#
+	MATH ATAN :0 tmpf:#
+	DIVF tmpf:# 57.295779513082 :1
 }
-subcall MATH.CEILING          // FF
+inline MATH.CEILING          // FF
 {
-	IN_F a
-	OUT_F result
-
-	MATH CEIL a result
-	JR_EQF 0.0 result preventnegativezero	
-	RETURN
-preventnegativezero:	
-	MOVE32_F 0 result
+	DATAF tmpf:#
+	DATA8 flag:#
+	MATH CEIL :0 tmpf:#
+	CP_EQF tmpf:# 0.0 flag:#
+	SELECTF flag:# 0.0 tmpf:# :1
 }
 inline MATH.COS              // FF
 {
-	MULF :0 57.295779513082 :1
-	MATH COS :1 :1
+	DATAF tmpf:#
+	MULF :0 57.295779513082 tmpf:#
+	MATH COS tmpf:# :1
 }
 inline MATH.FLOOR          // FF
 {
@@ -68,29 +69,17 @@ inline MATH.LOG               // FF
 {
 	MATH LOG
 }
-subcall MATH.MAX              // FFF
+inline MATH.MAX              // FFF
 {
-	IN_F a
-	IN_F b
-	OUT_F result
-	
-	JR_GTF b a biggerb
-    MOVEF_F a result	
-	RETURN
-biggerb:
-	MOVEF_F b result
+    DATA8 flag:#
+	CP_GTF :0 :1 flag:#
+	SELECTF flag:# :0 :1 :2
 }
-subcall MATH.MIN              // FFF
+inline MATH.MIN              // FFF
 {
-	IN_F a
-	IN_F b
-	OUT_F result
-	
-	JR_GTF b a biggerb
-    MOVEF_F b result	
-	RETURN
-biggerb:
-	MOVEF_F a result
+    DATA8 flag:#
+	CP_LTF :0 :1 flag:#
+	SELECTF flag:# :0 :1 :2
 }
 inline MATH.NATURALLOG       // FF
 {
@@ -110,8 +99,9 @@ inline MATH.ROUND           // FF
 }
 inline MATH.SIN                // FF
 {
-	MULF :0 57.295779513082 :1
-	MATH SIN :1 :1
+	DATAF tmpf:#
+	MULF :0 57.295779513082  tmpf:#
+	MATH SIN  tmpf:# :1
 }
 inline MATH.SQUAREROOT      // FF
 {
@@ -119,7 +109,8 @@ inline MATH.SQUAREROOT      // FF
 }
 inline MATH.TAN            // FF
 {
-	MULF :0 57.295779513082 :1
-	MATH TAN :1 :1
+	DATAF tmpf:#
+	MULF :0 57.295779513082 tmpf:#
+	MATH TAN tmpf:# :1
 }
 

@@ -20,19 +20,16 @@ subcall PROGRAM.GETARGUMENT  // FF
 }
 
 
-subcall PROGRAM.DELAY    // FV
+inline PROGRAM.DELAY    // FV
 {
-	IN_F milliseconds
-	
-	DATA32 milliseconds_32
-	MOVEF_32 milliseconds milliseconds_32
-
-	DATA32 timer
-	TIMER_WAIT(milliseconds_32,timer)
-	TIMER_READY(timer)	
+	DATA32 milliseconds:#
+	MOVEF_32 :0 milliseconds:#
+	DATA32 timer:#
+	TIMER_WAIT milliseconds:# timer:#
+	TIMER_READY timer:#
 }
 
-subcall PROGRAM.END   // V
+inline PROGRAM.END   // V
 {
 	PROGRAM_STOP -1
 }

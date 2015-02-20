@@ -296,3 +296,41 @@ endsub
   
   Buttons.Flush()
   Buttons.Wait()
+  
+  
+  
+  
+  
+  
+  Sub t1
+    Thread.Run = t1
+  EndSub
+  Sub t2
+    Thread.Run = t2
+  EndSub
+  Sub t3
+    Thread.Run = t3
+  EndSub
+  Sub t4
+    Thread.Run = t4
+  EndSub
+  Sub t5
+    Thread.Run = t5
+  EndSub
+  Sub t6
+    Thread.Run = t6
+  EndSub
+  Sub t7
+    Thread.Run = t7
+  EndSub
+  Sub t8
+    Thread.Run = t8
+  EndSub
+  Sub t9
+    Thread.Run = t9
+  EndSub
+  Sub t10
+    Thread.Run = t10
+  EndSub
+  
+  

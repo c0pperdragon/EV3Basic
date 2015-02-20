@@ -206,7 +206,7 @@ namespace EV3BasicCompiler
             }
 
             // build a function call with properly injected arguments (where this is needed)
-            target.Write("    " + InjectPlaceholders(function, arguments));
+            target.Write("    " + InjectPlaceholders(function, arguments, compiler.GetLabelNumber()));
             // arguments that were not explicitly consumed, are just attached at the end
             foreach (String p in arguments)
             {
@@ -241,7 +241,7 @@ namespace EV3BasicCompiler
             }
         }
 
-        private static String InjectPlaceholders(String format, List<String>par)
+        private static String InjectPlaceholders(String format, List<String>par, int expansioncounter)
         {
             List<int> uses = new List<int>();
             int cursor = 0;
@@ -253,14 +253,23 @@ namespace EV3BasicCompiler
                 {
                     break;
                 }
-                // get the character after the ':' to know which parameter to take
-                int pnum = format[idx + 1] - '0';
-                // insert the value of the parameter. whenever something is amiss, throw exceptions
-                format = format.Substring(0, idx) + par[pnum] + format.Substring(idx + 2);
-                // skip the parameter that was just put in place
-                cursor = cursor + par[pnum].Length;
-                // memorize that his parameter was used 
-                uses.Add(pnum);
+                if (format[idx + 1] == '#')     // macro expansion needs a unique identifier here
+                {
+                    String str = ""+expansioncounter;
+                    format = format.Substring(0, idx) + str + format.Substring(idx + 2);
+                    cursor = cursor + str.Length;
+                }
+                else
+                {
+                    // get the character after the ':' to know which parameter to take
+                    int pnum = format[idx + 1] - '0';
+                    // insert the value of the parameter. whenever something is amiss, throw exceptions
+                    format = format.Substring(0, idx) + par[pnum] + format.Substring(idx + 2);
+                    // skip the parameter that was just put in place
+                    cursor = cursor + par[pnum].Length;
+                    // memorize that his parameter was used 
+                    uses.Add(pnum);
+                }
             }
 
             // remove the used parameters from the list, so it will not be auto-appended

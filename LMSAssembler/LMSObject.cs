@@ -19,6 +19,8 @@ namespace LMSAssembler
         private Dictionary<String, int> labels;
         private Dictionary<int, String> references;
 
+        protected int offsetToInstructions;
+
         public LMSObject(String name, int id)
         {
             this.name = name;
@@ -27,9 +29,10 @@ namespace LMSAssembler
             this.locals = new DataArea();
             this.labels = new Dictionary<String, int>();
             this.references = new Dictionary<int,String>();
+            this.offsetToInstructions = 0;
         }
 
-        public void StartCode()
+        public virtual void StartCode()
         {
             if(program!=null)
             {
@@ -165,8 +168,15 @@ namespace LMSAssembler
                 references[((int)program.Length)+1] = label;
 
                 // only placeholder that will be replaced at back-patching.
-                AddConstant(0, 0x83);    // 32bit long addressing
+                AddConstant(0, 4);    // 32bit long addressing
             }
+        }
+
+        public void AddLabelDifference(String descriptor)
+        {
+            // memorize that the label difference was referenced from here
+            references[((int)program.Length) + 1] = descriptor;
+            AddConstant(0, 4);   // placeholder for 32bit constant - will be patched later
         }
 
         public void MemorizeLabel(String label)
@@ -185,8 +195,10 @@ namespace LMSAssembler
         }
 
 
-        public virtual void WriteByteCodes(Stream stream)
+        public virtual void WriteByteCodes(Stream stream, int offsetToInstructions)
         {
+            this.offsetToInstructions = offsetToInstructions;
+
             if (program==null)
             {
                 throw new AssemblerException("Unresolved subcall: " + name);
@@ -201,12 +213,29 @@ namespace LMSAssembler
                 if (references.ContainsKey(i))
                 {
                     String label = references[i];
-                    if (!labels.ContainsKey(label))
+                    int colonidx = label.IndexOf(':');
+                    // this is a label difference calculation
+                    if (colonidx > 0)
                     {
-                        throw new AssemblerException("Unresolved jump target: " + label);
+                        String firstlabel = label.Substring(0, colonidx);
+                        String secondlabel = label.Substring(colonidx + 1);
+                        if ((!labels.ContainsKey(firstlabel)) || (!labels.ContainsKey(secondlabel)))
+                        {
+                            throw new AssemblerException("Unresolved label distance: " + label);
+                        }
+                        DataWriter.Write32(stream, labels[secondlabel] - labels[firstlabel]);
+                        i += 4;
                     }
-                    DataWriter.Write32(stream, labels[label] - (i+4));  // relative jump distance
-                    i += 4;
+                    // normal jump label reference
+                    else
+                    {
+                        if (!labels.ContainsKey(label))
+                        {
+                            throw new AssemblerException("Unresolved jump target: " + label);
+                        }
+                        DataWriter.Write32(stream, labels[label] - (i + 4));  // relative jump distance
+                        i += 4;
+                    }
                 }
                 else
                 {
@@ -216,8 +245,8 @@ namespace LMSAssembler
             }
         }
 
-        public abstract void WriteHeader(Stream stream, int offsetToInstructions);
-        public abstract void WriteBody(Stream stream);
+        public abstract void WriteHeader(Stream stream);
+        public abstract void WriteBody(Stream stream, int offsetToInstructions);
 
 
 
@@ -243,16 +272,16 @@ namespace LMSAssembler
         {
         }
 
-        public override void WriteHeader(Stream stream, int offsetToInstructions)
+        public override void WriteHeader(Stream stream)
         {
             DataWriter.Write32(stream, offsetToInstructions);
             DataWriter.Write16(stream,0);
             DataWriter.Write16(stream,0);
             DataWriter.Write32(stream, locals.TotalBytes());
         }
-        public override void WriteBody(Stream stream)
+        public override void WriteBody(Stream stream, int offsetToInstructions)
         {
-            WriteByteCodes(stream);
+            WriteByteCodes(stream, offsetToInstructions);
             stream.WriteByte(0x0A);  // OBJECT_END
         }
 
@@ -266,6 +295,7 @@ namespace LMSAssembler
 
         List<List<Object>> callerMemorization;
 
+        LMSSubCall implementation;    // holds the code for this LMSSubCall which does not have own data
 
         public LMSSubCall(String n, int id) : base(n, id)
         {
@@ -274,7 +304,27 @@ namespace LMSAssembler
             ioStringSizes = new List<int>();
 
             callerMemorization = new List<List<Object>>();
+            implementation = null;
         }
+
+        public override void StartCode()
+        {
+            if (program != null || implementation!=null)
+            {
+                throw new AssemblerException("Duplicate definition of " + name);
+            }
+            program = new MemoryStream();
+        }
+
+        public void SetImplementation(LMSSubCall impl)
+        {
+            if (program != null || implementation != null)
+            {
+                throw new AssemblerException("Duplicate definition of " + name);
+            }
+            implementation = impl;
+        }
+
 
         override public void MemorizeIOParameter(DataType dt, AccessType at)
         {
@@ -304,16 +354,21 @@ namespace LMSAssembler
             callerMemorization[callerMemorization.Count-1].Add(p);
         }
 
-        public override void WriteHeader(Stream stream, int offsetToInstructions)
+        public override void WriteHeader(Stream stream)
         {
-            DataWriter.Write32(stream, offsetToInstructions);
+            DataWriter.Write32(stream, implementation!=null ? implementation.offsetToInstructions : offsetToInstructions);
             DataWriter.Write16(stream, 0);
             DataWriter.Write16(stream, 1);
-            DataWriter.Write32(stream, locals.TotalBytes());
+            DataWriter.Write32(stream, implementation!=null ? implementation.locals.TotalBytes() : locals.TotalBytes());
         }
 
-        public override void WriteBody(Stream stream)
+        public override void WriteBody(Stream stream, int offsetToInstructions)
         {
+            if (implementation!=null)
+            {
+                return;
+            }
+
             int numpar = ioDataTypes.Count;
 
             // before actual byte codes there come the IN,OUT,IO descriptors
@@ -360,7 +415,7 @@ namespace LMSAssembler
             }
 
             // write actual code parts (with correct termination)
-            WriteByteCodes(stream);
+            WriteByteCodes(stream, offsetToInstructions);
             stream.WriteByte(0x08);  // RETURN
             stream.WriteByte(0x0A);  // OBJECT_END
 

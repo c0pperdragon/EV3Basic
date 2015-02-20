@@ -111,11 +111,17 @@ namespace LMSAssembler
                     String name = FetchID(tokens, 1, true);
                     if (objects.ContainsKey(name))
                     {
-                        throw new AssemblerException("Duplicate object name: "+name);
-                    }
-                    currentobject = new LMSThread(name, objects.Count + 1);
-                    currentobject.StartCode();
-                    objects[name] = currentobject;
+                        // could have found object that was created because of forward reference    
+                        LMSObject lo = objects[name];
+                        lo.StartCode();
+                        currentobject = (LMSThread)lo;      // make sure that this object is indeed a thread
+                    }                    
+                    else
+                    {   // this is the first encounter of the name - create a new thread
+                        currentobject = new LMSThread(name, objects.Count + 1);
+                        currentobject.StartCode();
+                        objects[name] = currentobject;
+                    }                            
                 }
                 else if (first.Equals("SUBCALL"))
                 {
@@ -186,6 +192,29 @@ namespace LMSAssembler
                     return;
                 }
 
+                if (first.Equals("SUBCALL"))      // trying to create a subcall with multiple object IDs, but with the same code
+                {
+                    if (!(currentobject is LMSSubCall))
+                    {
+                        throw new AssemblerException("Can not add subcall alias to non-subcall object");
+                    }
+                    String name = FetchID(tokens, 1, true);                    
+                    if (objects.ContainsKey(name))
+                    {
+                        // could have found the object that was created because of a forward reference
+                        LMSObject lo = objects[name];
+                        ((LMSSubCall)lo).SetImplementation((LMSSubCall)currentobject);
+                    }
+                    else
+                    {
+                        // this is the first encounter of the name - create a new subcall
+                        LMSSubCall sc = new LMSSubCall(name, objects.Count + 1);
+                        objects[name] = sc;
+                        sc.SetImplementation((LMSSubCall)currentobject);
+                    }
+
+                        
+                }
                 else if (first.Equals("DATA8"))
                 {
                     locals.Add(FetchID(tokens, 1, true), 1, 1, DataType.I8, false);
@@ -220,12 +249,12 @@ namespace LMSAssembler
                 }
                 else if (first.Equals("IN_8"))
                 {
-                    locals.Add(FetchID(tokens, 1, true), 1,1, DataType.I8, true);
+                    locals.Add(FetchID(tokens, 1, true), 1, 1, DataType.I8, true);
                     currentobject.MemorizeIOParameter(DataType.I8, AccessType.Read);
                 }
                 else if (first.Equals("IN_16"))
                 {
-                    locals.Add(FetchID(tokens, 1, true), 2,1, DataType.I16, true);
+                    locals.Add(FetchID(tokens, 1, true), 2, 1, DataType.I16, true);
                     currentobject.MemorizeIOParameter(DataType.I16, AccessType.Read);
                 }
                 else if (first.Equals("IN_32"))
@@ -316,7 +345,7 @@ namespace LMSAssembler
                     // name is not known - create an empty subcall object right here
                     else
                     {
-                        sc = new LMSSubCall(name, objects.Count+1);                        
+                        sc = new LMSSubCall(name, objects.Count + 1);
                         objects[name] = sc;
                     }
 
@@ -324,20 +353,20 @@ namespace LMSAssembler
                     sc.StartCallerMemorization();
 
                     int numpar = tokens.Count - 2;
-                    currentobject.AddOpCode(new byte[]{0x09});  // CALL
+                    currentobject.AddOpCode(new byte[] { 0x09 });  // CALL
                     currentobject.AddConstant(sc.id);           // ID of called subcall
                     currentobject.AddConstant(numpar);
                     for (int i = 0; i < numpar; i++)
                     {
-                        Object p = DecodeAndAddParameter(locals, tokens[2+i]);
+                        Object p = DecodeAndAddParameter(locals, tokens[2 + i]);
                         sc.MemorizeCallerParameter(p);  // keep for later type check
                     }
 
                 }
                 // process a label declaration
-                else if (first.EndsWith(":"))                    
+                else if (first.EndsWith(":"))
                 {
-                    if (first.IndexOf(':') < first.Length-1)
+                    if (first.IndexOf(':') < first.Length - 1)
                     {
                         throw new AssemblerException("Label must only have one trailing ':'");
                     }
@@ -349,11 +378,11 @@ namespace LMSAssembler
                     VMCommand c;
                     int paramstart = 0;
                     if (commands.ContainsKey(tokens[0]))
-                    {   
+                    {
                         c = commands[tokens[0]];
                         paramstart = 1;
                     }
-                    else if (tokens.Count<2)
+                    else if (tokens.Count < 2)
                     {
                         throw new AssemblerException("Unknown opcode " + tokens[0]);
                     }
@@ -376,28 +405,80 @@ namespace LMSAssembler
                     // create opcode and parameters
                     currentobject.AddOpCode(c.opcode);
 
-                    for (int i=0; i<paramcount; i++)
+                    for (int i = 0; i < paramcount; i++)
                     {
                         if (paramstart + i >= tokens.Count)
                         {
-                            throw new AssemblerException("Too few parameters for "+c.name);
+                            throw new AssemblerException("Too few parameters for " + c.name);
                         }
 
-                        // of more paramerters then specified, repeat the last type (can only happen for opcodes with variable parmeter number)
-                        int pidx = Math.Min(i, c.parameters.Length - 1);  
+                        // of more paramerters then specified, repeat the last type (can only happen for opcodes with variable parameter number)
+                        int pidx = Math.Min(i, c.parameters.Length - 1);
 
                         if (c.parameters[pidx] == DataType.Label)   // special handling for jump label parameters
                         {
                             currentobject.AddLabelReference(tokens[paramstart + i]);
                         }
+                        else if (c.parameters[pidx] == DataType.VMThread)   // special handling for VM thread identifier
+                        {
+                            String name = tokens[paramstart + i];
+                            LMSThread th = null;
+                            // the name is already known
+                            if (objects.ContainsKey(name))
+                            {
+                                LMSObject o = objects[name];
+                                if (!(o is LMSThread))
+                                {
+                                    throw new AssemblerException("Trying to start an object that is not defined as a thread");
+                                }
+                                th = (LMSThread)o;
+                            }
+                            // name is not known - create an empty thread object right here
+                            else
+                            {
+                                th = new LMSThread(name, objects.Count + 1);
+                                objects[name] = th;
+                            }
+                            currentobject.AddConstant(th.id);
+                        }
+                        else if (c.parameters[pidx] == DataType.VMSubcall)   // special handling for VM subcall identifier
+                        {
+                            String name = tokens[paramstart + i];
+                            if (name.Equals("0"))
+                            {
+                                // no subcall id - want to access something global
+                                currentobject.AddConstant(0);
+                            }
+                            else
+                            {
+                                LMSSubCall th = null;
+                                // the name is already known
+                                if (objects.ContainsKey(name))
+                                {
+                                    LMSObject o = objects[name];
+                                    if (!(o is LMSSubCall))
+                                    {
+                                        throw new AssemblerException("Trying to access an object that is not defined as a subcall");
+                                    }
+                                    th = (LMSSubCall)o;
+                                }
+                                // name is not known - create an empty thread object right here
+                                else
+                                {
+                                    th = new LMSSubCall(name, objects.Count + 1);
+                                    objects[name] = th;
+                                }
+                                currentobject.AddConstant(th.id);
+                            }
+                        }
                         else if (c.parameters[pidx] == DataType.ParameterCount)   // special handling for opcodes with variable parameter number
                         {
                             Int32 p;
-                            if (!Int32.TryParse(tokens[paramstart+i], NumberStyles.Integer, CultureInfo.InvariantCulture, out p))
+                            if (!Int32.TryParse(tokens[paramstart + i], NumberStyles.Integer, CultureInfo.InvariantCulture, out p))
                             {
                                 throw new AssemblerException("Can not decode parameter count specifier");
                             }
-                            if (p<0 || p>127)
+                            if (p < 0 || p > 127)
                             {
                                 throw new AssemblerException("Parameter count specifier out of range");
                             }
@@ -424,8 +505,14 @@ namespace LMSAssembler
         // return either DataElement, int, double, or String  (for type checking)         
         private Object DecodeAndAddParameter(DataArea locals, String p)
         { 
+            // this must be a label address difference
+            if ((!p.StartsWith("'")) && p.Contains(':'))
+            {
+                currentobject.AddLabelDifference(p);
+                return 999999999;  // only compatible with 32bit numbers
+            }
             // this must be a variable
-            if ( (p[0]>='A' && p[0]<='Z') || p[0]=='_')
+            else if ( (p[0]>='A' && p[0]<='Z') || p[0]=='_')
             {
                     DataElement e = null;
                     bool local = true;
@@ -491,15 +578,13 @@ namespace LMSAssembler
 
             // create the byte codes in a temporary buffer and memorize positions
             MemoryStream allbytecodes = new MemoryStream();
+            int totalheadersize = 16 + numobjects * 12;
 
-            int[] objectstarts = new int[numobjects];
             for (int i = 0; i < numobjects; i++)
             {
-                objectstarts[i] = (int) allbytecodes.Length;
-                oarray[i].WriteBody(allbytecodes);   
+                oarray[i].WriteBody(allbytecodes, totalheadersize + (int)allbytecodes.Length);   
             }
 
-            int totalheadersize = 16 + numobjects * 12;
             // write file header
             target.WriteByte((byte)'L');
             target.WriteByte((byte)'E');
@@ -512,7 +597,7 @@ namespace LMSAssembler
             // write object headers
             for (int i = 0; i < numobjects; i++)
             {
-                oarray[i].WriteHeader(target, totalheadersize+objectstarts[i]);
+                oarray[i].WriteHeader(target);
 //                oarray[i].print();
 //                Console.ReadKey();
             }

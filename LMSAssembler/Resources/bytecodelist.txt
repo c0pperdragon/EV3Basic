@@ -2,13 +2,13 @@
 01 NOP
 02 PROGRAM_STOP        16
 03 PROGRAM_START       16 32 32 8
-04 OBJECT_STOP         16
-05 OBJECT_START        16
-06 OBJECT_TRIG         16
-07 OBJECT_WAIT         16
+04 OBJECT_STOP         T
+05 OBJECT_START        T
+06 OBJECT_TRIG         T
+07 OBJECT_WAIT         T
 08 RETURN
 // 09 CALL            
-0A OBJECT_END          
+// 0A OBJECT_END          
 0B SLEEP
 
 0C00 PROGRAM_INFO OBJ_STOP       16 16
@@ -68,6 +68,7 @@
 3E MOVEF_32     F 32*
 3F MOVEF_F      F F*
 40 JR           L
+40 JR_DYNAMIC   32      // special form needed for basic compiler
 41 JR_FALSE     8 L
 42 JR_TRUE      8 L
 43 JR_NAN       F L
@@ -148,8 +149,8 @@
 7D0B STRINGS VALUE_FORMATTED        F 8+ 8 8*
 7D0C STRINGS NUMBER_FORMATTED       32 8+ 8 8*
 
-7E MEMORY_WRITE                     16 16 32 32 8+
-7F MEMORY_READ                      16 16 32 32 8*
+7E MEMORY_WRITE                     16 S 32 32 8+
+7F MEMORY_READ                      16 S 32 32 8*
 80 UI_FLUSH                         
 
 8101 UI_READ GET_VBATT             F* 

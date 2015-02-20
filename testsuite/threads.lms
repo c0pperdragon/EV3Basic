@@ -1,0 +1,44 @@
+	
+vmthread MAIN
+	DATAS txt 20
+	DATA16 y
+	
+	UI_DRAW CLEAN
+
+	OBJECT_START BLINKER
+	
+	INIT_BYTES txt 10 65 66 67 68 69 32 48 49 50 0
+	MOVE16_16 0 y
+	
+loop:	
+	UI_DRAW SELECT_FONT 1
+	UI_DRAW TEXT 1 10 y txt
+	UI_DRAW UPDATE
+	
+	DATA32 timer
+	TIMER_WAIT 400 timer 
+	TIMER_READY timer	
+	
+	ADD16 y 10 y
+    JR_LT16 y 128 loop
+	
+	PROGRAM_STOP -1
+}
+
+vmthread BLINKER
+{
+loop:
+	UI_WRITE LED 3
+
+	DATA32 timer1
+	TIMER_WAIT 500 timer1
+	TIMER_READY timer1
+
+	UI_WRITE LED 0
+	
+	DATA32 timer2
+	TIMER_WAIT 500 timer2
+	TIMER_READY timer2		
+	
+	JR loop	
+}

@@ -108,18 +108,18 @@ namespace EV3Communication
             // increase message counter (neccesary to check if request and respond match)
             messagecounter++;
 
-            byte[] packet = new byte[2 + 1 + 2 + bytecodes.Length];
-            packet[0] = (byte)(messagecounter & 0xff);
-            packet[1] = (byte)((messagecounter >> 8) & 0xff);
-            packet[2] = 0x00;   // DIRECT_COMMAND_REPLY 
-            packet[3] = (byte)(globalbytes & 0xff);
-            packet[4] = (byte)(((globalbytes >> 8) & 0x3) + (localbytes << 2));
-            bytecodes.CopyTo(packet, 5);
-            SendPacket(packet);
+            byte[] sendpacket = new byte[2 + 1 + 2 + bytecodes.Length];
+            sendpacket[0] = (byte)(messagecounter & 0xff);
+            sendpacket[1] = (byte)((messagecounter >> 8) & 0xff);
+            sendpacket[2] = 0x00;   // DIRECT_COMMAND_REPLY 
+            sendpacket[3] = (byte)(globalbytes & 0xff);
+            sendpacket[4] = (byte)(((globalbytes >> 8) & 0x3) + (localbytes << 2));
+            bytecodes.CopyTo(sendpacket, 5);
+            SendPacket(sendpacket);
 
             for (; ; )
             {
-                packet = ReceivePacket();
+                byte[] packet = ReceivePacket();
                 //                hexdump(packet);
                 if (packet.Length < 3)
                 {

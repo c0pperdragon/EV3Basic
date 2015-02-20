@@ -1,0 +1,31 @@
+' Demonstration that a built-in function can not be running multiple times in parallel.
+' For longer-lasting function calls (like a sort), this means all other threads have to
+' wait until the call is finished before their operation starts.
+'
+' This is not true for built-in functions whose designed purpose is to wait for some 
+' event or time-span (like Program.Delay). Those functions can be used by multiple
+' threads concurrently.
+
+LCD.Clear()
+
+SMALL = Vector.Init(5, 141)
+BIG = Vector.Init(500, 17)
+
+Thread.Run = SUB2
+Program.Delay(20)
+Thread.Run = SUB1
+
+Program.Delay(100000)
+
+Sub SUB1  
+  LCD.Text(1, 0,12, 1, "Small sort starting")
+  A = Vector.Sort(5, SMALL)
+  LCD.Text(1, 0,24, 1, "Small sort finished")
+EndSub
+
+Sub SUB2 
+  LCD.Text(1, 0, 48, 1, "Big sort starting")
+  A = Vector.Sort(500, BIG)
+  LCD.Text(1, 0,60, 1, "Big sort finished")
+EndSub
+

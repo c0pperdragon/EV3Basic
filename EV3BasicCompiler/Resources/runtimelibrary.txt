@@ -1,21 +1,19 @@
-// global data for various functions
 
-DATAS INDIRECTMEMORY 252
-DATA32 STOPLCDUPDATE
-
-subcall DIV            // FFF
+// This method uses the property of the VM, that a subcall can not be 
+// re-called by a thread while it is still running in another thread.
+// It does an atomic get and increment action, incrementing a counter 
+// and returning the original value in a seperate (thread-local) variable
+subcall GETANDINC32     // V
 {
-	IN_F a
-	IN_F b
-	OUT_F result
-	
-	JR_EQF 0.0 b divisionbyzero	
-	DIVF a b result
-	RETURN
-divisionbyzero:	
-	MOVE32_f 0 result
-	RETURN
+	IN_32 counterin
+	IN_32 inc
+	OUT_32 counterout
+	OUT_32 prev
+
+	MOVE32_32 counterin prev
+	ADD32 counterin inc counterout
 }
+
 
 subcall EQ_STRING       // SSS
 {

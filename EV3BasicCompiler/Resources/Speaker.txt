@@ -1,6 +1,6 @@
 // ------------------------------------------ EV3 MODULE: SPEAKER -------------------------------------------------
 
-subcall SPEAKER.STOP      // V
+inline SPEAKER.STOP      // V
 {
 	SOUND BREAK
 }
@@ -62,7 +62,7 @@ notbusy:
 	RETURN
 }
 
-subcall SPEAKER.WAIT     // V
+inline SPEAKER.WAIT     // V
 {
 	SOUND_READY
 }

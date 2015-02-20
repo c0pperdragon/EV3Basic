@@ -64,12 +64,12 @@ not_left:
 	RETURN
 }
 
-subcall BUTTONS.WAIT        // V
+inline BUTTONS.WAIT        // V
 {
 	UI_BUTTON WAIT_FOR_PRESS
 }
 
-subcall BUTTONS.FLUSH       // V
+inline BUTTONS.FLUSH       // V
 {
 	UI_BUTTON FLUSH
 }

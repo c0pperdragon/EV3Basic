@@ -70,6 +70,14 @@ namespace LMSAssembler
                 {
                     parameters[i] = DataType.Label;
                 }
+                else if (t.Equals("T"))
+                {
+                    parameters[i] = DataType.VMThread;
+                }
+                else if (t.Equals("S"))
+                {
+                    parameters[i] = DataType.VMSubcall;
+                }
                 else if (t.Equals("P"))
                 {
                     parameters[i] = DataType.ParameterCount;

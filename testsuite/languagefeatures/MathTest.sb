@@ -20,6 +20,7 @@ Assert.Equal(Math.Ceiling(0.4), 1, "Ceiling 1")
 Assert.Equal(Math.Ceiling(-0.4), 0, "Ceiling 2")
 Assert.Equal(Math.Ceiling(-1.0), -1, "Ceiling 3")
 Assert.Equal(Math.Ceiling(12312.5), 12313, "Ceiling 4")
+Assert.Equal(Math.Ceiling(-0.5), 0, "Avoid negative zero")
 
 ' Cos
 Assert.Near(Math.Cos(0.5), 0.8775825618903727161, "Cos 1")
@@ -102,14 +103,17 @@ Assert.Near(Math.Tan(3), -0.1425465430742778, "Tan 2")
 Assert.Near(Math.Tan(-3), 0.1425465430742778, "Tan 3")
 
 ' Basic operations
-Assert.Equal(15/3, 5, "Division 1")
-Assert.Equal(-15/3, -5, "Division 2")
-Assert.Equal(15/-3, -5, "Division 3")
-Assert.Equal(1/0, 0, "Division 4")
-Assert.Equal(1.5*2, 3.0, "Multiplication 1")
-Assert.Equal(1.5*-2, -3, "Multiplication 2")
-Assert.Equal(1.5*-0, 0, "Multiplication 3")
-Assert.Equal(-0, 0, "Negative Zero")
+A = 15
+B = 1
+Z = 0
+Assert.Equal(A/3, 5, "Division 1")
+Assert.Equal(-A/3, -5, "Division 2")
+Assert.Equal(A/-3, -5, "Division 3")
+Assert.Equal(B/0, 0, "Division 4")
+Assert.Equal(B*1.5*2, 3.0, "Multiplication 1")
+Assert.Equal(B*1.5*-2, -3, "Multiplication 2")
+Assert.Equal(B*1.5*-0, 0, "Multiplication 3")
+Assert.Equal(-Z, Z, "Negative Zero")
 
 
 LCD.Clear()

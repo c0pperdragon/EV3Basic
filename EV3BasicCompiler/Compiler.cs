@@ -30,6 +30,7 @@ namespace EV3BasicCompiler
         Dictionary<ExpressionType, int> reservedtemporaries;
         Dictionary<ExpressionType, int> maxreservedtemporaries;
         HashSet<LibraryEntry> references;
+        List<String> threadnames;
 
         bool noboundscheck;
         bool nodivisioncheck;
@@ -42,6 +43,7 @@ namespace EV3BasicCompiler
             references = new HashSet<LibraryEntry>();
             reservedtemporaries = new Dictionary<ExpressionType, int>();
             maxreservedtemporaries = new Dictionary<ExpressionType, int>();
+            threadnames = new List<String>();
 
             readLibrary();
         }
@@ -131,6 +133,7 @@ namespace EV3BasicCompiler
             this.references.Clear();
             this.reservedtemporaries.Clear();
             this.maxreservedtemporaries.Clear();
+            this.threadnames.Clear();
             this.noboundscheck = false;
             this.nodivisioncheck = false;
 
@@ -162,8 +165,8 @@ namespace EV3BasicCompiler
             // -- when all information is available, put parts together
             StreamWriter target = new StreamWriter(targetstream);
             target.Write(runtimeglobals);
-            target.WriteLine("DATA32 INDEX");
 
+            // storage and initializer for global variables
             StringWriter initlist = new StringWriter();
             foreach (String vname in variables.Keys)
             {
@@ -189,29 +192,102 @@ namespace EV3BasicCompiler
                         break;
                 }
             }
+            // storage for run counters
+            foreach (String n in threadnames)
+            {
+                target.WriteLine("DATA32 RUNCOUNTER_" + n);
+                initlist.WriteLine("    MOVE32_32 0 RUNCOUNTER_" + n);
+            }
 
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Number) && i<maxreservedtemporaries[ExpressionType.Number]; i++)
-            {
-                target.WriteLine("DATAF F" + i);
-            }
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Text) && i < maxreservedtemporaries[ExpressionType.Text]; i++)
-            {
-                target.WriteLine("DATAS S" + i + " 252");
-            }
             target.WriteLine();
 
+            // -- create the main thread (this corresponds to the basic main program execution thread)
             target.WriteLine("vmthread MAIN");
             target.WriteLine("{");
+            // initialize global variables
             target.Write(initlist.ToString());
-            
-            target.WriteLine();
-            target.Write(mainprogram.ToString());
+            // launch main program
+            target.WriteLine("    CALL PROGRAM_MAIN -1");
+            target.WriteLine("    PROGRAM_STOP -1");
             target.WriteLine("}");
 
-            target.Write(subroutines);
+            // -- create non-main threads (are started somewhere with a Thread.Run=... statement)
+            for (int i=0; i<threadnames.Count; i++)
+            {
+                String n = threadnames[i];
+                target.WriteLine("vmthread " + "T"+threadnames[i]);
+                target.WriteLine("{");
+                // launch program with proper subprogram selector and correct local data area
+                target.WriteLine("    DATA32 tmp");
+                target.WriteLine("  launch:");
+                target.WriteLine("    CALL PROGRAM_"+n+" "+i);
+                target.WriteLine("    CALL GETANDINC32 RUNCOUNTER_" + n + " -1 RUNCOUNTER_" + n + " tmp");
+                            // after this position in the code, the flag could be 0 and another thread could 
+                            // newly trigger this thread. this causes no problems, because this thread was 
+                            // in process of terminating anyway and would not have called the worker method
+                            // again. if it is now instead re-activated, it will immediately start at the
+                            // begining.
+                target.WriteLine("    JR_GT32 tmp 1 launch");          
+                target.WriteLine("}");
+                memorize_reference("GETANDINC32");
+            }
 
-//            foreach (DictionaryEntry de in library)
-//            {   LibraryEntry le = (LibraryEntry) de.Value;
+
+            // create the code for the basic program (will be called from various threads)
+            // multiple VM subcall objects will be created that share the same implementation, but
+            // have a seperate local storage
+            target.WriteLine("subcall PROGRAM_MAIN");
+            foreach (String n in threadnames)
+            {
+                target.WriteLine("subcall PROGRAM_"+n);
+            }
+            target.WriteLine("{");
+            // the call parameter that decides, which subroutine to start
+            target.WriteLine("    IN_32 SUBPROGRAM");
+            // storage for variables for compiler use
+            target.WriteLine("    DATA32 INDEX");
+            target.WriteLine("    ARRAY8 STACKPOINTER 4");  // waste 4 bytes, but keep alignment
+            target.WriteLine("    ARRAY32 RETURNSTACK 256");
+            target.WriteLine();
+
+            // storage for temporary float variables
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Number) && i < maxreservedtemporaries[ExpressionType.Number]; i++)
+            {
+                target.WriteLine("    DATAF F" + i);
+            }
+            // storage for temporary string variables
+            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Text) && i < maxreservedtemporaries[ExpressionType.Text]; i++)
+            {
+                target.WriteLine("    DATAS S" + i + " 252");
+            }
+
+            // initialize the stack pointer
+            target.WriteLine("    MOVE8_8 0 STACKPOINTER");
+
+            // add dispatch table to call proper sub-program first, if this is requested
+            for (int i=0; i<threadnames.Count; i++)
+            {
+                int l = GetLabelNumber();
+                String n = threadnames[i];
+                target.WriteLine("    JR_NEQ32 SUBPROGRAM "+i+" dispatch"+l);
+                // put initial return address on stack
+
+                target.WriteLine("    WRITE32 ENDSUB_"+n+":ENDTHREAD STACKPOINTER RETURNSTACK");
+                target.WriteLine("    ADD8 STACKPOINTER 1 STACKPOINTER");
+                target.WriteLine("    JR SUB_" + n);
+                target.WriteLine("  dispatch"+l+":");
+            }
+
+            // create the code for the main program 
+            target.Write(mainprogram.ToString());
+            target.WriteLine("ENDTHREAD:");
+            target.WriteLine("    RETURN");
+            // create code for all sub programs
+            target.Write(subroutines);
+            target.WriteLine("}");
+
+
+            // create all library functions needed
             foreach (LibraryEntry le in references)
             {
                 if (!le.inline)
@@ -219,6 +295,7 @@ namespace EV3BasicCompiler
                     target.Write(le.programCode);
                 }
             }
+
             target.Flush();
         }
 
@@ -254,7 +331,10 @@ namespace EV3BasicCompiler
             reservedtemporaries[type]--;
         }
 
-
+        public int GetLabelNumber()
+        {
+            return labelcount++;
+        }
 
         // --------------------------- TOP-DOWN PARSER -------------------------------
 
@@ -290,8 +370,7 @@ namespace EV3BasicCompiler
 
             parse_eol();
 
-            target.WriteLine("subcall SUB_" + subname);
-            target.WriteLine("{");
+            target.WriteLine("SUB_" + subname + ":");
 
             while (!s.NextIsKEYWORD("ENDSUB"))
             {
@@ -300,7 +379,10 @@ namespace EV3BasicCompiler
             parse_keyword("ENDSUB");
             parse_eol();
 
-            target.WriteLine("}");
+            target.WriteLine("    SUB8 STACKPOINTER 1 STACKPOINTER");
+            target.WriteLine("    READ32 RETURNSTACK STACKPOINTER INDEX");
+            target.WriteLine("    JR_DYNAMIC INDEX");
+            target.WriteLine("ENDSUB_" + subname + ":");
         }
 
 
@@ -361,7 +443,7 @@ namespace EV3BasicCompiler
 
         private void compile_if(TextWriter target)
         {
-            int l = labelcount++;
+            int l = GetLabelNumber();
 
             parse_keyword("IF");
 
@@ -422,7 +504,7 @@ namespace EV3BasicCompiler
 
         private void compile_while(TextWriter target)
         {
-            int l = labelcount++;
+            int l = GetLabelNumber();
 
             parse_keyword("WHILE");
 
@@ -447,7 +529,7 @@ namespace EV3BasicCompiler
 
         private void compile_for(TextWriter target)
         {
-            int l = labelcount++;
+            int l = GetLabelNumber();
 
             parse_keyword("FOR");
 
@@ -563,13 +645,18 @@ namespace EV3BasicCompiler
             else if (s.NextIsSPECIAL("."))
             {
                 s.PushBack(SymType.ID, id);
-                compile_procedure_call(target);
+                compile_procedure_call_or_property_set(target);
             }
             else if (s.NextIsSPECIAL("("))
             {   // subroutine call             
                 parse_special("(");
                 parse_special(")");
-                target.WriteLine("    CALL SUB_" + id);
+
+                String returnlabel = "CALLSUB"+(GetLabelNumber());
+                target.WriteLine("    WRITE32 ENDSUB_"+id+":"+returnlabel + " STACKPOINTER RETURNSTACK");
+                target.WriteLine("    ADD8 STACKPOINTER 1 STACKPOINTER");
+                target.WriteLine("    JR SUB_" + id);
+                target.WriteLine(returnlabel+":");
             }
             else if (s.NextIsSPECIAL(":"))
             {   // jump label
@@ -658,43 +745,79 @@ namespace EV3BasicCompiler
             }
         }
 
-        private void compile_procedure_call(TextWriter target)
+        private void compile_procedure_call_or_property_set(TextWriter target)
         {
             String objectname = parse_id();
             parse_special(".");
             String elementname = parse_id();
 
-            String functionname = objectname + "." + elementname;
-
-            LibraryEntry libentry = (LibraryEntry)library[functionname];
-            if (libentry == null)
+            // this is in fact a property set attempt
+            if (s.NextIsSPECIAL("="))
             {
-                s.ThrowParseError("Undefined function: " + functionname);
-            }
+                parse_special("=");
 
-            parse_special("(");
-
-            List<Expression> list = new List<Expression>();
-            while (list.Count < libentry.paramTypes.Length)
-            {
-                Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
-                list.Add(e);
-                if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
+                // have hardcoded property set for thread start
+                if (objectname.Equals("THREAD") && elementname.Equals("RUN"))
                 {
-                    parse_special(",");
+                    if (s.NextType!=SymType.ID)
+                    {
+                        s.ThrowParseError("Need subprogram name here to start a thread");
+                    }
+                    String id = parse_id();
+                    int l = GetLabelNumber();
+                    target.WriteLine("    DATA32 tmp" + l);
+                    target.WriteLine("    CALL GETANDINC32 RUNCOUNTER_" + id + " 1  RUNCOUNTER_" + id + " tmp"+l);
+                    target.WriteLine("    JR_NEQ32 0 tmp" + l + " alreadylaunched" + l);
+                    target.WriteLine("    OBJECT_START T" + id);
+                    target.WriteLine("  alreadylaunched" + l + ":");
+                    if (!threadnames.Contains(id)) 
+                    {   threadnames.Add(id);
+                    }
                 }
-            }
-            parse_special(")");
+                else
+                {
+                    s.ThrowParseError("Unknown property to set:  " + objectname + "." + elementname);
+                }
 
-            Expression ex = new CallExpression(ExpressionType.Void, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
-            if (libentry.returnType==ExpressionType.Void)
-            {   ex.Generate(this, target, null);
+                return;
             }
+            // procedure call
             else
             {
-                String retvar = reserveVariable(libentry.returnType);
-                ex.Generate(this,target,retvar);
-                releaseVariable(libentry.returnType);
+                parse_special("(");
+
+                String functionname = objectname + "." + elementname;
+
+                LibraryEntry libentry = (LibraryEntry)library[functionname];
+                if (libentry == null)
+                {
+                    s.ThrowParseError("Undefined function: " + functionname);
+                }
+
+
+                List<Expression> list = new List<Expression>();
+                while (list.Count < libentry.paramTypes.Length)
+                {
+                    Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
+                    list.Add(e);
+                    if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
+                    {
+                        parse_special(",");
+                    }
+                }
+                parse_special(")");
+
+                Expression ex = new CallExpression(ExpressionType.Void, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
+                if (libentry.returnType == ExpressionType.Void)
+                {
+                    ex.Generate(this, target, null);
+                }
+                else
+                {
+                    String retvar = reserveVariable(libentry.returnType);
+                    ex.Generate(this, target, retvar);
+                    releaseVariable(libentry.returnType);
+                }
             }
         }
 
@@ -993,7 +1116,13 @@ namespace EV3BasicCompiler
                         }
                         else
                         {
-                            total = new CallExpression(ExpressionType.Number, "CALL DIV", total, right);
+                            total = new CallExpression(ExpressionType.Number, 
+                                   "DATAF tmpf:#\n"
+	                        +  "    DATA8 flag:#\n"
+	                        +  "    DIVF :0 :1 tmpf:#\n"
+	                        +  "    CP_EQF 0.0 :1 flag:#\n"
+	                        +  "    SELECTF flag:# 0.0 tmpf:# :2\n" ,
+                            total, right);
                         }
                     }
                 }

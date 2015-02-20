@@ -13,6 +13,8 @@ namespace LMSAssembler
         F,             // 4 byte floating point
         Unspecified,   // unspecified reference parameter (can not be used for variables)
         Label,         // opcode needs a jump label (can not be used for variables or parameters)
+        VMThread,      // VM execution thread
+        VMSubcall,     // VM subcall
         ParameterCount // a constant value specifying the number of parameters to follow
     };
 
@@ -64,6 +66,7 @@ namespace LMSAssembler
                         }
                         break;
                     case DataType.I16:
+                    case DataType.VMThread:
                         if (c < -32768 || c > 32767)
                         {
                             throw new AssemblerException("Constant value " + c + "+ out of range of I16");
