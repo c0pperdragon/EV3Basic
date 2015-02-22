@@ -9,40 +9,6 @@ C = Vector.Init(500,0)
 
 PI = Math.PI
 
-'--------------------------------------------
-' Mersenne Twister
-'--------------------------------------------
-
-'unsigned long randM(void) {
-'   const int M = 7;
-'   const unsigned long A[2] = { 0, 0x8ebfd028 };
-'
-'   static unsigned long y[25];
-'   static int index = 25+1;
-'
-'   if (index >= 25) {
-'     int k;
-'     if (index > 25) {
-'        unsigned long r = 9, s = 3402;
-'        for (k=0 ; k<25 ; ++k) {
-'          r = 509845221 * r + 3;
-'          s *= s + 1;
-'          y[k] = s + (r >> 10);
-'        }
-'     }
-'     for (k=0 ; k<25-M ; ++k)
-'        y[k] = y[k+M] ^ (y[k] >> 1) ^ A[y[k] & 1];
-'     for (; k<25 ; ++k)
-'        y[k] = y[k+(M-25)] ^ (y[k] >> 1) ^ A[y[k] & 1];
-'     index = 0;
-'   }
-'
-'   unsigned long e = y[index++];
-'   e ^= (e << 7) & 0x2b5b2500;
-'   e ^= (e << 15) & 0xdb8b0000;
-'   e ^= (e >> 16);
-'   return e;
-'}
 
 '--------------------------------------------
 ' Matrix Algebra
@@ -235,7 +201,7 @@ endsub
   LCD.Clear()
   LCD.Text(1, 0,10, 1,"hw brickbench")
   LCD.Text(1, 0,20, 1,"(C)H.Wunder 2013")
-  LCD.Text(1, 0,30, 1,"EC3Basic port: c0pperdragon")
+  LCD.Text(1, 0,30, 1,"EV3-Basic port: c0pperdragon")
   LCD.Text(1, 0,50, 1,"initializing...")
 
   for y=0 To 499
@@ -286,7 +252,6 @@ endsub
   runtime[7]=EV3.Time-time0 
   displayValues()
   
-
   y=0
   For x=0 To 7 
     y = y + runtime[x]
@@ -296,41 +261,4 @@ endsub
   
   Buttons.Flush()
   Buttons.Wait()
-  
-  
-  
-  
-  
-  
-  Sub t1
-    Thread.Run = t1
-  EndSub
-  Sub t2
-    Thread.Run = t2
-  EndSub
-  Sub t3
-    Thread.Run = t3
-  EndSub
-  Sub t4
-    Thread.Run = t4
-  EndSub
-  Sub t5
-    Thread.Run = t5
-  EndSub
-  Sub t6
-    Thread.Run = t6
-  EndSub
-  Sub t7
-    Thread.Run = t7
-  EndSub
-  Sub t8
-    Thread.Run = t8
-  EndSub
-  Sub t9
-    Thread.Run = t9
-  EndSub
-  Sub t10
-    Thread.Run = t10
-  EndSub
-  
   
