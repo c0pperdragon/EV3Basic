@@ -1,0 +1,42 @@
+Thread.Run = t1
+t2()   ' use main thread for T2
+
+' the thread to control the motor A depending on sensor 1
+Sub t1
+  x1=0
+  While "True"
+    Sensor.Wait(1)   ' wait until ready  (must not block other thread)
+    If (Sensor.ReadPercent(1)>50) Then
+      Motor.SchedulePowerForTime("A", 50, 0,1000,0, "true")
+    EndIf    
+    Motor.Wait("A")  
+
+    '  give visual hint, that this thread is running
+    x1=Math.Remainder(x1+1,2)
+    If x1=0 then
+      EV3.SetLEDColor("ORANGE","NORMAL")
+    Else
+      EV3.SetLEDColor("OFF","NORMAL")
+    endif
+    
+    Program.Delay(100)
+  EndWhile
+endsub
+
+' the thread to control the motor B depending on sensor 2
+Sub t2
+  While "True"
+    Sensor.Wait(2)   ' wait until ready  (must not block other thread)
+    If (Sensor.ReadPercent(2)>50) Then
+      Motor.SchedulePowerForTime("B", 50, 0,1000,0, "true")
+    EndIf    
+    Motor.Wait("B")  
+    
+    '  give acoustic hint, that this thread is running
+    Speaker.Tone(5,440,100)
+    
+    Program.Delay(100)
+  EndWhile
+EndSub
+  
+  

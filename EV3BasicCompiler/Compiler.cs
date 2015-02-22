@@ -22,6 +22,7 @@ namespace EV3BasicCompiler
         // data loaded once at creation of Compiler (can be used to compile multiple programs)
         Hashtable library;
         String runtimeglobals;
+        String runtimeinit;
 
         // data used during one compilation run
         Scanner s;
@@ -38,7 +39,8 @@ namespace EV3BasicCompiler
         public Compiler()
         {
             library = new Hashtable();
-
+            runtimeglobals = "";
+            runtimeinit = "";
             variables = new Dictionary<String, ExpressionType>();
             references = new HashSet<LibraryEntry>();
             reservedtemporaries = new Dictionary<ExpressionType, int>();
@@ -50,7 +52,6 @@ namespace EV3BasicCompiler
 
         private void readLibrary()
         {
-            runtimeglobals = "";
             readLibraryModule(EV3BasicCompiler.Properties.Resources.runtimelibrary);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Assert);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Buttons);
@@ -62,6 +63,7 @@ namespace EV3BasicCompiler
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Sensor);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Speaker);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Text);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Thread);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Vector);
         }
 
@@ -71,14 +73,13 @@ namespace EV3BasicCompiler
             
             String currentfirstline = null;
             StringBuilder body = new StringBuilder();
-            StringBuilder globals = new StringBuilder();
 
             String line;
             while ((line = reader.ReadLine()) != null)
             {
                 if (currentfirstline == null)
                 {
-                    if (line.IndexOf("subcall")==0 || line.IndexOf("inline")==0)
+                    if (line.IndexOf("subcall")==0 || line.IndexOf("inline")==0 || line.IndexOf("init")==0)
                     {
                         currentfirstline = line;
                         body.Length = 0;
@@ -93,7 +94,7 @@ namespace EV3BasicCompiler
                         }
                         if (line.Trim().Length > 0)
                         {
-                            globals.AppendLine(line);
+                            runtimeglobals = runtimeglobals + line + "\n";
                         }
                     }
                 }
@@ -102,23 +103,29 @@ namespace EV3BasicCompiler
                     body.AppendLine(line);
                     if (line.IndexOf("}") == 0)
                     {
-                        bool inline = currentfirstline.StartsWith("inline");
-                        int idx1 = inline ? 6:7;
-                        int idx2 = currentfirstline.IndexOf("//", idx1);
-                        String functionname = currentfirstline.Substring(idx1, idx2 - idx1).Trim();
-                        String[] descriptorandreferences = currentfirstline.Substring(idx2 + 2).Trim().Split(new char[]{' ','\t'}, StringSplitOptions.RemoveEmptyEntries);
+                        if (currentfirstline.StartsWith("init"))
+                        {
+                            runtimeinit = runtimeinit + "    " + 
+                                (body.ToString().Substring(currentfirstline.Length).Replace('{',' ').Replace('}',' ').Trim())
+                                +"\n";
+                        }
+                        else
+                        {
+                            bool inline = currentfirstline.StartsWith("inline");
+                            int idx1 = inline ? 6 : 7;
+                            int idx2 = currentfirstline.IndexOf("//", idx1);
+                            String functionname = currentfirstline.Substring(idx1, idx2 - idx1).Trim();
+                            String[] descriptorandreferences = currentfirstline.Substring(idx2 + 2).Trim().Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        LibraryEntry le = new LibraryEntry(inline, descriptorandreferences, body.ToString());
-                        library[functionname.ToUpperInvariant()] = le;
-
+                            LibraryEntry le = new LibraryEntry(inline, descriptorandreferences, body.ToString());
+                            library[functionname.ToUpperInvariant()] = le;
+                        }
                         currentfirstline = null;
                     }
                 }
             }
 
             reader.Close();
-
-            runtimeglobals = runtimeglobals + globals.ToString();
         }
 
         public void Compile(Stream source, Stream targetstream, List<String> errorlist)
@@ -205,7 +212,9 @@ namespace EV3BasicCompiler
             target.WriteLine("vmthread MAIN");
             target.WriteLine("{");
             // initialize global variables
+            target.Write(runtimeinit);
             target.Write(initlist.ToString());
+            target.WriteLine("    ARRAY CREATE8 1 LOCKS");
             // launch main program
             target.WriteLine("    CALL PROGRAM_MAIN -1");
             target.WriteLine("    PROGRAM_STOP -1");
@@ -220,14 +229,14 @@ namespace EV3BasicCompiler
                 // launch program with proper subprogram selector and correct local data area
                 target.WriteLine("    DATA32 tmp");
                 target.WriteLine("  launch:");
-                target.WriteLine("    CALL PROGRAM_"+n+" "+i);
+                target.WriteLine("    CALL PROGRAM_"+n+" "+i);                
                 target.WriteLine("    CALL GETANDINC32 RUNCOUNTER_" + n + " -1 RUNCOUNTER_" + n + " tmp");
                             // after this position in the code, the flag could be 0 and another thread could 
                             // newly trigger this thread. this causes no problems, because this thread was 
                             // in process of terminating anyway and would not have called the worker method
                             // again. if it is now instead re-activated, it will immediately start at the
                             // begining.
-                target.WriteLine("    JR_GT32 tmp 1 launch");          
+                target.WriteLine("    JR_GT32 tmp 1 launch");
                 target.WriteLine("}");
                 memorize_reference("GETANDINC32");
             }
@@ -247,14 +256,15 @@ namespace EV3BasicCompiler
             // storage for variables for compiler use
             target.WriteLine("    DATA32 INDEX");
             target.WriteLine("    ARRAY8 STACKPOINTER 4");  // waste 4 bytes, but keep alignment
-            target.WriteLine("    ARRAY32 RETURNSTACK 256");
-            target.WriteLine();
-
             // storage for temporary float variables
             for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Number) && i < maxreservedtemporaries[ExpressionType.Number]; i++)
             {
                 target.WriteLine("    DATAF F" + i);
             }
+            // storage for the return stack
+            target.WriteLine("    ARRAY32 RETURNSTACK2 128");   // addressing the stack is done with an 8bit int.
+            target.WriteLine("    ARRAY32 RETURNSTACK 128");    // when it wrapps over from 127 to -128, the second 
+            target.WriteLine();                                 // part of the stack will be used (256 entries total)
             // storage for temporary string variables
             for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Text) && i < maxreservedtemporaries[ExpressionType.Text]; i++)
             {

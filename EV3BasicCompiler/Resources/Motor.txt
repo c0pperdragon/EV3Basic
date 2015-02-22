@@ -1,5 +1,10 @@
 // ------------------------------------------ EV3 MODULE: MOTOR ----------------------------------------------
 
+init
+{
+	OUTPUT_RESET 0 15
+}
+
 subcall MOTORDECODEPORTSDESCRIPTOR  //  V
 {
 	IN_S descriptor 8
@@ -382,14 +387,15 @@ noport:
 	MOVE8_F 0 result	
 }
 
-subcall MOTOR.MOVE     // SFSV   MOTORDECODEPORTSDESCRIPTOR
+
+subcall MOTORMOVEIMPL     // SFSV   MOTORDECODEPORTSDESCRIPTOR
 {
 	IN_S ports 8
 	IN_F count
 	IN_S brake 8
+	OUT_8 layer    // create this info as a byproduct
+	OUT_8 nos      // create this info as a byproduct
 
-	DATA8 layer
-	DATA8 nos
 	DATA32 cnt
 	DATA8 brk
 	
@@ -407,29 +413,34 @@ subcall MOTOR.MOVE     // SFSV   MOTORDECODEPORTSDESCRIPTOR
 	
 backwards:
 	OUTPUT_STEP_POWER layer nos -100 0 cnt 0 brk
-	OUTPUT_READY layer nos
-	
 dontmove:	
 }
 
-subcall MOTOR.WAIT     // SV   MOTORDECODEPORTSDESCRIPTOR
+inline MOTOR.MOVE     // SFSV  
 {
-	IN_S ports 8
+	DATA8 layer:#
+	DATA8 nos:#
+	DATA8 busy:#
+	CALL MOTORMOVEIMPL :0 :1 :2 layer:# nos:#
+  motorwaiting:#:
+	OUTPUT_TEST layer:# nos:# busy:#
+	JR_EQ8 busy:# 0 motornotbusy:#
+	SLEEP
+	JR motorwaiting:#
+  motornotbusy:#:
+}
 
-	DATA8 layer
-	DATA8 nos
-	DATA8 busy
-	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
-
-waiting:
-	OUTPUT_TEST layer nos busy
-	JR_EQ8 busy 0 notbusy
-	
-	DATA32 timer
-	TIMER_WAIT 2 timer
-	TIMER_READY timer
-	JR waiting
-	
-notbusy:
+inline MOTOR.WAIT     // SV   
+{
+	DATA8 layer:#
+	DATA8 nos:#
+	DATA8 busy:#
+	CALL MOTORDECODEPORTSDESCRIPTOR :0 layer:# nos:#
+  motorwaiting:#:
+	OUTPUT_TEST layer:# nos:# busy:#
+	JR_EQ8 busy:# 0 motornotbusy:#
+	SLEEP
+	JR motorwaiting:#
+  motornotbusy:#:
 }
 

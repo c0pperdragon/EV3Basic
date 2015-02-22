@@ -1,5 +1,10 @@
 // -------------------------------------------------- EV3 MODULE: SENSOR -----------------------------------
 
+init
+{
+	INPUT_DEVICE CLR_ALL -1
+}
+
 subcall SENSOR.GETNAME		// FS
 {
 	IN_F port
@@ -132,26 +137,15 @@ notbusy:
 	STRINGS DUPLICATE 'False' result
 }
 
-subcall SENSOR.WAIT       // FV
+inline SENSOR.WAIT       // FV
 {
-	IN_F port
-	
-	DATA8 layer
-	DATA8 no
-	
-	MOVEF_8 port no
-	SUB8 no 1 no
-	DIV8 no 4 layer
-	MATH MOD8 no 4 no
- 
-    DATA8 busy
-dotest:	
-	INPUT_TEST layer no busy
-	JR_EQ8 busy 0 notbusy
-	INPUT_READY layer no
-	JR dotest
-
-notbusy:	
+	DATA8 layer:#
+	DATA8 no:#	
+	MOVEF_8 :0 no:#
+	SUB8 no:# 1 no:#
+	DIV8 no:# 4 layer:#
+	MATH MOD8 no:# 4 no:# 
+	INPUT_READY layer:# no:#
 }
 
 

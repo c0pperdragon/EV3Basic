@@ -63,7 +63,7 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // -------------------------------------- EXTENSION MODULE: ASSERT -----------------------------------
         ///
-        ///subcall ASSERT.FAILED     // SV  
+        ///subcall ASSERT.FAILED     // SV         TEXT.GETSUBTEXT TEXT.GETSUBTEXTTOEND
         ///{
         ///	IN_S message 252
         ///	DATA32 timer
@@ -72,8 +72,6 @@ namespace EV3BasicCompiler.Properties {
         ///	UI_DRAW SELECT_FONT 1
         ///	UI_DRAW TEXT 1 0 16 &apos;ASSERT FAILED&apos;
         ///
-        ///	DATA8 zerobyte
-        ///	MOVE8_8 0 zerobyte
         ///	DATA16 y
         ///	MOVE16_16 32 y
         ///	
@@ -82,9 +80,9 @@ namespace EV3BasicCompiler.Properties {
         ///	STRINGS GET_SIZE message len
         ///	JR_LTEQ16 len 20 lastline
         ///	
-        ///	STRINGS DUPLICATE message INDIRECTMEMORY
-        ///	MEMORY_WRITE 1 0 20 1 zerobyte
-        ///	UI_DRAW TEXT 1 0  [rest of string was truncated]&quot;;.
+        ///	DATAS oneline 32
+        ///	CALL TEXT.GETSUBTEXT message 1.0 20.0 oneline
+        ///	UI_DRAW TEXT 1 0 y on [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Assert {
             get {
@@ -147,15 +145,17 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: LCD -------------------------------------------------
         ///
-        ///subcall LCD.MEMORIZECHANGES    // V
+        ///DATA32 STOPLCDUPDATE
+        ///
+        ///inline LCD.STOPUPDATE    // V
         ///{
         ///	MOVE32_32 1 STOPLCDUPDATE
         ///}
         ///
-        ///subcall LCD.UPDATE  // V
+        ///inline LCD.UPDATE  // V
         ///{
         ///	MOVE32_32 0 STOPLCDUPDATE
-        ///	UI_DRAW(UPDATE)
+        ///	UI_DRAW UPDATE
         ///}
         ///
         ///subcall LCD.CLEAR   // V
@@ -164,7 +164,7 @@ namespace EV3BasicCompiler.Properties {
         ///	UI_DRAW(CLEAN)
         ///	
         ///	JR_NEQ32 0 STOPLCDUPDATE skipupdate
-        ///	UI_DRAW(UPDATE)
+        ///	UI_DRAW UPDATE
         ///skipupdate:
         ///}
         ///
@@ -175,8 +175,7 @@ namespace EV3BasicCompiler.Properties {
         ///	IN_F y
         ///	IN_F w
         ///	IN_F h	
-        ///	
-        ///	DATA8 col_8        /// [rest of string was truncated]&quot;;.
+        ///	 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LCD {
             get {
@@ -187,33 +186,30 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ---------------------------------------- BASIC MODULE: MATH ---------------------------------------
         ///
-        ///subcall MATH.PI              // F
+        ///inline MATH.PI              // F
         ///{
-        ///	OUT_F result
-        ///	STRINGS STRING_TO_VALUE &apos;3.1415926535897932384&apos; result
+        ///	MOVEF_F 3.1415926535897932384 :0
         ///}
         ///
-        ///subcall MATH.ABS             // FF
+        ///inline MATH.ABS             // FF
         ///{
-        ///	IN_F a
-        ///	OUT_F result
-        ///
-        ///	MATH ABS a result
+        ///	MATH ABS :0 :1
         ///}
-        ///subcall MATH.ARCCOS          // FF
+        ///inline MATH.ARCCOS          // FF
         ///{
-        ///	IN_F a
-        ///	OUT_F result
-        ///
-        ///	MATH ACOS a result
-        ///	DIVF result 57.295779513082 result
+        ///	DATAF tmpf:#
+        ///	MATH ACOS :0 tmpf:#
+        ///	DIVF tmpf:# 57.295779513082 :1
         ///}
-        ///subcall MATH.ARCSIN          // FF
+        ///inline MATH.ARCSIN          // FF
         ///{
-        ///	IN_F a
-        ///	OUT_F result
-        ///
-        ///	MATH ASIN a [rest of string was truncated]&quot;;.
+        ///	DATAF tmpf:#
+        ///	MATH ASIN :0 tmpf:#
+        ///	DIVF tmpf:# 57.295779513082 :1
+        ///}
+        ///inline MATH.ARCTAN          // FF
+        ///{
+        ///	DATAF tmpf [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Math {
             get {
@@ -266,8 +262,8 @@ namespace EV3BasicCompiler.Properties {
         ///
         ///subcall PROGRAM.DIRECTORY  // S
         ///{
-        ///	OUT_S result 252
-        ///	FILENAME(GET_FOLDERNAME,252,result)
+        ///	OUT_S result 128
+        ///	FILENAME(GET_FOLDERNAME,127,result)
         ///}
         ///
         ///subcall PROGRAM.GETARGUMENT  // FF
@@ -278,12 +274,12 @@ namespace EV3BasicCompiler.Properties {
         ///}
         ///
         ///
-        ///subcall PROGRAM.DELAY    // FV
+        ///inline PROGRAM.DELAY    // FV
         ///{
-        ///	IN_F milliseconds
-        ///	
-        ///	DATA32 milliseconds_32
-        ///	MOVEF_32 milliseconds mi [rest of string was truncated]&quot;;.
+        ///	DATA32 milliseconds:#
+        ///	MOVEF_32 :0 milliseconds:#
+        ///	DATA32 timer:#
+        ///	TIM [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Program {
             get {
@@ -292,36 +288,27 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to // global data for various functions
-        ///
-        ///DATAS INDIRECTMEMORY 252
-        ///DATA32 STOPLCDUPDATE
-        ///DATA32 RAWVALUE0
-        ///DATA32 RAWVALUE1
-        ///DATA32 RAWVALUE2
-        ///DATA32 RAWVALUE3
-        ///DATA32 RAWVALUE4
-        ///DATA32 RAWVALUE5
-        ///DATA32 RAWVALUE6
-        ///DATA32 RAWVALUE7
-        ///
-        ///
-        ///// ------------------------------------------ LANGUAGE FEATURES ----------------------------
-        ///subcall DIV            // FFF
+        ///   Looks up a localized string similar to 
+        ///// This method uses the property of the VM, that a subcall can not be 
+        ///// re-called by a thread while it is still running in another thread.
+        ///// It does an atomic get and increment action, incrementing a counter 
+        ///// and returning the original value in a seperate (thread-local) variable
+        ///subcall GETANDINC32     // V
         ///{
-        ///	IN_F a
-        ///	IN_F b
-        ///	OUT_F result
-        ///	
-        ///	JR_EQF 0.0 b divisionbyzero	
-        ///	DIVF a b result
-        ///	RETURN
-        ///divisionbyzero:	
-        ///	MOVE32_f 0 result
-        ///	RETURN
+        ///	IN_32 counterin
+        ///	IN_32 inc
+        ///	OUT_32 counterout
+        ///	OUT_32 prev
+        ///
+        ///	MOVE32_32 counterin prev
+        ///	ADD32 counterin inc counterout
         ///}
         ///
-        ///su [rest of string was truncated]&quot;;.
+        ///
+        ///subcall EQ_STRING       // SSS
+        ///{
+        ///	IN_S  a 252
+        ///	IN_S [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string runtimelibrary {
             get {
@@ -342,7 +329,8 @@ namespace EV3BasicCompiler.Properties {
         ///	
         ///	MOVEF_8 port no
         ///	SUB8 no 1 no
-        ///	MOVE8_8 0 layer
+        ///	DIV8 no 4 layer
+        ///	MATH MOD8 no 4 no
         ///	
         ///	INPUT_DEVICE GET_NAME layer no 32 result
         ///	STRINGS STRIP result result
@@ -360,9 +348,7 @@ namespace EV3BasicCompiler.Properties {
         ///	
         ///	MOVEF_8 port no
         ///	SUB8 no 1 no
-        ///	MOVE8_8 0 layer
-        ///	
-        ///	 [rest of string was truncated]&quot;;.
+        ///	D [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Sensor {
             get {
@@ -373,7 +359,7 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: SPEAKER -------------------------------------------------
         ///
-        ///subcall SPEAKER.STOP      // V
+        ///inline SPEAKER.STOP      // V
         ///{
         ///	SOUND BREAK
         ///}
@@ -402,7 +388,7 @@ namespace EV3BasicCompiler.Properties {
         ///	
         ///	DATA8 vol
         ///	DATA16 tne
-        ///	DATA16 du [rest of string was truncated]&quot;;.
+        ///	DATA16 dur [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Speaker {
             get {
@@ -446,30 +432,52 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to inline THREAD.YIELD  // V
+        ///{
+        ///	SLEEP
+        ///}
+        ///.
+        /// </summary>
+        internal static string Thread {
+            get {
+                return ResourceManager.GetString("Thread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to // -------------------------------------- EXTENSION MODULE: VECTOR --------------------------------------------
         ///
-        ///subcall VECTOR.SORT       // FAA
+        ///subcall VECTOR.INIT       // FFA
         ///{
-        ///    IN_F  num  // number of elements
-        ///	IN_16 a    // original array
-        ///	IN_16 x    // where to store
+        ///	IN_F size
+        ///	IN_F value
+        ///	IN_16 a
         ///
-        ///	ARRAY COPY a x  // copy to target (to be sorted there)
+        ///	DATA32 size32
+        ///	MOVEF_32 size size32
+        ///	JR_LTEQ32 size32 0 empty
         ///
-        ///	DATA32 i
-        ///	DATA32 num32
-        ///	DATAF v
-        ///	MOVEF_32 num num32	
-        ///	MOVE32_32 0 i
-        ///loop:
-        ///	JR_GTEQ32 i num32 endofsort
-        ///	ARRAY_READ x i v
-        ///	ADDF v 3.0 v
-        ///	ARRAY_WRITE x i v
-        ///	ADD32 i 1 i
-        ///	JR loop
+        ///	ARRAY RESIZE a size32
+        ///	ARRAY FILL a value
+        ///	RETURN
         ///
-        ///endofsor [rest of string was truncated]&quot;;.
+        ///empty:
+        ///    ARRAY RESIZE a 0
+        ///}
+        ///
+        ///subcall VECTOR.ADD        // FAAA
+        ///{
+        ///	IN_F size
+        ///	IN_16 a
+        ///	IN_16 b
+        ///	IN_16 c
+        ///
+        ///	DATA32 sizea
+        ///	DATA32 sizeb
+        ///	ARRAY SIZE a sizea
+        ///	ARRAY SIZE b sizeb
+        ///
+        ///	DATA32  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Vector {
             get {

@@ -8,7 +8,7 @@
 07 OBJECT_WAIT         T
 08 RETURN
 // 09 CALL            
-// 0A OBJECT_END          
+0A OBJECT_END          
 0B SLEEP
 
 0C00 PROGRAM_INFO OBJ_STOP       16 16

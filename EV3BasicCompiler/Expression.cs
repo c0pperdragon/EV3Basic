@@ -228,16 +228,26 @@ namespace EV3BasicCompiler
                 compiler.releaseVariable(et);
             }
 
-            // check if this was a call of a library method
-            if (function.StartsWith("CALL "))
+            // check if contains calls of a library method
+            int idx = 0;
+            for (;;)
             {
-                String n = function.Substring(5).Trim();
-                int idx = n.IndexOf(' ');
-                if (idx>=0)
+                idx = function.IndexOf("CALL ", idx);
+                if (idx<0)
                 {
-                    n = n.Substring(0,idx).Trim();
+                    break;
                 }
-                compiler.memorize_reference(n);
+                if (idx==0 || function[idx-1]==' ' || function[idx-1]=='\t')
+                {
+                    String n = function.Substring(idx+5).Trim();
+                    int space = n.IndexOf(' ');
+                    if (space >= 0)
+                    {
+                        n = n.Substring(0, space).Trim();
+                    }
+                    compiler.memorize_reference(n);
+                }
+                idx++;
             }
         }
 
@@ -249,27 +259,33 @@ namespace EV3BasicCompiler
             {
                 // look for the next occurence of ":" that denotes a replacement 
                 int idx = format.IndexOf(':', cursor);
-                if (idx < 0)
+                if (idx < 0)   // no more placeholders to find
                 {
                     break;
                 }
-                if (format[idx + 1] == '#')     // macro expansion needs a unique identifier here
+                if (idx + 1 < format.Length)  // do not reach boyond a trailing ':'
                 {
-                    String str = ""+expansioncounter;
-                    format = format.Substring(0, idx) + str + format.Substring(idx + 2);
-                    cursor = cursor + str.Length;
+                    if (format[idx + 1] == '#')     // macro expansion needs a unique identifier here
+                    {
+                        String str = "" + expansioncounter;
+                        format = format.Substring(0, idx) + str + format.Substring(idx + 2);
+                        cursor = cursor + str.Length;
+                        continue;
+                    }
+                    else if (format[idx + 1] >= '0' && format[idx + 1] <= '9')
+                    {
+                        // get the character after the ':' to know which parameter to take
+                        int pnum = format[idx + 1] - '0';
+                        // insert the value of the parameter. whenever something is amiss, throw exceptions
+                        format = format.Substring(0, idx) + par[pnum] + format.Substring(idx + 2);
+                        // skip the parameter that was just put in place
+                        cursor = cursor + par[pnum].Length;
+                        // memorize that his parameter was used 
+                        uses.Add(pnum);
+                        continue;
+                    }
                 }
-                else
-                {
-                    // get the character after the ':' to know which parameter to take
-                    int pnum = format[idx + 1] - '0';
-                    // insert the value of the parameter. whenever something is amiss, throw exceptions
-                    format = format.Substring(0, idx) + par[pnum] + format.Substring(idx + 2);
-                    // skip the parameter that was just put in place
-                    cursor = cursor + par[pnum].Length;
-                    // memorize that his parameter was used 
-                    uses.Add(pnum);
-                }
+                cursor = idx+1;  // continue searching
             }
 
             // remove the used parameters from the list, so it will not be auto-appended

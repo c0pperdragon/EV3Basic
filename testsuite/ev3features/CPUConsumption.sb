@@ -1,0 +1,42 @@
+timeused = 0
+
+LCD.Clear()
+CALC()
+LCD.Text(1,0,30,1,"No threads:    "+timeused+"ms")
+continuegently = "true"
+Thread.Run = GENT
+CALC()
+continuegently = "false"
+LCD.Text(1,0,45,1,"Gentle thread: "+timeused+"ms")
+Thread.Run = HOG
+CALC()
+LCD.Text(1,0,60,1,"Hog thread:    "+timeused+"ms")
+
+Program.Delay(500000)
+
+
+' simulate a bigger calculation
+Sub CALC
+  start = EV3.Time
+  For i=1 To 1000000
+  endfor
+  timeused = EV3.Time - start  
+EndSub
+  
+' a nice thread that gives up every time-slice  
+Sub GENT
+  While continuegently
+    Math.Cos(0.532)
+    Thread.Yield()
+  endwhile  
+EndSub  
+
+' a thread completely hogging the CPU
+Sub HOG  
+  While "true"
+    Math.Sin(2.4)
+  endwhile  
+EndSub
+
+
+

@@ -2,10 +2,14 @@ DATA32 pingtarget
 	
 vmthread MAIN
 {   
-	UI_DRAW(CLEAN)
-	UI_DRAW(TEXT,1,10,50,'EV3 Basic')
-	UI_DRAW(TEXT,1,10,64,'Remote session')
-	UI_DRAW(UPDATE)
+	OUTPUT_RESET 0 15
+	INPUT_DEVICE CLR_ALL -1
+	
+//	UI_DRAW CLEAN 
+//	UI_DRAW SELECT_FONT 1
+//	UI_DRAW TEXT,1,10,50,'EV3-Basic'
+//	UI_DRAW TEXT,1,10,64,'Remote session'
+//	UI_DRAW UPDATE
 	
 watchdogloop:
 	MOVE32_32 0,pingtarget

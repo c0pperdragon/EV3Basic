@@ -1,19 +1,4 @@
 
-// This method uses the property of the VM, that a subcall can not be 
-// re-called by a thread while it is still running in another thread.
-// It does an atomic get and increment action, incrementing a counter 
-// and returning the original value in a seperate (thread-local) variable
-subcall GETANDINC32     // V
-{
-	IN_32 counterin
-	IN_32 inc
-	OUT_32 counterout
-	OUT_32 prev
-
-	MOVE32_32 counterin prev
-	ADD32 counterin inc counterout
-}
-
 
 subcall EQ_STRING       // SSS
 {

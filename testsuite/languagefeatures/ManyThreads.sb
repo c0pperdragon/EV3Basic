@@ -2,12 +2,13 @@ I = 0
 LCD.Clear()
 
 Thread.Run = SUB1
+Program.Delay(200)
 Thread.Run = SUB1
 Thread.Run = SUB2
 Thread.Run = SUB3
 Thread.Run = SUB3
 
-Program.Delay(5000)
+Program.Delay(500000)
 
 Sub SUB1  
   Thread.Run = SUB3
@@ -24,4 +25,5 @@ EndSub
 Sub SUB3
   LCD.Text(1, 40,10*I, 1, (I+1)+". call")
   I= I+1
+  Program.Delay(100)
 EndSub

@@ -1,0 +1,89 @@
+// -------------------------------------- EXTENSION MODULE: THREAD --------------------------------------------
+
+ARRAY16 LOCKS 2           // Handle to byte-array for locking 
+                          // This array must only be created/extended by the subcall THREAD.CREATEMUTEX
+				  	      // Modification of individual elements must only be done by the subcall GETANDSETLOCK
+init
+{
+	ARRAY CREATE8 0 LOCKS
+}
+
+// This method uses the property of the VM, that a subcall can not be 
+// re-called by a thread while it is still running in another thread.
+// It does a get and increment action, incrementing a counter 
+// and returning the original value in a seperate (thread-local) variable,
+// which can not be interrupted by another GETANDINC32 of other threads
+subcall GETANDINC32     // V
+{
+	IN_32 counterin
+	IN_32 inc
+	OUT_32 counterout
+	OUT_32 prev
+
+	MOVE32_32 counterin prev
+	ADD32 counterin inc counterout
+}
+
+// This method can be used to do an atomic test-and-set action on a
+// a value in a byte array. It can not be interrupted by a TESTANDSET
+// which is called in another thread, but it can be interrupted by 
+// any other action of other threads.
+subcall GETANDSETLOCK           // V
+{
+	IN_F index						// index as float as being used in Basic. 
+	                                // when not valid do nothing and return newvalue as oldvalue (prevent aquiring lock)
+	IN_8  newvalue                  // set to this value
+	OUT_8 oldvalue                  // return previous value
+
+	DATA32 size
+	DATA32 idx
+	MOVEF_32 index idx
+	ARRAY SIZE LOCKS size
+	JR_LT32 idx 0 outofbounds
+	JR_GTEQ32 idx size outofbounds
+
+	ARRAY_READ LOCKS idx oldvalue
+	ARRAY_WRITE LOCKS idx newvalue
+	RETURN
+
+outofbounds:
+	MOVE8_8 newvalue oldvalue
+}
+
+
+inline THREAD.YIELD  // V
+{
+	SLEEP
+}
+
+subcall THREAD.CREATEMUTEX	// F
+{
+	OUT_F index
+
+	DATA8 zero
+	MOVE8_8 0 zero
+
+	DATA32 idx
+	ARRAY SIZE LOCKS idx
+	ARRAY_APPEND LOCKS zero
+
+	MOVE32_F idx index
+}
+
+inline THREAD.LOCK         // FV             GETANDSETLOCK
+{	
+	DATA8 previous:#
+  tryaquire:#:
+	CALL GETANDSETLOCK :0 1 previous:#
+	JR_EQ8 0 previous:# success:#
+	SLEEP
+	JR tryaquire:#
+  success:#:
+}
+
+inline THREAD.UNLOCK       // FV           GETANDSETLOCK
+{
+	DATA8 dummy:#
+	CALL GETANDSETLOCK :0 0 dummy:#
+}
+

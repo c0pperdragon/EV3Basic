@@ -1,0 +1,50 @@
+' create a mutex for thread synchronization
+M = Thread.CreateMutex()
+' fire up 2 threads and use the main thread as a third
+Thread.Run = T1
+Thread.Run = T2
+T3()
+
+' Many concurrent threads that want to access a shared resource 
+' in a random fashion
+Sub T1
+  While "true"
+    Program.Delay(Math.GetRandomNumber(10000))
+    BlinkAndBeep()
+  endwhile
+EndSub
+
+Sub T2
+  While "true"
+    Program.Delay(Math.GetRandomNumber(10000))
+    BlinkAndBeep()
+  endwhile  
+EndSub
+
+Sub T3
+  While "true"
+    Program.Delay(Math.GetRandomNumber(10000))
+    BlinkAndBeep()
+  endwhile  
+EndSub
+
+' A subroutine doing a 2-second long beep and blink patern
+' Any thread may call this routine, but the individual runs must not
+' be desturbed, so a mutex is used to allow only one thread into the 
+' critical section
+Sub BlinkAndBeep
+  Thread.Lock(M)
+  
+  EV3.SetLEDColor("ORANGE", "NORMAL")
+  Program.Delay(500)
+  EV3.SetLEDColor("OFF", "NORMAL")
+  Speaker.Note(15, "C4", 500)
+  Program.Delay(500)
+  EV3.SetLEDColor("RED", "NORMAL")  
+  Speaker.Note(15, "F4", 500)
+  Program.Delay(500)
+  EV3.SetLEDColor("OFF", "NORMAL")  
+  Program.Delay(500)
+  
+  Thread.Unlock(M)  
+EndSub
