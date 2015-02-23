@@ -1,3 +1,14 @@
+'// HaWe Brickbench
+'// benchmark test for NXT/EV3 and similar Micro Controllers
+'// PL: gpp CSLite C/C++, C-API and BCC by John Hansen
+'// Autor: (C) Helmut Wunder 2013,2014
+'// freie Verwendung für private Zwecke
+'// für kommerzielle Zwecke nur nach Genehmigung durch den Autor.
+'// protected under the friendly Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+'// http://creativecommons.org/licenses/by-nc-sa/3.0/
+'// ported to EV3-Basic: Reinhard Grafl
+'// version 1.09.0
+
 'PRAGMA NOBOUNDSCHECK
 'PRAGMA NODIVISIONCHECK
 
