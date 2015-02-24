@@ -12,16 +12,16 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            TestCompile();
-            TestAssemble();
-  //          TestDisassemble();
+//            TestCompile();
+//            TestAssemble();
+            TestDisassemble();
         }
 
         static void TestDisassemble()
         {
             Assembler a = new Assembler();
 
-            String f = "C:/Users/Reinhard/Documents/Program.rbf";
+            String f = "C:/temp/Program.rbf";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
 
             a.Disassemble(fs, Console.Out);

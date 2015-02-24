@@ -8,7 +8,11 @@ using Microsoft.SmallBasic.Library;
 
 namespace SmallBasicEV3Extension
 {
-
+    /// <summary>
+    /// This object supports the use of threads in a program. A threads is a piece of program code that can run independently and at the same time as other parts of the program.
+    /// For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.
+    /// Geneally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.
+    /// </summary>
     [SmallBasicType]
     public class Thread
     {
@@ -22,8 +26,13 @@ namespace SmallBasicEV3Extension
         // with sensible behaviour if used incorrectly (create immediate full lock to show usage error!)
         private static List<bool> locks = new List<bool>();
 
-        // This does not install an event handler, but triggers a new thread instead.
-        // That was the only way to get a nice API for threading in Small Basic.
+        /// <summary>
+        /// With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread.
+        /// (e.g.  Thread.Run = MYSUB). 
+        /// Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second
+        /// use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.
+        /// Note that even in the precence of running threads, the whole program stops as soon as the main program runs to its end.
+        /// </summary>
         public static event SmallBasicCallback Run 
         {
             // do not install an event handler, but start a thread instead
@@ -44,11 +53,20 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Threads are often not really running in parallel because there may be not enough CPUs to exclusively do the work for each thread. Instead, the CPU will do a bit of work on one thread and then jump to the next thread and so on very quickly, to make it look like everything is running in parallel.
+        /// Whenever a thread has nothing to do just now, but needs to wait for some condition to arrive, it can give up the control of the CPU with the Yield() function, so other threads get the chance to do their work. 
+        /// </summary>
         public static void Yield()
         {
             System.Threading.Thread.Sleep(0);
         }
 
+        /// <summary>
+        /// Create a mutex (short for "mutual exclusion" handler) that can be used for thread synchronization. 
+        /// Only creation of mutexes is supported, but no deletion. Best practice is to create all needed mutexes at program start and keep their numbers in global variables.
+        /// </summary>
+        /// <returns>A number specifying the new mutex. Use this for calls to Lock and Unlock</returns>
         public static Primitive CreateMutex()
         {
             lock (locks)
@@ -59,6 +77,13 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Tries to lock the given mutex exclusively so no other thread can use it. 
+        /// When another thread already holds a lock on the mutex, this thread will wait until the lock is released and then aquire the lock itself (once the function call returns, the mutex has been successfully locked).
+        /// This locking mechanism is normally used to protect some data structures or other resources to be accessed by two threads concurrently. 
+        /// Every call to Lock must be paired with a call to a subsequent Unlock.
+        /// </summary>
+        /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Lock(Primitive mutex)
         {
             int idx;
@@ -85,6 +110,10 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Releases a lock on a mutex. This function must only be called when there was a indeed a preceeding call to Lock. 
+        /// </summary>
+        /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Unlock(Primitive mutex)
         {
             int idx;

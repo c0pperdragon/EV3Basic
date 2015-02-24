@@ -276,6 +276,57 @@ namespace SmallBasicEV3Extension
             return Primitive.ConvertFromMap(map);
         }
 
+        /// <summary>
+        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// This command addresses one device on the I2C-bus and either requests to just receive
+        /// one byte of data or it will first send one byte of data and immediately
+        /// requests one byte back.
+        /// This feature could be used to attach a custom sensor or to communicate with any
+        /// device that is capable to be connected to the I2C bus as a slave.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        /// <param name="data">If in the range 0 - 255, this data will be sent as a byte to the device.</param>
+        /// <returns>The response from the device (a value 0 - 255)</returns>
+        public static Primitive CommunicateI2C(Primitive port, Primitive address, Primitive data)
+        {
+            int layer;
+            int no;
+            int addr;
+            int dta;
+            DecodePort(port, out layer, out no);
+            if (!int.TryParse(address == null ? "" : address.ToString(), out addr))
+            {
+                addr = 0;
+            }
+            if (!int.TryParse(data == null ? "" : data.ToString(), out dta))
+            {
+                dta = -1;
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data in local variable
+            c.CONST(2);                // prepare 2 bytes 
+            c.CONST(addr & 0x7f);      //  first byte: address (from 0 - 127)
+            c.CONST(dta & 0xff);       //  second byte: optional payload
+            c.OP(0x99);                // opInput_Device
+            c.CONST(0x09);             // CMD: SETUP = 0x09
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(1);                // repeat
+            c.CONST(0);                // time
+            c.CONST((dta>=0 && dta<=255) ? 2:1); // bytes to write (including address)
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+            c.CONST(1);                // bytes to read (no address)
+            c.GLOBVAR(0);              // buffer to read into is global variable, beginning from 0
+            
+            byte[] result = EV3Communicator.DirectCommand(c, 1,2);
+            double r = (result!=null && result.Length>0) ? ((double) result[0]) : 0.0;
+
+            return new Primitive(r);
+        }
+
 
         private static void DecodePort(Primitive port, out int layer, out int no)
         {

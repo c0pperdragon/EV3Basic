@@ -226,3 +226,45 @@ nomoredata:
 arrayempty:
 	ARRAY RESIZE resultarray 0
 }
+
+
+subcall SENSOR.COMMUNICATEI2C     // FFFF
+{
+	IN_F port
+	IN_F address
+	IN_F data
+	OUT_F received
+
+	DATA32 outvalue32
+	DATA32 received32
+
+	DATA8 layer
+	DATA8 no
+	DATA8 outaddr
+	DATA8 outvalue
+	DATA8 invalue
+			
+	MOVEF_8 port no
+	SUB8 no 1 no
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
+
+	MOVEF_8 address outaddr
+	MOVEF_32 data outvalue32
+
+	JR_LT32 outvalue32 0 nosend
+	JR_GT32 outvalue32 255 nosend
+
+	AND32 255 outvalue32 outvalue32
+	MOVE32_8 outvalue32 outvalue
+	INPUT_DEVICE SETUP layer no 1 0 2 outaddr 1 invalue
+	JR    afterio	 
+
+nosend:
+	INPUT_DEVICE SETUP layer no 1 0 1 outaddr 1 invalue
+
+afterio:
+	MOVE8_32 invalue received32
+	AND32 255 received32 received32
+	MOVE32_F received32 received
+}

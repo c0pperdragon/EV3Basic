@@ -61,6 +61,29 @@ namespace EV3Communication
             }
         }
 
+        public void LOCVAR(int var)
+        {
+            if (var <= 31)
+            {
+                Append8((var & 0x1f) | 0x40);
+            }
+            else if (var <= 255)
+            {
+                Append8(0xc1);
+                Append8(var);
+            }
+            else if (var <= 65535)
+            {
+                Append8(0xc2);
+                Append16(var);
+            }
+            else
+            {
+                Append8(0xc3);
+                Append32(var);
+            }
+        }
+
         public void STRING(String text)
         {
             Append8(0x84);
