@@ -12,9 +12,9 @@ namespace Test
     {
         static void Main(string[] args)
         {
-//            TestCompile();
-//            TestAssemble();
-            TestDisassemble();
+            TestCompile();
+            TestAssemble();
+//            TestDisassemble();
         }
 
         static void TestDisassemble()
@@ -31,7 +31,7 @@ namespace Test
 
         static void TestCompile()
         {    
-            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/testsuite/languagefeatures/Locking.sb";
+            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/testsuite/ev3features/NativeCode.sb";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
             FileStream ofs = new FileStream("c:/temp/compiledbasic.lms", FileMode.Create, FileAccess.Write);
 

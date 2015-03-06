@@ -1,5 +1,9 @@
 // ------------------------------------------ EV3 MODULE: EV3 -------------------------------------------------
 
+DATA16 FD_NATIVECODECOMMAND
+DATA16 FD_NATIVECODERESPONSE
+
+
 subcall EV3.SETLEDCOLOR    // SSV
 {
 	IN_S color 8		// only receive first 7 characters
@@ -69,3 +73,74 @@ subcall EV3.BATTERYLEVEL  // F
 	UI_READ GET_LBATT l8
 	MOVE8_F l8 level
 }
+
+subcall EV3.SYSTEMCALL     // SF
+{
+	IN_S commandline 252
+	OUT_F result
+
+	DATA32 result32
+	DATA8 result00
+	DATA8 result01
+	DATA8 result02
+	DATA8 result03
+
+	SYSTEM commandline result00
+	MOVE8_32 result01 result32
+	AND32 result32 255 result32
+
+	MOVE32_F result32 result
+}
+
+subcall EV3.NATIVECODE   // SF
+{
+	IN_S command 252
+	OUT_F response
+
+	DATA8 errorcode00 
+	DATA8 errorcode01 
+	DATA8 errorcode02 
+	DATA8 errorcode03
+	DATA32 filesize
+	DATAS responsetxt 128
+
+	// check if native code process is already running
+	JR_NEQ16 0 FD_NATIVECODECOMMAND alreadyrunning
+
+	// create/open named pipes
+	SYSTEM 'mknod /tmp/nativecodecommand p' errorcode00
+	SYSTEM 'mknod /tmp/nativecoderesponse p' errorcode00
+
+	// fire up the native code process
+	SYSTEM '/tmp/nativecode </tmp/nativecodecommand >/tmp/nativecoderesponse &' errorcode00
+	JR_NEQ8 errorcode01 0 errorclose
+
+	FILE OPEN_WRITE '/tmp/nativecodecommand' FD_NATIVECODECOMMAND
+	JR_LT16 FD_NATIVECODECOMMAND 1 errorclose
+	FILE OPEN_READ '/tmp/nativecoderesponse' FD_NATIVECODERESPONSE filesize
+	JR_LT16 FD_NATIVECODERESPONSE 1 errorclose
+
+alreadyrunning:
+	FILE WRITE_TEXT FD_NATIVECODECOMMAND 6 command
+
+//	DATA32 timer
+//	TIMER_WAIT 5 timer
+//	TIMER_READY timer
+
+	FILE READ_TEXT  FD_NATIVECODERESPONSE 6 127 responsetxt
+	STRINGS STRING_TO_VALUE responsetxt response
+	RETURN
+
+errorclose:
+	JR_EQ16 FD_NATIVECODECOMMAND 0 notopen1
+	FILE CLOSE FD_NATIVECODECOMMAND
+	MOVE16_16 0 FD_NATIVECODECOMMAND 
+notopen1:
+	JR_EQ16 FD_NATIVECODERESPONSE 0 notopen2
+	FILE CLOSE FD_NATIVECODERESPONSE
+	MOVE16_16 0 FD_NATIVECODERESPONSE 
+notopen2:
+	MOVEF_F -1.0 response
+}
+
+

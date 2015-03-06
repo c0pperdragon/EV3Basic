@@ -43,9 +43,15 @@ subcall SPEAKER.PLAY    // FSV
 	IN_S filename 252
 	
 	DATA8 vol 
+	DATAS fullname 300
 	MOVEF_8 volume vol
+
+	STRINGS DUPLICATE filename fullname
+	JR_EQ8 filename 47 absolutepath               // filename begins with a '/'
+	STRINGS ADD '/home/root/lms2012/prjs/' filename fullname
+absolutepath:
 	
-	SOUND PLAY vol filename
+	SOUND PLAY vol fullname
 }
 
 subcall SPEAKER.ISBUSY     // S

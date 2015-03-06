@@ -310,4 +310,3 @@ subcall ARRAYGET_STRING   // FFS
 	ARRAY READ_CONTENT 1 handle index32 252 value   // transfer memory from program slot 1
 }
 
-

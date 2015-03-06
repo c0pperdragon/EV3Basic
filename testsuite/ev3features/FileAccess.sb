@@ -1,0 +1,23 @@
+
+LCD.Clear()
+F = EV3File.OpenAppend("testfile.txt")
+LCD.Text(1,0,0,1,"Append handle: "+F)
+EV3File.WriteLine(F, "this is a test line")
+EV3File.Close(F)
+
+F = EV3File.OpenWrite("testfile.txt")
+LCD.Text(1,0,16,1,"Write handle: "+F)
+EV3File.WriteLine(F, "dummy text")
+EV3File.WriteByte(F, 64)
+EV3File.WriteByte(F, 10)
+EV3File.Close(F)
+
+F = EV3File.OpenRead("testfile.txt")
+LCD.Text(1,0,32,1,"Read handle: "+F)
+For I=1 To 5 
+  LCD.Text(1,0,32+16*i,1,i+": "+EV3File.ReadLine(F))
+endfor
+EV3File.Close(F)
+
+LCD.Text(1,160,90,1,"Done")
+Program.Delay(10000)

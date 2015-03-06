@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 using EV3Communication;
@@ -46,7 +45,7 @@ namespace EV3Explorer
 
             // initialize common data
             brickavailable = false;
-            ev3path = "/prjs/";
+            ev3path = "/home/root/lms2012/prjs/";
             try
             {
                 pcdirectory = new DirectoryInfo(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal));
@@ -214,6 +213,41 @@ namespace EV3Explorer
             }
         }
 
+        private void Upload_clicked(Object sender, EventArgs e)
+        {
+            DirectoryEntry de = (DirectoryEntry)EV3Directory.SelectedItem;
+            if (de != null && !de.IsDirectory)
+            {
+                try
+                {
+                    byte[] data = null;
+                    EV3Connection c = new EV3ConnectionUSB();
+                    try
+                    {
+                        data = c.ReadEV3File(basepath + ev3path + de.FileName);
+                    }
+                    finally
+                    {
+                        c.Close();
+                    }
+                    brickavailable = true;
+
+                    if (data!=null)
+                    {
+                        FileStream fs = new FileStream(pcdirectory.FullName+Path.DirectorySeparatorChar+de.FileName, FileMode.Create, FileAccess.Write);
+                        fs.Write(data, 0, data.Length);
+                        fs.Close();
+
+                        PCRefreshList_clicked(null,null);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    brickavailable = false;
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }            
+        }
 
 
         void PCRefreshList_clicked(object sender, RoutedEventArgs e)
@@ -300,7 +334,7 @@ namespace EV3Explorer
                     EV3Connection c = new EV3ConnectionUSB();
                     try
                     {
-                        CreateEV3File(c, pcfile.Name, content);
+                        c.CreateEV3File(basepath + ev3path + pcfile.Name, content);
                         ReadEV3Directory(c);
                     }
                     finally
@@ -409,7 +443,7 @@ namespace EV3Explorer
                         EV3Connection c = new EV3ConnectionUSB();
                         try
                         {
-                            CreateEV3File(c, targetfilename, content);
+                            c.CreateEV3File(basepath + ev3path + targetfilename, content);
                             ReadEV3Directory(c);
                             if (run)
                             {
@@ -451,6 +485,7 @@ namespace EV3Explorer
                 DeleteFile.IsEnabled = false;
                 DeleteDirectory.IsEnabled = false;
                 NewFolder.IsEnabled = false;
+                Upload.IsEnabled = false;
                 Download.IsEnabled = false;
                 Compile.IsEnabled = false;
                 CompileAndRun.IsEnabled = false;
@@ -464,8 +499,9 @@ namespace EV3Explorer
                 DeleteFile.IsEnabled = de != null && !de.IsDirectory;
                 DeleteDirectory.IsEnabled = EV3Directory.Items.Count == 0;
                 NewFolder.IsEnabled = true;
+                Upload.IsEnabled = de != null && !de.IsDirectory;
                 de = (DirectoryEntry)PCDirectory.SelectedItem;
-                Download.IsEnabled = de != null && de.IsDirectory;
+                Download.IsEnabled = de != null && !de.IsDirectory;
                 Compile.IsEnabled = de != null && de.IsCompileable;
                 CompileAndRun.IsEnabled = de != null && de.IsCompileable;
             }
@@ -495,7 +531,7 @@ namespace EV3Explorer
 
         // -------------- do the communication with the brick --------------------
 
-        private const String basepath = "..";
+        private const String basepath = "/."; //..";
 
         private void ReadEV3Directory(EV3Connection con)
         {
@@ -619,7 +655,7 @@ namespace EV3Explorer
             con.SystemCommand(EV3Connection.CREATE_DIR, b);
         }
 
-
+/*
         private void CreateEV3File(EV3Connection con, String filename, byte[] content)
         {
             int chunksize = 500;
@@ -680,6 +716,75 @@ namespace EV3Explorer
                 pos += transfernow;
             }
         }
+
+        private byte[] ReadEV3File(EV3Connection con, String filename)
+        {
+            int chunksize = 500;
+            String fullname = basepath + ev3path + filename;
+
+            // start the transfer
+            BinaryBuffer b = new BinaryBuffer();
+            b.Append16(0);                     // transfer no content right now
+            b.AppendZeroTerminated(fullname);
+
+            byte[] response = con.SystemCommand(EV3Connection.BEGIN_UPLOAD, b);
+
+            if (response == null)
+            {
+                throw new Exception("No response to BEGIN_UPLOAD");
+            }
+            if (response.Length < 6)
+            {
+                throw new Exception("Response too short for BEGIN_UPLOAD");
+            }
+            if (response[0] != EV3Connection.SUCCESS && response[0] != EV3Connection.END_OF_FILE)
+            {
+                throw new Exception("Unexpected status at BEGIN_DOWNLOAD: " + response[0]);
+            }
+
+            int len = ((int)response[1]) + (((int)response[2]) << 8) + (((int)response[3]) << 16) + (((int)response[4]) << 24);
+            int handle = response[5] & 0xff;
+
+            Console.WriteLine("Start uploading file of size: " + len + ". handle=" + handle);
+
+            byte[] buffer = new byte[len];
+            int pos = 0;
+
+            // transfer bytes in small chunks
+            while (pos < len)
+            {
+                int transfernow = Math.Min(len - pos, chunksize);
+                b.Clear();
+                b.Append8(handle);
+                b.Append16(transfernow);
+
+                response = con.SystemCommand(EV3Connection.CONTINUE_UPLOAD, b);
+
+                if (response == null)
+                {
+                    throw new Exception("No response to CONTINUE_UPLOAD");
+                }
+                if (response.Length < 2 + transfernow)
+                {
+                    throw new Exception("Response too short for CONTINUE_UPLOAD");
+                }
+                if (response[0] != EV3Connection.SUCCESS && response[0] != EV3Connection.END_OF_FILE)
+                {
+                    throw new Exception("Unexpected status at CONTINUE_UPLOAD: " + response[0]);
+                }
+
+                for (int i = 0; i < transfernow; i++)
+                {
+                    buffer[pos + i] = response[2 + i];
+                }
+
+                pos += transfernow;
+            }
+
+            return buffer;
+        }
+
+*/
 
         private void RunEV3File(EV3Connection con, String filename)
         {

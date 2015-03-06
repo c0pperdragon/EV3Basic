@@ -143,9 +143,46 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: EV3FILE --------------------------------------------
+        ///
+        ///subcall EV3FILE.OPENWRITE       // SF
+        ///{
+        ///	IN_S filename 252
+        ///	OUT_F handle
+        ///
+        ///	DATAS fullname 300
+        ///	DATA16 handle16
+        ///	STRINGS ADD &apos;../prjs/&apos; filename fullname
+        ///	FILE OPEN_WRITE fullname handle16
+        ///
+        ///	MOVE16_F handle16 handle
+        ///}
+        ///
+        ///subcall EV3FILE.OPENAPPEND       // SF
+        ///{
+        ///	IN_S filename 252
+        ///	OUT_F handle
+        ///
+        ///	DATAS fullname 300
+        ///	DATA16 handle16
+        ///	STRINGS ADD &apos;../prjs/&apos; filename fullname
+        ///	FILE [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EV3File {
+            get {
+                return ResourceManager.GetString("EV3File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: LCD -------------------------------------------------
         ///
         ///DATA32 STOPLCDUPDATE
+        ///
+        ///init
+        ///{
+        ///	MOVE32_32 0 STOPLCDUPDATE
+        ///}
         ///
         ///inline LCD.STOPUPDATE    // V
         ///{
@@ -170,12 +207,7 @@ namespace EV3BasicCompiler.Properties {
         ///
         ///subcall LCD.RECT      // FFFFFV
         ///{
-        ///	IN_F col
-        ///	IN_F x
-        ///	IN_F y
-        ///	IN_F w
-        ///	IN_F h	
-        ///	 [rest of string was truncated]&quot;;.
+        ///	IN_F c [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LCD {
             get {
@@ -220,6 +252,11 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: MOTOR ----------------------------------------------
         ///
+        ///init
+        ///{
+        ///	OUTPUT_RESET 0 15
+        ///}
+        ///
         ///subcall MOTORDECODEPORTSDESCRIPTOR  //  V
         ///{
         ///	IN_S descriptor 8
@@ -242,12 +279,20 @@ namespace EV3BasicCompiler.Properties {
         ///	RL8  1 c c
         ///	OR8  nos c nos
         ///	JR loop_end
-        ///no_uppercase_port:
-        ///	JR_LT8 c 97 no_lowercase_port        /// [rest of string was truncated]&quot;;.
+        ///no_uppercase_port [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Motor {
             get {
                 return ResourceManager.GetString("Motor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7F454C4601010100000000000000000002002800010000008484000034000000580A00000200000534002000080028001F001C00010000701407000014870000148700005000000050000000040000000400000006000000340000003480000034800000000100000001000005000000040000000300000034010000348100003481000013000000130000000400000001000000010000000000000000800000008000006807000068070000050000000080000001000000680700006807010068070100480100004C01000006000000008000000200000074070000740701007407010000010000000100000600000004000000040000004801000048810000 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NativeCode {
+            get {
+                return ResourceManager.GetString("NativeCode", resourceCulture);
             }
         }
         
@@ -289,26 +334,24 @@ namespace EV3BasicCompiler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
-        ///// This method uses the property of the VM, that a subcall can not be 
-        ///// re-called by a thread while it is still running in another thread.
-        ///// It does an atomic get and increment action, incrementing a counter 
-        ///// and returning the original value in a seperate (thread-local) variable
-        ///subcall GETANDINC32     // V
-        ///{
-        ///	IN_32 counterin
-        ///	IN_32 inc
-        ///	OUT_32 counterout
-        ///	OUT_32 prev
-        ///
-        ///	MOVE32_32 counterin prev
-        ///	ADD32 counterin inc counterout
-        ///}
-        ///
         ///
         ///subcall EQ_STRING       // SSS
         ///{
         ///	IN_S  a 252
-        ///	IN_S [rest of string was truncated]&quot;;.
+        ///	IN_S  b 252
+        ///	OUT_S result 8
+        ///	
+        ///	DATA8 flag
+        ///	
+        ///	// check if completely equal
+        ///	STRINGS COMPARE a b flag
+        ///	JR_NEQ8 FLAG 0 isequal
+        ///	// second chance: when both values are &quot;True&quot; in any casing, this also counts as equal
+        ///	AND8888_32 a -538976289 a        // AND 0xdfdfdfdf performs an upcase for 4 letters
+        ///    STRINGS COMPARE a &apos;TRUE&apos; flag	
+        ///	JR_EQ8 0,flag,isnotequal
+        ///	AND8888_32 b -538976289 b        // AND 0xdfdfdfdf performs an upcase for 4 letters
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string runtimelibrary {
             get {
@@ -318,6 +361,11 @@ namespace EV3BasicCompiler.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to // -------------------------------------------------- EV3 MODULE: SENSOR -----------------------------------
+        ///
+        ///init
+        ///{
+        ///	INPUT_DEVICE CLR_ALL -1
+        ///}
         ///
         ///subcall SENSOR.GETNAME		// FS
         ///{
@@ -344,11 +392,7 @@ namespace EV3BasicCompiler.Properties {
         ///	DATA8 layer
         ///	DATA8 no
         ///	DATA8 type
-        ///	DATA8 mode
-        ///	
-        ///	MOVEF_8 port no
-        ///	SUB8 no 1 no
-        ///	D [rest of string was truncated]&quot;;.
+        ///	DATA8 mode [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Sensor {
             get {
@@ -432,11 +476,18 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to inline THREAD.YIELD  // V
+        ///   Looks up a localized string similar to // -------------------------------------- EXTENSION MODULE: THREAD --------------------------------------------
+        ///
+        ///ARRAY16 LOCKS 2           // Handle to byte-array for locking 
+        ///                          // This array must only be created/extended by the subcall THREAD.CREATEMUTEX
+        ///				  	      // Modification of individual elements must only be done by the subcall GETANDSETLOCK
+        ///init
         ///{
-        ///	SLEEP
+        ///	ARRAY CREATE8 0 LOCKS
         ///}
-        ///.
+        ///
+        ///// This method uses the property of the VM, that a subcall can not be 
+        ///// re-called by a  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Thread {
             get {

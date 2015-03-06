@@ -18,6 +18,30 @@ namespace SmallBasicEV3Extension
     [SmallBasicType]
     public static class Motor
     {
+        /// <summary>
+        /// Sets one or multiple motors to interpret all subsequent speed or power values to be
+        /// used as negative. While all motors could be controlled with negative values anyway, this
+        /// can make the program more readable. A positive speed value could always denote a "forward"
+        /// motion of the robot, no matter how the motor is built into the robot. Only use the
+        /// propper RevertDirection() calls once at program start.
+        /// </summary>
+        /// <param name="ports">Motor port name(s)</param>
+        /// <param name="revert">"true" to set revert or "false" to remove the setting</param>
+        public static void RevertDirection(Primitive ports, Primitive revert)
+        {
+            int layer;
+            int nos;
+            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+            int dir = (revert == null ? "" : revert.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? -1 : 1;
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0xA7);            // opOutput_Polarity
+            c.CONST(layer);
+            c.CONST(nos);
+            c.CONST(dir);
+            EV3Communicator.DirectCommand(c, 0, 0);
+        }
+
  
         /// <summary>
         /// Stop one or multiple motors. This will also cancel

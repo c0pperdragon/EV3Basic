@@ -1,0 +1,17 @@
+'TextWindow.WriteLine("started...")
+LCD.Clear()
+
+EV3File.TableLookup("SD_Card/tables/table1.avi", 1,0,0)
+
+START = EV3.Time
+For I=0 To 79
+  R[I] = EV3File.TableLookup("SD_Card/tables/table1.avi", 10000000, 10+I, 0)
+EndFor
+END = EV3.Time
+
+For I=0 To 79
+  LCD.Text (1,Math.Remainder(I,8)*22,Math.Floor(I/8)*10,1, R[i])
+EndFor
+LCD.Text (1,0,112,1, "Time: "+(END-START)+"ms")
+
+Program.Delay(10000)

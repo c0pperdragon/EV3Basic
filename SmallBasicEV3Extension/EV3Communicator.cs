@@ -28,81 +28,15 @@ namespace SmallBasicEV3Extension
 
         private static Int64 starttime = 0;
 
-        // bytecodes of small helper program that is sent to the brick while communication runs
-        static byte[] watchdogprogram = {
-//            0x4C, 0x45, 0x47, 0x4F, 0x59, 0x00, 0x00, 0x00, 0x68, 0x00, 0x01, 0x00, 0x04, 0x00, 0x00, 0x00, 
-//            0x1C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x84, 0x01, 0x84, 0x05,
-//            0x01, 0x0A, 0x81, 0x32, 0x80, 0x45, 0x56, 0x33, 0x20, 0x42, 0x61, 0x73, 0x69, 0x63, 0x00, 0x84, 
-//            0x05, 0x01, 0x0A, 0x81, 0x40, 0x80, 0x52, 0x65, 0x6D, 0x6F, 0x74, 0x65, 0x20, 0x73, 0x65, 0x73, 
-//            0x73, 0x69, 0x6F, 0x6E, 0x00, 0x84, 0x00, 0x3A, 0x00, 0x60, 0x85, 0x82, 0xE8, 0x03, 0x40, 0x86, 
-//            0x40, 0x6E, 0x81, 0x2A, 0x60, 0x82, 0xEF, 0xFF, 0x0A
-              0x4C, 0x45, 0x47, 0x4F, 0x32, 0x00, 0x00, 0x00, 0x68, 0x00, 0x01, 0x00, 0x04, 0x00, 0x00, 0x00, 
-              0x1C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0xA2, 0x00, 0x0F, 0x99, 
-              0x0A, 0x3F, 0x3A, 0x00, 0x60, 0x85, 0x82, 0xE8, 0x03, 0x40, 0x86, 0x40, 0x6E, 0x81, 0x2A, 0x60, 
-              0x31, 0x0A
-        };
-
         internal static byte[] DirectCommand(ByteCodeBuffer bytecodes, int globalbytes, int localbytes)
         {
             try
             {
                 lock (sync)
                 {
-                    // if not already done, memorize the start time
+                    // if not already done, memorize the start time and fire up the communication
                     MemorizeStartTime();
-
-                    // if not done already, fire up the communication 
-                    // the first action also involves passing some SystemCommands and DirectCommands
-                    if (con == null)
-                    {
-                        // try to start up connection (when failing, an exception is thrown)
-                        con = new EV3ConnectionUSB();
-
-                        String filename = "/tmp/EV3-Basic Session.rbf";
-
-                        // download the watchdog program as a file to the brick
-                        BinaryBuffer b = new BinaryBuffer();
-                        b.Append32(watchdogprogram.Length);
-                        b.AppendZeroTerminated(filename);
-                        b.AppendBytes(watchdogprogram);
-                        con.SystemCommand(EV3Connection.BEGIN_DOWNLOAD, b);
-
-                        // before loading the watchdog program, check if there is no other program running
-                        ByteCodeBuffer c = new ByteCodeBuffer();
-                        c.OP(0x0C);            // opProgram_Info
-                        c.CONST(0x16);         // CMD: GET_STATUS = 0x16
-                        c.CONST(1);            // program slot 1 = user slot
-                        c.GLOBVAR(8);
-
-                        // load and start it
-                        c.OP(0xC0);       // opFILE
-                        c.CONST(0x08);    // CMD: LOAD_IMAGE = 0x08
-                        c.CONST(1);       // slot 1 = user program slot
-                        c.STRING(filename);
-                        c.GLOBVAR(0);
-                        c.GLOBVAR(4);
-                        c.OP(0x03);       // opPROGRAM_START
-                        c.CONST(1);       // slot 1 = user program slot
-                        c.GLOBVAR(0);
-                        c.GLOBVAR(4);
-                        c.CONST(0);
-
-                        // after starting, check if indeed running now
-                        c.OP(0x0C);            // opProgram_Info
-                        c.CONST(0x16);         // CMD: GET_STATUS = 0x16
-                        c.CONST(1);            // program slot 1 = user slot
-                        c.GLOBVAR(9);
-
-                        byte[] response = con.DirectCommand(c, 10, 0);
-                        if (response == null || response[8] != 0x0040 || response[9] == 0x0040)
-                        {
-                            throw new Exception("Could not start EV3 remote client on device");
-                        }
-
-                        // set up local ping thread to periodically send a command to the watchdog
-                        // program to keep it alive (and check if the brick is still operating)
-                        (new System.Threading.Thread(runpings)).Start();
-                    }
+                    EstablishConnection();
 
                     // finally execute the command
                     return con.DirectCommand(bytecodes, globalbytes, localbytes);
@@ -110,7 +44,47 @@ namespace SmallBasicEV3Extension
             }
             catch (Exception)
             {   // no connection - must terminate immediately 
-                // TODO: Show messagebox
+                System.Environment.Exit(1);
+            }
+            return null;
+        }
+
+        internal static void CreateEV3File(String fullname, byte[] content)
+        {
+            try
+            {
+                lock (sync)
+                {
+                    // if not already done, memorize the start time and fire up the communication
+                    MemorizeStartTime();
+                    EstablishConnection();
+
+                    // finally execute the command
+                    con.CreateEV3File(fullname, content);
+                }
+            }
+            catch (Exception)
+            {   // no connection or other severe error - must terminate immediately 
+                System.Environment.Exit(1);
+            }
+        }
+
+        internal static byte[] ReadEV3File(String fullname)
+        {
+            try
+            {
+                lock (sync)
+                {
+                    // if not already done, memorize the start time and fire up the communication
+                    MemorizeStartTime();
+                    EstablishConnection();
+
+                    // finally execute the command
+                    return con.ReadEV3File(fullname);
+                }
+            }
+            catch (Exception)
+            {   // no connection or other severe error - must terminate immediately 
                 System.Environment.Exit(1);
             }
             return null;
@@ -134,6 +108,66 @@ namespace SmallBasicEV3Extension
             {
                 starttime = DateTime.Now.Ticks;
             }
+        }
+
+        // must be called while holding a lock on sync
+        private static void EstablishConnection()
+        {
+            // the first action also involves passing some SystemCommands and DirectCommands
+            if (con == null)
+            {
+                // try to start up connection (when failing, an exception is thrown)
+                con = new EV3ConnectionUSB();
+
+                String filename = "/tmp/EV3-Basic Session.rbf";
+
+                // download the watchdog program as a file to the brick
+                con.CreateEV3File(filename, HexDumpToBytes(SmallBasicEV3Extension.Properties.Resources.WatchDog));
+
+                // before loading the watchdog program, check if there is no other program running
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0x0C);            // opProgram_Info
+                c.CONST(0x16);         // CMD: GET_STATUS = 0x16
+                c.CONST(1);            // program slot 1 = user slot
+                c.GLOBVAR(8);
+
+                // load and start it
+                c.OP(0xC0);       // opFILE
+                c.CONST(0x08);    // CMD: LOAD_IMAGE = 0x08
+                c.CONST(1);       // slot 1 = user program slot
+                c.STRING(filename);
+                c.GLOBVAR(0);
+                c.GLOBVAR(4);
+                c.OP(0x03);       // opPROGRAM_START
+                c.CONST(1);       // slot 1 = user program slot
+                c.GLOBVAR(0);
+                c.GLOBVAR(4);
+                c.CONST(0);
+
+                // after starting, check if indeed running now
+                c.OP(0x0C);            // opProgram_Info
+                c.CONST(0x16);         // CMD: GET_STATUS = 0x16
+                c.CONST(1);            // program slot 1 = user slot
+                c.GLOBVAR(9);
+
+                byte[] response = con.DirectCommand(c, 10, 0);
+                if (response == null || response[8] != 0x0040 || response[9] == 0x0040)
+                {
+                    throw new Exception("Could not start EV3 remote client on device");
+                }
+
+                // set up local ping thread to periodically send a command to the watchdog
+                // program to keep it alive (and check if the brick is still operating)
+                (new System.Threading.Thread(runpings)).Start();
+            }
+        }
+
+        internal static byte[] HexDumpToBytes(String hexcontent)
+        {
+            byte[] content = new byte[hexcontent.Length / 2];
+            for (int i = 0; i < hexcontent.Length; i += 2)
+                content[i / 2] = Convert.ToByte(hexcontent.Substring(i, 2), 16);
+            return content;
         }
 
 

@@ -56,6 +56,7 @@ namespace EV3BasicCompiler
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Assert);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Buttons);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3File);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.LCD);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Math);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Motor);
@@ -215,6 +216,11 @@ namespace EV3BasicCompiler
             target.Write(runtimeinit);
             target.Write(initlist.ToString());
             target.WriteLine("    ARRAY CREATE8 1 LOCKS");
+            // copy native code to brick if needed
+            if (references.Contains((LibraryEntry)library["EV3.NATIVECODE"]))
+            {
+                target.Write(CreateNativeCodeDownload());
+            }
             // launch main program
             target.WriteLine("    CALL PROGRAM_MAIN -1");
             target.WriteLine("    PROGRAM_STOP -1");
@@ -308,6 +314,48 @@ namespace EV3BasicCompiler
 
             target.Flush();
         }
+
+        // create some program code that installs the native code to the /tmp - folder of the brick
+        public String CreateNativeCodeDownload()
+        {
+            StringBuilder b = new StringBuilder();
+            byte[] c = ToByteArray(EV3BasicCompiler.Properties.Resources.NativeCode);
+
+            b.AppendLine("    DATA16 nativefd");
+            b.AppendLine("    DATA32 padding");
+            b.AppendLine("    ARRAY8 errorcode 4");
+            b.AppendLine("    ARRAY8 nativecode " + c.Length);
+            b.Append("    INIT_BYTES nativecode " + c.Length);
+            for (int i = 0; i < c.Length; i++)
+            {
+                if (c[i] <= 127)
+                {
+                    b.Append(" " + c[i]);
+                }
+                else
+                {
+                    b.Append(" -" + (256-c[i]));
+                }
+            }
+            b.AppendLine("");
+            b.AppendLine("    FILE OPEN_WRITE '/tmp/nativecode' nativefd");
+            b.AppendLine("    FILE WRITE_BYTES nativefd " + (c.Length) + " nativecode");
+            b.AppendLine("    FILE CLOSE nativefd");
+            b.AppendLine("    SYSTEM 'chmod a+x /tmp/nativecode' errorcode");
+            return b.ToString();
+        }
+
+        /// <summary>
+        /// Convert a hexadecimal string to a byte array
+        /// </summary>
+        private static byte[] ToByteArray(String hexString)
+        {
+            byte[] retval = new byte[hexString.Length / 2];
+            for (int i = 0; i < hexString.Length; i += 2)
+                retval[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+            return retval;
+        }
+
 
         // ----------- handling of temporary variables ---------------
 

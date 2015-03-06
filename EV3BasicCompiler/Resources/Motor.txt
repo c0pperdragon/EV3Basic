@@ -85,6 +85,24 @@ decoding_end:
 	RETURN
 }
 
+subcall MOTOR.REVERTDIRECTION   // SSV
+{
+	IN_S ports 8
+	IN_S revert 8
+
+	DATA8 layer
+	DATA8 nos	
+	DATA8 rev
+	DATA8 pol
+
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	AND8888_32 revert -538976289 revert      // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE revert 'TRUE' rev
+	
+	SELECT8 rev -1 1 pol
+	OUTPUT_POLARITY layer nos pol
+}
+
 subcall MOTOR.STOP       // SSV      MOTORDECODEPORTSDESCRIPTOR
 {
 	IN_S ports 8

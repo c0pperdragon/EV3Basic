@@ -1,0 +1,14 @@
+LCD.Clear()
+
+EV3.NativeCode("warm-up")
+
+START = EV3.Time
+For I=0 To 79
+  R = EV3.NativeCode("bogus")
+EndFor
+END = EV3.Time
+
+LCD.Text (1,0,48,1, "R:" + R)
+LCD.Text (1,0,64,1, "Time: "+(END-START)+"ms")
+
+Program.Delay(10000)

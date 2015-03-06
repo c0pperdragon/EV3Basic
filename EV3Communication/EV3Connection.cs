@@ -10,8 +10,6 @@ using Microsoft.Win32.SafeHandles;
 namespace EV3Communication
 {
 
-
-
     public abstract class EV3Connection
     {
          // system commands
@@ -30,7 +28,7 @@ namespace EV3Communication
         public const byte WRITEMAILBOX = 0x9E; // Write to mailbox
         public const byte BLUETOOTHPIN = 0x9F; // Transfer trusted pin code to brick
         public const byte ENTERFWUPDATE = 0xA0; // Restart the brick in Firmware update mode
-            // system command status responses
+        // system command status responses
         public const byte SUCCESS = 0x00;
         public const byte UNKNOWN_HANDLE = 0x01;
         public const byte HANDLE_NOT_READY = 0x02;
@@ -120,7 +118,7 @@ namespace EV3Communication
             for (; ; )
             {
                 byte[] packet = ReceivePacket();
-                //                hexdump(packet);
+
                 if (packet.Length < 3)
                 {
                     throw new Exception("Reply has no message counter");
@@ -143,9 +141,9 @@ namespace EV3Communication
                 {
                     throw new Exception("Reply is not of correct type");
                 }
-                if (packet.Length - 3 != globalbytes)
+                if (packet.Length != globalbytes+3)
                 {
-                    throw new Exception("Reply data size does not match expected length");
+                    throw new Exception("Reply size unexpected: "+packet.Length+" instead of "+(globalbytes+3));
                 }
 
                 // extract data
@@ -155,6 +153,129 @@ namespace EV3Communication
             }
         }
 
+
+        public void CreateEV3File(String fullname, byte[] content)
+        {
+            int chunksize = 900;
+            int pos = 0;
+            int transfernow = Math.Min(content.Length - pos, chunksize - fullname.Length);
+
+            // start the transfer
+            BinaryBuffer b = new BinaryBuffer();
+            b.Append32(content.Length);
+            b.AppendZeroTerminated(fullname);
+            b.AppendBytes(content, pos, transfernow);
+
+            byte[] response = SystemCommand(BEGIN_DOWNLOAD, b);
+
+            if (response == null)
+            {
+                throw new Exception("No response to BEGIN_DOWNLOAD");
+            }
+            if (response.Length < 2)
+            {
+                throw new Exception("Response too short for BEGIN_DOWNLOAD");
+            }
+            if (response[0] != SUCCESS && response[0] != END_OF_FILE)
+            {
+                throw new Exception("Unexpected status at BEGIN_DOWNLOAD: " + response[0]);
+            }
+
+            pos += transfernow;
+
+            int handle = response[1] & 0xff;
+
+            // transfer bytes in small chunks
+            while (pos < content.Length)
+            {
+                transfernow = Math.Min(content.Length - pos, chunksize);
+                b.Clear();
+                b.Append8(handle);
+                b.AppendBytes(content, pos, transfernow);
+                response = SystemCommand(CONTINUE_DOWNLOAD, b);
+
+                if (response == null)
+                {
+                    throw new Exception("No response to CONTINUE_DOWNLOAD");
+                }
+                if (response.Length < 2)
+                {
+                    throw new Exception("Response too short for CONTINUE_DOWNLOAD");
+                }
+                if (response[0] != SUCCESS && response[0] != END_OF_FILE)
+                {
+                    throw new Exception("Unexpected status at CONTINUE_DOWNLOAD: " + response[0]);
+                }
+
+                pos += transfernow;
+            }
+        }
+
+        public byte[] ReadEV3File(String fullname)
+        {
+            int chunksize = 900;
+
+            // start the transfer
+            BinaryBuffer b = new BinaryBuffer();
+            b.Append16(0);                     // transfer no content right now
+            b.AppendZeroTerminated(fullname);
+
+            byte[] response = SystemCommand(BEGIN_UPLOAD, b);
+
+            if (response == null)
+            {
+                throw new Exception("No response to BEGIN_UPLOAD");
+            }
+            if (response.Length < 6)
+            {
+                throw new Exception("Response too short for BEGIN_UPLOAD");
+            }
+            if (response[0] != SUCCESS && response[0] != END_OF_FILE)
+            {
+                throw new Exception("Unexpected status at BEGIN_UPLOAD: " + response[0]);
+            }
+
+            int len = ((int)response[1]) + (((int)response[2]) << 8) + (((int)response[3]) << 16) + (((int)response[4]) << 24);
+            int handle = response[5] & 0xff;
+
+//            Console.WriteLine("Start uploading file of size: " + len + ". handle=" + handle);
+
+            byte[] buffer = new byte[len];
+            int pos = 0;
+
+            // transfer bytes in small chunks
+            while (pos < len)
+            {
+                int transfernow = Math.Min(len - pos, chunksize);
+                b.Clear();
+                b.Append8(handle);
+                b.Append16(transfernow);
+
+                response = SystemCommand(CONTINUE_UPLOAD, b);
+
+                if (response == null)
+                {
+                    throw new Exception("No response to CONTINUE_UPLOAD");
+                }
+                if (response.Length < 2 + transfernow)
+                {
+                    throw new Exception("Response too short for CONTINUE_UPLOAD");
+                }
+                if (response[0] != SUCCESS && response[0] != END_OF_FILE)
+                {
+                    throw new Exception("Unexpected status at CONTINUE_UPLOAD: " + response[0]);
+                }
+
+                for (int i = 0; i < transfernow; i++)
+                {
+                    buffer[pos + i] = response[2 + i];
+                }
+
+                pos += transfernow;
+            }
+
+            return buffer;
+        }
 
     }
 

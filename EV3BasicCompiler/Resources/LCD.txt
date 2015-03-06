@@ -222,3 +222,25 @@ subcall LCD.PIXEL      // FFFV
 skipupdate:	
 }
 
+subcall LCD.BMPFILE             // FFFSV
+{
+	IN_F color
+	IN_F x
+	IN_F y
+	IN_S filename 252
+
+	DATA8 col_8
+	DATA16 x_16
+	DATA16 y_16	
+	DATAS fullname 300
+	MOVEF_8 col col_8
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+
+	STRINGS DUPLICATE filename fullname
+	JR_EQ8 filename 47 absolutepath               // filename begins with a '/'
+	STRINGS ADD '/home/root/lms2012/prjs/' filename fullname
+absolutepath:
+
+	UI_DRAW BMPFILE col_8 x_16 y_16 fullname
+}

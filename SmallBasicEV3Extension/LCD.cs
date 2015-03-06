@@ -338,9 +338,13 @@ namespace SmallBasicEV3Extension
             Int32.TryParse(y == null ? "" : y.ToString(), out _y);
 
             String fname = (filename == null ? "" : filename.ToString());
-            if (fname.Length>100)
+            if (!fname.StartsWith("/"))   // relative path
+            {   
+                fname = "/home/root/lms2012/prjs/" + fname;
+            }
+            if (fname.Length > 500)
             {
-                fname = fname.Substring(0, 100);
+                fname = fname.Substring(0, 500);
             }
 
             lock (commandBuffer)

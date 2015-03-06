@@ -478,7 +478,7 @@ namespace LMSAssembler
                             {
                                 throw new AssemblerException("Can not decode parameter count specifier");
                             }
-                            if (p < 0 || p > 127)
+                            if (p < 0 || p>1000000000)
                             {
                                 throw new AssemblerException("Parameter count specifier out of range");
                             }

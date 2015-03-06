@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 using Microsoft.SmallBasic.Library;
 using EV3Communication;
@@ -21,7 +21,7 @@ namespace SmallBasicEV3Extension
         {
             get
             {
-                Int64 ticks = EV3Communicator.TicksSinceStart();
+                System.Int64 ticks = EV3Communicator.TicksSinceStart();
                 return new Primitive(System.Math.Ceiling(ticks / 10000.0));
             }
         }
@@ -89,6 +89,62 @@ namespace SmallBasicEV3Extension
                     return new Primitive( (double) result[0]);
                 }
             }
+        }
+
+        public static Primitive SystemCall (Primitive commandline)
+        {
+            String cmd = (commandline == null ? "" : commandline.ToString());
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x60);           // SYSTEM
+            c.STRING(cmd);        
+            c.LOCVAR(0);
+            c.OP(0x30);           // MOVE8_8
+            c.LOCVAR(1);           // for some reason, the SYSTEM command returns the result value as 8 bit in byte 1 !
+            c.GLOBVAR(0);
+            byte[] result = EV3Communicator.DirectCommand(c, 1, 4);
+            if (result==null || result.Length<1)
+            {
+                return new Primitive(-1);
+            }
+            return new Primitive((double)result[0]);
+        }
+
+
+        static bool[] hasDownloaded = new bool[1];
+
+        public static Primitive NativeCode(Primitive command)
+        {
+            String cmd = (command == null) ? "" : command.ToString().Trim();
+            if (cmd.Length==0)
+            {
+                return new Primitive(-1);
+            }
+
+            // if have not downloaded the native code, do it now
+            lock (hasDownloaded)
+            {
+                if (!hasDownloaded[0])
+                {
+                    String codehex = SmallBasicEV3Extension.Properties.Resources.NativeCode;
+                    EV3Communicator.CreateEV3File("/tmp/nativecode", EV3Communicator.HexDumpToBytes(codehex));
+                    hasDownloaded[0] = true;
+                }
+            }
+
+            // start native code process (and wait for termination)
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x60);            // opSYSTEM
+            c.STRING("/tmp/nativecode "+command);
+            c.GLOBVAR(0);          // result code
+
+            byte[] result = EV3Communicator.DirectCommand(c, 4, 0);
+            if (result == null || result.Length < 4)
+            {
+                return new Primitive(-1);
+            }
+
+            return new Primitive(result[1]);  // for some reasons, the program result is delivered in byte 1 
         }
 
 
