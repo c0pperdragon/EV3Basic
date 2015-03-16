@@ -192,17 +192,18 @@ subcall SENSOR.READRAW            // FFA
 	JR_LTEQ32 values32 0 arrayempty
 	ARRAY RESIZE resultarray values32
 
-	DATA8 rawvalue0
-	DATA8 rawvalue1
-	DATA8 rawvalue2
-	DATA8 rawvalue3
-	DATA8 rawvalue4
-	DATA8 rawvalue5
-	DATA8 rawvalue6
-	DATA8 rawvalue7
+	DATA32 rawvalue0
+	DATA32 rawvalue1
+	DATA32 rawvalue2
+	DATA32 rawvalue3
+	DATA32 rawvalue4
+	DATA32 rawvalue5
+	DATA32 rawvalue6
+	DATA32 rawvalue7
 	INPUT_READEXT layer no 0 -1 18 8 rawvalue0 rawvalue1 rawvalue2 rawvalue3 rawvalue4 rawvalue5 rawvalue6 rawvalue7
 	
 	DATA32 i
+	DATA32 rawtmp
 	MOVE32_32 0 i
 loop:
 	DATA8 tmp8
@@ -212,9 +213,9 @@ loop:
 	JR_GTEQ32 i 8 nomoredata
 
 	MOVE32_8 i tmp8
-	READ8 rawvalue0 tmp8 tmp8
-	JR_LT8 tmp8 0 nomoredata
-	MOVE8_F tmp8 tmpf
+	READ32 rawvalue0 tmp8 rawtmp
+	JR_LT32 rawtmp -1000000000 nomoredata
+	MOVE32_F rawtmp tmpf
 
 nomoredata:	
 	ARRAY_WRITE resultarray i tmpf

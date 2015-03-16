@@ -12,6 +12,7 @@ namespace SmallBasicEV3Extension
 
     /// <summary>
     /// Access the file system on the EV3 brick to read or write data.
+    /// File names can be given either absolute (with a leading '/') to reach any file in the system, or relative to the 'prjs' folder.
     /// </summary>
     [SmallBasicType]
     public static class EV3File
@@ -63,17 +64,31 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Open a file for writing. When the file already exists, it will be overwritten.
+        /// </summary>
+        /// <param name="filename">Name of the file to create/overwrite.</param>
+        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
         public static Primitive OpenWrite(Primitive filename)
         {
             return OpenWriteImpl(filename, false);
         }
 
+        /// <summary>
+        /// Open a file for adding data. When the file does not exist, it will be created.
+        /// </summary>
+        /// <param name="filename">Name of the file to create/extend.</param>
+        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
         public static Primitive OpenAppend(Primitive filename)
         {
             return OpenWriteImpl(filename, true);
         }
 
-
+        /// <summary>
+        /// Open a file for reading data. When the file does not exist the program will crash.
+        /// </summary>
+        /// <param name="filename">Name of the file to read from.</param>
+        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
         public static Primitive OpenRead(Primitive filename)
         {
             String f = (filename == null ? "" : filename.ToString());
@@ -104,6 +119,10 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Close an open file.
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
         public static void Close(Primitive handle)
         {
             int hdl = 0;
@@ -117,6 +136,11 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Write one line of text to the file. The line will be encoded with ISO-8859-1 encoding and will be terminated with a newline-character (code 10).
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <param name="text">The text to write to the file.</param>
         public static void WriteLine(Primitive handle, Primitive text)
         {
             int hdl = 0;
@@ -148,6 +172,11 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Write a single byte of data on the file.
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <param name="data">One byte to write (value of 0 - 255).</param>        
         public static void WriteByte(Primitive handle, Primitive data)
         {
             int hdl = 0;
@@ -179,6 +208,11 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Read one line of text from the file. The line will be decoded using the ISO-8859-1 encoding and must be terminated with a newline-character (code 10).
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <returns>The text from the current line in the file.</returns>
         public static Primitive ReadLine(Primitive handle)
         {
             int hdl = 0;
@@ -204,6 +238,11 @@ namespace SmallBasicEV3Extension
             return new Primitive("");
         }
 
+        /// <summary>
+        /// Read one byte of data from the file.
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <returns>The next byte from the file.</returns>
         public static Primitive ReadByte(Primitive handle)
         {
             int hdl = 0;
@@ -224,6 +263,11 @@ namespace SmallBasicEV3Extension
             return new Primitive(0);
         }
 
+        /// <summary>
+        /// Utility function to convert a text to a number. 
+        /// </summary>
+        /// <param name="text">A text holding a number in decimal representation (with optional fractional digits)</param>
+        /// <returns>The number</returns>
         public static Primitive ConvertToNumber(Primitive text)
         {
             double d = 0;
@@ -231,7 +275,15 @@ namespace SmallBasicEV3Extension
             return new Primitive(d);
         }
 
-
+        /// <summary>
+        /// Utility function to read bytes from potentially huge data files that are too big to be transfered to memory as a whole.
+        /// Because the file could be so big that the numerical precision of the normal numbers is not enough, a row/column addressing is possible.
+        /// </summary>
+        /// <param name="filename">The name of the file.</param>
+        /// <param name="bytes_per_row">When the file has a row/column structure, this is the number of bytes in one row. Use 1 if not applicable.</param>
+        /// <param name="row">Which row to access (start with 0).</param>
+        /// <param name="column">Which column to access (start with 0).</param>
+        /// <returns>The byte on the denoted position</returns>
         public static Primitive TableLookup(Primitive filename, Primitive bytes_per_row, Primitive row, Primitive column)
         {
             int bpr = 0;

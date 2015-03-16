@@ -271,7 +271,7 @@ namespace SmallBasicEV3Extension
                 {
                     v = DecodeRaw(result, i * 4);
                 }
-                map[new Primitive((double)i)] = new Primitive(v<0 ? 0:v);
+                map[new Primitive((double)i)] = new Primitive(v<-1000000000 ? 0:v);
             }            
             return Primitive.ConvertFromMap(map);
         }
@@ -389,10 +389,6 @@ namespace SmallBasicEV3Extension
             return b0 | (b1<<8) | (b2<<16) | (b3<<24);
         }
 
-        private static double DecodeSI(byte[] result, int start)
-        {
-            return BitConverter.ToSingle(result, start);
-        }
 
     }
 }

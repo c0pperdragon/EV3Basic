@@ -68,7 +68,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// The current loading level of the battery (range 0 to 100)
+        /// The current loading level of the battery (range 0 to 100).
         /// </summary>
         public static Primitive BatteryLevel
         {
@@ -91,6 +91,11 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Execute one system command by the command shell of the EV3 linux system. All threads of the virtual machine are halted until the system command is finished.
+        /// </summary>
+        /// <param name="commandline">The system command.</param>
+        /// <returns>Exit status of the command.</returns>
         public static Primitive SystemCall (Primitive commandline)
         {
             String cmd = (commandline == null ? "" : commandline.ToString());
@@ -113,7 +118,7 @@ namespace SmallBasicEV3Extension
 
         static bool[] hasDownloaded = new bool[1];
 
-        public static Primitive NativeCode(Primitive command)
+        internal static Primitive NativeCode(Primitive command)
         {
             String cmd = (command == null) ? "" : command.ToString().Trim();
             if (cmd.Length==0)
