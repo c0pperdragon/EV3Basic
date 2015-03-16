@@ -278,53 +278,86 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
-        /// This command addresses one device on the I2C-bus and either requests to just receive
-        /// one byte of data or it will first send one byte of data and immediately
-        /// requests one byte back.
+        /// This command addresses one device on the I2C-bus and can send and receive multiple bytes.
         /// This feature could be used to attach a custom sensor or to communicate with any
         /// device that is capable to be connected to the I2C bus as a slave.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="data">If in the range 0 - 255, this data will be sent as a byte to the device.</param>
-        /// <returns>The response from the device (a value 0 - 255)</returns>
-        public static Primitive CommunicateI2C(Primitive port, Primitive address, Primitive data)
+        /// <param name="writebytes">Number of bytes to write to the slave.</param>
+        /// <param name="readbytes">Number of bytes to request from the slave.</param>
+        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0).</param>
+        /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
+        public static Primitive CommunicateI2C(Primitive port, Primitive address, Primitive writebytes, Primitive readbytes, Primitive writedata)
         {
             int layer;
             int no;
             int addr;
-            int dta;
+            int wrt;
+            int rd;
+            // decode parameters
             DecodePort(port, out layer, out no);
             if (!int.TryParse(address == null ? "" : address.ToString(), out addr))
             {
                 addr = 0;
             }
-            if (!int.TryParse(data == null ? "" : data.ToString(), out dta))
+            if (!int.TryParse(writebytes==null ? "" : writebytes.ToString(), out wrt))
             {
-                dta = -1;
+                wrt = 0;
+            }
+            if (wrt<0)
+            {
+                wrt = 0;
+            }
+            if (wrt>31)     // can not write more than 31 bytes in one transmission
+            {
+                wrt = 31;
+            }
+            if (!int.TryParse(readbytes == null ? "" : readbytes.ToString(), out rd))
+            {
+                rd = 0;
+            }
+            if (rd<1)       // must read at least one byte to not confuse the firmware
+            {
+                rd = 1;
+            }
+            if (rd>32)      // can not read more than 32 bytes
+            {
+                rd = 32;
             }
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x2F);                // opInit_Bytes
-            c.LOCVAR(0);               // prepare sending data in local variable
-            c.CONST(2);                // prepare 2 bytes 
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(1+wrt);            //  number of bytes (including the address)
             c.CONST(addr & 0x7f);      //  first byte: address (from 0 - 127)
-            c.CONST(dta & 0xff);       //  second byte: optional payload
+            for (int i = 0; i < wrt; i++)  // extract the send bytes from the array
+            {
+                double d = 0;
+                Primitive v = writedata == 0 ? null : Primitive.GetArrayValue(writedata, new Primitive((double)i));
+                double.TryParse(v == null ? "0" : v.ToString(), out d);
+                c.CONST(((int)d) & 0xff);       //  optional payload bytes
+            }
+
             c.OP(0x99);                // opInput_Device
             c.CONST(0x09);             // CMD: SETUP = 0x09
             c.CONST(layer);
             c.CONST(no);
             c.CONST(1);                // repeat
             c.CONST(0);                // time
-            c.CONST((dta>=0 && dta<=255) ? 2:1); // bytes to write (including address)
+            c.CONST(wrt+1);            // bytes to write (including address)
             c.LOCVAR(0);               // data to write is in local variables, beginning from 0
-            c.CONST(1);                // bytes to read (no address)
+            c.CONST(rd);                // number of bytes to read (no address)
             c.GLOBVAR(0);              // buffer to read into is global variable, beginning from 0
             
-            byte[] result = EV3Communicator.DirectCommand(c, 1,2);
-            double r = (result!=null && result.Length>0) ? ((double) result[0]) : 0.0;
+            byte[] result = EV3Communicator.DirectCommand(c, rd, 1+wrt);
 
-            return new Primitive(r);
+            Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
+            for (int i = 0; i < rd; i++)
+            {
+                map[new Primitive((double)i)] = new Primitive((result!=null && result.Length==rd) ? result[rd-1-i] : 0);
+            }
+            return Primitive.ConvertFromMap(map);
         }
 
 

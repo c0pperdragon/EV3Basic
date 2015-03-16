@@ -228,43 +228,91 @@ arrayempty:
 }
 
 
-subcall SENSOR.COMMUNICATEI2C     // FFFF
+subcall SENSOR.COMMUNICATEI2C     // FFFFAA
 {
 	IN_F port
 	IN_F address
-	IN_F data
-	OUT_F received
-
-	DATA32 outvalue32
-	DATA32 received32
+	IN_F writebytes
+	IN_F readbytes
+	IN_16 writedata
+	IN_16 resultarray
 
 	DATA8 layer
 	DATA8 no
-	DATA8 outaddr
-	DATA8 outvalue
-	DATA8 invalue
-			
+	DATA8 adr
+	DATA32 wrt
+	DATA32 rd
+	DATA32 writedatalength
+	ARRAY8 outdata 32
+	ARRAY8 indata 32
+
 	MOVEF_8 port no
 	SUB8 no 1 no
 	DIV8 no 4 layer
 	MATH MOD8 no 4 no
+	MOVEF_8 address adr
+	MOVEF_32 writebytes wrt
+	MOVEF_32 readbytes rd
 
-	MOVEF_8 address outaddr
-	MOVEF_32 data outvalue32
+	JR_GTEQ32 wrt 0 wrtnottoless
+	MOVE32_32 0 wrt
+wrtnottoless:
+	JR_LTEQ32 wrt 32 wrtnottomuch
+	MOVE32_32 32 wrt
+wrtnottomuch:
+	JR_GTEQ32 rd 1 rdnottoless
+	MOVE32_32 1 rd
+rdnottoless:
+	JR_LTEQ32 rd 32 rdnottomuch
+	MOVE32_32 32 rd
+rdnottomuch:
 
-	JR_LT32 outvalue32 0 nosend
-	JR_GT32 outvalue32 255 nosend
+	ARRAY SIZE writedata writedatalength
 
-	AND32 255 outvalue32 outvalue32
-	MOVE32_8 outvalue32 outvalue
-	INPUT_DEVICE SETUP layer no 1 0 2 outaddr 1 invalue
-	JR    afterio	 
+	WRITE8 adr 0 outdata		// put adress in first byte of output buffer
 
-nosend:
-	INPUT_DEVICE SETUP layer no 1 0 1 outaddr 1 invalue
+	// decode float values from array and put in outdata buffer
+	DATA32 i
+	DATA8 i8
+	MOVE32_32 0 i
+	JR_GTEQ32 i wrt endwritecopy
+writecopyloop:
+	JR_GTEQ32 i writedatalength addzeroelements
+	DATAF v
+	DATA8 v8
+	ARRAY_READ writedata i v 
+	MOVEF_8 v v8
+	ADD32 i 1 i
+	MOVE32_8 i i8
+	WRITE8 v8 i8 outdata
+	JR_LT32 i wrt writecopyloop
+	JR endwritecopy
+addzeroelements:
+	ADD32 i 1 i 
+	MOVE32_8 i i8
+	WRITE8 0 i8 outdata
+	JR_LT32 i wrt addzeroelements	
+endwritecopy:
 
-afterio:
-	MOVE8_32 invalue received32
-	AND32 255 received32 received32
-	MOVE32_F received32 received
+	// do the communciation
+	DATA8 wrt8
+	MOVE32_8 wrt wrt8
+	ADD8 wrt8 1 wrt8
+	DATA8 rd8
+	MOVE32_8 rd rd8
+	INPUT_DEVICE SETUP layer no 1 0 wrt8 outdata rd8 indata 
+
+	// decode response
+	ARRAY RESIZE resultarray rd
+	MOVE32_32 0 i
+readcopy:
+	DATA32 tmp32
+	SUB32 rd i tmp32
+	SUB32 tmp32 1 tmp32
+	MOVE32_8 tmp32 i8
+	READ8 indata i8 v8
+	MOVE8_F v8 v
+	ARRAY_WRITE resultarray i v
+	ADD32 i 1 i
+	JR_LT32 i rd readcopy
 }
