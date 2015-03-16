@@ -899,6 +899,16 @@ namespace LMSAssembler
                         {
                             String p = ReadParameter(binary, ref didread);
                             writer.Write(" " + p);
+
+                            // check if this parameter is a counter to extend the parameter list
+                            if (i<cmd.parameters.Length && cmd.parameters[i]==DataType.ParameterCount)
+                            {
+                                int n;
+                                if (int.TryParse(p, NumberStyles.Integer, CultureInfo.InvariantCulture, out n))
+                                {
+                                    numparameters += (n- 1);
+                                }
+                            }
                         }
                         writer.WriteLine();
 

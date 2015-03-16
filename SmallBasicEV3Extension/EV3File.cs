@@ -19,7 +19,7 @@ namespace SmallBasicEV3Extension
         static FileHandle[] openFiles = new FileHandle[100];
 
 
-        public static Primitive OpenWriteImpl(Primitive filename, bool append)
+        private static Primitive OpenWriteImpl(Primitive filename, bool append)
         {
             String f = (filename == null ? "" : filename.ToString());
             if (!f.StartsWith("/"))

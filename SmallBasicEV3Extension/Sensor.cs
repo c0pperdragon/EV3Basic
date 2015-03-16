@@ -276,6 +276,7 @@ namespace SmallBasicEV3Extension
             return Primitive.ConvertFromMap(map);
         }
 
+
         /// <summary>
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
         /// This command addresses one device on the I2C-bus and can send and receive multiple bytes.
@@ -284,8 +285,8 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="writebytes">Number of bytes to write to the slave.</param>
-        /// <param name="readbytes">Number of bytes to request from the slave.</param>
+        /// <param name="writebytes">Number of bytes to write to the slave (maximum 31).</param>
+        /// <param name="readbytes">Number of bytes to request from the slave (maximum 32, minimum 1).</param>
         /// <param name="writedata">Array holding the data bytes to be sent (starting at 0).</param>
         /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
         public static Primitive CommunicateI2C(Primitive port, Primitive address, Primitive writebytes, Primitive readbytes, Primitive writedata)
@@ -386,6 +387,11 @@ namespace SmallBasicEV3Extension
             int b2 = ((int) result[start+2]) & 0xff;
             int b3 = ((int) result[start+3]) & 0xff;
             return b0 | (b1<<8) | (b2<<16) | (b3<<24);
+        }
+
+        private static double DecodeSI(byte[] result, int start)
+        {
+            return BitConverter.ToSingle(result, start);
         }
 
     }

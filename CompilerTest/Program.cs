@@ -12,9 +12,9 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            TestCompile();
-            TestAssemble();
-//            TestDisassemble();
+//            TestCompile();
+//            TestAssemble();
+            TestDisassemble();
         }
 
         static void TestDisassemble()
