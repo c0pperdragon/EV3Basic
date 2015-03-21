@@ -38,3 +38,7 @@ Using the program requires at least .NET 3.5 which is the same as is required to
 The main window is divided in two parts. The left one shows the file system of the EV3, the right shows your local PC file system (both with navigation buttons on top).
 To transfer (and optionally compile) files, select one file in the right window and click one of the "Compile" or "Download" buttons.
 Most programs will compile to the EV3 without much problems as long as you do not use unsupported functions. But there are subtle differences for some language constructs which will cause compilation to fail with an error.
+
+## Contact
+
+For questions, comments, bug reports and feature requests please contact: c0pperdragon50 (at) gmail (dot) com
