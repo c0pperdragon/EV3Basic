@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*  EV3-Basic: A basic compiler to target the Lego EV3 brick
+    Copyright (C) 2015 Reinhard Grafl
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +31,10 @@ namespace EV3Communication
         private const UInt16 VID = 0x0694;
         private const UInt16 PID = 0x0005;
 
-        // read/write handle to the device
         private SafeFileHandle _handle;
 
-        // a pretty .NET stream to read/write from/to
         private FileStream _stream;
 
-        // full-size report
         private byte[] _inputReport;
         private byte[] _outputReport;
 
@@ -33,51 +46,33 @@ namespace EV3Communication
             bool found = false;
             Guid guid;
 
-            // get the GUID of the HID class
             HidImports.HidD_GetHidGuid(out guid);
 
-            // get a handle to all devices that are part of the HID class
             IntPtr hDevInfo = HidImports.SetupDiGetClassDevs(ref guid, null, IntPtr.Zero, HidImports.DIGCF_DEVICEINTERFACE | HidImports.DIGCF_PRESENT);
 
-            // create a new interface data struct and initialize its size
             HidImports.SP_DEVICE_INTERFACE_DATA diData = new HidImports.SP_DEVICE_INTERFACE_DATA();
             diData.cbSize = Marshal.SizeOf(diData);
 
-            // get a device interface to a single device (enumerate all devices)
             while (HidImports.SetupDiEnumDeviceInterfaces(hDevInfo, IntPtr.Zero, ref guid, index, ref diData))
             {
                 UInt32 size;
 
-                // get the buffer size for this device detail instance (returned in the size parameter)
                 HidImports.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref diData, IntPtr.Zero, 0, out size, IntPtr.Zero);
 
-                // create a detail struct and set its size
                 HidImports.SP_DEVICE_INTERFACE_DETAIL_DATA diDetail = new HidImports.SP_DEVICE_INTERFACE_DETAIL_DATA();
 
-                // yeah, yeah...well, see, on Win x86, cbSize must be 5 for some reason.  On x64, apparently 8 is what it wants.
-                // someday I should figure this out.  Thanks to Paul Miller on this...
                 diDetail.cbSize = (uint)(IntPtr.Size == 8 ? 8 : 5);
 
-                // actually get the detail struct
                 if (HidImports.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref diData, ref diDetail, size, out size, IntPtr.Zero))
                 {
-                    // Console.WriteLine("{0}: {1} - {2}", index, diDetail.DevicePath, Marshal.GetLastWin32Error());
-
-                    // open a read/write handle to our device using the DevicePath returned
                     _handle = HidImports.CreateFile(diDetail.DevicePath, FileAccess.ReadWrite, FileShare.ReadWrite, IntPtr.Zero, FileMode.Open, 0 /*HidImports.EFileAttributes.Overlapped*/, IntPtr.Zero);
-
-                    // create an attributes struct and initialize the size
                     HidImports.HIDD_ATTRIBUTES attrib = new HidImports.HIDD_ATTRIBUTES();
                     attrib.Size = Marshal.SizeOf(attrib);
 
-                    // get the attributes of the current device
                     if (HidImports.HidD_GetAttributes(_handle.DangerousGetHandle(), ref attrib))
                     {
-                        // if the vendor and product IDs match up
                         if (attrib.VendorID == VID && attrib.ProductID == PID)
                         {
-                            // it's a Ev3
-                            // Console.WriteLine("Found brick!");
                             found = true;
 
                             IntPtr preparsedData;
@@ -93,7 +88,6 @@ namespace EV3Communication
                             _inputReport = new byte[caps.InputReportByteLength];
                             _outputReport = new byte[caps.OutputReportByteLength];
 
-                            // create a nice .NET FileStream wrapping the handle above
                             _stream = new FileStream(_handle, FileAccess.ReadWrite, _inputReport.Length);
 
                             break;
@@ -104,18 +98,14 @@ namespace EV3Communication
                 }
                 else
                 {
-                    // failed to get the detail struct
                     throw new Exception("SetupDiGetDeviceInterfaceDetail failed on index " + index);
                 }
 
-                // move to the next device
                 index++;
             }
 
-            // clean up our list
             HidImports.SetupDiDestroyDeviceInfoList(hDevInfo);
 
-            // if we didn't find a EV3, throw an exception
             if (!found)
                 throw new Exception("No LEGO EV3s found in HID device list.");
         }
@@ -124,7 +114,7 @@ namespace EV3Communication
         {
             if (_stream != null)
             {
-                // send data (leading 0 byte and 16 bit data length)
+                // send data (with leading 0 byte and 16 bit data length)
                 _outputReport[1] = (byte)(data.Length & 0xff);
                 _outputReport[2] = (byte)((data.Length >> 8) & 0xff);
                 data.CopyTo(_outputReport, 3);
@@ -135,7 +125,7 @@ namespace EV3Communication
         public override byte[] ReceivePacket()
         {
             if (_stream != null)
-            {   // receive data (leading 0 byte and 16 bit data length)
+            {   // receive data (with leading 0 byte and 16 bit data length)
                 _stream.Read(_inputReport, 0, _inputReport.Length);
 
                 short size = (short)(_inputReport[1] | _inputReport[2] << 8);

@@ -41,4 +41,4 @@ Most programs will compile to the EV3 without much problems as long as you do no
 
 ## Contact
 
-For questions, comments, bug reports and feature requests please contact: c0pperdragon50 (at) gmail (dot) com
+For questions, comments, bug reports and feature requests please contact: reinhard.grafl (at) aon.at
