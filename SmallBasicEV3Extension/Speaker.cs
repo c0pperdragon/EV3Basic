@@ -105,7 +105,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Check if the speaker is still busy playing a previous sound.
         /// </summary>
-        /// <returns>"True", if there is a sound still playing</returns>
+        /// <returns>"True", if there is a sound still playing, "False" otherwise.</returns>
         public static Primitive IsBusy()
         {
             ByteCodeBuffer c = new ByteCodeBuffer();

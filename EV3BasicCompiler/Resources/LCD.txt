@@ -105,6 +105,25 @@ subcall LCD.TEXT     // FFFFSV
 skipupdate:
 }
 
+subcall LCD.WRITE     // FFSV
+{
+	IN_F x
+	IN_F y
+	IN_S text 252
+	
+	DATA16 x_16
+	DATA16 y_16
+	MOVEF_16 x x_16
+	MOVEF_16 y y_16
+	
+	UI_DRAW SELECT_FONT 1
+	UI_DRAW TEXT 1 x_16 y_16 text
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:
+}
+
 subcall LCD.CIRCLE     // FFFFV
 {
 	IN_F col

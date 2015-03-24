@@ -12,7 +12,7 @@ subcall PROGRAM.DIRECTORY  // S
 	FILENAME(GET_FOLDERNAME,127,result)
 }
 
-subcall PROGRAM.GETARGUMENT  // FF
+subcall PROGRAM.GETARGUMENT  // FS
 {
 	IN_F index
 	OUT_S result 8

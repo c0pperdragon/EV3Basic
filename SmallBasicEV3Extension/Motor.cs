@@ -12,21 +12,18 @@ namespace SmallBasicEV3Extension
 
     /// <summary>
     /// Control the Motors connected to the Brick.
-    /// At any function you need to specify one or more motor ports that should be affected (e.g. "A", "BC", "ABD").
-    /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (e.g. "3BC", "2A").
+    /// At any function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").
+    /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. 
     /// </summary>
     [SmallBasicType]
     public static class Motor
     {
         /// <summary>
-        /// Sets one or multiple motors to interpret all subsequent speed or power values to be
-        /// used as negative. While all motors could be controlled with negative values anyway, this
-        /// can make the program more readable. A positive speed value could always denote a "forward"
-        /// motion of the robot, no matter how the motor is built into the robot. Only use the
-        /// propper RevertDirection() calls once at program start.
+        /// Sets one or multiple motors to interpret all subsequent speed or power values as negative. 
+        /// While all motors could be controlled with negative values anyway, this can make the program more readable. A positive speed value could always denote a "forward" motion of the robot, no matter how the motor is built into the robot. You only need to make the propper RevertDirection() calls once at program start.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="revert">"true" to set revert or "false" to remove the setting</param>
+        /// <param name="revert">"True" to set revert or "False" to remove the setting</param>
         public static void RevertDirection(Primitive ports, Primitive revert)
         {
             int layer;
@@ -44,8 +41,7 @@ namespace SmallBasicEV3Extension
 
  
         /// <summary>
-        /// Stop one or multiple motors. This will also cancel
-        /// any scheduled motor movements.
+        /// Stop one or multiple motors. This will also cancel any scheduled motor movements.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="brake">"True", if the motor should use the brake</param>
@@ -66,7 +62,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Set a power level to use for one or multiple motors.
-        /// When the motor is currently stopped, this will preset the power level to use when it is started.
+        /// When the motor is currently stopped, this will preset the power level to be use when it is finally started.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
@@ -172,11 +168,10 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Checks if one or more motors are still busy with a 
-        /// scheduled motor movement. 
+        /// Checks if one or more motors are still busy with a scheduled motor movement. 
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <returns>"True" if at least one of the motors is busy</returns>
+        /// <returns>"True" if at least one of the motors is busy, "False" otherwise.</returns>
         public static Primitive IsBusy(Primitive ports)
         {
             int layer;
@@ -329,8 +324,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Starts to synchroniously move 2 motors a defined number of degrees. 
         /// The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed and the number of degrees will apply. 
-        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed.
-        /// e.g.: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
+        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
         /// </summary>
         /// <param name="ports">Names of 2 motor ports</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
@@ -363,8 +357,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Starts to synchroniously move 2 motors a defined number of milliseconds. 
         /// The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed will apply. 
-        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed.
-        /// e.g.: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
+        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
         /// </summary>
         /// <param name="ports">Names of 2 motor ports</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
@@ -441,11 +434,11 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Move one or more motors by a the specified count. 
-        /// The motor(s) will apply full power to reach the target position as quickly as possible. This function will wait until the motor has reached its destination.
+        /// The motor will apply full power to reach the target position as quickly as possible. This function will wait until the motor has reached its destination.
         /// When you need finer control over the movement, consider using one of the Schedule.. functions.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="count">Number of counts to move the motor. Can be postive (forward) or native (reverse)</param>
+        /// <param name="count">Number of counts to move the motor. Can be positive (forward) or negative (reverse)</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void Move(Primitive ports, Primitive count, Primitive brake)
         {
@@ -486,8 +479,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Wait until the specified motor(s) has finished a scheduled operation.
-        /// Using this method is better than calling IsBusy() in a tight loop for cases
-        /// where no other events need to be monitored.
+        /// Using this method is normally better than calling IsBusy() in a tight loop.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         public static void Wait(Primitive ports)

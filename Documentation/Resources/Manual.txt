@@ -1,0 +1,192 @@
+<H1 class="chapter">EV3-Basic</H1>
+<P>
+Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is the 
+graphical programming environment provided by Lego. 
+But for larger and more complex programs, this no longer works and you need some text-based programming language to write programs.
+There are already many different projects that have created programming environments for the EV3 to provide exactly this (LeJOS, MonoBrick, RobotC, ev3dev, and many more).
+But they all have one thing in common: They are awfully complicated to set up and use, and you probably need years of computer experience to get any of them working.
+</P>
+<P>
+To fill the gap between very-easy-to-use but limited and all-powerful but complicated, I have invented EV3-Basic. It is targeted mainly on users that want to go beyond
+the limitations of graphical programming, but are no IT-professionals themselves. 
+EV3-Basic is quite easy to learn and still offers all functionality you need to create awesome programs. Learning to program on the way is probably an additional benefit.
+</P>
+<P>
+EV3-Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
+but also for all interested persons new to this topic. "Small Basic" is intentionally designed for ease of use, and for my EV3-extension I tried to do the same.
+I would be very happy, if this language could indeed be of some use to learn programming and to use the EV3 brick more creatively.
+</P>
+<address>
+Reinhard Grafl
+<br>
+reinhard.grafl@aon.at
+</address>
+
+<H1 class="chapter">Getting Started</H1>
+<P>
+First thing you need is a PC running Microsoft Windows (any version up from Windows XP) and the current version of
+<a href="http://smallbasic.com">Microsoft Small Basic</a> which can be downloaded for free. If you are completely new to programming, 
+you probably need to learn the principles first. This does not take all too long and is quite fun in itself. There are some very good tutorials
+on the Small Basic website to help you with this.
+</P>
+<P>
+Next step is to download and install the EV3-extension for Small Basic to actually be able to control the EV3 brick with your program. 
+From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download the file "ev3extension.zip" and
+uncompress its contents into the install folder of Small Basic (this is probably located on your PC in 'C:\Program Files (x86)\Microsoft' and you
+probably need Administrator rights to do it). This should create a '/lib' - folder inside of the 'Small Basic' folder.
+At the next start of Small Basic (restart it if it was still running), you have access to various objects to control different aspects of the brick
+and some additional multi-purpose objects as well.
+Now create your very first EV3-program by writing 
+</P>
+<pre>
+   LCD.Clear()
+   LCD.Write(40,40, "Hello EV3")
+   Program.Delay(10000)
+</pre>
+<P>
+into the program window. 
+Then connect the EV3 brick with your computer using the USB cable, start it up, and when it is running, 
+press the big blue "Start" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
+</P>
+<P>
+When writing your own programs, the Intellisense - system of Small Basic will show you the possible library functions and usage
+documentation which contains the same information that is also available in this document in the chapter "Library Documentation".
+Many more examples for the EV3 programming are also available on the releases page (probably named 'examples.zip'). 
+</P>
+<P>
+Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independet robot that 
+has its own program and does not need the PC to tell it every single step.
+</P>
+<P>
+To get the program to the brick, you need the EV3Explorer which is also available on the releases page (as file 'ev3explorer.zip'). Uncompress it to
+some location of your choice and start the contained EV3Explorer.exe. This will open a window where you can see the files that are stored on the EV3 brick 
+(on the left side of the window) and also the files stored on your PC (on the right side of the window).
+You can compile any of the examples and your own programs by selecting the source code
+file (ends with .sb) and click "Compile and Run". 
+This will compile the source code file to a file that can be executed by the brick (having the file extension .rbf), uploads it to the brick
+and immediately starts it. 
+If you want to start your programs from the menu on the brick, you need to create a subfolder of the "prjs"-folder with a name of your
+choice and use this as a target folder for compilation. (The EV3 will only show programs in its menu that are properly placed in their own folder).
+</P>
+
+<H1 class="chapter">Quick reference of Small Basic</H1>
+<p>
+For persons who already know how to program with some other languages and do not want to go through the complete Small Basic tutorials, 
+here is a short example that contains most language constructs and a short explanation of each.
+This example will not run on the EV3 brick, because it uses the Small Basic text window.
+</p>
+<pre>
+
+  ' Demo program explaining most of Small Basic
+  ' (all comments start with single quotation mark)
+
+  ' Execution starts here
+  A = 5       ' variables are implicitly declared at first use 
+  a = a + 1   ' everything is case-insensitive
+  B[a] = 55   ' arrays are implicitly defined and grow as needed
+  X = "hi"    ' variables can also hold text
+
+  Sub write   ' defines a sub-program with this name (no parameters possible)
+	TextWindow.WriteLine(X)           ' call library function, access variable defined elsewere
+  EndSub
+     ' control flow of the main program runs around the Sub - definitions
+
+  TextWindow.WriteLine("A="+a)        ' string concatenation with +
+  WRITE()                             ' call subprogram. name is also case-insensitive
+  write2()                            ' may call subprogram that is defined further down the code
+
+  TextWindow.Writeline("B[6]="+B[6])  ' access to arrays'
+  
+  For i=2 to 5 		               	  ' a loop from 2 to 5 (inclusively)
+	TextWindow.Writeline("I:"+I)
+  EndFor
+  For i=6.5 to 10.5 step 2         	  ' a loop with fractional values and larger step
+	TextWindow.Writeline("I:"+I)
+  EndFor
+
+  Sub write2
+	write()          ' subprogram can call other subprograms
+	write()
+  EndSub
+     ' control flow of the main program runs around the Sub - definitions
+
+   I=99				' case insensitive - overwrites previous i
+   while i>3        ' loop with condition
+     i=i/2
+     TextWindow.Writeline("I:"+i)
+   endwhile
+   TextWindow.WriteLine("PI="+Math.PI)         ' a library property (access without parentesis)
+   TextWindow.WriteLine("SIN="+Math.Sin(0.5))  ' library function returning value
+
+   A=50
+   B=20
+   If a<5 then				       ' an IF-construct with multiple conditions
+		TextWindow.WriteLine("first")
+   elseif a<10 and b<100 then                ' logic 'and' of conditions
+		TextWindow.WriteLine("second")
+   elseif a<20 or (b>40 and b<60) then       ' logic 'or' and nested conditions
+		TextWindow.WriteLine("third")
+   else
+		TextWindow.WriteLine("other")
+   endif
+</pre>
+
+
+<H1 class="chapter">Differences between Small Basic and EV3-Basic</H1>
+<P>
+While I have tried to mimic the original behaviour of Small Basic in my EV3-compiler as exactly as possible, 
+there are some things that simply can not be done with the EV3 byte code interpreter.
+</P>
+
+<H3 class="subchapter">Variables are typed</H3>
+<P>  
+While Small Basic has just one datatype which is a unicode string into which all possible values (even arrays) are mangled, 
+EV3Basic has 4 distinct datatypes for variables:
+</P>
+<ul>
+<li>Number  (a 32bit floating point)</li>
+<li>Text    </li>
+<li>Array of Numbers</li>
+<li>Array of Texts</li>
+</ul>
+<P>
+Every variable has one of these types (which is determined by its first use in the program code) 
+and can not be used to store anything else.
+</P>
+
+<H3 class="subchapter">Operators and functions work on compile-type types</H3>
+<P>
+Arithmetic or logic operators need to be provided with either number or text parameters and deliver a result of also a defined type
+(for example, the "<" needs two numbers and delivers a text).
+One exception is the "=" which will perform either a numerical or a textual comparision, 
+depending on the compile-time type of the operands. Another exception is the "+" that will do a 
+numerical add when provided with two numbers, but will do a text concatenation if one of the operands is text.
+Similar requirements are there for function parameters, which also have a defined compile-time type. 
+To make things easier, an automatic conversion from number to text is done if a parameter needs a text (but not the other way round).
+</P>
+
+<H3 class="subchapter>Arrays</H3>
+<P>
+In Small Basic arrays work like a dictionary and can use any text as an index. 
+EV3-Basic can not do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
+ (A[4.5] is the same as A[4], A[-4] will always deliver 0 or "")
+There is no support for multi-dimensional arrays. 
+While arrays can be passed to library functions and out again, no temporary arrays are created to receive the result. For all functions that return an array,
+this return value must be immediately stored in an array variable.
+<P>
+
+<H3 class="subchapter">Limitation for text</H3>
+<P>
+Any text variable can only hold up to 251 characters and not the full unicode range is supported, 
+but only the codes 1 - 255  (they are just plain C-style char strings).
+The same holds for all elements of text arrays.
+</P>
+
+
+
+<H1 class="chapter">Library Documentation</H1>
+<P>
+The runtime-library for the EV3 is organized in individual parts, called 'object's. Each object provides functionality for a different part of the system. 
+This list contains everything that is available for both Small Basic on the PC (with EV3-extension) and also on the brick when compiling with EV3Explorer.
+When developing programs that only need to run on the PC, you can also use everything else that is provided by Small Basic, but I have not documented it here.
+</P>

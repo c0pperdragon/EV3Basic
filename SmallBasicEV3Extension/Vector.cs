@@ -18,7 +18,7 @@ namespace SmallBasicEV3Extension
     public static class Vector
     {
         /// <summary>
-        /// Set up an vector of a given size with all elements set to the same value.
+        /// Set up a vector of a given size with all elements set to the same value.
         /// </summary>
         /// <param name="size">Size of the vector</param>
         /// <param name="value">The value to use for all elements</param>
@@ -47,7 +47,7 @@ namespace SmallBasicEV3Extension
         /// <param name="size">That many numbers are taken for computation</param>
         /// <param name="A">First vector</param>
         /// <param name="B">Second vector</param>
-        /// <returns></returns>
+        /// <returns>A vector of the given size what contains sum values.</returns>
         public static Primitive Add(Primitive size, Primitive A, Primitive B)
         {
             double[] a = P2A(A,size);
@@ -114,17 +114,16 @@ namespace SmallBasicEV3Extension
 */
 
         /// <summary>
-        /// Matrix multipliation operation. The input vectors are treated as two-dimensional matrizes 
-        /// of given width and height. The individual rows of the matrix are stored inside the vectors directly one after
-        /// the other.
+        /// Matrix multipliation operation. 
+        /// The input vectors are treated as two-dimensional matrizes of given width and height. The individual rows of the matrix are stored inside the vectors directly one after the other.
         /// To learn more about this mathematical operation see http://en.wikipedia.org/wiki/Matrix_multiplication .
         /// </summary>
         /// <param name="rows">Number of rows in the resulting output matrix</param>
         /// <param name="columns">Number of columns in the resulting output matrix</param>
         /// <param name="k">Number of columns in input matrix A and number of rows in input matrix B</param>
-        /// <param name="A">A matrix of size rows x k</param>
-        /// <param name="B">A matrix of size k + columns</param>
-        /// <returns>A new matrix holding the multiplication result</returns>
+        /// <param name="A">A matrix of size rows * k</param>
+        /// <param name="B">A matrix of size k * columns</param>
+        /// <returns>A matrix holding the multiplication result</returns>
         public static Primitive Multiply(Primitive rows, Primitive columns, Primitive k, Primitive A, Primitive B)
         {
             int _rows = rows;

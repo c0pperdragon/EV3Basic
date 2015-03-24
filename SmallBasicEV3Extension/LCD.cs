@@ -93,7 +93,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a single pixel on the display to a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
         public static void Pixel(Primitive color, Primitive x, Primitive y)
@@ -117,7 +117,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a straight line of pixels to a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x1">X coordinate of start point</param>
         /// <param name="y1">Y coordinate of start point</param>
         /// <param name="x2">X coordinate of end point</param>
@@ -147,7 +147,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draws a circle in the given color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate of center point</param>
         /// <param name="y">Y coordinate of center point</param>
         /// <param name="radius">Radius of the circle</param>
@@ -172,13 +172,13 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Write a given text in a color to the display
+        /// Write a given text (or number) in a color to the display
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate where text starts</param>
         /// <param name="y">Y coordinate of the top corner</param>
         /// <param name="font">Size of the letters: 0 (TINY), 1 (SMALL), 2 (BIG)</param>
-        /// <param name="text">The text to write to the display</param>
+        /// <param name="text">The text (or number) to write to the display</param>
         public static void Text(Primitive color, Primitive x, Primitive y, Primitive font, Primitive text)
         {
             int _x, _y, _font, _color;
@@ -210,9 +210,21 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
+        /// Write a given text (or number) in black color to the display.
+        /// When you need more control over the visual appearance, use the function 'Text' instead.
+        /// </summary>
+        /// <param name="x">X coordinate where text starts</param>
+        /// <param name="y">Y coordinate of the top corner</param>
+        /// <param name="text">The text (or number) to write to the display</param>
+        public static void Write(Primitive x, Primitive y, Primitive text)
+        {
+            Text(new Primitive(1), x, y, new Primitive(1), text);
+        }
+
+        /// <summary>
         /// Fill a rectangle with a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">Left edge of rectangle</param>
         /// <param name="y">Top edge of rectangle</param>
         /// <param name="width">Width of rectangle</param>
@@ -242,7 +254,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draw an outline of a rectangle with a color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">Left edge of rectangle</param>
         /// <param name="y">Top edge of rectangle</param>
         /// <param name="width">Width of rectangle</param>
@@ -299,7 +311,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draws a filled circle with a given color.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate of center point</param>
         /// <param name="y">Y coordinate of center point</param>
         /// <param name="radius">Radius of the circle</param>
@@ -326,7 +338,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Draw a bitmap file in a given color to the display.
         /// </summary>
-        /// <param name="color">0 (WHITE) or 1 (BLACK)</param>
+        /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate of left edge</param>
         /// <param name="y">Y coordinate of top edge</param>
         /// <param name="filename">Name of the file containing the bitmap</param>

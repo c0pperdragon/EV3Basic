@@ -1,40 +1,27 @@
-Runtime Libraries
------------------
 
-The runtime libraries for Small Basic as well as for the EV3Basic compiler provide access to most parts of the EV3 brick and are organized into the following parts:
-
-EV3
-LCD
-Motor
-Buttons
-Sensor
-Speaker
-Assert
-
-Most necessary information is provided as intellisense documentation for Small Basic.
-The most non-obvious part concern the Sensor library which is documented here.
-
-Sensors
--------
-
-EV3 does a good job in auto-detecting many sensors, at least all sensors that came with the NXT 2.0 and EV3 kit. Nevertheless the program needs to know how to best interpret the sensor readings for the different types and modes. 
+<H1 class="chapter">Appendix - Sensors</H1>
+<P>
+EV3 does a good job in auto-detecting many sensors, at least all sensors that came with the NXT 2.0 and EV3 kit. 
+Nevertheless the program needs to know how to best interpret the sensor readings for the different types and modes. 
 To keep the list simple, I only include the modes which I feel, make sense to use anyway.
+</P>
  
+<PRE>
 Type  Mode  Name            get reading with   delivers 
 
 1        0  NXT-TOUCH       ReadPercent        0=not pressed,  100=pressed  
 
 4        0  NXT-COL-REF     ReadPercent        0=no reflective light, 100=maximum reflective light
 4        1  NXT-COL-AMB     ReadPercent        0=no ambient light, 100=maximum ambient light
-4        2  NXT-COL-COL     ReadRaw            1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
+4        2  NXT-COL-COL     ReadRaw (1 value)  1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
 
-5        0  NXT-US-CM       ReadRaw            distance in cm
+5        0  NXT-US-CM       ReadRaw (1 value)  distance in cm
 
 16       0  TOUCH           ReadPercent        0=not pressed,  100=pressed  
 
 29       0  COL-REFLECT     ReadPercent        0=no reflective light, 100=maximum reflective light
 29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
-29       2  COL-COLOR       ReadRaw            0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
+29       2  COL-COLOR       ReadRaw (1 value)  0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
 29       5  RGB-RAW         ReadRaw (3 values) value1=red intensity, value2=green intensity, value3=blue intensity
 
 33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
@@ -49,4 +36,4 @@ Type  Mode  Name            get reading with   delivers
 	C = 3    A&D = 6    C&D = 11
 	D = 4               E = 9
    other combinations give a reading of 0
-   
+</PRE>   

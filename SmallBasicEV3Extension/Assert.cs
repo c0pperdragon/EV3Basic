@@ -9,8 +9,7 @@ namespace SmallBasicEV3Extension
 {
     /// <summary>
     /// A test facility to help check part of the code for correctness. 
-    /// Assertions make implicit assumptions about the current program state explicit. By adding assertion calls you can help finding bugs in your program more easily.
-    /// e.g.: When a part of the program depends on the variable A having a positive value, you could call  Assert.Greater(A,0,"A must be > 0!"). 
+    /// Assertions make implicit assumptions about the current program state explicit. By adding assertion calls you can help finding bugs in your program more easily. For example, when a part of the program depends on the variable A having a positive value, you could call  Assert.Greater(A,0,"A must be > 0!"). 
     /// In the case that the program runs into an assertion that is not satisfied, the error message is displayed stating the problem.
     /// </summary>
     [SmallBasicType]
@@ -18,9 +17,9 @@ namespace SmallBasicEV3Extension
     {
 
         /// <summary>
-        /// Write a failure message to the TextWindow. This function should only be called if something has already failed in the program. 
+        /// Write a failure message to the display. This function should only be called if something has already failed in the program. 
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Message to be displayed</param>
         public static void Failed(Primitive message)
         {
             TextWindow.WriteLine("ASSERT FAILED: " + message);
@@ -176,8 +175,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Make sure that the two numbers are nearly identical. This can be used for fractional numbers with many decimal places where 
-        /// the computation could give slightly different results because of rounding issues.
+        /// Make sure that the two numbers are nearly identical. This can be used for fractional numbers with many decimal places where the computation could give slightly different results because of rounding issues.
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>

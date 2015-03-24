@@ -1,0 +1,75 @@
+<style type="text/css">
+  H1.chapter {
+	margin-top: 100px;
+    font-family: Verdana; 
+  }
+  H3.subchapter {
+    font-family: Verdana; 
+  }
+  P {
+    font-family: Verdana; 
+  }
+  UL {
+    font-family: Verdana; 
+  }
+  ADDRESS {
+    font-family: Verdana; 
+	float: right;
+  }
+
+  H2.object {
+    font-family: Verdana; 
+	border-bottom: medium solid;
+  }
+  P.objectsummary {
+    font-family: Verdana; 
+  }
+  H3.operation {
+    font-family: Verdana;  
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  P.operationsummary {
+    font-family: Verdana; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  H3.property {
+    font-family: Verdana;  
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  P.propertysummary {
+    font-family: Verdana; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  H4.parameter {
+    font-family: Verdana; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px; 
+  }
+  P.parametersummary {
+    font-family: Verdana;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 50px; 
+  }
+  H4.returns {
+    font-family: Verdana; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px; 
+  }
+  P.returnssummary {
+    font-family: Verdana;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 50px; 
+  }
+</style>

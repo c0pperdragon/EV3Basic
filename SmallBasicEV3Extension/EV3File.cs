@@ -68,7 +68,7 @@ namespace SmallBasicEV3Extension
         /// Open a file for writing. When the file already exists, it will be overwritten.
         /// </summary>
         /// <param name="filename">Name of the file to create/overwrite.</param>
-        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
+        /// <returns>A number that identifies this open file (a.k.a. file handle).</returns>
         public static Primitive OpenWrite(Primitive filename)
         {
             return OpenWriteImpl(filename, false);
@@ -78,17 +78,17 @@ namespace SmallBasicEV3Extension
         /// Open a file for adding data. When the file does not exist, it will be created.
         /// </summary>
         /// <param name="filename">Name of the file to create/extend.</param>
-        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
+        /// <returns>A number that identifies this open file (a.k.a. file handle).</returns>
         public static Primitive OpenAppend(Primitive filename)
         {
             return OpenWriteImpl(filename, true);
         }
 
         /// <summary>
-        /// Open a file for reading data. When the file does not exist the program will crash.
+        /// Open a file for reading data. When the file does not exist, a 0 is returned.
         /// </summary>
         /// <param name="filename">Name of the file to read from.</param>
-        /// <returns>A number that identifies this open file (a.k.a. file handle)</returns>
+        /// <returns>A number that identifies this open file (a.k.a. file handle) or 0 if file does not exist.</returns>
         public static Primitive OpenRead(Primitive filename)
         {
             String f = (filename == null ? "" : filename.ToString());
@@ -173,7 +173,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Write a single byte of data on the file.
+        /// Write a single byte of data to the file.
         /// </summary>
         /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
         /// <param name="data">One byte to write (value of 0 - 255).</param>        

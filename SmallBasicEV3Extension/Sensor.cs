@@ -10,8 +10,8 @@ namespace SmallBasicEV3Extension
 {
     /// <summary>
     /// Access sensors that are attached to the brick.
-    /// To specify the sensor use the port number which is printed below the socket on the brick (e.g. 1).
-    /// To access sensors of further bricks that are connected via daisy-chaining, use the next higher numbers instead (e.g. 5 - 8 will access the sensors on the first daisy-chained brick, 9-13 the sensors on the next one and so on).
+    /// To specify the sensor use the port number which is printed below the socket on the brick (for example 1).
+    /// To access sensors of further bricks that are connected via daisy-chaining, use the next higher numbers instead (5 - 8 will access the sensors on the first daisy-chained brick, 9-13 the sensors on the next one and so on).
     /// </summary>
     [SmallBasicType]
     public static class Sensor
@@ -21,7 +21,7 @@ namespace SmallBasicEV3Extension
         /// This function is mainly intended for diagnostic use because you normally know which sensor is plugged to which port on the model.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>Description text (e.g. "TOUCH")</returns>
+        /// <returns>Description text (for example, "TOUCH")</returns>
         public static Primitive GetName(Primitive port)
         {
             int layer;
@@ -51,7 +51,7 @@ namespace SmallBasicEV3Extension
         /// Get the numercial type identifier of a currently connected sensor.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>Sensor type identifier (e.g. 16 for a touch sensor)</returns>
+        /// <returns>Sensor type identifier (for example, 16 for a touch sensor)</returns>
         public static Primitive GetType(Primitive port)
         {
             int layer;
@@ -78,9 +78,8 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Get current operation mode of a sensor. Many sensors can work in substantially different modes.
-        /// (e.g. the color sensor can detect either ambient light or reflective light or the color).
-        /// When the sensor is plugged in it will start with mode 0, but that can be later changed by the program.
+        /// Get current operation mode of a sensor. 
+        /// Many sensors can work in substantially different modes. For example, the color sensor can detect either ambient light or reflective light or the color). When the sensor is plugged in it will normally start with mode 0, but that can be later changed by the program.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>Current operation mode (0 is always the default mode)</returns>
@@ -111,7 +110,7 @@ namespace SmallBasicEV3Extension
        
         /// <summary>
         /// Switches the mode of a sensor. 
-        /// Many sensors can work in different modes giving quite different readings.
+        /// Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="mode">New mode to switch to. This only succeeds when the mode is indeed supported by the sensor.</param>
@@ -135,8 +134,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Check if a sensor is currently busy switching mode or in process of initialization.
-        /// After mode switching a sensor may take some time to become ready again.
+        /// Check if a sensor is currently busy switching mode or in process of initialization. After mode switching a sensor may take some time to become ready again.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>"True" if the sensor is currenty busy</returns>
@@ -163,8 +161,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the
-        /// port, this function returns immediately.
+        /// Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the port, this function returns immediately.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         public static void Wait(Primitive port)
@@ -192,11 +189,10 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Read the current sensor value and apply some sensible percentage scaling.
-        /// Most sensors can translate the current reading to a meaningful single percentage value like
-        /// light intensity or button press state. 
+        /// Most sensors can translate the current reading to a meaningful single percentage value like light intensity or button press state.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>The percentage value (e.g. Touch sensor gives 100 for pressed and 0 for non pressed)</returns>
+        /// <returns>The percentage value (For example, the touch sensor gives 100 for pressed and 0 for non pressed)</returns>
         public static Primitive ReadPercent(Primitive port)
         {
             int layer;
@@ -225,9 +221,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Read current sensor value where the result from ReadPercent() is not specific enough.
-        /// Some sensor modes deliver values that can not be translated to percentage (e.g. a color index) or
-        /// that contain multiple values at once (e.g. the individual red, green, blue light intensities). 
-        /// Use this function to get those values. 
+        /// Some sensor modes deliver values that can not be translated to percentage (for example a color index) or that contain multiple values at once (for example the individual red, green, blue light intensities). 
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="values">Requested size of result array</param>
@@ -279,9 +273,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
-        /// This command addresses one device on the I2C-bus and can send and receive multiple bytes.
-        /// This feature could be used to attach a custom sensor or to communicate with any
-        /// device that is capable to be connected to the I2C bus as a slave.
+        /// This command addresses one device on the I2C-bus and can send and receive multiple bytes. This feature could be used to attach a custom sensor or to communicate with any device that is capable to be connected to the I2C bus as a slave.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
