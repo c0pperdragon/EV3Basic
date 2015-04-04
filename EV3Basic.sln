@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV3BasicCompiler", "EV3Basi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{A2EE623F-44B6-4853-B3EB-27836A918F5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallBasic10EV3Extension", "SmallBasic10EV3Extension\SmallBasic10EV3Extension.csproj", "{3A59574F-9711-4B3B-A713-0A3F3161205E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{A2EE623F-44B6-4853-B3EB-27836A918F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2EE623F-44B6-4853-B3EB-27836A918F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2EE623F-44B6-4853-B3EB-27836A918F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A59574F-9711-4B3B-A713-0A3F3161205E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A59574F-9711-4B3B-A713-0A3F3161205E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A59574F-9711-4B3B-A713-0A3F3161205E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A59574F-9711-4B3B-A713-0A3F3161205E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

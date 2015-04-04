@@ -37,7 +37,7 @@ namespace SmallBasicEV3Extension
         {
             get
             {
-                System.Int64 ticks = EV3Communicator.TicksSinceStart();
+                System.Int64 ticks = EV3RemoteControler.TicksSinceStart();
                 return new Primitive(System.Math.Ceiling(ticks / 10000.0));
             }
         }
@@ -80,7 +80,7 @@ namespace SmallBasicEV3Extension
             c.OP(0x82);           // UI_WRITE
             c.CONST(0x1B);        // CMD: LED
             c.CONST(col);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace SmallBasicEV3Extension
                 c.OP(0x81);           // UI_READ
                 c.CONST(0x12);        // CMD: GET_LBATT = 0x12
                 c.GLOBVAR(0);
-                byte[] result = EV3Communicator.DirectCommand(c, 1, 0);
+                byte[] result = EV3RemoteControler.DirectCommand(c, 1, 0);
                 
                 if (result==null || result.Length<1 || result[0]<0)
                 {
@@ -123,7 +123,7 @@ namespace SmallBasicEV3Extension
             c.OP(0x30);           // MOVE8_8
             c.LOCVAR(1);           // for some reason, the SYSTEM command returns the result value as 8 bit in byte 1 !
             c.GLOBVAR(0);
-            byte[] result = EV3Communicator.DirectCommand(c, 1, 4);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 1, 4);
             if (result==null || result.Length<1)
             {
                 return new Primitive(-1);
@@ -147,8 +147,7 @@ namespace SmallBasicEV3Extension
             {
                 if (!hasDownloaded[0])
                 {
-                    String codehex = SmallBasicEV3Extension.Properties.Resources.NativeCode;
-                    EV3Communicator.CreateEV3File("/tmp/nativecode", EV3Communicator.HexDumpToBytes(codehex));
+                    EV3RemoteControler.InstallNativeCode();
                     hasDownloaded[0] = true;
                 }
             }
@@ -159,7 +158,7 @@ namespace SmallBasicEV3Extension
             c.STRING("/tmp/nativecode "+command);
             c.GLOBVAR(0);          // result code
 
-            byte[] result = EV3Communicator.DirectCommand(c, 4, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 4, 0);
             if (result == null || result.Length < 4)
             {
                 return new Primitive(-1);

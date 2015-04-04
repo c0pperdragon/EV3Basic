@@ -67,7 +67,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(0x05);        // left
                 c.GLOBVAR(5);
 
-                return CreateFlags(EV3Communicator.DirectCommand(c, 6, 0));
+                return CreateFlags(EV3RemoteControler.DirectCommand(c, 6, 0));
             }
         }
 
@@ -104,7 +104,7 @@ namespace SmallBasicEV3Extension
             c.CONST(0x07);        // any other button
             c.GLOBVAR(0);
 
-            return CreateFlags(EV3Communicator.DirectCommand(c, 6, 0));
+            return CreateFlags(EV3RemoteControler.DirectCommand(c, 6, 0));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace SmallBasicEV3Extension
 
             for (; ; )
             {
-                byte[] response = EV3Communicator.DirectCommand(c, 1, 0);
+                byte[] response = EV3RemoteControler.DirectCommand(c, 1, 0);
                 if (response[0]!=0)
                 {   return;
                 }
@@ -136,7 +136,7 @@ namespace SmallBasicEV3Extension
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x83);           // UI_BUTTON
             c.CONST(0x04);        // CMD: FLUSH = 0x04
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
 

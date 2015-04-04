@@ -57,7 +57,7 @@ namespace SmallBasicEV3Extension
 
                 commandBuffer.OP(0x01);            // NOP  - need this as branch target
 
-                EV3Communicator.DirectCommand(commandBuffer, 1, 0);
+                EV3RemoteControler.DirectCommand(commandBuffer, 1, 0);
 
                 commandBuffer.Clear();
             }

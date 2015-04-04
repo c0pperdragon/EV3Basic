@@ -38,7 +38,7 @@ namespace SmallBasicEV3Extension
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x94);       // opSOUND
             c.CONST(0x00);    // CMD: BREAK = 0x00
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SmallBasicEV3Extension
             c.CONST(vol);
             c.CONST(frq);
             c.CONST(dur);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace SmallBasicEV3Extension
             c.CONST(vol);
             c.GLOBVAR(0);
             c.CONST(dur);
-            EV3Communicator.DirectCommand(c, 2, 0);
+            EV3RemoteControler.DirectCommand(c, 2, 0);
         }
 
 
@@ -115,7 +115,7 @@ namespace SmallBasicEV3Extension
             c.CONST(0x02);    //CMD: PLAY = 0x02
             c.CONST(vol);
             c.STRING(fname);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace SmallBasicEV3Extension
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x95);       // opSound_Test (BUSY)
             c.GLOBVAR(0);
-            byte[] reply = EV3Communicator.DirectCommand(c, 1, 0);
+            byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
             return new Primitive((reply == null || reply[0] == 0) ? "False" : "True");
         }
 
@@ -144,7 +144,7 @@ namespace SmallBasicEV3Extension
 
             for (; ; )
             {
-                byte[] reply = EV3Communicator.DirectCommand(c, 1, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
                 if (reply == null || reply[0] == 0)
                 {
                     break;

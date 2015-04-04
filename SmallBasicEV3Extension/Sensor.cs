@@ -51,7 +51,7 @@ namespace SmallBasicEV3Extension
             c.CONST(no);
             c.CONST(32);
             c.GLOBVAR(0);
-            byte[] result = EV3Communicator.DirectCommand(c, 32, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 32, 0);
 
             if(result==null)
             {
@@ -81,7 +81,7 @@ namespace SmallBasicEV3Extension
             c.CONST(no);
             c.GLOBVAR(0);
             c.GLOBVAR(1);
-            byte[] result = EV3Communicator.DirectCommand(c, 2, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 2, 0);
             
             if (result==null || result.Length<2)
             {
@@ -112,7 +112,7 @@ namespace SmallBasicEV3Extension
             c.CONST(no);
             c.GLOBVAR(0);
             c.GLOBVAR(1);
-            byte[] result = EV3Communicator.DirectCommand(c, 2, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 2, 0);
 
             if (result == null || result.Length < 2)
             {
@@ -145,7 +145,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(0);                // 0 = don't change type
                 c.CONST(mod);              // set mode
                 c.GLOBVAR(0);
-                EV3Communicator.DirectCommand(c, 1, 0);
+                EV3RemoteControler.DirectCommand(c, 1, 0);
             }          
         }
 
@@ -165,7 +165,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(no);
             c.GLOBVAR(0);
-            byte[] response = EV3Communicator.DirectCommand(c, 1, 0);
+            byte[] response = EV3RemoteControler.DirectCommand(c, 1, 0);
             if (response == null || response.Length < 1 || response[0] == 0)
             {
                 return new Primitive("False");
@@ -193,7 +193,7 @@ namespace SmallBasicEV3Extension
             c.GLOBVAR(0);
             for (;;)
             {
-                byte[] response = EV3Communicator.DirectCommand(c, 1, 0);
+                byte[] response = EV3RemoteControler.DirectCommand(c, 1, 0);
                 if (response == null || response.Length < 1 || response[0] == 0)
                 {
                     return;
@@ -222,7 +222,7 @@ namespace SmallBasicEV3Extension
             c.CONST(0);                // 0 = don't change type
             c.CONST(-1);               // -1 = don't change mode
             c.GLOBVAR(0);
-            byte[] result = EV3Communicator.DirectCommand(c, 1, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 1, 0);
 
             if (result == null || result.Length < 1)
             {
@@ -271,7 +271,7 @@ namespace SmallBasicEV3Extension
             c.GLOBVAR(24);
             c.GLOBVAR(28);
 
-            byte[] result = EV3Communicator.DirectCommand(c, 32, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 32, 0);
 
             Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
             for (int i = 0; i < _values; i++)
@@ -358,8 +358,8 @@ namespace SmallBasicEV3Extension
             c.LOCVAR(0);               // data to write is in local variables, beginning from 0
             c.CONST(rd);                // number of bytes to read (no address)
             c.GLOBVAR(0);              // buffer to read into is global variable, beginning from 0
-            
-            byte[] result = EV3Communicator.DirectCommand(c, rd, 1+wrt);
+
+            byte[] result = EV3RemoteControler.DirectCommand(c, rd, 1 + wrt);
 
             Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
             for (int i = 0; i < rd; i++)

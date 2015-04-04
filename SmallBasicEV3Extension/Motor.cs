@@ -52,7 +52,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(nos);
             c.CONST(dir);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
  
@@ -73,7 +73,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(nos);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(nos);
             c.CONST(pwr);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(nos);
             c.CONST(spd);
-            EV3Communicator.DirectCommand(c, 0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace SmallBasicEV3Extension
             c.OP(0xA6);
             c.CONST(layer);
             c.CONST(nos);
-            EV3Communicator.DirectCommand(c,0,0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(no);
                 c.GLOBVAR(4);
                 c.GLOBVAR(0);
-                byte[] reply = EV3Communicator.DirectCommand(c, 5, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 5, 0);
 
                 int spd = reply == null ? 0 : (sbyte)reply[4];
                 return new Primitive(spd);
@@ -199,7 +199,7 @@ namespace SmallBasicEV3Extension
             c.CONST(layer);
             c.CONST(nos);
             c.GLOBVAR(0);
-            byte[] reply = EV3Communicator.DirectCommand(c,1, 0);
+            byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
 
             return new Primitive((reply!=null && reply[0]!=0) ? "True" : "False");
         }
@@ -235,7 +235,7 @@ namespace SmallBasicEV3Extension
             c.CONST(stp2);
             c.CONST(stp3);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace SmallBasicEV3Extension
             c.CONST(stp2);
             c.CONST(stp3);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace SmallBasicEV3Extension
             c.CONST(stp2);
             c.CONST(stp3);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace SmallBasicEV3Extension
             c.CONST(stp2);
             c.CONST(stp3);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(trn);
                 c.CONST(cnt);
                 c.CONST(brk);
-                EV3Communicator.DirectCommand(c,0, 0);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
             }
         }
 
@@ -397,7 +397,7 @@ namespace SmallBasicEV3Extension
             c.CONST(trn);
             c.CONST(tim);
             c.CONST(brk);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace SmallBasicEV3Extension
             c.OP(0xB2);
             c.CONST(layer);
             c.CONST(nos);
-            EV3Communicator.DirectCommand(c,0, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
         }
 
         /// <summary>
@@ -437,7 +437,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(layer);
                 c.CONST(no);
                 c.GLOBVAR(0);
-                byte[] reply = EV3Communicator.DirectCommand(c, 4, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 4, 0);
 
                 int tacho = 0;
                 if (reply != null)
@@ -474,7 +474,7 @@ namespace SmallBasicEV3Extension
                 c.CONST(count);
                 c.CONST(0);
                 c.CONST(brk);
-                EV3Communicator.DirectCommand(c,0, 0);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
 
                 for (; ; )
                 {
@@ -485,7 +485,7 @@ namespace SmallBasicEV3Extension
                     c.CONST(layer);
                     c.CONST(nos);
                     c.GLOBVAR(0);
-                    byte[] reply = EV3Communicator.DirectCommand(c,1, 0);
+                    byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
                     if (reply==null || reply[0] == 0)
                     {   break;
                     }
@@ -512,7 +512,7 @@ namespace SmallBasicEV3Extension
 
             for (;;)
             {
-                byte[] reply = EV3Communicator.DirectCommand(c, 1, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
                 if (reply==null || reply[0] == 0)
                 {
                     break;

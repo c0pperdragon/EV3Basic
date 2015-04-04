@@ -14,19 +14,17 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
 
-using Microsoft.SmallBasic.Library;
 using EV3Communication;
 
-namespace SmallBasicEV3Extension
+namespace EV3Communication
 {
 
     /// <summary>
@@ -34,7 +32,7 @@ namespace SmallBasicEV3Extension
     /// Contains methods for System commands and Direct commands.
     /// Only one brick can be attached to the program at any time.
     /// </summary>
-    public static class EV3Communicator
+    public class EV3RemoteControler
     {
         // lock to prevent concurrent access to static methods
         private static Object sync = new Object();
@@ -44,7 +42,7 @@ namespace SmallBasicEV3Extension
 
         private static Int64 starttime = 0;
 
-        internal static byte[] DirectCommand(ByteCodeBuffer bytecodes, int globalbytes, int localbytes)
+        public static byte[] DirectCommand(ByteCodeBuffer bytecodes, int globalbytes, int localbytes)
         {
             try
             {
@@ -65,7 +63,7 @@ namespace SmallBasicEV3Extension
             return null;
         }
 
-        internal static void CreateEV3File(String fullname, byte[] content)
+        public static void CreateEV3File(String fullname, byte[] content)
         {
             try
             {
@@ -85,7 +83,7 @@ namespace SmallBasicEV3Extension
             }
         }
 
-        internal static byte[] ReadEV3File(String fullname)
+        public static byte[] ReadEV3File(String fullname)
         {
             try
             {
@@ -106,8 +104,14 @@ namespace SmallBasicEV3Extension
             return null;
         }
 
+        public static void InstallNativeCode()
+        {
+            String codehex = EV3Communication.Properties.Resources.NativeCode;
+            CreateEV3File("/tmp/nativecode", HexDumpToBytes(codehex));
+        }
 
-        internal static Int64 TicksSinceStart()
+
+        public static Int64 TicksSinceStart()
         {
             lock (sync)
             {
@@ -138,7 +142,7 @@ namespace SmallBasicEV3Extension
                 String filename = "/tmp/EV3-Basic Session.rbf";
 
                 // download the watchdog program as a file to the brick
-                con.CreateEV3File(filename, HexDumpToBytes(SmallBasicEV3Extension.Properties.Resources.WatchDog));
+                con.CreateEV3File(filename, HexDumpToBytes(EV3Communication.Properties.Resources.WatchDog));
 
                 // before loading the watchdog program, check if there is no other program running
                 ByteCodeBuffer c = new ByteCodeBuffer();
@@ -178,7 +182,7 @@ namespace SmallBasicEV3Extension
             }
         }
 
-        internal static byte[] HexDumpToBytes(String hexcontent)
+        private static byte[] HexDumpToBytes(String hexcontent)
         {
             byte[] content = new byte[hexcontent.Length / 2];
             for (int i = 0; i < hexcontent.Length; i += 2)
@@ -234,7 +238,4 @@ namespace SmallBasicEV3Extension
             }
         }
     }
-
-
-
 }

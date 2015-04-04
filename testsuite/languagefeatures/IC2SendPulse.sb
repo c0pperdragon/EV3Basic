@@ -1,0 +1,21 @@
+
+ZEROES = Vector.Init(31,0)
+numsend = 1
+
+While "True"
+  X = Sensor.CommunicateI2C(1,0,numsend,1,ZEROES)
+    
+  k = Buttons.GetClicks()
+  If Text.IsSubText(k,"U") and numsend<31 Then
+    numsend = numsend+1
+  ElseIf Text.IsSubText(k,"D") and numsend>0 then
+    numsend = numsend-1
+  endif    
+
+  LCD.Clear()
+  LCD.Write(1,1, numsend)  
+  Program.Delay(100)  
+  
+EndWhile
+
+ 

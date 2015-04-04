@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1AA9B6CA-3833-4012-89C9-5628BEBA1657}</ProjectGuid>
+    <ProjectGuid>{3A59574F-9711-4B3B-A713-0A3F3161205E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmallBasicEV3Extension</RootNamespace>
-    <AssemblyName>SmallBasicEV3Extension</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SmallBasic10EV3Extension</RootNamespace>
+    <AssemblyName>SmallBasic10EV3Extension</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,8 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SmallBasicEV3Extension.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\SmallBasic10EV3Extension.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SmallBasicLibrary">
@@ -45,34 +42,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assert.cs" />
-    <Compile Include="Buttons.cs" />
-    <Compile Include="EV3File.cs" />
-    <Compile Include="LCD.cs" />
-    <Compile Include="EV3.cs" />
-    <Compile Include="Motor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+    <Compile Include="..\SmallBasicEV3Extension\Assert.cs">
+      <Link>Assert.cs</Link>
     </Compile>
-    <Compile Include="Sensor.cs" />
-    <Compile Include="Speaker.cs" />
-    <Compile Include="Thread.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="..\SmallBasicEV3Extension\Buttons.cs">
+      <Link>Buttons.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\EV3.cs">
+      <Link>EV3.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\EV3File.cs">
+      <Link>EV3File.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\LCD.cs">
+      <Link>LCD.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Motor.cs">
+      <Link>Motor.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Sensor.cs">
+      <Link>Sensor.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Speaker.cs">
+      <Link>Speaker.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Thread.cs">
+      <Link>Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Vector.cs">
+      <Link>Vector.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EV3Communication\EV3Communication.csproj">
       <Project>{c3c8582b-f715-41f9-a565-14c6918a0105}</Project>
       <Name>EV3Communication</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

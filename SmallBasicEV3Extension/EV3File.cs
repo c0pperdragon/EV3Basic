@@ -66,7 +66,7 @@ namespace SmallBasicEV3Extension
                 c.GLOBVAR(0);
                 
                 // check if could indeed create/append file on the brick
-                byte[] reply = EV3Communicator.DirectCommand(c, 2, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 2, 0);
 
                 if (reply==null || reply.Length<2 || (reply[0]==0 && reply[1]==0))
                 {
@@ -124,7 +124,7 @@ namespace SmallBasicEV3Extension
                     return new Primitive(0);
                 }
 
-                byte[] content = EV3Communicator.ReadEV3File(f);
+                byte[] content = EV3RemoteControler.ReadEV3File(f);
                 if (content==null)
                 {
                     return new Primitive(0);
@@ -183,7 +183,7 @@ namespace SmallBasicEV3Extension
                     c.OP(0xC0);       // opFile
                     c.CONST(0x07);    // CLOSE = 0x07
                     c.GLOBVAR(0);
-                    EV3Communicator.DirectCommand(c, 2, 0);
+                    EV3RemoteControler.DirectCommand(c, 2, 0);
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace SmallBasicEV3Extension
                     c.OP(0xC0);       // opFile
                     c.CONST(0x07);    // CLOSE = 0x07
                     c.GLOBVAR(0);
-                    EV3Communicator.DirectCommand(c, 3, 0);
+                    EV3RemoteControler.DirectCommand(c, 3, 0);
                 }
             }
         }
