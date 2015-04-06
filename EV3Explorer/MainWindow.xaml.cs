@@ -87,14 +87,14 @@ namespace EV3Explorer
         {
             try
             {
-                EV3Connection c = new EV3ConnectionUSB();
+                EV3Connection c = ConnectionFinder.CreateConnection();
                 try
                 {
                     ReadEV3Directory(c);
                 }
                 finally
                 {
-                    c.Close();
+                    ConnectionFinder.CloseConnection(c);
                 }
                 brickavailable = true;
             }
@@ -138,20 +138,30 @@ namespace EV3Explorer
 
         private void DeleteFile_clicked(Object sender, EventArgs e)
         {
-            DirectoryEntry de = (DirectoryEntry) EV3Directory.SelectedItem;
-            if (de!=null && !de.IsDirectory)
+            // determine which things to delete
+            List<DirectoryEntry> del = new List<DirectoryEntry>();
+            foreach (DirectoryEntry de in EV3Directory.SelectedItems)
             {
+                if (de!=null && !de.IsDirectory)
+                { del.Add(de);
+                }
+            }
+            if (del.Count>0)
+            { 
                 try
                 {
-                    EV3Connection c = new EV3ConnectionUSB();
+                    EV3Connection c = ConnectionFinder.CreateConnection();
                     try
                     {
-                        DeleteEV3File(c, de.FileName);
+                        foreach (DirectoryEntry de in del)
+                        {
+                            DeleteEV3File(c, de.FileName);
+                        }
                         ReadEV3Directory(c);
                     }
                     finally
                     {
-                        c.Close();
+                        ConnectionFinder.CloseConnection(c);
                     }
                     brickavailable = true;
                 }
@@ -172,7 +182,7 @@ namespace EV3Explorer
                 String dirname = qb.Answer;
                 try
                 {
-                    EV3Connection c = new EV3ConnectionUSB();
+                    EV3Connection c = ConnectionFinder.CreateConnection();
                     try
                     {
                         CreateEV3Directory(c, dirname);
@@ -180,7 +190,7 @@ namespace EV3Explorer
                     }
                     finally
                     {
-                        c.Close();
+                        ConnectionFinder.CloseConnection(c);
                     }
                     brickavailable = true;
                 }
@@ -200,7 +210,7 @@ namespace EV3Explorer
 
                 try
                 {
-                    EV3Connection c = new EV3ConnectionUSB();
+                    EV3Connection c = ConnectionFinder.CreateConnection();
                     try
                     {
                         DeleteCurrentEV3Directory(c);
@@ -216,7 +226,7 @@ namespace EV3Explorer
                     }
                     finally
                     {
-                        c.Close();
+                        ConnectionFinder.CloseConnection(c);
                     }
                     brickavailable = true;
                 }
@@ -237,14 +247,14 @@ namespace EV3Explorer
                 try
                 {
                     byte[] data = null;
-                    EV3Connection c = new EV3ConnectionUSB();
+                    EV3Connection c = ConnectionFinder.CreateConnection();
                     try
                     {
                         data = c.ReadEV3File(basepath + ev3path + de.FileName);
                     }
                     finally
                     {
-                        c.Close();
+                        ConnectionFinder.CloseConnection(c);
                     }
                     brickavailable = true;
 
@@ -347,7 +357,7 @@ namespace EV3Explorer
 
                 try
                 {
-                    EV3Connection c = new EV3ConnectionUSB();
+                    EV3Connection c = ConnectionFinder.CreateConnection();
                     try
                     {
                         c.CreateEV3File(basepath + ev3path + pcfile.Name, content);
@@ -355,7 +365,7 @@ namespace EV3Explorer
                     }
                     finally
                     {
-                        c.Close();
+                        ConnectionFinder.CloseConnection(c);
                     }
                     brickavailable = true;
                 }
@@ -456,7 +466,7 @@ namespace EV3Explorer
                 {
                     try
                     {
-                        EV3Connection c = new EV3ConnectionUSB();
+                        EV3Connection c = ConnectionFinder.CreateConnection();
                         try
                         {
                             c.CreateEV3File(basepath + ev3path + targetfilename, content);
@@ -468,7 +478,7 @@ namespace EV3Explorer
                         }
                         finally
                         {
-                            c.Close();
+                            ConnectionFinder.CloseConnection(c);
                         }
                         brickavailable = true;
                     }

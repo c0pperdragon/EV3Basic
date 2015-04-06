@@ -139,7 +139,7 @@ namespace EV3Communication
             return new byte[0];
         }
 
-        public override void Close()
+        internal override void Close()
         {
             if (_handle!=null)
             {
@@ -147,6 +147,11 @@ namespace EV3Communication
                 _handle = null;
                 _stream = null;
             }
+        }
+
+        public override bool IsOpen()
+        {
+            return _stream != null;
         }
 
     }

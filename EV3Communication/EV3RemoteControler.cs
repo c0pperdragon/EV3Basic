@@ -137,7 +137,7 @@ namespace EV3Communication
             if (con == null)
             {
                 // try to start up connection (when failing, an exception is thrown)
-                con = new EV3ConnectionUSB();
+                con = ConnectionFinder.CreateConnection();
 
                 String filename = "/tmp/EV3-Basic Session.rbf";
 

@@ -182,7 +182,35 @@ but only the codes 1 - 255  (they are just plain C-style char strings).
 The same holds for all elements of text arrays.
 </P>
 
-
+<H1 class="chapter">Bluetooth Support</H1>
+<P>
+Connecting the EV3 to your PC directly with an USB cable is the most easy and reliable
+way to use it with EV3-Basic. Nevertheless, having to use the cable can be quite cumbersome
+in many circumstances, especially when developing mobile robots.
+</P>
+<P>
+When you have a working bluetooth faciliy on your PC (either with a bluetooth dongle or built-in),
+you can configure the EV3 to communicate with the PC wirelessly. If not already done, you have 
+to "pair" the EV3 with your PC to allow communication. To do so, first activate the bluetooth
+features on the EV3: In the settings menu, activate the "Visibility" and "Bluetooth" options.
+Then on the PC, open the system dialog "Bluetooth Devices". There you can search for the device 
+and start to establish a connection to EV3. The process may be a bit lengthy and requires to
+ confirm the action on the
+EV3 as well as on the PC, and you will even have to enter the correct coupling code in some place 
+(should be "1234"). 
+</P>
+<P>
+Once the connection is set up and the automatic installation of the appropriate drivers is 
+finished, your PC can communicate with the EV3 over a so-called "Serial Port". Which will
+be named "COM1", "COM3" or the like. You can check which name was actually assigned by looking
+at the properties page of the EV3 bluetooth device. 
+</P>
+<P>
+To use the newly established connection with EV3-Basic, just start your program from
+Small Basic or just start the EV3-Explorer. When no EV3 can be found directly connected via USB, 
+but there are possible "Serial Ports" available, the PC will prompt you to select one of
+these ports. When this is indeed the port for the EV3, the connection will work.
+</P>
 
 <H1 class="chapter">Library Documentation</H1>
 <P>

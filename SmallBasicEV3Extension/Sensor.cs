@@ -27,7 +27,7 @@ namespace SmallBasicEV3Extension
     /// <summary>
     /// Access sensors that are attached to the brick.
     /// To specify the sensor use the port number which is printed below the socket on the brick (for example 1).
-    /// To access sensors of further bricks that are connected via daisy-chaining, use the next higher numbers instead (5 - 8 will access the sensors on the first daisy-chained brick, 9-13 the sensors on the next one and so on).
+    /// To access sensors of further bricks that are connected via daisy-chaining, use the next higher numbers instead (5 - 8 will access the sensors on the first daisy-chained brick, 9-12 the sensors on the next one and so on).
     /// </summary>
     [SmallBasicType]
     public static class Sensor

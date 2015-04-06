@@ -61,7 +61,8 @@ namespace EV3Communication
         // low-level data transmission  (implemented in specialized object)
         public abstract void SendPacket(byte[] data);
         public abstract byte[] ReceivePacket();
-        public abstract void Close();
+        public abstract bool IsOpen();
+        internal abstract void Close();
 
         // counter for each message to correctly pair it to its reply
         private static ushort messagecounter = 0;
