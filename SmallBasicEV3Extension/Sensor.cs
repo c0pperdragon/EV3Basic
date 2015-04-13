@@ -370,6 +370,56 @@ namespace SmallBasicEV3Extension
         }
 
 
+        /// <summary>
+        /// Sends data to devices which are attached to the UART (universal asynchroniuous receiver transmitter) of one of the 
+        /// sensor ports. This can be useful to send custom commands to custom made sensors/actors.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="writebytes">Number of bytes to write to the device (maximum 32).</param>
+        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0).</param>
+        public static void SendUARTData(Primitive port, Primitive writebytes, Primitive writedata)
+        {
+            int layer;
+            int no;
+            int wrt;
+            // decode parameters
+            DecodePort(port, out layer, out no);
+            if (!int.TryParse(writebytes == null ? "" : writebytes.ToString(), out wrt))
+            {
+                wrt = 0;
+            }
+            if (wrt < 0)
+            {
+                wrt = 0;
+            }
+            if (wrt > 32)     // can not write more than 32 bytes in one transmission
+            {
+                wrt = 32;
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(wrt);              //  number of bytes
+            for (int i = 0; i < wrt; i++)  // extract the send bytes from the array
+            {
+                double d = 0;
+                Primitive v = writedata == 0 ? null : Primitive.GetArrayValue(writedata, new Primitive((double)i));
+                double.TryParse(v == null ? "0" : v.ToString(), out d);
+                c.CONST(((int)d) & 0xff);       //  optional payload bytes
+            }
+
+            c.OP(0x9F);                // opInput_Write
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(wrt);              // bytes to write
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+
+            EV3RemoteControler.DirectCommand(c, 0, wrt);
+        }
+
+
+
         private static void DecodePort(Primitive port, out int layer, out int no)
         {
             layer = 0;

@@ -1,0 +1,32 @@
+' Example: Read motor position while motor is moving
+
+m = "A"
+samples = 178
+positions = Vector.Init(samples,0)    ' list of positions
+times = Vector.Init(samples,0)        ' time-stamps of samples
+
+' start motor
+Motor.ResetCount(m)
+Motor.SchedulePowerForCount(m, 100, 0,110,0, "True")
+
+' take samples fast
+start = EV3.Time
+For i=0 To samples-1
+  ' wait for the correct sample time
+  now = EV3.Time - start
+  While now < i
+    now = EV3.Time - start
+  EndWhile
+  ' take a motor position sample
+  positions[i] = Motor.GetCount(m)  
+  times[i] = now
+Endfor
+
+' show collected data
+LCD.Clear()
+For i=0 To samples-1
+  LCD.Pixel(1,i,positions[i])
+  LCD.Pixel(1,i,128-times[i])
+endfor
+
+Program.Delay(100000)

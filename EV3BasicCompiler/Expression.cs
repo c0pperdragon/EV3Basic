@@ -370,9 +370,10 @@ namespace EV3BasicCompiler
         {
             if (jumpIfTrue)
             {
-                parameters[0].GenerateJumpIfCondition(compiler, target, jumplabel + "_AND", false);
+                int l = compiler.GetLabelNumber();
+                parameters[0].GenerateJumpIfCondition(compiler, target, "and"+l, false);
                 parameters[1].GenerateJumpIfCondition(compiler, target, jumplabel, true);
-                target.WriteLine("  " + jumplabel + "_AND:");
+                target.WriteLine("  and" +l +":");
             }
             else
             {
@@ -397,9 +398,10 @@ namespace EV3BasicCompiler
             }
             else
             {
-                parameters[0].GenerateJumpIfCondition(compiler, target, jumplabel + "_OR", true);
+                int l = compiler.GetLabelNumber();
+                parameters[0].GenerateJumpIfCondition(compiler, target, "or"+l, true);
                 parameters[1].GenerateJumpIfCondition(compiler, target, jumplabel, false);
-                target.WriteLine("  " + jumplabel + "_OR:");
+                target.WriteLine("  or" + l + ":");
             }
         }
     }
