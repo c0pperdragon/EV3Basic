@@ -226,8 +226,9 @@ namespace EV3Communication
             }
         }
 
-        public byte[] ReadEV3File(String fullname)
+        public byte[] ReadEV3File(String fullname, ByteCodeBuffer pingercommand=null)
         {
+            long nextping = DateTime.Now.Ticks + 500;
             int chunksize = 900;
 
             // start the transfer
@@ -253,7 +254,7 @@ namespace EV3Communication
             int len = ((int)response[1]) + (((int)response[2]) << 8) + (((int)response[3]) << 16) + (((int)response[4]) << 24);
             int handle = response[5] & 0xff;
 
-//            Console.WriteLine("Start uploading file of size: " + len + ". handle=" + handle);
+//    Console.WriteLine("Start uploading file of size: " + len + ". handle=" + handle);
 
             byte[] buffer = new byte[len];
             int pos = 0;
@@ -285,8 +286,14 @@ namespace EV3Communication
                 {
                     buffer[pos + i] = response[2 + i];
                 }
-
                 pos += transfernow;
+
+                // check if it is necessary to send intermediary pings to the watchdog program
+                if (pingercommand!=null && DateTime.Now.Ticks > nextping)
+                {
+                    DirectCommand(pingercommand, 4,0);
+                    nextping = DateTime.Now.Ticks+500;
+                }
             }
 
             return buffer;

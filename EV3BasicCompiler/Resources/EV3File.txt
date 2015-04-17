@@ -126,6 +126,58 @@ subcall EV3FILE.READBYTE     // FF
 invalidhandle:
 }
 
+subcall EV3FILE.READNUMBERARRAY    // FFA
+{
+	IN_F handle
+	IN_F size
+	IN_16 a
+
+	JR_LTF handle 1.0 invalidhandle
+	JR_GTF handle 65536.0 invalidhandle
+	DATA16 handle16
+	DATA8 byte8
+	MOVEF_16 handle handle16
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+
+	ARRAY RESIZE a size32
+	ARRAY FILL a 0.0
+
+	MUL32 size32 4 size32  // from here calculate all in bytes
+	DATA32 offset          // position where to put data
+	ARRAY8 buffer 4000     // buffer is big enough to hold 1000 float values at once
+	MOVE32_32 0 offset     // byte offset into array
+copyloop:
+	JR_LTEQ32 size32 4000 lastchunk
+    FILE READ_BYTES handle16 4000 buffer 
+    ARRAY WRITE_CONTENT 1 a offset 4000 buffer
+	ADD32 offset 4000 offset
+	SUB32 size32 4000 size32
+	JR copyloop
+
+lastchunk:
+	DATA16 size16
+	MOVE32_16 size32 size16
+	FILE READ_BYTES handle16 size16 buffer 
+  	ARRAY WRITE_CONTENT 1 a offset size32 buffer
+
+	RETURN
+
+invalidhandle:
+empty:
+    ARRAY RESIZE a 0
+}
+
+subcall EV3FILE.CONVERTTONUMBER            // SF
+{
+	IN_S s 252
+	OUT_F value
+
+	STRINGS STRING_TO_VALUE s value
+}
+
 subcall EV3FILE.TABLELOOKUP   // SFFFF        EV3.NATIVECODE
 {
 	IN_S filename 252
@@ -133,6 +185,13 @@ subcall EV3FILE.TABLELOOKUP   // SFFFF        EV3.NATIVECODE
 	IN_F row
 	IN_F column
 	OUT_F value
+
+	DATA32 bpr
+	DATA32 r
+	DATA32 c
+	MOVEF_32 bytes_per_row bpr
+	MOVEF_32 row r
+	MOVEF_32 column c
 
 	DATAS command 400 
 	DATAS response 252
@@ -143,11 +202,12 @@ subcall EV3FILE.TABLELOOKUP   // SFFFF        EV3.NATIVECODE
 	STRINGS DUPLICATE 'tablelookup /home/root/lms2012/prjs/' command
 absolutepath:
 	STRINGS ADD command filename command
-	STRINGS VALUE_FORMATTED bytes_per_row ' %g' 99 tmp
+
+	STRINGS NUMBER_FORMATTED bpr ' %d' 99 tmp
 	STRINGS ADD command tmp command
-	STRINGS VALUE_FORMATTED row ' %g' 99 tmp
+	STRINGS NUMBER_FORMATTED r ' %d' 99 tmp
 	STRINGS ADD command tmp command
-	STRINGS VALUE_FORMATTED column ' %g' 99 tmp
+	STRINGS NUMBER_FORMATTED c ' %d' 99 tmp
 	STRINGS ADD command tmp command
 
 	CALL EV3.NATIVECODE command value

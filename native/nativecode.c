@@ -15,6 +15,8 @@
 //            extracts one byte from a potentially huge file and returns its
 //            value as a decimal number on stdout
 
+#define MAXSEEK 2147483647
+
 int tablelookup(char* parameterstring)
 {
     char filename[1000];
@@ -37,11 +39,22 @@ int tablelookup(char* parameterstring)
         return 255;
     }
 
-    __OFF64_T_TYPE off =
+    unsigned long off =
       ((unsigned long int) bytes_per_row) * ((unsigned long int) row)
       + ((unsigned long int) column);
-
-    lseek(fd,off,SEEK_SET);
+    while (off>0)
+    {
+        if (off <= MAXSEEK)
+        {
+            lseek(fd,off,SEEK_CUR);
+            break;
+        }
+        else
+        {
+            lseek(fd,MAXSEEK,SEEK_CUR);
+            off -= MAXSEEK;
+        }
+    }
 
     char value;
     int didread = read (fd, &value, 1);

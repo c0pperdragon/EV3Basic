@@ -93,8 +93,20 @@ namespace EV3Communication
                     MemorizeStartTime();
                     EstablishConnection();
 
+                    // prepare the pinger packet to keep the remote-controll target alive during large file transfer
+                    ByteCodeBuffer c = new ByteCodeBuffer();
+                    c.OP(0x3A);           // Move32_32
+                    c.CONST(42);          // move this value
+                    c.GLOBVAR(0);         // to global variable 0-3
+                    c.OP(0x7E);            // Memory_Write
+                    c.CONST(1);            // program slot 1 = user slot
+                    c.CONST(0);            // write to global variables
+                    c.CONST(0);            // to global variable 0
+                    c.CONST(4);            // write 4 bytes
+                    c.GLOBVAR(0);          // take the prepared value 42
+
                     // finally execute the command
-                    return con.ReadEV3File(fullname);
+                    return con.ReadEV3File(fullname,c);
                 }
             }
             catch (Exception)

@@ -125,12 +125,13 @@ namespace SmallBasicEV3Extension
                 }
 
                 byte[] content = EV3RemoteControler.ReadEV3File(f);
-                if (content==null)
+                if (content == null)
                 {
                     return new Primitive(0);
                 }
 
-                openFiles[i] = new FileHandle(f, content);  
+                FileHandle fh = new FileHandle(f, content);
+                openFiles[i] = fh;
                 return new Primitive((double)i);
             }
         }
@@ -280,6 +281,38 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
+        /// Read a whole array of numbers in binary from from the file. The numbers are encoded in IEEE single precision floating point representation.
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <param name="size">Number of values to read</param>
+        /// <returns>An array of size elements holding the values.
+        public static Primitive ReadNumberArray(Primitive handle, Primitive size)
+        {
+            int hdl = 0;
+            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
+            int siz = 0;
+            Int32.TryParse(size == null ? "" : size.ToString(), out siz);
+            lock (openFiles)
+            {
+                if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null && siz > 0)
+                {
+                    FileHandle fh = openFiles[hdl];
+                    if (fh.content != null && fh.readcursor+4*siz <= fh.content.Length)
+                    {
+                        double[] values = new double[siz];
+                        for (int i=0; i<siz; i++)
+                        {
+                            values[i] = BitConverter.ToSingle(fh.content, fh.readcursor + 4 * i);
+                        }
+                        fh.readcursor += 4*siz;
+                        return A2P(values);
+                    }
+                }
+            }
+            return A2P(new double[0]);
+        }
+
+        /// <summary>
         /// Utility function to convert a text to a number. 
         /// </summary>
         /// <param name="text">A text holding a number in decimal representation (with optional fractional digits)</param>
@@ -345,6 +378,17 @@ namespace SmallBasicEV3Extension
             }
             return -1;
         }
+
+        private static Primitive A2P(double[] array)
+        {
+            Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                map[new Primitive((double)i)] = new Primitive(array[i]);
+            }
+            return Primitive.ConvertFromMap(map);
+        }
+
     }
 
     internal class FileHandle
