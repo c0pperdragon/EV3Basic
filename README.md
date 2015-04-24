@@ -11,8 +11,7 @@ One convenient way to develop programs for the EV3 is to use Microsoft Small Bas
 ### Installation
 
 1. Download and install Microsoft Small Basic from http://smallbasic.com/ (requires Microsoft Windows)
-2. Get the ev3extension.zip from the current release.
-3. Find the path where Small Basic was installed and extract the file ev3extension.zip to it (this should create a lib/ folder)
+2. Download EV3BasicInstaller.msi from the current release and install the program into the same folder as Small Basic.
 
 ### Using Small Basic
 
@@ -27,11 +26,7 @@ The EV3 Explorer can be used to view and organize the files that are currently s
 
 ### Installation and Startup
 
-Using the program requires at least .NET 3.5 which is the same as is required to run Small Basic.
-
-1. Download ev3explorer.zip from the current release
-2. Extract to a folder of your choice
-3. Start the file EV3Explorer.exe
+Since version 0.9, the EV3Explorer is automatically installed along with the EV3 extension. It can be started from the windows start menu EV3Basic/EV3Explorer.
 
 ### Use EV3Explorer
 

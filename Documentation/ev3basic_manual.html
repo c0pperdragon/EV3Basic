@@ -113,9 +113,9 @@ on the Small Basic website to help you with this.
 </P>
 <P>
 Next step is to download and install the EV3-extension for Small Basic to actually be able to control the EV3 brick with your program. 
-From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download the file "ev3extension.zip" and
-uncompress its contents into the install folder of Small Basic (this is probably located on your PC in 'C:\Program Files (x86)\Microsoft' and you
-probably need Administrator rights to do it). This should create a '/lib' - folder inside of the 'Small Basic' folder.
+From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download and install the file "EV3BasicInstaller.msi".
+This should install the extension right into the installation directory of Small Basic. If you have before chosen a non-standard location for Small Basic, 
+use this same location here.
 At the next start of Small Basic (restart it if it was still running), you have access to various objects to control different aspects of the brick
 and some additional multi-purpose objects as well.
 Now create your very first EV3-program by writing 
@@ -128,7 +128,7 @@ Now create your very first EV3-program by writing
 <P>
 into the program window. 
 Then connect the EV3 brick with your computer using the USB cable, start it up, and when it is running, 
-press the big blue "Start" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
+press the big blue "Run" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
 </P>
 <P>
 When writing your own programs, the Intellisense - system of Small Basic will show you the possible library functions and usage
@@ -136,12 +136,12 @@ documentation which contains the same information that is also available in this
 Many more examples for the EV3 programming are also available on the releases page (probably named 'examples.zip'). 
 </P>
 <P>
-Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independet robot that 
+Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independend robot that 
 has its own program and does not need the PC to tell it every single step.
 </P>
 <P>
-To get the program to the brick, you need the EV3Explorer which is also available on the releases page (as file 'ev3explorer.zip'). Uncompress it to
-some location of your choice and start the contained EV3Explorer.exe. This will open a window where you can see the files that are stored on the EV3 brick 
+To get the program to the brick, you need the EV3Explorer which was already installed along with the EV3-extension and is available on the 
+windows start menu (EV3Basic/EV3Explorer). Starting this program will open a window where you can see the files that are stored on the EV3 brick 
 (on the left side of the window) and also the files stored on your PC (on the right side of the window).
 You can compile any of the examples and your own programs by selecting the source code
 file (ends with .sb) and click "Compile and Run". 
@@ -435,6 +435,14 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The text from the current line in the file.</P>
+<H3 class="operation">EV3File.ReadNumberArray (handle, size)</H3>
+<P class="operationsummary">Read a whole array of numbers in binary from from the file. The numbers are encoded in IEEE single precision floating point representation.</P>
+<H4 class="parameter">handle</H4>
+<P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
+<H4 class="parameter">size</H4>
+<P class="parametersummary">Number of values to read</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">An array of size elements holding the values.</P>
 <H3 class="operation">EV3File.TableLookup (filename, bytes_per_row, row, column)</H3>
 <P class="operationsummary">Utility function to read bytes from potentially huge data files that are too big to be transfered to memory as a whole.<BR>Because the file could be so big that the numerical precision of the normal numbers is not enough, a row/column addressing is possible.</P>
 <H4 class="parameter">filename</H4>

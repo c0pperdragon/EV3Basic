@@ -285,7 +285,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
         /// <param name="size">Number of values to read</param>
-        /// <returns>An array of size elements holding the values.
+        /// <returns>An array of size elements holding the values.</returns>
         public static Primitive ReadNumberArray(Primitive handle, Primitive size)
         {
             int hdl = 0;

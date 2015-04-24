@@ -62,7 +62,7 @@ namespace Documentation.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
-        ///&lt;H1 class=&quot;chapter&quot;&gt;Sensors&lt;/H1&gt;
+        ///&lt;H1 class=&quot;chapter&quot;&gt;Appendix - Sensors&lt;/H1&gt;
         ///&lt;P&gt;
         ///EV3 does a good job in auto-detecting many sensors, at least all sensors that came with the NXT 2.0 and EV3 kit. 
         ///Nevertheless the program needs to know how to best interpret the sensor readings for the different types and modes. 
@@ -72,7 +72,7 @@ namespace Documentation.Properties {
         ///&lt;PRE&gt;
         ///Type  Mode  Name            get reading with   delivers 
         ///
-        ///1        0  NXT-TOUCH       ReadPercent        0=not pressed,  100=pres [rest of string was truncated]&quot;;.
+        ///1        0  NXT-TOUCH       ReadPercent        0=not pressed [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Appendix {
             get {
@@ -81,17 +81,12 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;H1 class=&quot;chapter&quot;&gt;Differences between Small Basic and EV3-Basic&lt;/H1&gt;
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3-Basic&lt;/H1&gt;
         ///&lt;P&gt;
-        ///While I have tried to mimic the original behaviour of Small Basic in my compiler as exactly as possible, 
-        ///there are some things that simply can not be done with the EV3 byte code interpreter.
-        ///&lt;/P&gt;
-        ///
-        ///&lt;H3 class=&quot;subchapter&quot;&gt;Variables are typed&lt;/H3&gt;
-        ///&lt;P&gt;  
-        ///While Small Basic has just one datatype which is a unicode string into which all possible values (even arrays) are mangled, 
-        ///EV3Basic has 4 distinct datatypes for variables:        /// [rest of string was truncated]&quot;;.
+        ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is the 
+        ///graphical programming environment provided by Lego. 
+        ///But for larger and more complex programs, this no longer works and you need some text-based programming language to write programs.
+        ///There are already many different projects that have created programming environments for the EV3 to provide exactly this (LeJOS, MonoBrick, RobotC, ev3dev, and [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Manual {
             get {
@@ -102,6 +97,7 @@ namespace Documentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
         ///  H1.chapter {
+        ///	margin-top: 100px;
         ///    font-family: Verdana; 
         ///  }
         ///  H3.subchapter {
@@ -109,6 +105,13 @@ namespace Documentation.Properties {
         ///  }
         ///  P {
         ///    font-family: Verdana; 
+        ///  }
+        ///  UL {
+        ///    font-family: Verdana; 
+        ///  }
+        ///  ADDRESS {
+        ///    font-family: Verdana; 
+        ///	float: right;
         ///  }
         ///
         ///  H2.object {
@@ -121,13 +124,7 @@ namespace Documentation.Properties {
         ///  H3.operation {
         ///    font-family: Verdana;  
         ///	margin-top: 20px;
-        ///	margin-bottom: 10px;
-        ///	margin-left: 20px; 
-        ///  }
-        ///  P.operationsummary {
-        ///    font-family: Verdana; 
-        ///	margin-top: 10px;
-        ///	margin-bottom: 10px;        /// [rest of string was truncated]&quot;;.
+        ///	margin-bottom: 10px [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Styles {
             get {

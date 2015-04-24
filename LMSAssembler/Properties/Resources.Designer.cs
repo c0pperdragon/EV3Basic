@@ -65,10 +65,10 @@ namespace LMSAssembler.Properties {
         ///01 NOP
         ///02 PROGRAM_STOP        16
         ///03 PROGRAM_START       16 32 32 8
-        ///04 OBJECT_STOP         16
-        ///05 OBJECT_START        16
-        ///06 OBJECT_TRIG         16
-        ///07 OBJECT_WAIT         16
+        ///04 OBJECT_STOP         T
+        ///05 OBJECT_START        T
+        ///06 OBJECT_TRIG         T
+        ///07 OBJECT_WAIT         T
         ///08 RETURN
         ///// 09 CALL            
         ///0A OBJECT_END          
@@ -81,7 +81,7 @@ namespace LMSAssembler.Properties {
         ///0C18 PROGRAM_INFO GET_PRGRESULT  16 8*
         ///// 0C19 PROGRAM_INFO SET_INSTR      
         ///
-        ///0D LABEL    [rest of string was truncated]&quot;;.
+        ///0D LABEL        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string bytecodelist {
             get {
