@@ -37,18 +37,19 @@ subcall SPEAKER.NOTE      // FSFV
 	SOUND TONE vol tne dur
 }
 
-subcall SPEAKER.PLAY    // FSV
+subcall SPEAKER.PLAY    // FSV 
 {
 	IN_F volume
-	IN_S filename 252
-	
+	IN_S filename 252	
+
+	// prepend a path to really reach the target file from the current working directory
 	DATA8 vol 
 	DATAS fullname 300
 	MOVEF_8 volume vol
 
-	STRINGS DUPLICATE filename fullname
-	JR_EQ8 filename 47 absolutepath               // filename begins with a '/'
-	STRINGS ADD '/home/root/lms2012/prjs/' filename fullname
+	STRINGS ADD '../../../..' filename fullname  // when using absolute path, go to file system top from the VM directory and then back down
+	JR_EQ8 filename 47 absolutepath               // filename begins with a '/' - using absolute path
+	STRINGS ADD '../prjs/' filename fullname      // by default use path relative to prjs folder (must go from the current VM directory to there)
 absolutepath:
 	
 	SOUND PLAY vol fullname

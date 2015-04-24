@@ -462,7 +462,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H2 class="object">LCD</H2>
 <P class="objectsummary">Control the LCD display on the brick.<BR>The EV3 has a black-and-white display with 178x128 pixels. All pixels are addressed with X,Y coordinates where X=0 is the left edge and Y=0 is the top edge.</P>
 <H3 class="operation">LCD.BmpFile (color, x, y, filename)</H3>
-<P class="operationsummary">Draw a bitmap file in a given color to the display.</P>
+<P class="operationsummary">Draw a bitmap file in a given color to the display. Only files in .rgf format are supported.</P>
 <H4 class="parameter">color</H4>
 <P class="parametersummary">0 (white) or 1 (black)</P>
 <H4 class="parameter">x</H4>
@@ -470,7 +470,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">y</H4>
 <P class="parametersummary">Y coordinate of top edge</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Name of the file containing the bitmap</P>
+<P class="parametersummary">Name of the bitmap file without the .rgf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</P>
 <H3 class="operation">LCD.Circle (color, x, y, radius)</H3>
 <P class="operationsummary">Draws a circle in the given color.</P>
 <H4 class="parameter">color</H4>
@@ -919,6 +919,14 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Requested size of result array</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">An array holding the requested number of values. Index starts at 0. Elements that did get no data are set to 0.</P>
+<H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
+<P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the <BR>sensor ports. This can be useful to send custom commands to custom made sensors/actors.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">writebytes</H4>
+<P class="parametersummary">Number of bytes to write to the device (maximum 32).</P>
+<H4 class="parameter">writedata</H4>
+<P class="parametersummary">Array holding the data bytes to be sent (starting at 0).</P>
 <H3 class="operation">Sensor.SetMode (port, mode)</H3>
 <P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.</P>
 <H4 class="parameter">port</H4>
@@ -944,11 +952,11 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">duration</H4>
 <P class="parametersummary">Duration of the tone in milliseconds</P>
 <H3 class="operation">Speaker.Play (volume, filename)</H3>
-<P class="operationsummary">Start playing a sound from a sound file stored on the brick.</P>
+<P class="operationsummary">Start playing a sound from a sound file stored on the brick. Only files in .rsf format are supported.</P>
 <H4 class="parameter">volume</H4>
 <P class="parametersummary">Volume can be 0 - 100</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Name of the sound file</P>
+<P class="parametersummary">Name of the sound file without the .rsf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</P>
 <H3 class="operation">Speaker.Stop ()</H3>
 <P class="operationsummary">Stop any currently playing sound or tone.</P>
 <H3 class="operation">Speaker.Tone (volume, frequency, duration)</H3>

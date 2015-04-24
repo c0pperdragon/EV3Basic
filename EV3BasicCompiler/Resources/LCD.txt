@@ -252,7 +252,7 @@ subcall LCD.BMPFILE             // FFFSV
 	DATA16 x_16
 	DATA16 y_16	
 	DATAS fullname 300
-	MOVEF_8 col col_8
+	MOVEF_8 color col_8
 	MOVEF_16 x x_16
 	MOVEF_16 y y_16
 
@@ -261,5 +261,11 @@ subcall LCD.BMPFILE             // FFFSV
 	STRINGS ADD '/home/root/lms2012/prjs/' filename fullname
 absolutepath:
 
+	STRINGS ADD fullname '.rgf' fullname
+
 	UI_DRAW BMPFILE col_8 x_16 y_16 fullname
+
+	JR_NEQ32 0 STOPLCDUPDATE skipupdate
+	UI_DRAW UPDATE
+skipupdate:	
 }

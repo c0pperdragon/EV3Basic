@@ -85,7 +85,7 @@ decoding_end:
 	RETURN
 }
 
-subcall MOTOR.REVERTDIRECTION   // SSV
+subcall MOTOR.REVERTDIRECTION   // SSV      MOTORDECODEPORTSDESCRIPTOR
 {
 	IN_S ports 8
 	IN_S revert 8

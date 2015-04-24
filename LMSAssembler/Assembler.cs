@@ -1030,7 +1030,14 @@ namespace LMSAssembler
                 {   // variable
                     if ((x & 0x20) == 0)
                     {   // local
-                        return "LOCAL" + ReadExtraBytes(binary, ref didread, x);
+                        if ((x & 0x10) == 0)
+                        {   // value
+                            return "LOCAL" + ReadExtraBytes(binary, ref didread, x);
+                        }
+                        else
+                        {   // handle
+                            return "@LOCAL" + ReadExtraBytes(binary, ref didread, x);
+                        }
                     }
                     else
                     {   // global

@@ -352,12 +352,12 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Draw a bitmap file in a given color to the display.
+        /// Draw a bitmap file in a given color to the display. Only files in .rgf format are supported. 
         /// </summary>
         /// <param name="color">0 (white) or 1 (black)</param>
         /// <param name="x">X coordinate of left edge</param>
         /// <param name="y">Y coordinate of top edge</param>
-        /// <param name="filename">Name of the file containing the bitmap</param>
+        /// <param name="filename">Name of the bitmap file without the .rgf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</param>
         public static void BmpFile(Primitive color, Primitive x, Primitive y, Primitive filename)
         {
             int _x, _y, _color;

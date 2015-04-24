@@ -371,7 +371,7 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Sends data to devices which are attached to the UART (universal asynchroniuous receiver transmitter) of one of the 
+        /// Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the 
         /// sensor ports. This can be useful to send custom commands to custom made sensors/actors.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>

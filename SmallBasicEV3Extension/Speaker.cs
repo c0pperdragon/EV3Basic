@@ -91,10 +91,10 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Start playing a sound from a sound file stored on the brick.
+        /// Start playing a sound from a sound file stored on the brick. Only files in .rsf format are supported. 
         /// </summary>
         /// <param name="volume">Volume can be 0 - 100</param>
-        /// <param name="filename">Name of the sound file</param>
+        /// <param name="filename">Name of the sound file without the .rsf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</param>
         public static void Play(Primitive volume, Primitive filename)
         {
             int vol;
