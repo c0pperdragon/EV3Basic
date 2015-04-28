@@ -59,6 +59,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sensor.cs" />
+    <Compile Include="Mailbox.cs" />
     <Compile Include="Speaker.cs" />
     <Compile Include="Thread.cs" />
     <Compile Include="Vector.cs" />

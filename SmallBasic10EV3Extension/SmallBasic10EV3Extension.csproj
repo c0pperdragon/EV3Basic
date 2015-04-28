@@ -60,6 +60,9 @@
     <Compile Include="..\SmallBasicEV3Extension\LCD.cs">
       <Link>LCD.cs</Link>
     </Compile>
+    <Compile Include="..\SmallBasicEV3Extension\Mailbox.cs">
+      <Link>Mailbox.cs</Link>
+    </Compile>
     <Compile Include="..\SmallBasicEV3Extension\Motor.cs">
       <Link>Motor.cs</Link>
     </Compile>

@@ -267,13 +267,13 @@ namespace SmallBasicEV3Extension
         /// Starts to move one or more motors by the specified number of counts. 
         /// The speed regulator will try to hold the motor at the specified speed even if there is some resistance. This will be done by increasing the power if needed (as long as power can still be raised).
         /// This function returns immediately. Use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
+        /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward)</param>
         /// <param name="step1">Number of counts to accelerate</param>
         /// <param name="step2">Number of counts in uniform motion</param>
         /// <param name="step3">Number of counts to decelerate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        /// </summary>
         public static void ScheduleSpeed(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
             int layer, nos;
