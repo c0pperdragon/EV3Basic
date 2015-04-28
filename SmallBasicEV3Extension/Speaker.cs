@@ -49,10 +49,9 @@ namespace SmallBasicEV3Extension
         /// <param name="duration">Duration of the tone in milliseconds</param>
         public static void Tone(Primitive volume, Primitive frequency, Primitive duration)
         {
-            int vol, frq, dur;
-            Int32.TryParse(volume == null ? "" : volume.ToString(), out vol);
-            Int32.TryParse(frequency == null ? "" : frequency.ToString(), out frq);
-            Int32.TryParse(duration == null ? "" : duration.ToString(), out dur);
+            int vol = volume;
+            int frq = frequency;
+            int dur = duration;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x94);       // opSOUND
@@ -71,9 +70,8 @@ namespace SmallBasicEV3Extension
         /// <param name="duration">Duration of the tone in milliseconds</param>
         public static void Note(Primitive volume, Primitive note, Primitive duration)
         {
-            int vol, dur;
-            Int32.TryParse(volume == null ? "" : volume.ToString(), out vol);
-            Int32.TryParse(duration == null ? "" : duration.ToString(), out dur);
+            int vol = volume;
+            int dur = duration;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x63);       // opNote_To_Freq
@@ -97,8 +95,7 @@ namespace SmallBasicEV3Extension
         /// <param name="filename">Name of the sound file without the .rsf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</param>
         public static void Play(Primitive volume, Primitive filename)
         {
-            int vol;
-            Int32.TryParse(volume==null?"":volume.ToString(), out vol);
+            int vol = volume;
 
             String fname = filename == null ? "" : filename.ToString();
             if (!fname.StartsWith("/"))      // relative path

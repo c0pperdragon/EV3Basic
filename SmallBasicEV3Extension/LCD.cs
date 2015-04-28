@@ -114,10 +114,9 @@ namespace SmallBasicEV3Extension
         /// <param name="y">Y coordinate</param>
         public static void Pixel(Primitive color, Primitive x, Primitive y)
         {
-            int _x, _y, _color;
-            Int32.TryParse(color==null ? "":color.ToString(), out _color);
-            Int32.TryParse(x==null ? "":x.ToString(), out _x);
-            Int32.TryParse(y==null ? "":y.ToString(), out _y);
+            int _color = color;
+            int _x = x;
+            int _y = y;
 
             lock (commandBuffer)
             {
@@ -140,12 +139,11 @@ namespace SmallBasicEV3Extension
         /// <param name="y2">Y coordinate of end point</param>
         public static void Line(Primitive color, Primitive x1, Primitive y1, Primitive x2, Primitive y2)
         {
-            int _x1, _y1, _x2, _y2, _color;
-            Int32.TryParse(color==null ? "":color.ToString(), out _color);
-            Int32.TryParse(x1==null ? "":x1.ToString(), out _x1);
-            Int32.TryParse(y1==null ? "":y1.ToString(), out _y1);
-            Int32.TryParse(x2==null ? "":x2.ToString(), out _x2);
-            Int32.TryParse(y2==null ? "":y2.ToString(), out _y2);
+            int _color = color;
+            int _x1 = x1;
+            int _y1 = y1;
+            int _x2 = x2;
+            int _y2 = y2;
 
             lock (commandBuffer)
             {
@@ -169,11 +167,10 @@ namespace SmallBasicEV3Extension
         /// <param name="radius">Radius of the circle</param>
         public static void Circle(Primitive color, Primitive x, Primitive y, Primitive radius)
         {
-            int _x, _y, _radius, _color;
-            Int32.TryParse(color==null ? "":color.ToString(), out _color);
-            Int32.TryParse(x==null ? "":x.ToString(), out _x);
-            Int32.TryParse(y==null ? "":y.ToString(), out _y);
-            Int32.TryParse(radius==null ? "":radius.ToString(), out _radius);
+            int _color = color;
+            int _x = x;
+            int _y = y;
+            int _radius = radius;
 
             lock (commandBuffer)
             {
@@ -197,13 +194,11 @@ namespace SmallBasicEV3Extension
         /// <param name="text">The text (or number) to write to the display</param>
         public static void Text(Primitive color, Primitive x, Primitive y, Primitive font, Primitive text)
         {
-            int _x, _y, _font, _color;
-            String _text;
-            Int32.TryParse(color==null?"":color.ToString(), out _color);
-            Int32.TryParse(x==null?"":x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-            Int32.TryParse(font == null ? "":font.ToString(), out _font);
-            _text = text.ToString();
+            int _color = color;
+            int _x = x;
+            int _y = y;
+            int _font = font;
+            String _text = text!=null ? text.ToString()  : "";
 
             if (_text.Length>100)        // limit text line sizes to sensible value
             {
@@ -247,12 +242,11 @@ namespace SmallBasicEV3Extension
         /// <param name="height">Height of rectangle</param>
         public static void FillRect(Primitive color, Primitive x, Primitive y, Primitive width, Primitive height)
         {
-            int _x, _y, _width, _height, _color;
-            Int32.TryParse(color==null?"":color.ToString(), out _color);
-            Int32.TryParse(x == null ? "" : x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-            Int32.TryParse(width == null ? "" : width.ToString(), out _width);
-            Int32.TryParse(height == null ? "" : height.ToString(), out _height);
+            int _color = color;
+            int _x = x;
+            int _y = y;
+            int _width = width;
+            int _height = height;
 
             lock (commandBuffer)
             {
@@ -277,12 +271,11 @@ namespace SmallBasicEV3Extension
         /// <param name="height">Height of rectangle</param>
         public static void Rect(Primitive color, Primitive x, Primitive y, Primitive width, Primitive height)
         {
-            int _x, _y, _width, _height, _color;
-            Int32.TryParse(color == null ? "" : color.ToString(), out _color);
-            Int32.TryParse(x == null ? "" : x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-            Int32.TryParse(width == null ? "" : width.ToString(), out _width);
-            Int32.TryParse(height == null ? "" : height.ToString(), out _height);
+            int _color = color;
+            int _x = x;
+            int _y = y;
+            int _width = width;
+            int _height = height;
 
             lock (commandBuffer)
             {
@@ -306,11 +299,10 @@ namespace SmallBasicEV3Extension
         /// <param name="height">Height of rectangle</param>
         public static void InverseRect(Primitive x, Primitive y, Primitive width, Primitive height)
         {
-            int _x, _y, _width, _height;
-            Int32.TryParse(x == null ? "" : x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-            Int32.TryParse(width == null ? "" : width.ToString(), out _width);
-            Int32.TryParse(height == null ? "" : height.ToString(), out _height);
+            int _x = x;
+            int _y = y;
+            int _width = width;
+            int _height = height;
 
             lock (commandBuffer)
             {
@@ -333,11 +325,10 @@ namespace SmallBasicEV3Extension
         /// <param name="radius">Radius of the circle</param>
         public static void FillCircle(Primitive color, Primitive x, Primitive y, Primitive radius)
         {
-            int _x, _y, _radius, _color;
-            Int32.TryParse(color == null ? "" : color.ToString(), out _color);
-            Int32.TryParse(x == null ? "" : x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-            Int32.TryParse(radius == null ? "" : radius.ToString(), out _radius);
+            int _color = color;
+            int _x = x;
+            int _y = y;
+            int _radius = radius;
 
             lock (commandBuffer)
             {
@@ -360,11 +351,9 @@ namespace SmallBasicEV3Extension
         /// <param name="filename">Name of the bitmap file without the .rgf extension. This filename can be relative to the 'prjs' folder or an absolute path (when starting with '/').</param>
         public static void BmpFile(Primitive color, Primitive x, Primitive y, Primitive filename)
         {
-            int _x, _y, _color;
-            Int32.TryParse(color == null ? "" : color.ToString(), out _color);
-            Int32.TryParse(x == null ? "" : x.ToString(), out _x);
-            Int32.TryParse(y == null ? "" : y.ToString(), out _y);
-
+            int _color = color;
+            int _x = x;
+            int _y = y;
             String fname = (filename == null ? "" : filename.ToString());
             if (!fname.StartsWith("/"))   // relative path
             {   

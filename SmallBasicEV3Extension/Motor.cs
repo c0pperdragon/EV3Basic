@@ -87,17 +87,7 @@ namespace SmallBasicEV3Extension
             int layer;
             int nos;
             DecodePortsDescriptor(ports==null?"":ports.ToString(), out layer, out nos);
-            int pwr;
-            Int32.TryParse(power==null?"":power.ToString(), out pwr);
-            if (pwr < -100)
-            {
-                pwr = -100;
-            }
-            if (pwr > 100)
-            {
-                pwr = 100;
-            }
-
+            int pwr = clamp(power, -100, 100);
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xA4);
@@ -117,16 +107,7 @@ namespace SmallBasicEV3Extension
             int layer;
             int nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            int spd;
-            Int32.TryParse(speed == null ? "" : speed.ToString(), out spd);
-            if (spd < -100)
-            {
-                spd = -100;
-            }
-            if (spd > 100)
-            {
-                spd = 100;
-            }
+            int spd = clamp(speed, -100, 100);
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xA5);
@@ -152,6 +133,50 @@ namespace SmallBasicEV3Extension
             c.CONST(nos);
             EV3RemoteControler.DirectCommand(c, 0, 0);
         }
+
+        /// <summary>
+        /// Start two motors to run synchronized at equal or different speeds. 
+        /// The two motors will be synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still needs to go straight or make a specified turn.
+        /// The motors will keep running until stopped by another command.
+        /// </summary>
+        /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
+        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
+        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
+        public static void StartSynchronized(Primitive ports, Primitive speed1, Primitive speed2)
+        {
+            int layer, nos;
+            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+            double spd1 = fclamp(speed1, -100, 100);
+            double spd2 = fclamp(speed2, -100, 100);
+
+            // the computed values that will be needed by the firmware function
+            int spd;
+            int trn;
+
+            // motor with lower letter is faster or equally fast and must become master      
+            if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
+            {
+                spd = (int)spd1;
+                trn = 100 - (int)((100.0 * spd2) / spd1);
+            }
+            // motor with higher letter is faster and must become master
+            else
+            {
+                spd = (int)spd2;
+                trn = -(100 - (int)((100.0 * spd1) / spd2));
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0xB0);
+            c.CONST(layer);
+            c.CONST(nos);
+            c.CONST(spd);
+            c.CONST(trn);
+            c.CONST(0);
+            c.CONST(0);
+            EV3RemoteControler.DirectCommand(c, 0, 0);
+        }
+
 
         /// <summary>
         /// Query the current speed of a single motor.
@@ -206,25 +231,25 @@ namespace SmallBasicEV3Extension
 
         
         /// <summary>
-        /// Starts to move one or more motors a defined number of degrees. 
+        /// Starts to move one or more motors a defined number of counts (=degrees). 
         /// The movement can be fine-tuned by defining acceleration and deceleration portions of the total path.
-        /// This function returns immediately. Use IsBusy() to detect the end of the movement.
+        /// This function returns immediately. Use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="step1">Number of degrees to accelerate</param>
-        /// <param name="step2">Number of degrees in uniform motion</param>
-        /// <param name="step3">Number of degrees to decelerate</param>
+        /// <param name="step1">Number of counts to accelerate</param>
+        /// <param name="step2">Number of counts in uniform motion</param>
+        /// <param name="step3">Number of counts to decelerate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void SchedulePowerForCount (Primitive ports, Primitive power, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
+        public static void SchedulePower (Primitive ports, Primitive power, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
-            int layer, nos, pwr, stp1, stp2, stp3, brk;
+            int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(power == null ? "" : power.ToString(), out pwr);
-            Int32.TryParse(step1 == null ? "" : step1.ToString(), out stp1);
-            Int32.TryParse(step2 == null ? "" : step2.ToString(), out stp2);
-            Int32.TryParse(step3 == null ? "" : step3.ToString(), out stp3);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            int pwr = clamp(power, -100, 100);
+            int stp1 = step1;
+            int stp2 = step2;
+            int stp3 = step3;
+            int brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xAC);
@@ -239,58 +264,25 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Starts to move one or more motors a defined number of milliseconds.
-        /// The movement can be fine-tuned by defining acceleration and deceleration portions of the total time.
-        /// This function returns immediately. Use IsBusy() to detect the end of the movement.
-        /// </summary>
-        /// <param name="ports">Motor port name(s)</param>
-        /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="step1">Milliseconds to accelerate</param>
-        /// <param name="step2">Milliseconds in uniform motion</param>
-        /// <param name="step3">Milliseconds to decelerate</param>
-        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void SchedulePowerForTime(Primitive ports, Primitive power, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
-        {
-            int layer, nos, pwr, stp1, stp2, stp3, brk;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(power == null ? "" : power.ToString(), out pwr);
-            Int32.TryParse(step1 == null ? "" : step1.ToString(), out stp1);
-            Int32.TryParse(step2==null?"":step2.ToString(), out stp2);
-            Int32.TryParse(step3 == null ? "" : step3.ToString(), out stp3);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAD);
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(pwr);
-            c.CONST(stp1);
-            c.CONST(stp2);
-            c.CONST(stp3);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
-        }
-
-        /// <summary>
-        /// Starts to move one or more motors a defined number of degrees. 
-        /// The movement can be fine-tuned by defining acceleration and deceleration portions of the total path.
-        /// This function returns immediately. Use IsBusy() to detect the end of the movement.
-        /// </summary>
+        /// Starts to move one or more motors by the specified number of counts. 
+        /// The speed regulator will try to hold the motor at the specified speed even if there is some resistance. This will be done by increasing the power if needed (as long as power can still be raised).
+        /// This function returns immediately. Use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="step1">Number of degrees to accelerate</param>
-        /// <param name="step2">Number of degrees in uniform motion</param>
-        /// <param name="step3">Number of degrees to decelerate</param>
+        /// <param name="step1">Number of counts to accelerate</param>
+        /// <param name="step2">Number of counts in uniform motion</param>
+        /// <param name="step3">Number of counts to decelerate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void ScheduleSpeedForCount(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
+        /// </summary>
+        public static void ScheduleSpeed(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
         {
-            int layer, nos, spd, stp1, stp2, stp3, brk;
+            int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(speed == null ? "" : speed.ToString(), out spd);
-            Int32.TryParse(step1 == null ? "" : step1.ToString(), out stp1);
-            Int32.TryParse(step2 == null ? "" : step2.ToString(), out stp2);
-            Int32.TryParse(step3 == null ? "" : step3.ToString(), out stp3);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            int spd = clamp(speed,-100,100);
+            int stp1 = step1;
+            int stp2 = step2;
+            int stp3 = step3;
+            int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xAE);
@@ -305,59 +297,43 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Starts to move one or more motors a defined number of milliseconds.
-        /// The movement can be fine-tuned by defining acceleration and deceleration portions of the total time.
-        /// This function returns immediately. Use IsBusy() to detect the end of the movement.
+        /// Starts to synchroniously move 2 motors a defined number of counts (=degrees). 
+        /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still needs to go straight or make a specified turn.
+        /// The number of counts to move will be measured at the motor with the higher specified speed.
         /// </summary>
-        /// <param name="ports">Motor port name(s)</param>
-        /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="step1">Milliseconds to accelerate</param>
-        /// <param name="step2">Milliseconds in uniform motion</param>
-        /// <param name="step3">Milliseconds to decelerate</param>
-        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void ScheduleSpeedForTime(Primitive ports, Primitive speed, Primitive step1, Primitive step2, Primitive step3, Primitive brake)
+        /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
+        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
+        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
+        /// <param name="count">Number of counts for the faster motor to move</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
+        public static void ScheduleSynchronized(Primitive ports, Primitive speed1, Primitive speed2, Primitive count, Primitive brake)
         {
-            int layer, nos, spd, stp1, stp2, stp3, brk;
+            int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(speed == null ? "" : speed.ToString(), out spd);
-            Int32.TryParse(speed == null ? "" : step1.ToString(), out stp1);
-            Int32.TryParse(speed == null ? "" : step2.ToString(), out stp2);
-            Int32.TryParse(speed == null ? "" : step3.ToString(), out stp3);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAF);
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(spd);
-            c.CONST(stp1);
-            c.CONST(stp2);
-            c.CONST(stp3);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
-        }
-
-        /// <summary>
-        /// Starts to synchroniously move 2 motors a defined number of degrees. 
-        /// The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed and the number of degrees will apply. 
-        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
-        /// </summary>
-        /// <param name="ports">Names of 2 motor ports</param>
-        /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
-        /// <param name="turn">Value from -200 to 200</param>
-        /// <param name="count">Number of degrees for the 'master' motor to move</param>
-        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void ScheduleSyncForCount(Primitive ports, Primitive speed, Primitive turn, Primitive count, Primitive brake)
-        {
-            int layer, nos, spd, trn, cnt, brk;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(speed == null ? "" : speed.ToString(), out spd);
-            Int32.TryParse(turn == null ? "" : turn.ToString(), out trn);
-            Int32.TryParse(count == null ? "" : count.ToString(), out cnt);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            double spd1 = fclamp(speed1,-100,100);
+            double spd2 = fclamp(speed2,-100,100);
+            int cnt = count;
+            int brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             if (cnt > 0)
             {
+                // the computed values that will be needed by the firmware function
+                int spd;   
+                int trn;
+
+                // motor with lower letter is faster or equally fast and must become master      
+                if ( (spd1>=0?spd1:-spd1) >= (spd2>=0?spd2:-spd2))
+                {
+                    spd = (int)spd1;
+                    trn = 100 - (int)((100.0*spd2)/spd1);
+                }
+                // motor with higher letter is faster and must become master
+                else   
+                {
+                    spd = (int)spd2;
+                    trn = - (100 - (int)((100.0*spd1) / spd2));
+                }
+
                 ByteCodeBuffer c = new ByteCodeBuffer();
                 c.OP(0xB0);
                 c.CONST(layer);
@@ -370,35 +346,6 @@ namespace SmallBasicEV3Extension
             }
         }
 
-        /// <summary>
-        /// Starts to synchroniously move 2 motors a defined number of milliseconds. 
-        /// The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed will apply. 
-        /// For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite
-        /// </summary>
-        /// <param name="ports">Names of 2 motor ports</param>
-        /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</param>
-        /// <param name="turn">Value from -200 to 200</param>
-        /// <param name="time">Milliseconds to run. May be 0, in which case the motors run indefinitely.</param>
-        /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void ScheduleSyncForTime(Primitive ports, Primitive speed, Primitive turn, Primitive time, Primitive brake)
-        {
-            int layer, nos, spd, trn, tim, brk;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(speed == null ? "" : speed.ToString(), out spd);
-            Int32.TryParse(turn == null ? "" : turn.ToString(), out trn);
-            Int32.TryParse(time == null ? "" : time.ToString(), out tim);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xB1);
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(spd);
-            c.CONST(trn);
-            c.CONST(tim);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
-        }
 
         /// <summary>
         /// Set the rotation count of one or more motors to 0.
@@ -449,50 +396,22 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move one or more motors by a the specified count. 
-        /// The motor will apply full power to reach the target position as quickly as possible. This function will wait until the motor has reached its destination.
+        /// Move one or more motors by the specified number of counts (=degrees). 
+        /// The motor will apply the specified power to reach the target position. This command will block execution until the motor has reached its destination.
         /// When you need finer control over the movement, consider using one of the Schedule.. functions.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="count">Number of counts to move the motor. Can be positive (forward) or negative (reverse)</param>
+        /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
+        /// <param name="count">Number of counts to move the motor. Only the magnitude of the value is taken when a negative number is given here.</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
-        public static void Move(Primitive ports, Primitive count, Primitive brake)
+        public static void Move(Primitive ports, Primitive power, Primitive count, Primitive brake)
         {
-            int layer, nos, cnt, brk;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            Int32.TryParse(count == null ? "" : count.ToString(), out cnt);
-            brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-
-            if (count != 0)
-            {
-                ByteCodeBuffer c = new ByteCodeBuffer();
-                c.OP(0xAC);
-                c.CONST(layer);
-                c.CONST(nos);
-                c.CONST((count < 0) ? -100 : 100);
-                c.CONST(0);
-                c.CONST(count);
-                c.CONST(0);
-                c.CONST(brk);
-                EV3RemoteControler.DirectCommand(c, 0, 0);
-
-                for (; ; )
-                {
-                    System.Threading.Thread.Sleep(2);
-
-                    c.Clear();
-                    c.OP(0xA9);
-                    c.CONST(layer);
-                    c.CONST(nos);
-                    c.GLOBVAR(0);
-                    byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
-                    if (reply==null || reply[0] == 0)
-                    {   break;
-                    }
-                }
-            }
+            SchedulePower(ports, power, new Primitive(0), count, new Primitive(0), brake);
+            Wait(ports);
         }
 
+       
+       
         /// <summary>
         /// Wait until the specified motor(s) has finished a scheduled operation.
         /// Using this method is normally better than calling IsBusy() in a tight loop.
@@ -567,6 +486,31 @@ namespace SmallBasicEV3Extension
                     case 'D': nos = nos | 8; break;
                 }
             }
+        }
+
+        private static int clamp(int value, int min, int max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+            if (value > max)
+            {
+                return max;
+            }
+            return value;
+        }
+        private static double fclamp(double value, double min, double max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+            if (value > max)
+            {
+                return max;
+            }
+            return value;
         }
     }
 

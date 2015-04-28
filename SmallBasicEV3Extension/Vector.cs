@@ -42,11 +42,7 @@ namespace SmallBasicEV3Extension
         public static Primitive Init(Primitive size, Primitive value)
         {
             int _size = size;
-            double _value;
-            if (!double.TryParse(value==null ? "0" : value.ToString(), out _value))
-            {
-               _value = 0;
-            }
+            double _value = value;
 
             double[] a = new double[_size<0 ? 0 : _size];
             for (int i=0; i<a.Length; i++)
@@ -87,47 +83,6 @@ namespace SmallBasicEV3Extension
             System.Array.Sort(a);
             return A2P(a);
         }
-/*
-        public static Primitive SortTable(Primitive rows, Primitive columns, Primitive sortcolumn, Primitive A)
-        {
-            int _rows = rows;
-            int _cols = columns;
-            int _sortcolumn = sortcolumn;
-            if (_rows < 0)
-            {
-                _rows = 0;
-            }
-            if (_cols < 0)
-            {
-                _cols = 0;
-            }
-
-            // extract elements from Primitive
-            double[] a = P2A(A, _rows*_cols);
-
-            // split into individual rows
-            double[][] x = new double[_rows][];
-            for (int i = 0; i < rows; i++)
-            {
-                x[i] = new double[_cols];
-                System.Array.Copy(a, i * _cols, x[i], 0, _cols);
-            }
-
-            if (sortcolumn>=0 && sortcolumn<columns)
-            {   
-                System.Array.Sort(x, new DoubleArrayComparer(sortcolumn));
-            }
-
-            // merge the rows
-            for (int i = 0; i < rows; i++)
-            {
-                System.Array.Copy(x[i], 0, a, i * _cols, _cols);
-            }
-
-            // convert to Primitive again
-            return A2P(a);
-        }
-*/
 
         /// <summary>
         /// Matrix multipliation operation. 

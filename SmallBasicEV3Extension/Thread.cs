@@ -100,21 +100,18 @@ namespace SmallBasicEV3Extension
         /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Lock(Primitive mutex)
         {
-            int idx;
-            if (int.TryParse(mutex.ToString(), out idx))
+            int idx = mutex;
+            lock (locks)
             {
-                lock (locks)
+                if (idx >= 0 && idx < locks.Count())
                 {
-                    if (idx >= 0 && idx < locks.Count())
+                    // try to aquire a lock.  if not ready, must wait until it gets released
+                    while (locks[idx])
                     {
-                        // try to aquire a lock.  if not ready, must wait until it gets released
-                        while (locks[idx])
-                        {
-                            Monitor.Wait(locks);
-                        }
-                        locks[idx] = true;
-                        return;
+                        Monitor.Wait(locks);
                     }
+                    locks[idx] = true;
+                    return;
                 }
             }
             // when the lock mechanism was incorrectly used, totally lock up the program to make the problem obvious
@@ -130,16 +127,13 @@ namespace SmallBasicEV3Extension
         /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Unlock(Primitive mutex)
         {
-            int idx;
-            if (int.TryParse(mutex.ToString(), out idx))
+            int idx = mutex;
+            lock (locks)
             {
-                lock (locks)
+                if (idx >= 0 && idx < locks.Count())
                 {
-                    if (idx >= 0 && idx < locks.Count())
-                    {
-                        locks[idx] = false;
-                        Monitor.PulseAll(locks);
-                    }
+                    locks[idx] = false;
+                    Monitor.PulseAll(locks);
                 }
             }
         }

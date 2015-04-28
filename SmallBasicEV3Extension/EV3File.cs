@@ -142,8 +142,7 @@ namespace SmallBasicEV3Extension
         /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
         public static void Close(Primitive handle)
         {
-            int hdl = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
+            int hdl = handle;
             lock (openFiles)
             {
                 if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null)
@@ -160,8 +159,7 @@ namespace SmallBasicEV3Extension
         /// <param name="text">The text to write to the file.</param>
         public static void WriteLine(Primitive handle, Primitive text)
         {
-            int hdl = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
+            int hdl = handle;
             String txt = (text == null ? "" : text.ToString());
             if (txt.Length > 251)
             {
@@ -196,10 +194,8 @@ namespace SmallBasicEV3Extension
         /// <param name="data">One byte to write (value of 0 - 255).</param>        
         public static void WriteByte(Primitive handle, Primitive data)
         {
-            int hdl = 0;
-            int dta = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
-            Int32.TryParse(data == null ? "" : data.ToString(), out dta);
+            int hdl = handle;
+            int dta = data;
             lock (openFiles)
             {
                 if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null)
@@ -232,8 +228,7 @@ namespace SmallBasicEV3Extension
         /// <returns>The text from the current line in the file.</returns>
         public static Primitive ReadLine(Primitive handle)
         {
-            int hdl = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
+            int hdl = handle;
             lock (openFiles)
             {
                 if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null)
@@ -262,8 +257,7 @@ namespace SmallBasicEV3Extension
         /// <returns>The next byte from the file.</returns>
         public static Primitive ReadByte(Primitive handle)
         {
-            int hdl = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
+            int hdl = handle;
             lock (openFiles)
             {
                 if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null)
@@ -288,10 +282,8 @@ namespace SmallBasicEV3Extension
         /// <returns>An array of size elements holding the values.</returns>
         public static Primitive ReadNumberArray(Primitive handle, Primitive size)
         {
-            int hdl = 0;
-            Int32.TryParse(handle == null ? "" : handle.ToString(), out hdl);
-            int siz = 0;
-            Int32.TryParse(size == null ? "" : size.ToString(), out siz);
+            int hdl = handle;
+            int siz = size;
             lock (openFiles)
             {
                 if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null && siz > 0)
@@ -335,14 +327,11 @@ namespace SmallBasicEV3Extension
         /// <returns>The byte on the denoted position</returns>
         public static Primitive TableLookup(Primitive filename, Primitive bytes_per_row, Primitive row, Primitive column)
         {
-            int bpr = 0;
-            int r = 0;
-            int c = 0;
-
             String fullname = (filename == null) ? "" : filename.ToString();
-            Int32.TryParse(bytes_per_row == null ? "" : bytes_per_row.ToString(), out bpr);
-            Int32.TryParse(row == null ? "" : row.ToString(), out r);
-            Int32.TryParse(column == null ? "" : column.ToString(), out c);
+            int bpr = bytes_per_row;
+            int r = row;
+            int c = column;
+
             if (bpr<=0 || row<0 || column<0)
             {
                 return new Primitive(0);

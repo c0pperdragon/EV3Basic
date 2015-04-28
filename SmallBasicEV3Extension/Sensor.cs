@@ -134,19 +134,17 @@ namespace SmallBasicEV3Extension
         {
             int layer;
             int no;
-            int mod;
             DecodePort(port, out layer, out no);
-            if (int.TryParse(mode==null?"":mode.ToString(), out mod))
-            {
-                ByteCodeBuffer c = new ByteCodeBuffer();
-                c.OP(0x9A);                // Input_Read
-                c.CONST(layer);
-                c.CONST(no);
-                c.CONST(0);                // 0 = don't change type
-                c.CONST(mod);              // set mode
-                c.GLOBVAR(0);
-                EV3RemoteControler.DirectCommand(c, 1, 0);
-            }          
+            int mod = mode;
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x9A);                // Input_Read
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(0);                // 0 = don't change type
+            c.CONST(mod);              // set mode
+            c.GLOBVAR(0);
+            EV3RemoteControler.DirectCommand(c, 1, 0);
         }
 
         /// <summary>
@@ -301,19 +299,10 @@ namespace SmallBasicEV3Extension
         {
             int layer;
             int no;
-            int addr;
-            int wrt;
-            int rd;
             // decode parameters
             DecodePort(port, out layer, out no);
-            if (!int.TryParse(address == null ? "" : address.ToString(), out addr))
-            {
-                addr = 0;
-            }
-            if (!int.TryParse(writebytes==null ? "" : writebytes.ToString(), out wrt))
-            {
-                wrt = 0;
-            }
+            int addr = address;
+            int wrt = writebytes;
             if (wrt<0)
             {
                 wrt = 0;
@@ -322,10 +311,7 @@ namespace SmallBasicEV3Extension
             {
                 wrt = 31;
             }
-            if (!int.TryParse(readbytes == null ? "" : readbytes.ToString(), out rd))
-            {
-                rd = 0;
-            }
+            int rd = readbytes;
             if (rd<1)       // must read at least one byte to not confuse the firmware
             {
                 rd = 1;
@@ -342,9 +328,8 @@ namespace SmallBasicEV3Extension
             c.CONST(addr & 0x7f);      //  first byte: address (from 0 - 127)
             for (int i = 0; i < wrt; i++)  // extract the send bytes from the array
             {
-                double d = 0;
                 Primitive v = writedata == 0 ? null : Primitive.GetArrayValue(writedata, new Primitive((double)i));
-                double.TryParse(v == null ? "0" : v.ToString(), out d);
+                int d = v;
                 c.CONST(((int)d) & 0xff);       //  optional payload bytes
             }
 
@@ -381,13 +366,9 @@ namespace SmallBasicEV3Extension
         {
             int layer;
             int no;
-            int wrt;
             // decode parameters
             DecodePort(port, out layer, out no);
-            if (!int.TryParse(writebytes == null ? "" : writebytes.ToString(), out wrt))
-            {
-                wrt = 0;
-            }
+            int wrt = writebytes;
             if (wrt < 0)
             {
                 wrt = 0;
@@ -403,9 +384,8 @@ namespace SmallBasicEV3Extension
             c.CONST(wrt);              //  number of bytes
             for (int i = 0; i < wrt; i++)  // extract the send bytes from the array
             {
-                double d = 0;
                 Primitive v = writedata == 0 ? null : Primitive.GetArrayValue(writedata, new Primitive((double)i));
-                double.TryParse(v == null ? "0" : v.ToString(), out d);
+                int d = v;
                 c.CONST(((int)d) & 0xff);       //  optional payload bytes
             }
 
@@ -422,19 +402,13 @@ namespace SmallBasicEV3Extension
 
         private static void DecodePort(Primitive port, out int layer, out int no)
         {
+            int portnumber = port;
             layer = 0;
             no = 0;
-            if (port!=null)
+            if (portnumber>=1 && portnumber<=16)
             {
-                int portnumber;
-                if (int.TryParse(port.ToString(), out portnumber))
-                {
-                    if (portnumber>=1 && portnumber<=16)
-                    {
-                        layer = (portnumber - 1) / 4;
-                        no = (portnumber - 1) % 4;
-                    }
-                }
+                layer = (portnumber - 1) / 4;
+                no = (portnumber - 1) % 4;
             }
         }
 
