@@ -461,7 +461,7 @@ D6 COM_REMOVE                8 8+
 D7 COM_WRITEFILE             8 8+ 8+ 8
 D8 MAILBOX_OPEN              8 8+ 8 8 8
 D9 MAILBOX_WRITE             8+ 8 8+ 8 8 ?+
-DA MAILBOX_READ              8 8 8 ?*
+DA MAILBOX_READ              8 16 8 ?*
 DB MAILBOX_TEST              8 8*
 DC MAILBOX_READY             8
 DD MAILBOX_CLOSE             8

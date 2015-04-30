@@ -126,10 +126,10 @@ namespace EV3Communication
         {
             if (_stream != null)
             {   // receive data (with leading 0 byte and 16 bit data length)
-                _stream.Read(_inputReport, 0, _inputReport.Length);
+                int len = _stream.Read(_inputReport, 0, _inputReport.Length);
 
                 short size = (short)(_inputReport[1] | _inputReport[2] << 8);
-                if (size != 0)
+                if (size>0 && size<=_inputReport.Length-3)
                 {
                     byte[] data = new byte[size];
                     System.Array.Copy(_inputReport, 3, data, 0, size);

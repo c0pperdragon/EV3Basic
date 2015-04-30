@@ -31,42 +31,44 @@ namespace SmallBasicEV3Extension
     [SmallBasicType]
     public static class Mailbox
     {
-        private static Dictionary<String, int> boxes = new Dictionary<String,int>();
+        private static Object sync = new Object();
+        private static int numboxes = 0;
 
         /// <summary>
         /// Create a mailbox on the local brick that can receive messages from other bricks. 
-        /// Only after creation of the box can incomming messages be stored for retrieval.
+        /// Only after creation of the box incomming messages can be stored for retrieval.
         /// There is a total limit of 30 mailboxes that can be created.
         /// </summary>
-        public static void Create(Primitive boxname)
+        /// <param name="boxname">Name of the message box to be created.</param>
+        /// <returns>A numerical identifier of the mailbox. This is needed to actually retrieve messages from the box.</returns>
+        public static Primitive Create(Primitive boxname)
         {
             String bn = boxname==null ? "" : boxname.ToString();
-            int no;
+            int no = -1;
 
-            lock (boxes)
+            lock (sync)
             {
-                // when the mailbox was already created, do nothing
-                if (boxes.ContainsKey(bn))
+                // determine next number to use
+                if (numboxes<30)
                 {
-                    return;
+                    no = numboxes;
+                    numboxes++;
                 }
-                // determine a new number to be used (only 30 boxes are possible)
-                no = boxes.Count;
-                if (no >= 30)
-                {
-                    return;
-                }
-                boxes[bn] = no;
             }
-            // send box creation request
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xD8);       // opMailbox_Open
-            c.CONST(no);
-            c.STRING(bn);
-            c.CONST(4);       // 0x04 : DataS Zero terminated string
-            c.CONST(0);       // FIFOSIZE – Not used at this point
-            c.CONST(0);       // VALUES – Not used
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+
+            if (no >= 0)
+            {
+                // send box creation request
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xD8);       // opMailbox_Open
+                c.CONST(no);
+                c.STRING(bn);
+                c.CONST(4);       // 0x04 : DataS Zero terminated string
+                c.CONST(0);       // FIFOSIZE – Not used at this point
+                c.CONST(0);       // VALUES – Not used
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
+            return new Primitive(no);
         }
 
         /// <summary>
@@ -97,25 +99,15 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Checks if there is a message in the specified mailbox.
         /// </summary>
-        /// <param name="boxname"></param>
+        /// <param name="id">Identifer of the local mailbox</param>
         /// <returns>"True" if there is a message waiting. "False" otherwise.</returns>
-        public static Primitive IsAvailable(Primitive boxname)
+        public static Primitive IsAvailable(Primitive id)
         {
-            String bn = boxname == null ? "" : boxname.ToString();
-            int no = 0;
-            lock (boxes)
-            {
-                // check if such a mailbox was already created
-                if (!boxes.ContainsKey(bn))
-                {
-                    return new Primitive("False");
-                }
-                no = boxes[boxname];
-            }
+            int no = id;
             // send message info request
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xDB);          // opMailbox_Test
-            c.CONST(boxes[bn]);
+            c.CONST(no);
             c.GLOBVAR(0);        // return value
             byte[] response = EV3RemoteControler.DirectCommand(c, 1, 0);
             // check response
@@ -135,21 +127,11 @@ namespace SmallBasicEV3Extension
         /// To avoild blocking, you can check with IsAvailable() if there is a message in the box.
         /// When no message box with the name exists, the command will return "" immediately.
         /// </summary>
-        /// <param name="boxname"></param>
+        /// <param name="id">Identifer of the local mailbox</param>
         /// <returns>The message as a Text. Currently only text messages are supported.</returns>
-        public static Primitive Receive(Primitive boxname)
+        public static Primitive Receive(Primitive id)
         {
-            String bn = boxname == null ? "" : boxname.ToString();
-            int no = 0;
-            lock (boxes)
-            {
-                // check if such a mailbox was already created
-                if (!boxes.ContainsKey(bn))
-                {
-                    return new Primitive("");
-                }
-                no = boxes[boxname];
-            }
+            int no = id;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             for (; ; )

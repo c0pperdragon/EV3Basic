@@ -1,7 +1,3 @@
-Motor.Power("1A",50)
-Motor.Power("1B",50)
-Motor.Power("1C",50)
-Motor.Power("1D",50)
 
 While "True"
   LCD.StopUpdate()
@@ -19,7 +15,7 @@ While "True"
       If P>50 Then
          LCD.FillRect(1,x,y, 30,18)
          LCD.Text(1,x+2,y+5, 1, P)
-         Motor.Start(m)
+         Motor.Start(m,50)
       else
          LCD.Rect(1,x,y,30,18)    
          LCD.Text(1,x+10,y+5, 1, P)

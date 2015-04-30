@@ -122,6 +122,10 @@ namespace EV3BasicCompiler.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: EV3 -------------------------------------------------
         ///
+        ///DATA16 FD_NATIVECODECOMMAND
+        ///DATA16 FD_NATIVECODERESPONSE
+        ///
+        ///
         ///subcall EV3.SETLEDCOLOR    // SSV
         ///{
         ///	IN_S color 8		// only receive first 7 characters
@@ -133,8 +137,7 @@ namespace EV3BasicCompiler.Properties {
         ///	ARRAY8 effect_2 4
         ///
         ///	STRINGS DUPLICATE color color_1
-        ///	STRINGS DUPLICATE effect effect_1	
-        ///	AND8888_32 color_1 -538976289 col [rest of string was truncated]&quot;;.
+        ///	STRINGS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EV3 {
             get {
@@ -152,21 +155,17 @@ namespace EV3BasicCompiler.Properties {
         ///
         ///	DATAS fullname 300
         ///	DATA16 handle16
-        ///	STRINGS ADD &apos;../prjs/&apos; filename fullname
+        ///
+        ///	STRINGS DUPLICATE filename fullname
+        ///	JR_EQ8 filename 47 absolutepath               // filename begins with a &apos;/&apos;
+        ///	STRINGS ADD &apos;/home/root/lms2012/prjs/&apos; filename fullname
+        ///absolutepath:
         ///	FILE OPEN_WRITE fullname handle16
         ///
         ///	MOVE16_F handle16 handle
         ///}
         ///
-        ///subcall EV3FILE.OPENAPPEND       // SF
-        ///{
-        ///	IN_S filename 252
-        ///	OUT_F handle
-        ///
-        ///	DATAS fullname 300
-        ///	DATA16 handle16
-        ///	STRINGS ADD &apos;../prjs/&apos; filename fullname
-        ///	FILE [rest of string was truncated]&quot;;.
+        ///subcall EV3FILE.OP [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string EV3File {
             get {
@@ -212,6 +211,34 @@ namespace EV3BasicCompiler.Properties {
         internal static string LCD {
             get {
                 return ResourceManager.GetString("LCD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to // ------------------------------------------ EV3 MODULE: Mailbox -------------------------------------------------
+        ///
+        ///
+        ///subcall MAILBOX.SEND   // SSSV
+        ///{
+        ///	IN_S brickname 252
+        ///	IN_S boxname 252
+        ///	IN_S message 252
+        ///	
+        ///	MAILBOX_WRITE brickname 0 boxname 4 1 message
+        ///}
+        ///
+        ///
+        ///subcall MAILBOX.CONNECT    // SV
+        ///{
+        ///	IN_S brickname 252
+        ///
+        ///	COM_SET SET_CONNECTION 2 brickname 1 
+        ///}
+        ///.
+        /// </summary>
+        internal static string Mailbox {
+            get {
+                return ResourceManager.GetString("Mailbox", resourceCulture);
             }
         }
         
@@ -288,7 +315,7 @@ namespace EV3BasicCompiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 7F454C4601010100000000000000000002002800010000008484000034000000580A00000200000534002000080028001F001C00010000701407000014870000148700005000000050000000040000000400000006000000340000003480000034800000000100000001000005000000040000000300000034010000348100003481000013000000130000000400000001000000010000000000000000800000008000006807000068070000050000000080000001000000680700006807010068070100480100004C01000006000000008000000200000074070000740701007407010000010000000100000600000004000000040000004801000048810000 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to 7F454C460101010000000000000000000200280001000000C086000034000000AC1000000200000534002000080028001F001C00010000702C0D00002C8D00002C8D0000680000006800000004000000040000000600000034000000348000003480000000010000000100000500000004000000030000003401000034810000348100001300000013000000040000000100000001000000000000000080000000800000980D0000980D0000050000000080000001000000980D0000980D0100980D01006C0100007C010000060000000080000002000000A40D0000A40D0100A40D010000010000000100000600000004000000040000004801000048810000 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NativeCode {
             get {
@@ -311,7 +338,7 @@ namespace EV3BasicCompiler.Properties {
         ///	FILENAME(GET_FOLDERNAME,127,result)
         ///}
         ///
-        ///subcall PROGRAM.GETARGUMENT  // FF
+        ///subcall PROGRAM.GETARGUMENT  // FS
         ///{
         ///	IN_F index
         ///	OUT_S result 8

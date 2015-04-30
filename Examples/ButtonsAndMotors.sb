@@ -4,9 +4,6 @@ LCD.Text(1, 0,45, 1, "directional buttons")
 LCD.Text(1, 0,70, 1, "Left/Right: Motor A")
 LCD.Text(1, 0,85, 1, "Up/Down: Motor B")
 
-Motor.Speed("AB",0)
-Motor.Start("AB")
-
 while "True"
   ' request button state
   K = Buttons.Current
@@ -24,9 +21,9 @@ while "True"
     SB = 50
   endif
   
-  ' Adjust motor speed
-  Motor.Speed("A", SA)
-  Motor.Speed("B", SB)
+  ' Adjust motor power
+  Motor.StartPower("A", SA)
+  Motor.StartPower("B", SB)
   
   ' wait a little before polling again
   Program.Delay(100)

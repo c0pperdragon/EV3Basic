@@ -7,12 +7,12 @@ For X=1 To 360      ' schritte in einzelnen graden machen
   Y_INC = Y - Y_PREV    ' berechnen, wie weit man motor D drehen muss um zu position Y zu kommen
   Y_PREV = Y            ' position für den nächsten durchgang merken
 
-  Motor.SchedulePowerForCount("A",30,0,1,0,"true")  ' motor A ein grad weiterdrehen
+  Motor.SchedulePower("A",30,0,1,0,"true")  ' motor A ein grad weiterdrehen
   
   If Y_INC>0 Then              ' motor D entweder vorwärts drehen
-    Motor.SchedulePowerForCount("D",30,0,Y_INC,0,"true")
+    Motor.SchedulePower("D",30,0,Y_INC,0,"true")
   Else                         ' oder rückwärts drehen
-    Motor.SchedulePowerForCount("D",-30,0,Y_INC,0,"true")
+    Motor.SchedulePower("D",-30,0,Y_INC,0,"true")
   EndIf
 
   Motor.Wait("AD")  ' warten bis beide motoren am zielpunkt sind

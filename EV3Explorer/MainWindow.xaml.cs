@@ -567,8 +567,7 @@ namespace EV3Explorer
                 BinaryBuffer b = new BinaryBuffer();
                 b.Append16(500);  // expect max 500 bytes per packet
                 b.AppendZeroTerminated(basepath+ev3path);
-//                b.AppendNonZeroTerminated("./" + ev3path);
-                byte[] response = con.SystemCommand(EV3Connection.LIST_FILES, b); 
+                byte[] response = con.SystemCommand(EV3Connection.LIST_FILES, b);
 
                 if (response == null)
                 {
@@ -583,16 +582,22 @@ namespace EV3Explorer
                     throw new Exception("Unexpected status at LIST_FILES: "+response[0]);
                 }
 //                Console.WriteLine("initial response length: " + response.Length);
+//            for (int i=0; i<response.Length; i++)
+//            {
+//                Console.Write(" " + response[i]);
+//            }
+//            Console.WriteLine();
                 int handle = response[5] & 0xff;
                 data.Write(response, 6, response.Length - 6);
 
                 // continue reading until have total buffer
-                for (;;)
+                while (response[0] != EV3Connection.END_OF_FILE)
                 {
                     b.Clear();
                     b.Append8(handle);
                     b.Append16(500);  // expect max 500 bytes per packet
                     response = con.SystemCommand(EV3Connection.CONTINUE_LIST_FILES, b);
+//                    Console.WriteLine("follow-up response length: " + response.Length);
 
                     if (response == null)
                     {
@@ -608,14 +613,11 @@ namespace EV3Explorer
                     }
 //                    Console.WriteLine("subsequent response length: " + response.Length);
                     data.Write(response, 2, response.Length - 2);
-                    
-                    if (response[0] == EV3Connection.END_OF_FILE)
-                    { break; }
                 }
                 
                 List<DirectoryEntry> list = new List<DirectoryEntry>();
 
-                data.Position = 0;  // start reading a beginning
+                data.Position = 0;  // start reading at beginning
                 StreamReader tr = new StreamReader(data, Encoding.ASCII);
                 String l;
                 while ((l = tr.ReadLine()) != null)

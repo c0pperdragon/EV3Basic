@@ -1,0 +1,74 @@
+// ------------------------------------------ EV3 MODULE: Mailbox -------------------------------------------------
+
+DATA32 NUMMAILBOXES
+
+init
+{
+	MOVE32_32 0 NUMMAILBOXES
+}
+
+
+subcall MAILBOX.CREATE        // SF
+{
+	IN_S boxname 252
+	OUT_F id
+
+	JR_GTEQ32 NUMMAILBOXES 30 toomanyboxes
+
+	DATA8 id8
+	MOVE32_F NUMMAILBOXES id
+	MOVE32_8 NUMMAILBOXES id8
+	ADD32 NUMMAILBOXES 1 NUMMAILBOXES
+	MAILBOX_OPEN id8 boxname 4 0 0 
+	RETURN
+
+ toomanyboxes:
+	MOVEF_F -1.0 id
+	RETURN	
+}
+        
+
+subcall MAILBOX.ISAVAILABLE        // FS  
+{
+	IN_F id
+	OUT_S result 252
+
+	DATA8 id8
+	DATA8 busy
+	MOVEF_8 id id8
+
+	MAILBOX_TEST id busy
+	JR_EQ8 busy 0 available:
+
+	STRINGS DUPLICATE "False" result
+	return
+
+available:
+	STRINGS DUPLICATE "True" result
+}
+
+inline MAILBOX.RECEIVE            // FS
+{
+	DATA8 no:#
+	MOVEF_8 :0 no:#
+	MAILBOX_READY no:#
+	MAILBOX_READ no:# 252 1 :1
+}
+
+
+subcall MAILBOX.SEND   // SSSV
+{
+	IN_S brickname 252
+	IN_S boxname 252
+	IN_S message 252
+	
+	MAILBOX_WRITE brickname 0 boxname 4 1 message
+}
+
+
+subcall MAILBOX.CONNECT    // SV
+{
+	IN_S brickname 252
+
+	COM_SET SET_CONNECTION 2 brickname 1 
+}

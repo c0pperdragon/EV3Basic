@@ -7,7 +7,7 @@ times = Vector.Init(samples,0)        ' time-stamps of samples
 
 ' start motor
 Motor.ResetCount(m)
-Motor.SchedulePowerForCount(m, 100, 0,110,0, "True")
+Motor.SchedulePower(m, 100, 0,110,0, "True")
 
 ' take samples fast
 start = EV3.Time

@@ -74,6 +74,7 @@ namespace EV3BasicCompiler
             readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3File);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.LCD);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Mailbox);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Math);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Motor);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Program);

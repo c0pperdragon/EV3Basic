@@ -1,8 +1,11 @@
 ' This example tries to send a string message to the brick named  "Bob".
 ' The name of this brick does not matter, but it would follow the tradition
 ' to name it "Alice".
-' For this simple example to work, it is necessary to manually establish a
-' Bluetooth connection between Alice and Bob before starting.
+
+Mailbox.Connect("Bob")  ' try to connect to Bob in order to send a message
 
 Mailbox.Send("Bob", "Box", "Hi!")
 Program.Delay(1000)
+Mailbox.Send("Bob", "Box", "Goodbye.")
+Program.Delay(1000)
+

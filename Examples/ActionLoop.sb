@@ -1,21 +1,20 @@
-' Bespiel - Steuerung für ein Fahrzeug
+' Example - Vehicle that stops before an obstacle
 
-' Vorwärts
-Motor.Power("A",50)
-Motor.Start("A")
+' Go
+Motor.Start("A",50)
 
 While "True"
   
- ' Infrot-Sensor (Port 1) liest Entfernung zum Hindernis und stoppt Fahrzeug 
+ ' IR-Sensor (on port 1) reads distance to obstacle and stops model
  If Sensor.ReadPercent(1) < 15 then
    Motor.Stop("A","True")
  endif
- ' Druck auf Touch-Sensor (Port 2) lässt Fahrzeug wieder fahren
+ ' press on touch sensor (port 2) restarts model
  If Sensor.ReadPercent(2)=100 Then
-   Motor.Start("A")
+   Motor.Start("A",50)
  endif
  
- ' Unabhängig davon wird alle 3 Sekunden die LED-Farbe gewechselt
+ ' independently change led colors every 3 seconds
  F = Math.Remainder(Math.Floor(EV3.Time/3000), 3)
  If f=0 Then
    EV3.SetLEDColor("RED", "NORMAL")
@@ -25,7 +24,7 @@ While "True"
    EV3.SetLEDColor("GREEN", "NORMAL")
  endif   
  
- ' Kurze Pause vor dem nächsten Durchgang
+ ' make the loop not go too fast
  Program.Delay(10)
 
 EndWhile
