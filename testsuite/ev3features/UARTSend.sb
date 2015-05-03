@@ -1,0 +1,8 @@
+send[0] = 47
+send[1] = 11
+send[2] = 8
+send[3] = 15
+
+Sensor.SendUARTData(1,4,send)
+Program.Delay(5000)
+

@@ -579,6 +579,38 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Y coordinate of the top corner</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">The text (or number) to write to the display</P>
+<H2 class="object">Mailbox</H2>
+<P class="objectsummary">Communication facility to send messages via Bluetooth from brick to brick</P>
+<H3 class="operation">Mailbox.Connect (brickname)</H3>
+<P class="operationsummary">Tries to establish a Bluetooth connection to another brick if is not already connected.<BR>Only after a connection was made (either by this command or manually from the on-brick menu), messages can be exchanged in both directions.</P>
+<H4 class="parameter">brickname</H4>
+<P class="parametersummary">Name of the remote brick.</P>
+<H3 class="operation">Mailbox.Create (boxname)</H3>
+<P class="operationsummary">Create a mailbox on the local brick that can receive messages from other bricks. <BR>Only after creation of the box incomming messages can be stored for retrieval.<BR>There is a total limit of 30 mailboxes that can be created.</P>
+<H4 class="parameter">boxname</H4>
+<P class="parametersummary">Name of the message box to be created.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">A numerical identifier of the mailbox. This is needed to actually retrieve messages from the box.</P>
+<H3 class="operation">Mailbox.IsAvailable (id)</H3>
+<P class="operationsummary">Checks if there is a message in the specified mailbox.</P>
+<H4 class="parameter">id</H4>
+<P class="parametersummary">Identifer of the local mailbox</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">"True" if there is a message waiting. "False" otherwise.</P>
+<H3 class="operation">Mailbox.Receive (id)</H3>
+<P class="operationsummary">Receive the latest message from a local mailbox. When no message is present, the command will block until some message arrives.<BR>The message will then be consumed and the next call to Reveive will wait for the next message.<BR>To avoild blocking, you can check with IsAvailable() if there is a message in the box.<BR>When no message box with the name exists, the command will return "" immediately.</P>
+<H4 class="parameter">id</H4>
+<P class="parametersummary">Identifer of the local mailbox</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The message as a Text. Currently only text messages are supported.</P>
+<H3 class="operation">Mailbox.Send (brickname, boxname, message)</H3>
+<P class="operationsummary">Send a message to a mailbox on another brick.</P>
+<H4 class="parameter">brickname</H4>
+<P class="parametersummary">The name of the brick to receive the message. A connection to this brick must be already open for this command to work. You can specify empty Text here, in which case the message will be sent to all connected bricks.</P>
+<H4 class="parameter">boxname</H4>
+<P class="parametersummary">Name of the message box on the receiving brick.</P>
+<H4 class="parameter">message</H4>
+<P class="parametersummary">The message as a string. Current only string messages are supported.</P>
 <H2 class="object">Math</H2>
 <P class="objectsummary">The Math class provides lots of useful mathematics related methods</P>
 <H3 class="property">Math.Pi - property</H3>
@@ -712,13 +744,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The tangent of the given angle.</P>
 <H2 class="object">Motor</H2>
-<P class="objectsummary">Control the Motors connected to the Brick.<BR>At any function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").<BR>When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command.</P>
+<P class="objectsummary">Control the Motors connected to the Brick.<BR>At any function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").<BR>When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. <BR>Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will just be provided with this much electrical power and the actual speed will then depend on the resistance it meets.</P>
 <H3 class="operation">Motor.GetCount (port)</H3>
-<P class="operationsummary">Query the current rotation count of a single motor.</P>
+<P class="operationsummary">Query the current rotation count of a single motor. <BR>As long as the counter is not reset it will accurately measure all movements of a motor, even if the motor is driven by some external force while not actively running.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Motor port name</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">The current rotation count in degrees</P>
+<P class="returnssummary">The current rotation count in degrees.</P>
 <H3 class="operation">Motor.GetSpeed (port)</H3>
 <P class="operationsummary">Query the current speed of a single motor.</P>
 <H4 class="parameter">port</H4>
@@ -726,133 +758,115 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Current speed in range -100 to 100</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
-<P class="operationsummary">Checks if one or more motors are still busy with a scheduled motor movement.</P>
+<P class="operationsummary">Checks if one or more motors is currently running.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">"True" if at least one of the motors is busy, "False" otherwise.</P>
-<H3 class="operation">Motor.Move (ports, count, brake)</H3>
-<P class="operationsummary">Move one or more motors by a the specified count. <BR>The motor will apply full power to reach the target position as quickly as possible. This function will wait until the motor has reached its destination.<BR>When you need finer control over the movement, consider using one of the Schedule.. functions.</P>
+<P class="returnssummary">"True" if at least one of the motors is running, "False" otherwise.</P>
+<H3 class="operation">Motor.Move (ports, speed, degrees, brake)</H3>
+<P class="operationsummary">Move one or more motors with the specified speed the specified distance (in degrees).<BR>This command will block execution until the motor has reached its destination.<BR>When you need finer control over the movement (soft acceleration or deceleration), consider using the command Motor.Schedule instead.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
-<H4 class="parameter">count</H4>
-<P class="parametersummary">Number of counts to move the motor. Can be positive (forward) or negative (reverse)</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward)</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The distance to rotate</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.Power (ports, power)</H3>
-<P class="operationsummary">Set a power level to use for one or multiple motors.<BR>When the motor is currently stopped, this will preset the power level to be use when it is finally started.</P>
+<H3 class="operation">Motor.MovePower (ports, power, degrees, brake)</H3>
+<P class="operationsummary">Move one or more motors with the specified power the specified distance (in degrees).<BR>This command will block execution until the motor has reached its destination.<BR>When you need finer control over the movement (soft acceleration or deceleration), consider using the command Motor.SchedulePower instead.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Power level from -100 (full reverse) to 100 (full forward)</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The distance to rotate</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
+<H3 class="operation">Motor.MoveSynchronized (ports, speed1, speed2, degrees, brake)</H3>
+<P class="operationsummary">Moves 2 motors synchroniously a defined number of degrees. <BR>The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move will be measured at the motor with the higher speed.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<H4 class="parameter">speed1</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</P>
+<H4 class="parameter">speed2</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The distance of the faster motor to rotate</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
 <H3 class="operation">Motor.ResetCount (ports)</H3>
 <P class="operationsummary">Set the rotation count of one or more motors to 0.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
-<H3 class="operation">Motor.RevertDirection (ports, revert)</H3>
-<P class="operationsummary">Sets one or multiple motors to interpret all subsequent speed or power values as negative. <BR>While all motors could be controlled with negative values anyway, this can make the program more readable. A positive speed value could always denote a "forward" motion of the robot, no matter how the motor is built into the robot. You only need to make the propper RevertDirection() calls once at program start.</P>
+<H3 class="operation">Motor.Schedule (ports, speed, degrees1, degrees2, degrees3, brake)</H3>
+<P class="operationsummary">Move one or more motors with the specified speed values. The speed can be adjusted along the total rotation to get a soft start and a soft end if needed.<BR>The distance to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
-<H4 class="parameter">revert</H4>
-<P class="parametersummary">"True" to set revert or "False" to remove the setting</P>
-<H3 class="operation">Motor.SchedulePowerForCount (ports, power, step1, step2, step3, brake)</H3>
-<P class="operationsummary">Starts to move one or more motors a defined number of degrees. <BR>The movement can be fine-tuned by defining acceleration and deceleration portions of the total path.<BR>This function returns immediately. Use IsBusy() to detect the end of the movement.</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward)</P>
+<H4 class="parameter">degrees1</H4>
+<P class="parametersummary">The part of the rotation where to accelerate</P>
+<H4 class="parameter">degrees2</H4>
+<P class="parametersummary">The part of the rotation with uniform motion</P>
+<H4 class="parameter">degrees3</H4>
+<P class="parametersummary">The part of the rotation where to decelerate</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
+<H3 class="operation">Motor.SchedulePower (ports, power, degrees1, degrees2, degrees3, brake)</H3>
+<P class="operationsummary">Starts to move one or more motors with the specified power. The power can be adjusted along the total rotation to get a soft start and a soft end if needed.<BR>The distance to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Power level from -100 (full reverse) to 100 (full forward)</P>
-<H4 class="parameter">step1</H4>
-<P class="parametersummary">Number of degrees to accelerate</P>
-<H4 class="parameter">step2</H4>
-<P class="parametersummary">Number of degrees in uniform motion</P>
-<H4 class="parameter">step3</H4>
-<P class="parametersummary">Number of degrees to decelerate</P>
+<H4 class="parameter">degrees1</H4>
+<P class="parametersummary">The part of the rotation where to accelerate</P>
+<H4 class="parameter">degrees2</H4>
+<P class="parametersummary">The part of the rotation with uniform motion</P>
+<H4 class="parameter">degrees3</H4>
+<P class="parametersummary">The part of the rotation where to decelerate</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.SchedulePowerForTime (ports, power, step1, step2, step3, brake)</H3>
-<P class="operationsummary">Starts to move one or more motors a defined number of milliseconds.<BR>The movement can be fine-tuned by defining acceleration and deceleration portions of the total time.<BR>This function returns immediately. Use IsBusy() to detect the end of the movement.</P>
+<H3 class="operation">Motor.ScheduleSynchronized (ports, speed1, speed2, degrees, brake)</H3>
+<P class="operationsummary">Starts to synchroniously move 2 motors a defined number of degrees. <BR>The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move will be measured at the motor with the higher speed.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<H4 class="parameter">speed1</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</P>
+<H4 class="parameter">speed2</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The distance of the faster motor to rotate</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
+<H3 class="operation">Motor.Start (ports, speed)</H3>
+<P class="operationsummary">Start one or more motors with the requested speed or set an already running motor to this speed.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Motor port name(s)</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward).</P>
+<H3 class="operation">Motor.StartPower (ports, power)</H3>
+<P class="operationsummary">Start one or more motors with the requested power or set an already running motor to this power.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">power</H4>
-<P class="parametersummary">Power level from -100 (full reverse) to 100 (full forward)</P>
-<H4 class="parameter">step1</H4>
-<P class="parametersummary">Milliseconds to accelerate</P>
-<H4 class="parameter">step2</H4>
-<P class="parametersummary">Milliseconds in uniform motion</P>
-<H4 class="parameter">step3</H4>
-<P class="parametersummary">Milliseconds to decelerate</P>
-<H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.ScheduleSpeedForCount (ports, speed, step1, step2, step3, brake)</H3>
-<P class="operationsummary">Starts to move one or more motors a defined number of degrees. <BR>The movement can be fine-tuned by defining acceleration and deceleration portions of the total path.<BR>This function returns immediately. Use IsBusy() to detect the end of the movement.</P>
+<P class="parametersummary">Power value from -100 (full reverse) to 100 (full forward).</P>
+<H3 class="operation">Motor.StartSynchronized (ports, speed1, speed2)</H3>
+<P class="operationsummary">Start two motors to run synchronized at equal or different speeds or adjust speeds for already running motors. <BR>The two motors will be synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Motor port name(s)</P>
-<H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward)</P>
-<H4 class="parameter">step1</H4>
-<P class="parametersummary">Number of degrees to accelerate</P>
-<H4 class="parameter">step2</H4>
-<P class="parametersummary">Number of degrees in uniform motion</P>
-<H4 class="parameter">step3</H4>
-<P class="parametersummary">Number of degrees to decelerate</P>
-<H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.ScheduleSpeedForTime (ports, speed, step1, step2, step3, brake)</H3>
-<P class="operationsummary">Starts to move one or more motors a defined number of milliseconds.<BR>The movement can be fine-tuned by defining acceleration and deceleration portions of the total time.<BR>This function returns immediately. Use IsBusy() to detect the end of the movement.</P>
-<H4 class="parameter">ports</H4>
-<P class="parametersummary">Motor port name(s)</P>
-<H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward)</P>
-<H4 class="parameter">step1</H4>
-<P class="parametersummary">Milliseconds to accelerate</P>
-<H4 class="parameter">step2</H4>
-<P class="parametersummary">Milliseconds in uniform motion</P>
-<H4 class="parameter">step3</H4>
-<P class="parametersummary">Milliseconds to decelerate</P>
-<H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.ScheduleSyncForCount (ports, speed, turn, count, brake)</H3>
-<P class="operationsummary">Starts to synchroniously move 2 motors a defined number of degrees. <BR>The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed and the number of degrees will apply. <BR>For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite</P>
-<H4 class="parameter">ports</H4>
-<P class="parametersummary">Names of 2 motor ports</P>
-<H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</P>
-<H4 class="parameter">turn</H4>
-<P class="parametersummary">Value from -200 to 200</P>
-<H4 class="parameter">count</H4>
-<P class="parametersummary">Number of degrees for the 'master' motor to move</P>
-<H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.ScheduleSyncForTime (ports, speed, turn, time, brake)</H3>
-<P class="operationsummary">Starts to synchroniously move 2 motors a defined number of milliseconds. <BR>The motor synchronization can be set to any relative speed ratio. One of the motors will be the 'master' to which the speed will apply. <BR>For positive values of 'turn', the motor with the lower port letter becomes the master. The absolute magnitude of 'turn' specifies how much the 'slave' motor is reduced in its speed. For example: 0 = same speed, 50 = half speed, 100 = stop, 150 = half speed opposite, 200 = full speed opposite</P>
-<H4 class="parameter">ports</H4>
-<P class="parametersummary">Names of 2 motor ports</P>
-<H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward) for the 'master' motor</P>
-<H4 class="parameter">turn</H4>
-<P class="parametersummary">Value from -200 to 200</P>
-<H4 class="parameter">time</H4>
-<P class="parametersummary">Milliseconds to run. May be 0, in which case the motors run indefinitely.</P>
-<H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
-<H3 class="operation">Motor.Speed (ports, speed)</H3>
-<P class="operationsummary">Turn on speed regulation for one or multiple motors and select a speed level. Once started, the device will try to maintain this constant speed of the motor regardless of (minor) resistance.</P>
-<H4 class="parameter">ports</H4>
-<P class="parametersummary">Motor port name(s)</P>
-<H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed level from -100 (full reverse) to 100 (full forward)</P>
-<H3 class="operation">Motor.Start (ports)</H3>
-<P class="operationsummary">Starts one or more motors with the preselected speed or power.</P>
-<H4 class="parameter">ports</H4>
-<P class="parametersummary">Motor port name(s)</P>
+<P class="parametersummary">Name of two motor ports (for example "AB" or "CD").</P>
+<H4 class="parameter">speed1</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</P>
+<H4 class="parameter">speed2</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</P>
 <H3 class="operation">Motor.Stop (ports, brake)</H3>
-<P class="operationsummary">Stop one or multiple motors. This will also cancel any scheduled motor movements.</P>
+<P class="operationsummary">Stop one or multiple motors. This will also cancel any scheduled movement for this motor.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor should use the brake</P>
+<P class="parametersummary">"True", if the motor should use the brake.</P>
 <H3 class="operation">Motor.Wait (ports)</H3>
-<P class="operationsummary">Wait until the specified motor(s) has finished a scheduled operation.<BR>Using this method is normally better than calling IsBusy() in a tight loop.</P>
+<P class="operationsummary">Wait until the specified motor(s) has finished a "Schedule..." or "Move..." operation.<BR>Using this method is normally better than calling IsBusy() in a tight loop.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H2 class="object">Program</H2>

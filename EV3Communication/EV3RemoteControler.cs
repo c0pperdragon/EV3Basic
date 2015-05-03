@@ -149,7 +149,7 @@ namespace EV3Communication
             if (con == null)
             {
                 // try to start up connection (when failing, an exception is thrown)
-                con = ConnectionFinder.CreateConnection();
+                con = ConnectionFinder.CreateConnection(false,true);
 
                 String filename = "/tmp/EV3-Basic Session.rbf";
 

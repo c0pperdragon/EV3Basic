@@ -1,6 +1,6 @@
-Motor.ScheduleSynchronized("AB",-100,70,500,"false")
+Motor.ScheduleSync("AB",-100,70,500,"false")
 Program.Delay(1000)
-Motor.StartSynchronized("AB",100,-50)
+Motor.StartSync("AB",100,-50)
 Program.Delay(1000)
 Motor.SchedulePower("A", 100, 0,500,0, "true")
 Program.Delay(1000)

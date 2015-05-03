@@ -36,8 +36,24 @@ namespace EV3Communication
 		/// <param name="port">The COM port on which to connect.</param>
 		public EV3ConnectionBluetooth(string port)
 		{
-			_serialPort = new SerialPort(port);
-            _serialPort.Open();
+            try
+            {
+                _serialPort = new SerialPort(port);
+                _serialPort.Open();
+            }
+            catch (Exception e)
+            { 
+                // do a workaround for previous bug where port name got an extra letter of garbage
+                if (port.StartsWith("COM") && port.Length>4)
+                {
+                    _serialPort = new SerialPort(port.Substring(0,port.Length-1));
+                    _serialPort.Open();
+                }
+                else
+                {
+                    throw e;
+                }
+            }
             _serialPort.WriteTimeout = 5000;  // no send must take that long
             _serialPort.ReadTimeout = 5000;  // no reply must take that long
             _reader = new BinaryReader(_serialPort.BaseStream);
@@ -74,7 +90,7 @@ namespace EV3Communication
             }
         }
 
-        internal override void Close()
+        public override void Close()
         {
             if (_serialPort != null)
             {

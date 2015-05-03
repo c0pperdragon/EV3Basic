@@ -62,7 +62,7 @@ namespace EV3Communication
         public abstract void SendPacket(byte[] data);
         public abstract byte[] ReceivePacket();
         public abstract bool IsOpen();
-        internal abstract void Close();
+        public abstract void Close();
 
         // counter for each message to correctly pair it to its reply
         private static ushort messagecounter = 0;

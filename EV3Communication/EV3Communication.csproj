@@ -47,6 +47,9 @@
     <Compile Include="BinaryBuffer.cs" />
     <Compile Include="ByteCodeBuffer.cs" />
     <Compile Include="ConnectionFinder.cs" />
+    <Compile Include="NoBrickFoundDialog.xaml.cs">
+      <DependentUpon>NoBrickFoundDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionTypeDialog.xaml.cs">
       <DependentUpon>ConnectionTypeDialog.xaml</DependentUpon>
     </Compile>
@@ -74,6 +77,10 @@
     <None Include="Resources\WatchDog.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="NoBrickFoundDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ConnectionTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -31,35 +31,21 @@ using System.Windows.Shapes;
 namespace EV3Communication
 {
     /// <summary>
-    /// Interaction logic for ConnectionTypeDialog.xaml
+    /// Interaction logic for NoBrickFoundDialog.xaml
     /// </summary>
-    public partial class ConnectionTypeDialog : Window
+    public partial class NoBrickFoundDialog : Window
     {
-        private int[] usbdevices;
-        private String[] ports;
-        private object selected;
+        private bool retry;
 
-        public ConnectionTypeDialog(int[] usbdevices, String[] ports)
+        public NoBrickFoundDialog()
         {
-            this.ports = ports;
-            this.usbdevices = usbdevices;
-            this.selected = null;
-
+            retry = false;
             InitializeComponent();
-
-            foreach (int i in usbdevices)
-            {
-                PortList.Items.Add("USB "+i);
-            }
-            foreach (String p in ports)
-            {
-                PortList.Items.Add(p);
-            }
         }
 
-        public object GetSelectedPort()
+        public bool GetRetry()
         {
-            return selected;
+            return retry;
         }
 
         private void CancelButton_clicked(object sender, System.Windows.RoutedEventArgs e)
@@ -69,25 +55,10 @@ namespace EV3Communication
 
         private void RetryButton_clicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            selected = true;
+            retry = true;
             Close();
         }
-
-        private void PortList_SelectionChanged(Object sender, EventArgs e)
-        {
-            int idx = PortList.SelectedIndex;
-            if (idx>=0 && idx<usbdevices.Length)
-            {
-                selected = usbdevices[idx];
-                Close();
-            }
-            else if (idx>=usbdevices.Length && idx<usbdevices.Length + ports.Length)
-            {
-                selected = ports[idx - usbdevices.Length];
-                Close();
-            }
-        }
-
+     
 
     }
 }

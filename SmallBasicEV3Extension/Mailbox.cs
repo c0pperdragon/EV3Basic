@@ -76,7 +76,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="brickname">The name of the brick to receive the message. A connection to this brick must be already open for this command to work. You can specify empty Text here, in which case the message will be sent to all connected bricks.</param>
         /// <param name="boxname">Name of the message box on the receiving brick.</param>
-        /// <param name="message">The message as a string. Current only string messages are supported.</param>
+        /// <param name="message">The message as a text. Currently only text messages are supported.</param>
         public static void Send(Primitive brickname, Primitive boxname, Primitive message)
         {
             String bn = boxname == null ? "" : boxname.ToString();
@@ -124,7 +124,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Receive the latest message from a local mailbox. When no message is present, the command will block until some message arrives.
         /// The message will then be consumed and the next call to Reveive will wait for the next message.
-        /// To avoild blocking, you can check with IsAvailable() if there is a message in the box.
+        /// To avoid blocking, you can check with IsAvailable() if there is a message in the box.
         /// When no message box with the name exists, the command will return "" immediately.
         /// </summary>
         /// <param name="id">Identifer of the local mailbox</param>
@@ -175,7 +175,7 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Tries to establish a Bluetooth connection to another brick if is not already connected.
+        /// Tries to establish a Bluetooth connection to another brick if it is not already connected.
         /// Only after a connection was made (either by this command or manually from the on-brick menu), messages can be exchanged in both directions.
         /// </summary>
         /// <param name="brickname">Name of the remote brick.</param>

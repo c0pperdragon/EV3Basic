@@ -1,12 +1,11 @@
 ﻿<Window 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="window" 
-    Title="No EV3 found" Height="265" Width="243"
-    x:Class="EV3Communication.ConnectionTypeDialog" ResizeMode="NoResize"
+    Title="No EV3 found" Height="135" Width="243"
+    x:Class="EV3Communication.NoBrickFoundDialog" ResizeMode="NoResize"
 >
     <Grid Margin="15" RenderTransformOrigin="0.75,0.6">
-        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.513,-0.627" Height="80" Text="Please select the connection to access the EV3 brick."/>
-        <ListBox x:Name="PortList" SelectionChanged="PortList_SelectionChanged" Margin="0,50,0,35" VerticalContentAlignment="Bottom" Cursor="Arrow" BorderThickness="1" FontWeight="Bold"/>
+        <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.513,-0.627" Height="40"><Run Text="Could not "/><Run Text="find "/><Run Text="an EV3 brick"/><Run Text=" "/><Run Text="via USB"/><Run Text=" or Bluetooth"/><Run Text=". "/></TextBlock>
         <Button Click="CancelButton_clicked" Content="Quit" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Width="75" IsCancel="True"/>
         <Button Click="RetryButton_clicked" Content="Retry" HorizontalAlignment="Right" Margin="0,0,90,0" VerticalAlignment="Bottom" Width="75" IsCancel="True"/>
 

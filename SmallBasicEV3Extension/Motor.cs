@@ -105,14 +105,14 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Start two motors to run synchronized at equal or different speeds or adjust speeds for already running motors. 
+        /// Set two motors to run synchronized at their chosen speed levels. 
         /// The two motors will be synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The motors will keep running until stopped by another command.
         /// </summary>
         /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
-        public static void StartSynchronized(Primitive ports, Primitive speed1, Primitive speed2)
+        public static void StartSync(Primitive ports, Primitive speed1, Primitive speed2)
         {
             int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
@@ -179,7 +179,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Checks if one or more motors is currently running.
+        /// Checks if one or more motors are currently running.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <returns>"True" if at least one of the motors is running, "False" otherwise.</returns>
@@ -200,8 +200,8 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move one or more motors with the specified speed values. The speed can be adjusted along the total rotation to get a soft start and a soft end if needed.
-        /// The distance to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
+        /// Move one or more motors with the specified speed values. The speed can be adjusted along the total rotation to get a soft start and a soft stop if needed.
+        /// The angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
@@ -233,8 +233,8 @@ namespace SmallBasicEV3Extension
         }
         
         /// <summary>
-        /// Starts to move one or more motors with the specified power. The power can be adjusted along the total rotation to get a soft start and a soft end if needed.
-        /// The distance to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
+        /// Move one or more motors with the specified power. The power can be adjusted along the total rotation to get a soft start and a soft stop if needed.
+        /// The angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
@@ -267,16 +267,16 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Starts to synchroniously move 2 motors a defined number of degrees. 
+        /// Move 2 motors synchroniously a defined number of degrees. 
         /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The distance to move will be measured at the motor with the higher speed.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
-        /// <param name="degrees">The distance of the faster motor to rotate</param>
+        /// <param name="degrees">The angle of the faster motor to rotate</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
-        public static void ScheduleSynchronized(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
+        public static void ScheduleSync(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
             int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
@@ -367,13 +367,13 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move one or more motors with the specified speed the specified distance (in degrees).
+        /// Move one or more motors with the specified speed the specified angle (in degrees).
         /// This command will block execution until the motor has reached its destination.
         /// When you need finer control over the movement (soft acceleration or deceleration), consider using the command Motor.Schedule instead.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="degrees">The distance to rotate</param>
+        /// <param name="degrees">The angle to rotate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void Move(Primitive ports, Primitive speed, Primitive degrees, Primitive brake)
         {
@@ -382,13 +382,13 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move one or more motors with the specified power the specified distance (in degrees).
+        /// Move one or more motors with the specified power the specified angle (in degrees).
         /// This command will block execution until the motor has reached its destination.
         /// When you need finer control over the movement (soft acceleration or deceleration), consider using the command Motor.SchedulePower instead.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="degrees">The distance to rotate</param>
+        /// <param name="degrees">The angle to rotate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void MovePower(Primitive ports, Primitive power, Primitive degrees, Primitive brake)
         {
@@ -398,17 +398,17 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Moves 2 motors synchroniously a defined number of degrees. 
-        /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
-        /// The distance to move will be measured at the motor with the higher speed.
+        /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The angle to move will be measured at the motor with the higher speed.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
-        /// <param name="degrees">The distance of the faster motor to rotate</param>
+        /// <param name="degrees">The angle of the faster motor to rotate</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
         public static void MoveSynchronized(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
-            ScheduleSynchronized(ports, speed1, speed2, degrees, brake);
+            ScheduleSync(ports, speed1, speed2, degrees, brake);
             Wait(ports);
         }
 

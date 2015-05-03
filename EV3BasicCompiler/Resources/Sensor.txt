@@ -317,3 +317,60 @@ readcopy:
 	ADD32 i 1 i
 	JR_LT32 i rd readcopy
 }
+
+subcall SENSOR.SENDUARTDATA     // FFAV
+{
+	IN_F port
+	IN_F writebytes
+	IN_16 writedata
+
+	DATA8 layer
+	DATA8 no
+	DATA32 wrt
+	DATA32 writedatalength
+	ARRAY8 outdata 32
+
+	MOVEF_8 port no
+	SUB8 no 1 no
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
+
+	MOVEF_32 writebytes wrt
+	JR_GTEQ32 wrt 0 wrtnottoless
+	MOVE32_32 0 wrt
+wrtnottoless:
+	JR_LTEQ32 wrt 32 wrtnottomuch
+	MOVE32_32 32 wrt
+wrtnottomuch:
+
+	ARRAY SIZE writedata writedatalength
+
+	// decode float values from array and put in outdata buffer
+	DATA32 i
+	DATA8 i8
+	MOVE32_32 0 i
+	JR_GTEQ32 i wrt endwritecopy
+writecopyloop:
+	JR_GTEQ32 i writedatalength addzeroelements
+	DATAF v
+	DATA8 v8
+	ARRAY_READ writedata i v 
+	MOVEF_8 v v8
+	ADD32 i 1 i
+	WRITE8 v8 i8 outdata
+	MOVE32_8 i i8
+	JR_LT32 i wrt writecopyloop
+	JR endwritecopy
+addzeroelements:
+	ADD32 i 1 i 
+	MOVE32_8 i i8
+	WRITE8 0 i8 outdata
+	JR_LT32 i wrt addzeroelements	
+endwritecopy:
+
+	// finally send data
+	DATA8 wrt8
+	MOVE32_8 wrt wrt8
+	INPUT_WRITE layer no wrt8 outdata
+}
+

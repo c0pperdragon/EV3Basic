@@ -36,7 +36,7 @@ namespace Documentation
             objects = new Dictionary<String,EV3Object>();
 
             // read documentation for the EV3 extension
-            ReadFile("C:/Users/Reinhard/Documents/GitHub/EV3Basic/SmallBasicEV3Extension/bin/Debug/SmallBasicEV3Extension.xml");
+            ReadFile("C:/Users/Reinhard/Documents/GitHub/EV3Basic/SmallBasicEV3Extension/bin/Release/SmallBasicEV3Extension.xml");
             // read documentation for the small basic classes 
             ReadFile("C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml");
             // remove unsupported objectgs

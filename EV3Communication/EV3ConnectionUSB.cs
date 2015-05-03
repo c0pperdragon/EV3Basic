@@ -39,11 +39,11 @@ namespace EV3Communication
         private byte[] _outputReport;
 
 
-        public EV3ConnectionUSB()
+
+
+        public EV3ConnectionUSB(int index)
             : base()
         {
-            int index = 0;
-            bool found = false;
             Guid guid;
 
             HidImports.HidD_GetHidGuid(out guid);
@@ -53,7 +53,7 @@ namespace EV3Communication
             HidImports.SP_DEVICE_INTERFACE_DATA diData = new HidImports.SP_DEVICE_INTERFACE_DATA();
             diData.cbSize = Marshal.SizeOf(diData);
 
-            while (HidImports.SetupDiEnumDeviceInterfaces(hDevInfo, IntPtr.Zero, ref guid, index, ref diData))
+            if (HidImports.SetupDiEnumDeviceInterfaces(hDevInfo, IntPtr.Zero, ref guid, index, ref diData))
             {
                 UInt32 size;
 
@@ -65,7 +65,7 @@ namespace EV3Communication
 
                 if (HidImports.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref diData, ref diDetail, size, out size, IntPtr.Zero))
                 {
-                    _handle = HidImports.CreateFile(diDetail.DevicePath, FileAccess.ReadWrite, FileShare.ReadWrite, IntPtr.Zero, FileMode.Open, 0 /*HidImports.EFileAttributes.Overlapped*/, IntPtr.Zero);
+                    _handle = HidImports.CreateFile(diDetail.DevicePath, FileAccess.ReadWrite, FileShare.None/*.ReadWrite*/, IntPtr.Zero, FileMode.Open, 0 /*HidImports.EFileAttributes.Overlapped*/, IntPtr.Zero);
                     HidImports.HIDD_ATTRIBUTES attrib = new HidImports.HIDD_ATTRIBUTES();
                     attrib.Size = Marshal.SizeOf(attrib);
 
@@ -73,8 +73,6 @@ namespace EV3Communication
                     {
                         if (attrib.VendorID == VID && attrib.ProductID == PID)
                         {
-                            found = true;
-
                             IntPtr preparsedData;
                             if (!HidImports.HidD_GetPreparsedData(_handle.DangerousGetHandle(), out preparsedData))
                                 throw new Exception("Could not get preparsed data for HID device");
@@ -90,24 +88,21 @@ namespace EV3Communication
 
                             _stream = new FileStream(_handle, FileAccess.ReadWrite, _inputReport.Length);
 
-                            break;
+                            HidImports.SetupDiDestroyDeviceInfoList(hDevInfo);
+                            return;
                         }
-
-                        _handle.Close();
                     }
+                    _handle.Close();
                 }
                 else
                 {
                     throw new Exception("SetupDiGetDeviceInterfaceDetail failed on index " + index);
                 }
-
-                index++;
             }
 
             HidImports.SetupDiDestroyDeviceInfoList(hDevInfo);
 
-            if (!found)
-                throw new Exception("No LEGO EV3s found in HID device list.");
+            throw new Exception("No LEGO EV3s found in HID device list.");
         }
 
         public override void SendPacket(byte[] data)
@@ -139,7 +134,7 @@ namespace EV3Communication
             return new byte[0];
         }
 
-        internal override void Close()
+        public override void Close()
         {
             if (_handle!=null)
             {
@@ -152,6 +147,63 @@ namespace EV3Communication
         public override bool IsOpen()
         {
             return _stream != null;
+        }
+
+
+        public static int[] FindEV3s()
+        {
+            Guid guid;
+            int index = 0;
+
+            List<int> devices = new List<int>();
+
+
+            HidImports.HidD_GetHidGuid(out guid);
+
+            IntPtr hDevInfo = HidImports.SetupDiGetClassDevs(ref guid, null, IntPtr.Zero, HidImports.DIGCF_DEVICEINTERFACE | HidImports.DIGCF_PRESENT);
+
+            HidImports.SP_DEVICE_INTERFACE_DATA diData = new HidImports.SP_DEVICE_INTERFACE_DATA();
+            diData.cbSize = Marshal.SizeOf(diData);
+
+            while (HidImports.SetupDiEnumDeviceInterfaces(hDevInfo, IntPtr.Zero, ref guid, index, ref diData))
+            {
+                UInt32 size;
+
+                HidImports.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref diData, IntPtr.Zero, 0, out size, IntPtr.Zero);
+
+                HidImports.SP_DEVICE_INTERFACE_DETAIL_DATA diDetail = new HidImports.SP_DEVICE_INTERFACE_DETAIL_DATA();
+
+                diDetail.cbSize = (uint)(IntPtr.Size == 8 ? 8 : 5);
+
+                if (HidImports.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref diData, ref diDetail, size, out size, IntPtr.Zero))
+                {
+                    HidImports.HIDD_ATTRIBUTES attrib = new HidImports.HIDD_ATTRIBUTES();
+                    attrib.Size = Marshal.SizeOf(attrib);
+
+                    SafeFileHandle handle = HidImports.CreateFile(diDetail.DevicePath, FileAccess.ReadWrite, FileShare.None/*.ReadWrite*/, IntPtr.Zero, FileMode.Open, 0 /*HidImports.EFileAttributes.Overlapped*/, IntPtr.Zero);
+
+                    if (HidImports.HidD_GetAttributes(handle.DangerousGetHandle(), ref attrib))
+                    {
+                        if (attrib.VendorID == VID && attrib.ProductID == PID)
+                        {
+                            devices.Add(index);
+                        }
+
+                    }
+                    handle.Close();
+                }
+                else
+                {
+                    throw new Exception("SetupDiGetDeviceInterfaceDetail failed on index " + index);
+                }
+
+                index++;
+            }
+
+            HidImports.SetupDiDestroyDeviceInfoList(hDevInfo);
+
+
+            return devices.ToArray();
         }
 
     }
