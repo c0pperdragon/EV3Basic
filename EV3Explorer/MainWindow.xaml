@@ -17,7 +17,7 @@
         <GridSplitter HorizontalAlignment="Left" Grid.Column="1" Grid.RowSpan="3" Width="7" />
         <ListView x:Name="PCDirectory" Grid.Column="1" Margin="10,0,0,0" Grid.Row="2" Background="#FFDAE4E8" SelectionChanged="PCDirectory_SelectionChanged">
             <ListView.View>
-                <GridView>
+                <GridView x:Name="PCDirectoryGridView">
                     <GridViewColumn Header="Filename" DisplayMemberBinding="{Binding FileName}"/>
                     <GridViewColumn Header="Size" DisplayMemberBinding="{Binding FileSize}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding FileType}" Header="Type"/>
@@ -26,7 +26,7 @@
         </ListView>
         <ListView x:Name="EV3Directory" Grid.Row="2" Margin="0" SelectionChanged="EV3Directory_SelectionChanged">
             <ListView.View>
-                <GridView>
+                <GridView x:Name="EV3DirectoryGridView">
                     <GridViewColumn Header="Filename" HeaderStringFormat="" DisplayMemberBinding="{Binding FileName}"/>
                     <GridViewColumn HeaderStringFormat="" Header="Size" DisplayMemberBinding="{Binding FileSize}"/>
                     <GridViewColumn DisplayMemberBinding="{Binding FileType}" Header="Type"/>

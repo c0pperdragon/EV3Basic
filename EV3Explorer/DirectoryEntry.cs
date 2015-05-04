@@ -25,7 +25,7 @@ namespace EV3Explorer
     public class DirectoryEntry
     {
         private String name;
-        private int size;
+        private long size;
         private bool directory;
 
         public string FileName { 
@@ -42,11 +42,23 @@ namespace EV3Explorer
                 }
                 else if (name.EndsWith(".sb", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    return "SmallBasic";
+                    return "Basic";
                 }
                 else if (name.EndsWith(".lms", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return "Assembler";
+                }
+                else if (name.EndsWith(".rbf", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return "Executable";
+                }
+                else if (name.EndsWith(".rgf", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return "Bitmap";
+                }
+                else if (name.EndsWith(".rsf", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return "Sound";
                 }
                 return "";
             }
@@ -70,7 +82,7 @@ namespace EV3Explorer
             }
         }
 
-        public DirectoryEntry(string name, int size, bool directory)
+        public DirectoryEntry(string name, long size, bool directory)
         {
             this.name = name;
             this.size = size;
@@ -82,7 +94,7 @@ namespace EV3Explorer
     { 
         public readonly FileInfo fileinfo;
 
-        public PCFile(FileInfo fileinfo) : base (fileinfo.Name, (int)fileinfo.Length, false)
+        public PCFile(FileInfo fileinfo) : base (fileinfo.Name, fileinfo.Length, false)
         {
             this.fileinfo = fileinfo;
         }

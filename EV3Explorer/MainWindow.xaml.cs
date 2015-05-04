@@ -84,10 +84,11 @@ namespace EV3Explorer
 
             // retrieve initial data from brick
             EV3Path.Text = ev3path;
-            EV3RefreshList_clicked(null, null);
+            ReadEV3Directory(true);
+            ReadEV3DeviceName();
 
             PCPath.Text = pcdirectory == null ? "Computer" : pcdirectory.FullName;
-            PCRefreshList_clicked(null, null);
+            RefreshPCList(true);
         }
 
         void Reconnect()
@@ -99,12 +100,13 @@ namespace EV3Explorer
             BrickNotFound.Visibility = Visibility.Visible;
 
             ev3path = "/home/root/lms2012/prjs/";
+            EV3Path.Text = ev3path;
 
             // find connected brick
             try
             {
                 connection = ConnectionFinder.CreateConnection(true,false);
-                ReadEV3Directory();
+                ReadEV3Directory(true);
                 ReadEV3DeviceName();
             }
             catch (Exception)
@@ -114,6 +116,8 @@ namespace EV3Explorer
 
             EV3Directory.Visibility = Visibility.Visible;
             BrickNotFound.Visibility = Visibility.Hidden;
+
+            AdjustDisabledStates();
         }
 
         // --------------- UI event handlers ---------------
@@ -121,31 +125,35 @@ namespace EV3Explorer
         {
             try
             {
-                ReadEV3Directory();
-                ReadEV3DeviceName();
+                ReadEV3Directory(false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine("Exception: " + ex.Message);
                 Reconnect();
             }
-            AdjustDisabledStates();
         }
 
 
         private void EV3NavigateUp_clicked(object sender, RoutedEventArgs e)
         {
-            if (ev3path.Length > 1)
-            {
-                int idx = ev3path.LastIndexOf('/', ev3path.Length - 2);
-                if (idx >= 0)
+            try
+            {            
+                if (ev3path.Length > 1)
                 {
-                    ev3path = ev3path.Substring(0, idx+1);
-                    EV3Path.Text = ev3path;
+                    int idx = ev3path.LastIndexOf('/', ev3path.Length - 2);
+                    if (idx >= 0)
+                    {
+                        ev3path = ev3path.Substring(0, idx+1);
+                        EV3Path.Text = ev3path;
 
-                    EV3RefreshList_clicked(null, null);
+                        ReadEV3Directory(true);
+                    }
+                    AdjustDisabledStates();
                 }
-                AdjustDisabledStates();
+            }
+            catch (Exception)
+            {
+                Reconnect();
             }
         }
 
@@ -163,7 +171,10 @@ namespace EV3Explorer
                     SetEV3DeviceName(EV3DeviceName.Text);
                     ReadEV3DeviceName();
                 }
-                catch (Exception) { }
+                catch (Exception)
+                {
+                    Reconnect();
+                }
             }
         }
 
@@ -172,21 +183,31 @@ namespace EV3Explorer
             if (e.Key == Key.Return)
             {
                 EV3Directory.Focus();
-//                DeviceName_focuslost(null, null);
             }
         }
 
         private void EV3Directory_SelectionChanged(Object sender, EventArgs e)
         {
-            DirectoryEntry de = (DirectoryEntry) EV3Directory.SelectedItem;
-            if (de!=null && de.IsDirectory)
+            try
             {
-                ev3path = ev3path + de.FileName + "/";
-                EV3Path.Text = ev3path;
-
-                EV3RefreshList_clicked(null, null);
+                DirectoryEntry de = (DirectoryEntry)EV3Directory.SelectedItem;
+                if (de != null && de.IsDirectory)
+                {
+                    String newpath = ev3path + de.FileName + "/";
+                    // prevent to navigate into folder that would lock up the brick
+                    if (!newpath.Equals("/proc/"))
+                    {
+                        ev3path = newpath;
+                        EV3Path.Text = newpath;
+                        ReadEV3Directory(true);
+                    }
+                }
+                AdjustDisabledStates();
             }
-            AdjustDisabledStates();
+            catch (Exception)
+            {
+                Reconnect();
+            }
         }
 
         private void DeleteFile_clicked(Object sender, EventArgs e)
@@ -207,14 +228,14 @@ namespace EV3Explorer
                     {
                         DeleteEV3File(de.FileName);
                     }
-                    ReadEV3Directory();
+                    ReadEV3Directory(false);
+                    AdjustDisabledStates();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex.Message);
                     Reconnect();
                 }
-                AdjustDisabledStates();
             }
         }
 
@@ -227,14 +248,14 @@ namespace EV3Explorer
                 try
                 {
                     CreateEV3Directory(dirname);
-                    ReadEV3Directory();
+                    ReadEV3Directory(false);
+                    AdjustDisabledStates();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex.Message);
                     Reconnect();
                 }
-                AdjustDisabledStates();
             }
         }
 
@@ -253,15 +274,14 @@ namespace EV3Explorer
                         ev3path = ev3path.Substring(0, idx + 1);
                         EV3Path.Text = ev3path;
                     }
-
-                    ReadEV3Directory();
+                    ReadEV3Directory(true);
+                    AdjustDisabledStates();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception: " + ex.Message);
                     Reconnect();
                 }
-                AdjustDisabledStates();
             }
         }
 
@@ -290,7 +310,7 @@ namespace EV3Explorer
                             fs.Write(data, 0, data.Length);
                             fs.Close();
 
-                            PCRefreshList_clicked(null, null);
+                            RefreshPCList(false);
                         }
                     }
                 }
@@ -305,47 +325,14 @@ namespace EV3Explorer
 
         void PCRefreshList_clicked(object sender, RoutedEventArgs e)
         {
-            PCDirectory.Items.Clear();
-            try
-            {
-                FileSystemInfo[] infos;
-
-                if (pcdirectory != null)
-                {
-                    infos = pcdirectory.GetFileSystemInfos();
-                }
-                else
-                {
-                    DriveInfo[] di = DriveInfo.GetDrives();
-                    infos = new FileSystemInfo[di.Length];
-                    for (int i=0; i<di.Length; i++)
-                    {
-                        infos[i] = di[i].RootDirectory;
-                    }
-                }
-
-                foreach (FileSystemInfo info in infos)
-                {
-                    if (info is FileInfo)
-                    {
-                        PCDirectory.Items.Add(new PCFile((FileInfo)info));
-                    }
-                    else if (info is DirectoryInfo)
-                    {
-                        PCDirectory.Items.Add(new PCDirectory((DirectoryInfo)info));
-                    }
-                }
-            }
-            catch (Exception)
-            { }
-            AdjustDisabledStates();
+            RefreshPCList(false);
         }
 
         private void PCNavigateUp_clicked(object sender, RoutedEventArgs e)
         {
             pcdirectory = (pcdirectory==null) ? null:pcdirectory.Parent;
             PCPath.Text = (pcdirectory==null) ? "Computer" : pcdirectory.FullName;
-            PCRefreshList_clicked(null, null);
+            RefreshPCList(true);
         }
 
         private void PCDirectory_SelectionChanged(Object sender, EventArgs e)
@@ -355,7 +342,7 @@ namespace EV3Explorer
             {
                 pcdirectory = ((PCDirectory)de).directoryinfo;
                 PCPath.Text = pcdirectory.FullName;
-                PCRefreshList_clicked(null, null);
+                RefreshPCList(true);
             }
             AdjustDisabledStates();
         }
@@ -392,7 +379,7 @@ namespace EV3Explorer
 
                         connection.CreateEV3File(internalPath(ev3path) + fi.Name, content);
                     }
-                    ReadEV3Directory();
+                    ReadEV3Directory(false);
                 }
                 catch (Exception ex)
                 {
@@ -412,6 +399,8 @@ namespace EV3Explorer
         {
             CompileAndDownload(true);
         }
+
+
 
         private void CompileAndDownload(bool run)
         {
@@ -492,11 +481,12 @@ namespace EV3Explorer
                     try
                     {
                         connection.CreateEV3File(internalPath(ev3path) + targetfilename, content);
-                        ReadEV3Directory();
+                        ReadEV3Directory(false);
                         if (run)
                         {
                             RunEV3File(targetfilename);
                         }
+                        AdjustDisabledStates();
                     }
                     catch (Exception ex)
                     {
@@ -504,11 +494,64 @@ namespace EV3Explorer
                         Reconnect();
                     }                                
                 }
-                AdjustDisabledStates();
             }
         }
 
 
+        private void RefreshPCList(bool resetposition)
+        {
+            PCDirectory.Items.Clear();
+            try
+            {
+                FileSystemInfo[] infos;
+
+                if (pcdirectory != null)
+                {
+                    infos = pcdirectory.GetFileSystemInfos();
+                }
+                else
+                {
+                    DriveInfo[] di = DriveInfo.GetDrives();
+                    infos = new FileSystemInfo[di.Length];
+                    for (int i = 0; i < di.Length; i++)
+                    {
+                        infos[i] = di[i].RootDirectory;
+                    }
+                }
+
+                foreach (FileSystemInfo info in infos)
+                {
+                    if (info is FileInfo)
+                    {
+                        PCDirectory.Items.Add(new PCFile((FileInfo)info));
+                    }
+                    else if (info is DirectoryInfo)
+                    {
+                        PCDirectory.Items.Add(new PCDirectory((DirectoryInfo)info));
+                    }
+                }
+            }
+            catch (Exception)
+            { }
+
+            // let the WPF system re-calculate all column widths so everthing fits as good as possible
+            foreach (var gvc in PCDirectoryGridView.Columns)
+            {
+                gvc.Width = gvc.ActualWidth;
+                gvc.Width = Double.NaN;
+            }
+
+            // move the controls scroller to top position
+            if (resetposition)
+            {
+                if(PCDirectory.Items.Count > 0)
+                {
+                    PCDirectory.ScrollIntoView(PCDirectory.Items[0]);
+                }
+            }
+
+            AdjustDisabledStates();
+        }
 
         // ---------- perform enabling/disabling of buttons and such
 
@@ -516,13 +559,15 @@ namespace EV3Explorer
         {
             DirectoryEntry de = (DirectoryEntry)EV3Directory.SelectedItem;                    
             EV3Directory.IsEnabled = true;
-            EV3NavigateUp.IsEnabled = true;
+            EV3NavigateUp.IsEnabled = !ev3path.Equals("/");
             BrickNotFound.Visibility = Visibility.Hidden;
             DeleteFile.IsEnabled = de != null && !de.IsDirectory;
             DeleteDirectory.IsEnabled = EV3Directory.Items.Count == 0;
             NewFolder.IsEnabled = true;
             Upload.IsEnabled = de != null && !de.IsDirectory;
+
             de = (DirectoryEntry)PCDirectory.SelectedItem;
+            PCNavigateUp.IsEnabled = pcdirectory != null;
             Download.IsEnabled = de != null && !de.IsDirectory;
             Compile.IsEnabled = de != null && de.IsCompileable && PCDirectory.SelectedItems.Count==1;
             CompileAndRun.IsEnabled = de != null && de.IsCompileable && PCDirectory.SelectedItems.Count == 1; 
@@ -567,11 +612,13 @@ namespace EV3Explorer
 
         }
 
-        private void ReadEV3Directory()
+        private void ReadEV3Directory(bool resetposition)
         {
             MemoryStream data = new MemoryStream();
 
-            // get data from brick
+//            if (!ev3path.Equals("/proc/"))       // avoid locking up the brick
+            {
+                // get data from brick
                 BinaryBuffer b = new BinaryBuffer();
                 b.Append16(500);  // expect max 500 bytes per packet
                 b.AppendZeroTerminated(internalPath(ev3path));
@@ -585,16 +632,10 @@ namespace EV3Explorer
                 {
                     throw new Exception("Response too short for LIST_FILES");
                 }
-                if (response[0] != EV3Connection.SUCCESS && response[0]!=EV3Connection.END_OF_FILE)   
+                if (response[0] != EV3Connection.SUCCESS && response[0] != EV3Connection.END_OF_FILE)
                 {
-                    throw new Exception("Unexpected status at LIST_FILES: "+response[0]);
+                    throw new Exception("Unexpected status at LIST_FILES: " + response[0]);
                 }
-//                Console.WriteLine("initial response length: " + response.Length);
-//            for (int i=0; i<response.Length; i++)
-//            {
-//                Console.Write(" " + response[i]);
-//            }
-//            Console.WriteLine();
                 int handle = response[5] & 0xff;
                 data.Write(response, 6, response.Length - 6);
 
@@ -605,67 +646,84 @@ namespace EV3Explorer
                     b.Append8(handle);
                     b.Append16(500);  // expect max 500 bytes per packet
                     response = connection.SystemCommand(EV3Connection.CONTINUE_LIST_FILES, b);
-//                    Console.WriteLine("follow-up response length: " + response.Length);
+                    //                    Console.WriteLine("follow-up response length: " + response.Length);
 
                     if (response == null)
                     {
                         throw new Exception("No response to CONTINUE_LIST_FILES");
                     }
-                    if (response.Length < 2) 
-                    {                                            
+                    if (response.Length < 2)
+                    {
                         throw new Exception("Too short response to CONTINUE_LIST_FILES");
                     }
                     if (response[0] != EV3Connection.SUCCESS && response[0] != EV3Connection.END_OF_FILE)
                     {
-                        throw new Exception("Unexpected status at CONTINUE_LIST_FILES: "+response[0]);
+                        throw new Exception("Unexpected status at CONTINUE_LIST_FILES: " + response[0]);
                     }
-//                    Console.WriteLine("subsequent response length: " + response.Length);
+                    //                    Console.WriteLine("subsequent response length: " + response.Length);
                     data.Write(response, 2, response.Length - 2);
                 }
-                
-                List<DirectoryEntry> list = new List<DirectoryEntry>();
+            }
 
-                data.Position = 0;  // start reading at beginning
-                StreamReader tr = new StreamReader(data, Encoding.GetEncoding("iso-8859-1"));
-                String l;
-                while ((l = tr.ReadLine()) != null)
+            List<DirectoryEntry> list = new List<DirectoryEntry>();
+
+            data.Position = 0;  // start reading at beginning
+            StreamReader tr = new StreamReader(data, Encoding.GetEncoding("iso-8859-1"));
+            String l;
+            while ((l = tr.ReadLine()) != null)
+            {
+                if (l.EndsWith("/"))
                 {
-//                    Console.WriteLine("line found: " + l);
-                    if (l.EndsWith("/"))
+                    String n = l.Substring(0, l.Length - 1);
+                    if ((!n.Equals(".")) && (!n.Equals("..")))
                     {
-                        String n = l.Substring(0, l.Length - 1);
-                        if ((!n.Equals(".")) && (!n.Equals("..")))
-                        {
-                            list.Add(new DirectoryEntry(n, 0, true));
-                        }
-                    }
-                    else
-                    {
-                        int firstspace = l.IndexOf(' ');
-                        if (firstspace < 0)
-                        {
-                            continue;
-                        }
-                        int secondspace = l.IndexOf(' ', firstspace + 1);
-                        if (secondspace < 0)
-                        {
-                            continue;
-                        }
-                        int size = int.Parse(l.Substring(firstspace, secondspace - firstspace).Trim(), System.Globalization.NumberStyles.HexNumber);
-
-                        list.Add(new DirectoryEntry(l.Substring(secondspace + 1), size, false));
+                        list.Add(new DirectoryEntry(n, 0, true));
                     }
                 }
-
-                // sort list
-                list.Sort((x, y) => x.FileName.CompareTo(y.FileName));
-
-                // put data into listview
-                EV3Directory.Items.Clear();
-                foreach (DirectoryEntry de in list)
+                else
                 {
-                    EV3Directory.Items.Add(de);
-                }                
+                    int firstspace = l.IndexOf(' ');
+                    if (firstspace < 0)
+                    {
+                        continue;
+                    }
+                    int secondspace = l.IndexOf(' ', firstspace + 1);
+                    if (secondspace < 0)
+                    {
+                        continue;
+                    }
+                    int size = int.Parse(l.Substring(firstspace, secondspace - firstspace).Trim(), System.Globalization.NumberStyles.HexNumber);
+
+                    list.Add(new DirectoryEntry(l.Substring(secondspace + 1), size, false));
+                }
+            }
+
+            // sort list
+            list.Sort((x, y) => x.FileName.CompareTo(y.FileName));
+
+            // put data into listview
+            EV3Directory.Items.Clear();
+            foreach (DirectoryEntry de in list)
+            {
+                EV3Directory.Items.Add(de);
+            }       
+        
+            // let the WPF system re-calculate all column widths so everthing fits as good as possible
+            foreach (var gvc in EV3DirectoryGridView.Columns)
+            {
+                gvc.Width = gvc.ActualWidth;
+                gvc.Width = Double.NaN;
+            }
+
+            // move the controls scroller to top position
+            if (resetposition)
+            {
+                if (EV3Directory.Items.Count > 0)
+                {
+                    EV3Directory.ScrollIntoView(EV3Directory.Items[0]);
+                }
+            }
+
         }
 
         private void ReadEV3DeviceName()
