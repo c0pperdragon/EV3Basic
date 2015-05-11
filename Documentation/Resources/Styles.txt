@@ -16,6 +16,22 @@
     font-family: Verdana; 
 	float: right;
   }
+  TABLE {
+    font-family: Verdana;
+	border-spacing: 0px;
+	border:1px solid black;
+  }
+  TD {
+	padding: 4px;
+  }
+  TR:nth-child(1)
+  {
+	background: #d0d0d0;
+  } 
+  TD:nth-child(1)
+  {
+	background: #d0d0d0;
+  } 
 
   H2.object {
     font-family: Verdana; 

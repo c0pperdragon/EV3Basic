@@ -165,7 +165,7 @@ Similar requirements are there for function parameters, which also have a define
 To make things easier, an automatic conversion from number to text is done if a parameter needs a text (but not the other way round).
 </P>
 
-<H3 class="subchapter>Arrays</H3>
+<H3 class="subchapter">Arrays</H3>
 <P>
 In Small Basic arrays work like a dictionary and can use any text as an index. 
 EV3-Basic can not do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
@@ -210,6 +210,29 @@ To use the newly established connection with EV3-Basic, just start your program 
 Small Basic or just start the EV3-Explorer. When no EV3 can be found directly connected via USB, 
 but there are possible "Serial Ports" available, the PC will prompt you to select one of
 these ports. When this is indeed the port for the EV3, the connection will work.
+</P>
+
+<H1 class="chapter">Motor object since v1.0</H1>
+<P>
+For version 1.0, I made a re-design of the Motor object, so programs written for v0.9 or 
+earlier need some adjustments to work with v1.0.
+One of the main changes is, that there are no "Motor.Speed" or "Motor.Power" commands anymore. You 
+have to specify the speed or power directly at the "Motor.Start" command. Also the other motor control commands
+have been restructured into a functional matrix:
+</P>
+<TABLE>
+<TR><TD></TD><TD>Move x degrees while waiting</TD><TD>Start to run indefinitely</TD><TD>Start to move x degrees</TD></TR>
+<TR><TD>Regulate speed</TD><TD>Motor.Move</TD><TD>Motor.Start</TD><TD>Motor.Schedule</TD></TR>
+<TR><TD>Choose power</TD><TD>Motor.MovePower</TD><TD>Motor.StartPower</TD><TD>Motor.SchedulePower</TD></TR>
+<TR><TD>Synchronize</TD><TD>Motor.MoveSync</TD><TD>Motor.StartSync</TD><TD>Motor.ScheduleSync</TD></TR>
+</TABLE>
+<P>
+For most purposes the variants with speed regulation of a single motor will be the right choice. So these commands have
+shorter names (no "Power" or "Sync" suffix) when compared to their expert-feature counterparts. 
+</P>
+<P>
+When you have to change power or speed of an already running motor, just re-issue a start command with the appropriate
+speed or power value. The motor will then seemlessly switch over to the new mode of operation.
 </P>
 
 <H1 class="chapter">Library Documentation</H1>
