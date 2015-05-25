@@ -280,9 +280,11 @@ rdnottomuch:
 writecopyloop:
 	JR_GTEQ32 i writedatalength addzeroelements
 	DATAF v
+	DATA32 v32
 	DATA8 v8
 	ARRAY_READ writedata i v 
-	MOVEF_8 v v8
+	MOVEF_32 v v32
+	EXTRACTLOWBYTE v32 v8
 	ADD32 i 1 i
 	MOVE32_8 i i8
 	WRITE8 v8 i8 outdata

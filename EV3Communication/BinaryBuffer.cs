@@ -47,6 +47,11 @@ namespace EV3Communication
             System.Array.Copy(buffer, 0, target, position, len);
         }
 
+        public void CopyTo(BinaryBuffer target)
+        {
+            target.AppendBytes(buffer, 0, len);             
+        }
+
 
         public void Append8(int i)
         {

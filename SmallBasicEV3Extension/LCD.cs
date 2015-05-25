@@ -45,9 +45,9 @@ namespace SmallBasicEV3Extension
                 commandBuffer.OP(0x0C);            // opProgram_Info
                 commandBuffer.CONST(0x16);         //  CMD: GET_STATUS = 0x16
                 commandBuffer.CONST(1);            //  program slot 1 = user slot
-                commandBuffer.GLOBVAR(0);          //  result -> when this reseives 0x40, the program was stopped
+                commandBuffer.LOCVAR(0);           //  result -> when this reseives 0x40, the program was stopped
                 commandBuffer.OP(0x6C);            // opJR_EQ8
-                commandBuffer.GLOBVAR(0);           // running state in in global variable 0
+                commandBuffer.LOCVAR(0);           // running state is in local variable 0
                 commandBuffer.CONST(0x40);          // check if program was stopped
                 commandBuffer.CONST(2);             // jump over next 2 opocodes
                 
@@ -57,7 +57,7 @@ namespace SmallBasicEV3Extension
 
                 commandBuffer.OP(0x01);            // NOP  - need this as branch target
 
-                EV3RemoteControler.DirectCommand(commandBuffer, 1, 0);
+                EV3RemoteControler.DirectCommand(commandBuffer, 0, 1);
 
                 commandBuffer.Clear();
             }

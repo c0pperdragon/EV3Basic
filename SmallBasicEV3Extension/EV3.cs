@@ -131,6 +131,15 @@ namespace SmallBasicEV3Extension
             return new Primitive((double)result[0]);
         }
 
+        /// <summary>
+        /// Increase performance when program runs in "PC mode": Do not send next command to the brick immediately, but wait until one more command is issued which will then be sent together with the first one. You can bunch more commands together by using an additional call to QueueNextCommand before any command that should be place into the queue.
+        /// In "brick mode", this command has no effect.
+        /// </summary>
+        public static void QueueNextCommand()
+        {
+            EV3RemoteControler.QueueNextCommand();
+        }
+
 
         static bool[] hasDownloaded = new bool[1];
 

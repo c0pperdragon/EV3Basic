@@ -143,8 +143,8 @@ namespace SmallBasicEV3Extension
             c.CONST(no);
             c.CONST(0);                // 0 = don't change type
             c.CONST(mod);              // set mode
-            c.GLOBVAR(0);
-            EV3RemoteControler.DirectCommand(c, 1, 0);
+            c.LOCVAR(0);
+            EV3RemoteControler.DirectCommand(c, 0, 1);
         }
 
         /// <summary>
@@ -288,6 +288,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
         /// This command addresses one device on the I2C-bus and can send and receive multiple bytes. This feature could be used to attach a custom sensor or to communicate with any device that is capable to be connected to the I2C bus as a slave.
+        /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>

@@ -52,6 +52,7 @@
 2E RL32         32 32 32*
 2F INIT_BYTES   8* P 8         // with number of parameters specified by P
 30 MOVE8_8      8 8*        
+30 EXTRACTLOWBYTE 32 8*        // special form to allow -128 as byte value
 31 MOVE8_16     8 16*
 32 MOVE8_32     8 32*
 33 MOVE8_F      8 F*

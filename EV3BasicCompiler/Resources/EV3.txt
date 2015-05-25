@@ -92,6 +92,10 @@ subcall EV3.SYSTEMCALL     // SF
 	MOVE32_F result32 result
 }
 
+inline EV3.QUEUENEXTCOMMAND        // V
+{
+}
+
 subcall EV3.NATIVECODE   // SF
 {
 	IN_S command 252

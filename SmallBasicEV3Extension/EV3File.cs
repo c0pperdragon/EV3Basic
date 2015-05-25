@@ -60,13 +60,13 @@ namespace SmallBasicEV3Extension
                 c.OP(0xC0);       // opFile
                 c.CONST(append ? 0x00: 0x02);    // OPEN_APPEND = 0x00   OPEN_WRITE = 0x02
                 c.STRING(f);
-                c.GLOBVAR(0);     // result: 16-bit handle
+                c.LOCVAR(0);        // result: 16-bit handle
                 c.OP(0xC0);         // opFile
                 c.CONST(0x07);      // CLOSE = 0x07
-                c.GLOBVAR(0);
+                c.LOCVAR(0);
                 
                 // check if could indeed create/append file on the brick
-                byte[] reply = EV3RemoteControler.DirectCommand(c, 2, 0);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 0, 1);
 
                 if (reply==null || reply.Length<2 || (reply[0]==0 && reply[1]==0))
                 {
@@ -173,16 +173,16 @@ namespace SmallBasicEV3Extension
                     c.OP(0xC0);       // opFile
                     c.CONST(0x00);    // OPEN_APPEND = 0x00
                     c.STRING(openFiles[hdl].name);
-                    c.GLOBVAR(0);     // result: 16-bit handle
+                    c.LOCVAR(0);     // result: 16-bit handle
                     c.OP(0xC0);       // opFile
                     c.CONST(0x06);    // WRITE_TEXT = 0x06
-                    c.GLOBVAR(0);
+                    c.LOCVAR(0);
                     c.CONST(6);       // 0x06 : Line feed used as delimiter
                     c.STRING(txt);
                     c.OP(0xC0);       // opFile
                     c.CONST(0x07);    // CLOSE = 0x07
-                    c.GLOBVAR(0);
-                    EV3RemoteControler.DirectCommand(c, 2, 0);
+                    c.LOCVAR(0);
+                    EV3RemoteControler.DirectCommand(c, 0, 2);
                 }
             }
         }
@@ -203,20 +203,20 @@ namespace SmallBasicEV3Extension
                     ByteCodeBuffer c = new ByteCodeBuffer();
                     c.OP(0x34);       // opMove16_8
                     c.CONST(dta);
-                    c.GLOBVAR(2);
+                    c.LOCVAR(2);
                     c.OP(0xC0);       // opFile
                     c.CONST(0x00);    // OPEN_APPEND = 0x00
                     c.STRING(openFiles[hdl].name);
-                    c.GLOBVAR(0);     // result: 16-bit handle
+                    c.LOCVAR(0);     // result: 16-bit handle
                     c.OP(0xC0);       // opFile
                     c.CONST(0x1D);    // WRITE_BYTES = 0x1D
-                    c.GLOBVAR(0);
+                    c.LOCVAR(0);
                     c.CONST(1);       // write 1 byte
-                    c.GLOBVAR(2);     // where to take the byte from
+                    c.LOCVAR(2);      // where to take the byte from
                     c.OP(0xC0);       // opFile
                     c.CONST(0x07);    // CLOSE = 0x07
                     c.GLOBVAR(0);
-                    EV3RemoteControler.DirectCommand(c, 3, 0);
+                    EV3RemoteControler.DirectCommand(c, 0, 3);
                 }
             }
         }

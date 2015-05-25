@@ -76,13 +76,13 @@ namespace SmallBasicEV3Extension
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x63);       // opNote_To_Freq
             c.STRING(note==null ? "":note.ToString());
-            c.GLOBVAR(0);
+            c.LOCVAR(0);
             c.OP(0x94);       // opSOUND
             c.CONST(0x01);    // CMD: TONE = 0x01
             c.CONST(vol);
-            c.GLOBVAR(0);
+            c.LOCVAR(0);
             c.CONST(dur);
-            EV3RemoteControler.DirectCommand(c, 2, 0);
+            EV3RemoteControler.DirectCommand(c, 0, 2);
         }
 
 

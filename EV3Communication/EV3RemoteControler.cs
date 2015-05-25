@@ -40,7 +40,13 @@ namespace EV3Communication
         // the single connection to the EV3 brick
         private static EV3Connection con = null;
 
+        // startup time of connection
         private static Int64 starttime = 0;
+
+        // buffer to queue commands before sending to brick
+        private static ByteCodeBuffer queue = new ByteCodeBuffer();
+        private static int queue_locals = 0;
+        private static bool queue_active = false;
 
         public static byte[] DirectCommand(ByteCodeBuffer bytecodes, int globalbytes, int localbytes)
         {
@@ -52,6 +58,37 @@ namespace EV3Communication
                     MemorizeStartTime();
                     EstablishConnection();
 
+                    // if requested to only queue the command, and the queue is not too full, and there is no expected response
+                    if (queue_active && globalbytes==0 && queue.Length + bytecodes.Length < 900)         // prevent to exceed 1024 bytes in single transmission
+                    {
+                        bytecodes.CopyTo(queue);
+                        queue_locals = Math.Max(queue_locals, localbytes);
+                        queue_active = false;
+                        return new byte[0];
+                    }
+                    else
+                    {
+                        queue_active = false;   // remove queue-status in any case
+                    }
+
+                    // if there is data in the queue, try to merge it with the new command
+                    if (queue.Length>0)
+                    {
+                        // when total length is not too big, can send together with new command
+                        if (queue.Length+bytecodes.Length<900)
+                        {
+                            bytecodes.CopyTo(queue);
+                            byte[] response = con.DirectCommand(queue, globalbytes, Math.Max(localbytes, queue_locals));
+                            queue.Clear();
+                            queue_locals = 0;
+                            return response;
+                        }
+                        // if can not be merged, send queued commands seperately
+                        con.DirectCommand(queue, 0, queue_locals);                        
+                        queue.Clear();
+                        queue_locals = 0;
+                    }
+
                     // finally execute the command
                     return con.DirectCommand(bytecodes, globalbytes, localbytes);
                 }
@@ -61,6 +98,14 @@ namespace EV3Communication
                 System.Environment.Exit(1);
             }
             return null;
+        }
+
+        public static void QueueNextCommand()
+        {
+            lock (sync)
+            {
+                queue_active = true;
+            }
         }
 
         public static void CreateEV3File(String fullname, byte[] content)
