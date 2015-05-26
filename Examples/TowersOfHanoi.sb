@@ -1,0 +1,54 @@
+' small demonstration for recursive programming
+' solve and visualize the old "towers of hanoi" problem.
+
+tower[0] = "JIHGFEDCBA"
+tower[1] = ""
+tower[2] = ""
+draw()
+
+a = 0
+b = 2
+n = 10
+move()
+Program.Delay(1000000)
+
+' moves n pieces from tower[a] to tower[b]
+Sub move
+  If n=1 Then
+    move1()
+  Elseif n>1 Then
+    n = n-1       ' move n-1 pieces to temporary tower
+    b = 3-a-b 
+    move()
+    b = 3-a-b     ' restore b
+    move1()       ' move the nth piece to destination    
+    a = 3-a-b   
+    move()        ' move n-1 pieces from temporary tower to destination    
+    a = 3-a-b     ' restore a
+    n=n+1         ' restore n    
+  EndIf  
+EndSub
+
+' move top piece from tower[a] to tower[b]
+Sub move1
+  Program.Delay(1000)
+  l = Text.GetLength(tower[a])
+  newb = tower[b] + Text.GetSubText(tower[a],l,1)
+  tower[b] = newb
+  tower[a] = Text.GetSubText(tower[a], 1,l-1)
+  draw()
+EndSub
+  
+' draw the current state of the towers
+Sub draw
+  LCD.StopUpdate()
+  LCD.Clear()
+  For i=0 To 7 
+    For j=1 To Text.GetLength(tower[i])
+      w = 10+4*(Text.GetCharacterCode(Text.GetSubText(tower[i],j,1))-64) 
+      LCD.FillRect(1, i*60+30-w/2, 126-j*11, w,10)
+    EndFor
+  EndFor  
+  LCD.Update()
+EndSub
+

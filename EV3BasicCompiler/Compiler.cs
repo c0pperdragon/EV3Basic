@@ -1127,7 +1127,7 @@ namespace EV3BasicCompiler
                 {
                     s.GetSym();
                     if (total.type != ExpressionType.Number) s.ThrowParseError("need number on left side of '-'");
-                    Expression right = parse_additive_expression();
+                    Expression right = parse_multiplicative_expression();
                     if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '-'");
 
                     if (total is NumberExpression && right is NumberExpression)

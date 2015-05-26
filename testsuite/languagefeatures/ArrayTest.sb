@@ -1,13 +1,14 @@
 A[35] = 17
-B[2] = "hello"
 B[7] = "world"
+B[2] = "hello"
 
 Assert.Equal(A[35], 17, "Retrieve float")
 Assert.Equal(A[3]+0, 0, "Non-existing float behaves like 0")
 
 Assert.Equal(B[2], "hello", "Retrieve string")
 Assert.Equal(B[7], "world", "Retrieve string 2")
-Assert.Equal(B[4], "", "Retrieve non-existing string")
+Assert.Equal(B[4],  "", "Retrieve non-existing string")
+Assert.Equal(B[14], "","Retrieve non-existing string")
 
 C = A        ' copy a whole float array
 Assert.Equal(C[35], 17, "Copied float array")
@@ -15,6 +16,14 @@ Assert.Equal(C[35], 17, "Copied float array")
 D = B        ' copy a whole string array
 Assert.Equal(D[7], "world", "After string array copy")
 Assert.Equal(D[4], "", "Empty in copy")
+D[6] = "something"
+Assert.Equal(D[7], "world", "Must not be destroyed by previous command")
+
+huge = "Extremely huge string that needs to be fit into ! "
+huge = huge+huge+huge+huge+huge+"."
+Assert.Equal(Text.GetLength(huge), 251, "string not correct")
+D[1] = huge
+Assert.Equal(huge,D[1], "Huge string in array")
 
 LCD.Clear()
 LCD.Text(1, 50,50, 1,"OK")

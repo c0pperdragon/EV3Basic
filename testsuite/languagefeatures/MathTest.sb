@@ -105,6 +105,7 @@ Assert.Near(Math.Tan(-3), 0.1425465430742778, "Tan 3")
 ' Basic operations
 A = 15
 B = 1
+C = 3
 Z = 0
 Assert.Equal(A/3, 5, "Division 1")
 Assert.Equal(-A/3, -5, "Division 2")
@@ -114,7 +115,8 @@ Assert.Equal(B*1.5*2, 3.0, "Multiplication 1")
 Assert.Equal(B*1.5*-2, -3, "Multiplication 2")
 Assert.Equal(B*1.5*-0, 0, "Multiplication 3")
 Assert.Equal(-Z, Z, "Negative Zero")
-
+Assert.Equal(A-B-C, 11, "Subtract not left to right")
+Assert.Equal(A-B+C, 17, "Add/subtract not left to right")
 
 LCD.Clear()
 LCD.Text(1,50,50,1,"OK")

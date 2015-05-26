@@ -530,6 +530,17 @@ namespace LMSAssembler
             // this must be a variable
             else if ( (p[0]>='A' && p[0]<='Z') || p[0]=='_')
             {
+                    // check if have offset suffix
+                    int offset = 0;
+                    int plusidx = p.IndexOf('+');
+                    if (plusidx>=0)
+                    {
+                        if (Int32.TryParse(p.Substring(plusidx+1), NumberStyles.Integer, CultureInfo.InvariantCulture, out offset))
+                        {
+                            p = p.Substring(0, plusidx);
+                        }
+                    }
+                    
                     DataElement e = null;
                     bool local = true;
                     if (locals != null)
@@ -546,7 +557,7 @@ namespace LMSAssembler
                         throw new AssemblerException("Unknown identifier " + p);
                     }
 
-                    currentobject.AddVariableReference(e.position, local);
+                    currentobject.AddVariableReference(e.position+offset, local);
                     return e;
                 
             }
@@ -675,7 +686,7 @@ namespace LMSAssembler
                         if ( (c>='a' && c<='z')          
                          ||  (c>='A' && c<='Z')
                          ||  (c>='0' && c<='9')
-                         ||  (c=='_') || c=='.' || c==':')
+                         ||  (c=='_') || c=='.' || c==':' || c=='+')
                         {
                             pos++;    // still inside token
                         }

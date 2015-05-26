@@ -31,8 +31,7 @@ namespace Test
 
         static void TestCompile()
         {    
-//            String f = "C:/Users/Reinhard/Google Drive/Projekte/rubikmachine3/ev3/Solver.sb";
-            String f = "C:/temp/motorexperiments.sb";
+            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/TowersOfHanoi.sb";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
             FileStream ofs = new FileStream("c:/temp/compiledbasic.lms", FileMode.Create, FileAccess.Write);
 
