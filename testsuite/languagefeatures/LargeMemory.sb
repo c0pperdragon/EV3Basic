@@ -1,4 +1,4 @@
-' Test program to chech how much memory is available for variables
+' Test program to check how much memory is available for variables
 
 SIZE = 1000000
 

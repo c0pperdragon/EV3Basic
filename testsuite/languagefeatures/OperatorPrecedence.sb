@@ -6,7 +6,8 @@ Assert.Equal(4-10/5, 2, "div before minus")
 
 Assert.Equal(4*5*6/3, 40,  "left to right 1")
 Assert.Equal(4/2*6,   12,  "left to right 2")
-Assert.Equal(4/2/2,   1,  "left to right 2")
+Assert.Equal(4/2/2,   1,  "left to right 3")
+Assert.Equal(4-3+5,   6, "left to right 4")
 
 If "True" or "False" and "False" Then
   ' OK

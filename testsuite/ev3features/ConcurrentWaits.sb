@@ -7,9 +7,10 @@ Sub t1
   While "True"
     Sensor.Wait(1)   ' wait until ready  (must not block other thread)
     If (Sensor.ReadPercent(1)>50) Then
-      Motor.SchedulePowerForTime("A", 50, 0,1000,0, "true")
+      Motor.StartPower("A", 50)
+      Program.Delay(1000)
+      Motor.Stop("A", "true")
     EndIf    
-    Motor.Wait("A")  
 
     '  give visual hint, that this thread is running
     x1=Math.Remainder(x1+1,2)
@@ -28,9 +29,10 @@ Sub t2
   While "True"
     Sensor.Wait(2)   ' wait until ready  (must not block other thread)
     If (Sensor.ReadPercent(2)>50) Then
-      Motor.SchedulePowerForTime("B", 50, 0,1000,0, "true")
+      Motor.StartPower("B", 50)
+      Program.Delay(1000)
+      Motor.Stop("B","true")
     EndIf    
-    Motor.Wait("B")  
     
     '  give acoustic hint, that this thread is running
     Speaker.Tone(5,440,100)

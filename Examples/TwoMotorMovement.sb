@@ -1,4 +1,4 @@
-Y_PREV = 0          ' memorize position of motor D
+Y_PREV = 0          ' memorize position of motor C
 
 For X=1 To 360      ' move steps of single degrees
   Y = 50*Math.Sin(X/180*Math.PI)     ' calculate Y dependent of X
@@ -9,11 +9,11 @@ For X=1 To 360      ' move steps of single degrees
 
   Motor.SchedulePower("A",30,0,1,0,"true")  ' move A by one degree
   
-  If Y_INC>0 Then              ' move motor D either forward
-    Motor.SchedulePower("D",30,0,Y_INC,0,"true")
+  If Y_INC>0 Then              ' move motor C either forward
+    Motor.SchedulePower("C",30,0,Y_INC,0,"true")
   Else                         ' or backwards
-    Motor.SchedulePower("D",-30,0,Y_INC,0,"true")
+    Motor.SchedulePower("C",-30,0,Y_INC,0,"true")
   EndIf
 
-  Motor.Wait("AD")  ' wait until both motors have reached the position
+  Motor.Wait("AC")  ' wait until both motors have reached the position
 EndFor

@@ -33,7 +33,7 @@ namespace SmallBasicEV3Extension
     [SmallBasicType]
     public static class EV3File
     {
-        static FileHandle[] openFiles = new FileHandle[100];
+        static FileHandle[] openFiles = new FileHandle[100];   // all file handles in use (0 will not be used at any time)
 
 
         private static Primitive OpenWriteImpl(Primitive filename, bool append)
@@ -60,13 +60,13 @@ namespace SmallBasicEV3Extension
                 c.OP(0xC0);       // opFile
                 c.CONST(append ? 0x00: 0x02);    // OPEN_APPEND = 0x00   OPEN_WRITE = 0x02
                 c.STRING(f);
-                c.LOCVAR(0);        // result: 16-bit handle
+                c.GLOBVAR(0);        // result: 16-bit handle
                 c.OP(0xC0);         // opFile
                 c.CONST(0x07);      // CLOSE = 0x07
-                c.LOCVAR(0);
+                c.GLOBVAR(0);
                 
                 // check if could indeed create/append file on the brick
-                byte[] reply = EV3RemoteControler.DirectCommand(c, 0, 1);
+                byte[] reply = EV3RemoteControler.DirectCommand(c, 2, 0);
 
                 if (reply==null || reply.Length<2 || (reply[0]==0 && reply[1]==0))
                 {
@@ -215,7 +215,7 @@ namespace SmallBasicEV3Extension
                     c.LOCVAR(2);      // where to take the byte from
                     c.OP(0xC0);       // opFile
                     c.CONST(0x07);    // CLOSE = 0x07
-                    c.GLOBVAR(0);
+                    c.LOCVAR(0);
                     EV3RemoteControler.DirectCommand(c, 0, 3);
                 }
             }
