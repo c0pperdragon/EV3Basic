@@ -406,7 +406,7 @@ namespace SmallBasicEV3Extension
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
         /// <param name="degrees">The angle of the faster motor to rotate</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
-        public static void MoveSynchronized(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
+        public static void MoveSync(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
             ScheduleSync(ports, speed1, speed2, degrees, brake);
             Wait(ports);
