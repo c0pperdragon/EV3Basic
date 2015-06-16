@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using EV3BasicCompiler;
 using LMSAssembler;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Test
 {
@@ -12,8 +14,10 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            TestCompile();
-            TestAssemble();
+//            TestWiFiReceiveBroadcast();
+            TestWiFi();
+//            TestCompile();
+//            TestAssemble();
 //            TestDisassemble();
         }
 
@@ -88,6 +92,47 @@ namespace Test
                 }
                 Console.ReadKey();
             }
+        }
+
+
+        static void TestWiFi()
+        {
+            Console.WriteLine("Connecting...");
+            TcpClient c = new TcpClient("10.0.0.140", 5555);
+            Console.WriteLine("Connected!");
+            NetworkStream s = c.GetStream();
+            Console.WriteLine("Sending data...");
+            byte[] data = System.Text.UTF8Encoding.UTF8.GetBytes("GET /target?sn=0016533F0C1E VMTP1.0\r\nProtocol: EV3\r\n\r\n");
+//            byte[] data = System.Text.UTF8Encoding.UTF8.GetBytes("X");
+            s.Write(data, 0, data.Length);
+
+            for (; ; )
+            {
+                int b = s.ReadByte();
+                if (b < 0) break;
+                Console.WriteLine(b);
+            }
+            
+            s.Close();
+            c.Close();
+        }
+
+        static void TestWiFiReceiveBroadcast()
+        {
+            Console.WriteLine("Opening receiving UDP port...");               
+            UdpClient c = new UdpClient(3015);
+
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+            Console.WriteLine("Receiving incomming packets...");
+            for (;;)
+            {
+                byte[] data = c.Receive(ref RemoteIpEndPoint);
+                Console.WriteLine("Received: "+data.Length+ "bytes");
+                Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(data));
+            }
+
+            c.Close();
         }
 
     }

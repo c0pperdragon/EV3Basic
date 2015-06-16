@@ -27,25 +27,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net;
 
 namespace EV3Communication
 {
     /// <summary>
     /// Interaction logic for NoBrickFoundDialog.xaml
     /// </summary>
-    public partial class NoBrickFoundDialog : Window
+    public partial class IPAddressDialog : Window
     {
-        private bool retry;
+        private IPAddress ipaddress;
 
-        public NoBrickFoundDialog()
+        public IPAddressDialog()
         {
-            retry = false;
+            ipaddress = null;
             InitializeComponent();
+            address.Focus();
         }
 
-        public bool GetRetry()
+        public IPAddress GetAddress()
         {
-            return retry;
+            return ipaddress;
         }
 
         private void CancelButton_clicked(object sender, System.Windows.RoutedEventArgs e)
@@ -55,10 +57,27 @@ namespace EV3Communication
 
         private void RetryButton_clicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            retry = true;
-            Close();
+            try
+            {
+                ipaddress = IPAddress.Parse(address.Text);
+                Close();
+            }
+            catch (Exception ex) { }
         }
-     
+
+        private void address_keydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                try
+                {
+                    ipaddress = IPAddress.Parse(address.Text);
+                    Close();
+                }
+                catch (Exception ex) { }
+            }
+        }
+        
 
     }
 }

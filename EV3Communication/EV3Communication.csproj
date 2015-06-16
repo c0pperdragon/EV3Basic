@@ -47,8 +47,9 @@
     <Compile Include="BinaryBuffer.cs" />
     <Compile Include="ByteCodeBuffer.cs" />
     <Compile Include="ConnectionFinder.cs" />
-    <Compile Include="NoBrickFoundDialog.xaml.cs">
-      <DependentUpon>NoBrickFoundDialog.xaml</DependentUpon>
+    <Compile Include="EV3ConnectionWiFi.cs" />
+    <Compile Include="IPAddressDialog.xaml.cs">
+      <DependentUpon>IPAddressDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConnectionTypeDialog.xaml.cs">
       <DependentUpon>ConnectionTypeDialog.xaml</DependentUpon>
@@ -77,7 +78,7 @@
     <None Include="Resources\WatchDog.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="NoBrickFoundDialog.xaml">
+    <Page Include="IPAddressDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

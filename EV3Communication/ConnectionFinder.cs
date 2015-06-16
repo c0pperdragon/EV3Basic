@@ -22,7 +22,8 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
 using Microsoft.Win32;
-
+using System.Net;
+using System.IO;
 
 namespace EV3Communication
 {
@@ -31,6 +32,8 @@ namespace EV3Communication
 
         public static EV3Connection CreateConnection(bool isUIThread, bool automaticallyUseSingleUSB)
         {
+
+//            return new EV3ConnectionWiFi("10.0.0.140");
 
             // retry multiple times to open connection
             for (; ; )
@@ -50,16 +53,8 @@ namespace EV3Communication
                 // when not able to open the one single USB connection, try also the serial ports
                 String[] ports = System.IO.Ports.SerialPort.GetPortNames(); 
 
-                // when no USB ports and no serial ports are available at all, show message to user any let him decide for retry
-                if (usbdevices.Length<1 && ports.Length<1)
-                {
-                    object response = DoModalConnectionTypeDialog(isUIThread,usbdevices, ports);
-                    if (response==null)
-                    {
-                        throw new Exception("Found no brick and no serial ports, user cancel try");
-                    }
-                    continue;  // user clicked retry 
-                }
+                // in this case also check if there are some IP addresses configured as possible connection targets
+                IPAddress[] addresses = LoadPossibleIPAddresses();
 
                 // because of a strange bug in .net 3.5, sometimes the port name gets an extra letter of unpredicable content  - try to fix it in some cases
                 for (int i = 0; i < ports.Length; i++)
@@ -78,7 +73,7 @@ namespace EV3Communication
                 Array.Sort(ports, StringComparer.InvariantCulture);
 
                 // Create and show the window to select one of the connection possibilities
-                object port_or_device = DoModalConnectionTypeDialog(isUIThread,usbdevices, ports);
+                object port_or_device = DoModalConnectionTypeDialog(isUIThread,usbdevices, ports, addresses);
 
                 if (port_or_device == null)
                 {
@@ -94,13 +89,23 @@ namespace EV3Communication
                     {
                         return TestConnection(new EV3ConnectionUSB((int)port_or_device));
                     }
+                    else if (port_or_device is IPAddress)
+                    {
+                        IPAddress addr = (IPAddress)port_or_device;
+                        EV3Connection c = TestConnection(new EV3ConnectionWiFi(addr));
+                        if (!addresses.Contains(addr))
+                        {
+                            AddPossibleIPAddress(addr);
+                        }
+                        return c;
+                    }
                 }
                 catch (Exception)
                 { }     // if not possible, retry
             }
         }
 
-        public static EV3Connection TestConnection(EV3Connection con)
+        private static EV3Connection TestConnection(EV3Connection con)
         {
             try
             {
@@ -123,14 +128,14 @@ namespace EV3Communication
             }
         }
 
-        public static object DoModalConnectionTypeDialog(bool isUIThread, int[] usbdevices, String[] ports)
+        private static object DoModalConnectionTypeDialog(bool isUIThread, int[] usbdevices, String[] ports, IPAddress[] addresses)
         {            
             Window dialog = null;
 
             // simple operation when called from an UI thread
             if (isUIThread)
             {
-                dialog = (usbdevices.Length > 0 || ports.Length > 0) ? (Window)new ConnectionTypeDialog(usbdevices, ports) : (Window)new NoBrickFoundDialog();
+                dialog = new ConnectionTypeDialog(usbdevices, ports, addresses);
                 dialog.ShowDialog();
             }
             // when being called from a non-UI-thread, must create an own thread here
@@ -139,7 +144,7 @@ namespace EV3Communication
                 // Create an extra thread for the dialog window
                 Thread newWindowThread = new Thread(new ThreadStart(() =>
                 {
-                    Window window = (usbdevices.Length > 0 || ports.Length > 0) ? (Window)new ConnectionTypeDialog(usbdevices, ports) : (Window)new NoBrickFoundDialog();
+                    Window window = (Window)new ConnectionTypeDialog(usbdevices, ports, addresses);
                     // When the window closes, shut down the dispatcher
                     window.Closed += (s, e) =>
                        Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
@@ -163,16 +168,47 @@ namespace EV3Communication
                 }
             }
             
-            if (dialog is ConnectionTypeDialog)
-            {
-                return ((ConnectionTypeDialog)dialog).GetSelectedPort();
-            }
-            if (dialog is NoBrickFoundDialog)
-            {
-                return ((NoBrickFoundDialog)dialog).GetRetry() ? ((object) true) : ((object)null);
-            }
-            return null;
+            return ((ConnectionTypeDialog)dialog).GetSelectedPort();
         }
 
+
+        private static IPAddress[] LoadPossibleIPAddresses()
+        {
+            List<IPAddress> addresses = new List<IPAddress>();
+
+            try
+            {
+                string fileName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic"), "ipaddresses.txt");
+                System.IO.StreamReader file = new System.IO.StreamReader(fileName);
+                String line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    try
+                    {
+                        addresses.Add(IPAddress.Parse(line));
+                    }
+                    catch (Exception e) { }
+                }
+                file.Close();
+            } catch (Exception) {}
+
+            return addresses.ToArray();
+        }
+
+        private static void AddPossibleIPAddress(IPAddress a)
+        {
+            try
+            {
+                string fileName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic"), "ipaddresses.txt");
+                System.IO.StreamWriter file = new System.IO.StreamWriter(fileName, true);
+                file.WriteLine(a.ToString());
+                file.Close();
+            }
+            catch (Exception) { }
+
+
+        }
+
+        
     }
 }

@@ -212,6 +212,34 @@ but there are possible "Serial Ports" available, the PC will prompt you to selec
 these ports. When this is indeed the port for the EV3, the connection will work.
 </P>
 
+<H1 class="chapter">WiFi Support</H1>
+<P>
+Like a Bluetooth connection, a WiFi connection allows you to connect to your model without using 
+a cable. WiFi has some advantages over Bluetooth concerning range, speed and reliability, 
+but also comes with some drawbacks like higher power consumption and the need to add a WiFi dongle to the EV3. 
+And this setup only works when you have a WiFi router available. It is basically a matter of taste
+if you prefer bluetooth or WiFi, or maybe a matter of technical issues with one of the possibilites.
+<P>
+To use the WiFi option, you need a specific WiFi dongle that is compatible with the EV3 brick. Currently there
+is only one model available that works with an unmodified EV3: "Netgear WNA1100" which must be inserted
+into the large USB connector at the left side of the EV3.
+Setting up the WiFi connection can be done from the settings menu on the brick. You have to activate the 
+WiFi option (this takes some time to start up the dongle) and then you have to establish a connection to 
+the WiFi router. In case you have set up encryption for your WiFi network, you need to enter the WPA2-key
+directly on the brick. Currently no other WiFi-encryption methods are supported.
+<P>
+Once you have successfully established a connection between the EV3 and your router, the EV3 should have
+received an IP address, which would look something like "10.2.3.4". You can check which address was 
+assigned to your EV3 in the "Brick Info" section of the settings menu. It is at the very bottom of the list.
+<P>
+When you want to finally connect to the EV3 from a Small Basic program or with the EV3-Explorer,
+use the "WiFi" button in the dialog box that asks for which connection to use. Then enter the IP address exactly as it
+was shown on the brick. You only have to enter the address once. For future uses, it will already appear in
+the selection list.
+<P>
+Note, that the brick does no automatically connect to the WiFi router when starting up. You always have to 
+activate the connection after each power-up.
+
 <H1 class="chapter">Motor object since v1.0</H1>
 <P>
 For version 1.0, I made a re-design of the Motor object, so programs written for v0.9 or 

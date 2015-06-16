@@ -27,6 +27,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net;
 
 namespace EV3Communication
 {
@@ -37,12 +38,14 @@ namespace EV3Communication
     {
         private int[] usbdevices;
         private String[] ports;
+        private IPAddress[] addresses;
         private object selected;
 
-        public ConnectionTypeDialog(int[] usbdevices, String[] ports)
+        public ConnectionTypeDialog(int[] usbdevices, String[] ports, IPAddress[] addresses)
         {
-            this.ports = ports;
             this.usbdevices = usbdevices;
+            this.ports = ports;
+            this.addresses = addresses;
             this.selected = null;
 
             InitializeComponent();
@@ -54,6 +57,10 @@ namespace EV3Communication
             foreach (String p in ports)
             {
                 PortList.Items.Add(p);
+            }
+            foreach (IPAddress a in addresses)
+            {
+                PortList.Items.Add(a.ToString());
             }
         }
 
@@ -73,6 +80,18 @@ namespace EV3Communication
             Close();
         }
 
+        private void WiFiButton_clicked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            IPAddressDialog dialog = new IPAddressDialog();
+            dialog.ShowDialog();
+            IPAddress a = dialog.GetAddress();
+            if (a != null)
+            {
+                selected = a;
+                Close();
+            }
+        }
+
         private void PortList_SelectionChanged(Object sender, EventArgs e)
         {
             int idx = PortList.SelectedIndex;
@@ -84,6 +103,11 @@ namespace EV3Communication
             else if (idx>=usbdevices.Length && idx<usbdevices.Length + ports.Length)
             {
                 selected = ports[idx - usbdevices.Length];
+                Close();
+            }
+            else if (idx>=usbdevices.Length+ports.Length && idx<usbdevices.Length + ports.Length + addresses.Length)
+            {
+                selected = addresses[idx - usbdevices.Length - ports.Length];
                 Close();
             }
         }

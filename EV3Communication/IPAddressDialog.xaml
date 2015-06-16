@@ -1,0 +1,14 @@
+﻿<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="window" 
+    Title="No EV3 found" Height="165" Width="243"
+    x:Class="EV3Communication.IPAddressDialog" ResizeMode="NoResize"
+>
+    <Grid Margin="15" RenderTransformOrigin="0.75,0.6">
+        <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.513,-0.627" Height="25"><Run Text="Enter IP-Address of EV3"/><Run Text=" "/><Run Text="Brick:"/><Run Text=" "/></TextBlock>
+        <Button Click="CancelButton_clicked" Content="Cancel" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Width="75" IsCancel="True"/>
+        <Button Click="RetryButton_clicked" Content="Connect" HorizontalAlignment="Right" Margin="0,0,80,0" VerticalAlignment="Bottom" Width="75" IsCancel="True"/>
+        <TextBox x:Name="address" KeyDown="address_keydown" HorizontalAlignment="Left" Height="25" Margin="0,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170"/>
+    </Grid>
+</Window>
+    
