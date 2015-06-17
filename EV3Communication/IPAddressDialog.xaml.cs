@@ -62,7 +62,7 @@ namespace EV3Communication
                 ipaddress = IPAddress.Parse(address.Text);
                 Close();
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         private void address_keydown(object sender, KeyEventArgs e)
@@ -74,7 +74,7 @@ namespace EV3Communication
                     ipaddress = IPAddress.Parse(address.Text);
                     Close();
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
         

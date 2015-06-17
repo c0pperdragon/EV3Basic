@@ -187,7 +187,7 @@ namespace EV3Communication
                     {
                         addresses.Add(IPAddress.Parse(line));
                     }
-                    catch (Exception e) { }
+                    catch (Exception) { }
                 }
                 file.Close();
             } catch (Exception) {}
@@ -199,7 +199,12 @@ namespace EV3Communication
         {
             try
             {
-                string fileName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic"), "ipaddresses.txt");
+                string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic");
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                string fileName = Path.Combine(dir, "ipaddresses.txt");
                 System.IO.StreamWriter file = new System.IO.StreamWriter(fileName, true);
                 file.WriteLine(a.ToString());
                 file.Close();
