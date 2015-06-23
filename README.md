@@ -18,7 +18,10 @@ One convenient way to develop programs for the EV3 is to use Microsoft Small Bas
 1. Start Small Basic and begin writing your program. Use the intellisense documentation to learn about the various parts of the EV3 extension.
 2. If you are a novice to programming, use the link "Beginning Small Basic" on the Small Basic homepage to learn about fundamental concepts and how to generally create programs.
 3. Run your program directly from the Small Basic environment. When you access functions for the EV3 brick (Everything in EV3, LCD, Motor, Sensor, Buttons, Speaker), the program tries to access and control the EV3 brick via an USB connection.
- 
+
+### Tutorials
+
+There is a good website available with loads of additional help and info: http://ev3basic.com
  
 ## EV3 Explorer (with compiler)
 
