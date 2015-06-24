@@ -1,11 +1,6 @@
 
 <H1 class="chapter">Appendix - Sensors</H1>
-<P>
-EV3 does a good job in auto-detecting many sensors, at least all sensors that came with the NXT 2.0 and EV3 kit. 
-Nevertheless the program needs to know how to best interpret the sensor readings for the different types and modes. 
-To keep the list simple, I only include the modes which I feel, make sense to use anyway.
-</P>
- 
+
 <PRE>
 Type  Mode  Name            get reading with   delivers 
 
