@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmallBasicEV3Extension</name>
+    </assembly>
+    <members>
+        <member name="T:SmallBasicEV3Extension.Assert">
+            <summary>
+            Das Assert-Objekt unterstützt dich dabei, Teile des Programmes auf Korrektheit zu überprüfen.
+            Eine 'Assertion' macht implizite Annahmen über das Programmverhalten explizit. Durch hinzufügen von Assertions, kannst du Fehler im Programm leicher finden. Wenn zum Beispiel ein Teil des Programmes davon ausgeht, dass die Variable A einen positiven Wert hat, dann kannst du das mit  Assert.Greater(A,0,"A muss > 0 sein!") an dieser Stelle überprüfen. 
+            Falls das Programm auf eine Assertion trifft, die nicht erfüllt ist, wird eine entsprechende Fehlermeldung im Textfenster oder am Bildschirm des EV3 ausgegebeben.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.Failed(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Gibt eine Fehlermeldung am Bildschirm aus. Dieser Befehl soll nur verwendet werden, wenn bereits ein Fehler erkannt wurde.
+            </summary>
+            <param name="message">Fehlermeldung, die ausgegeben werden soll</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.Equal(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob zwei Werte völlig identisch sind. Bei diesem Test gelten sogar "True" und "tRue" als verschieden.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.NotEqual(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob zwei Werte verschieden sind. Bei diesem Test gelten sogar "True" und "tRue" als verschieden.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.Less(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob der erste Wert kleiner als der zweite Wert ist.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.Greater(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob der erste Wert größer als der zweite Wert ist.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.LessEqual(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob der erste Wert kleiner als der zweite Wert oder gleich ist.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.GreaterEqual(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob der erste Wert größer als der zweite Wert oder gleich ist.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Assert.Near(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob zwei Werte gleich beziehungsweise fast gleich sind. 'Fast gleich' bedeutet, dass ein geringer Unterschied, der eventuell durch Rundungsfehler entstanden ist, auch noch zulässig ist.
+            </summary>
+            <param name="a">Erster Wert</param>
+            <param name="b">Zweiter Wert</param>
+            <param name="message">Fehlermeldung, die ausgegeben wird, wenn der Test fehlschlägt.</param>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Buttons">
+            <summary>
+            Dieses Objekt liest den Zustand der Tasten und die letzten Tastendrücke.
+            Die Tasten werden mit den folgenden Buchstaben angesprochen:
+             U   Hinauf
+             D   Hinunter
+             L   Links
+             R   Rechts
+             E   Mittlere Taste
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Buttons.GetClicks">
+            <summary>
+            Erkennt, welche Tasten in der Zeit seit dem letzten Aufruf von GetClicks am Brick gedrückt wurden.
+            Der 'gedrückt' - Zustand der Tasten wird dabei gelöscht. Außerdem wird automatisch ein Klick-Geräusch erzeugt, wenn ein Tastendruck erkannt wurde.
+            </summary>
+            <returns>Ein Text der die Buchstaben aller gedrückten Tasten enthält (kann auch leer sein)</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Buttons.Wait">
+            <summary>
+            Wartet bis zumindest eine Taste am Brick gedrück wird. Falls eine Taste bereits vorher gedrück war und der Tastendruck noch nicht mit GetClicks abgeholt wurde, dann kehrt dieser Befehl sofort zurück.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Buttons.Flush">
+            <summary>
+            Löscht alle gespeicherten Tastendrücke. Spätere Aufrufe von GetClicks liefern nur mehr die Tasten, die nach dem Flush gedrückt wurden.
+			</summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.Buttons.Current">
+            <summary>
+            Liest alle Tasten, die gedrückt sind. 
+            Diese Eigenschaft enthält die Buchstaben für alle Tasten, die jetzt gerade in diesem Moment niedergedrückt sind.
+            </summary>
+        </member>
+        <member name="T:SmallBasicEV3Extension.EV3File">
+            <summary>
+            EV3File dient zum Ansprechen des Dateisystems auf dem Brick um Daten zu lesen und zu schreiben.
+            Dateinamen können entweder absolut (mit führendem '/') oder relativ zum 'prjs'-Verzeichnis sein.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.OpenWrite(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Öffnet eine Datei zum Schreiben. Falls die Datei schon existiert, wird sie überschrieben.
+            </summary>
+            <param name="filename">Name der Datei die angelegt bzw. überschrieben werden soll.</param>
+            <returns>Eine Nummer mit der die offene Datei später angesprochen wird.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.OpenAppend(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Öffnet eine Datei zum Hinzufügen von Dateien. Falls die Datei noch nicht existiert, wird sie angelegt.
+            </summary>
+            <param name="filename">Name der Datei, die erweitert bzw. angelegt werden soll.</param>
+            <returns>Eine Nummer mit der die offene Datei später angesprochen wird.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.OpenRead(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Öffnet eine Datei zum Lesen. Falls die Datei nicht existiert, wird 0 zurückgeben.
+            </summary>
+            <param name="filename">Name der Datei von der gelesen werden soll.</param>
+            <returns>Eine Nummer mit der die offene Datei später angesprochen wird, oder 0 falls die Datei nicht existiert.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.Close(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schließt eine offene Datei.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.WriteLine(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schreibt eine Zeile Text in die Datei. Der Text wird entsprechend ISO-8859-1 kodiert und mit einem Zeilenumbruch (code 10) abgeschlossen.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="text">Der Text, der geschrieben werden soll.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.WriteByte(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schreibt ein einzelnes Byte in die Datei.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="data">Ein Byte, das geschrieben werden soll (Eine Zahl von 0 bis 255).</param>        
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.ReadLine(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest eine Zeile Text aus einer Datei. Der Text wird bis zum Zeilenumbruch (code 10) aus der Datei gelesen und entsprechend ISO-8859-1 dekodiert.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <returns>Der Text, der aus der Datei gelesen wurde.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.ReadByte(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest ein einzelnes Byte aus einer Datei.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <returns>Das nächste Byte aus der Datei.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.ReadNumberArray(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest ein ganzes Array von Zahlen im Binärformat aus einer Datei. Die Zahlen müssen als einfache IEEE-Fließkommazahlen (4 Byte pro Zahl) in der Datei vorliegen.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="size">Anzahl der Zahlen, die gelesen werden sollen.</param>
+            <returns>Ein Array mit den gelesenen Zahlen.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.ConvertToNumber(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Befehl um einen Text in eine Zahl zu konvertieren. 
+            </summary>
+            <param name="text">Ein Text, der die dezimale Darstellung einer Zahl (mit optionalen Nachkommastellen) enthält.</param>
+            <returns>Die Zahl</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.TableLookup(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Hilfsfunktion um aus einer möglicherweise extrem großen Datei ein einzelnes Byte herauszulesen.
+            Weil die Datei so groß sein kann, dass der Wertebereich normaler vom EV3 unterstützter Zahlen nicht mehr ausreicht, um alle Bytes zu adressieren, ist es möglich die Datei mit einer Zeilen/Spalten-Adressierung anzusprechen.
+            </summary>
+            <param name="filename">Der Name der Datei.</param>
+            <param name="bytes_per_row">Wenn man eine Zeilen/Spalten-Adressierung verwenden will, ist das die Länge der einzelnen Zeilen. Ansonsten muss man hier 1 verwenden um jedes Byte als eigene Zeile zu interpretieren.</param>
+            <param name="row">Welche Zeile soll genommen werden (start bei 0)?</param>
+            <param name="column">Welche Spalte soll genommen werden (start bei 0)?</param>
+            <returns>Das Byte an der gewünschten Stelle.</returns>
+        </member>
+        <member name="T:SmallBasicEV3Extension.LCD">
+            <summary>
+            Steuert die LCD-Anzeige am Brick.
+            Der EV3 hat eine schwarz-weiße Anzeige mit 178x128 Pixel. Alle Pixel werden mit X,Y-Koordinaten angesprochen, wobei X=0 der linke Rand und Y=0 der obere Rand ist.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.StopUpdate">
+            <summary>
+            Verhindert, dass nachfolgende Ausgabebefehle sofort auf die Anzeige zeichnen und speichert die Änderungen zuerst nur.
+            Beim nächsten Aufruf von Update werden die Änderungen schließlich auf einmal zur Anzeige gebracht. Dieser Befehl kann nützlich sein, um Bildschirmflackern zu verhindern oder die Ausgabe zu beschleunigen.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Update">
+            <summary>
+            Zeichnet alle Änderungen seit dem letzten StopUpdate auf die Anzeige.
+            Nach Update() werden wieder alle Änderungen sofort auf die Anzeige gebracht, außer man benutzt StopUpdate ein weiteres mal.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Clear">
+            <summary>
+            Setzt alle Pixel der Anzeige auf Weiß.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Pixel(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Setzt die Farbe eines einzelnen Pixels auf der Anzeige.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">X-Koordinate</param>
+            <param name="y">Y-Koordinate</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Line(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Zeichnet eine gerade Linie von Pixel mit einer Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x1">X-Koordinate des Startpunkts</param>
+            <param name="y1">Y-Koordinate des Startpunkts</param>
+            <param name="x2">X-Koordinate des Endpunkts</param>
+            <param name="y2">Y-Koordinate des Endpunkts</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Circle(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Zeichnet einen Kreis in einer Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">X-Koordinate des Mittelpunkts</param>
+            <param name="y">Y-Koordinate des Mittelpunkts</param>
+            <param name="radius">Radius des Kreises</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Text(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schreibt einen Text (oder eine Zahl) in einer Größe und Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">X-Koordinate wo der Text anfangen soll</param>
+            <param name="y">Y-Koordinate wo der Text anfangen soll</param>
+            <param name="font">Schriftgröße: 0 (winzig), 1 (klein), 2 (groß)</param>
+            <param name="text">Der Text (oder die Zahl) die geschrieben werden soll</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Write(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schreibt einen Text (oder eine Zahl) in mittlerer Größe und schwarzer Farbe.
+            </summary>
+            <param name="x">X-Koordinate wo der Text anfangen soll</param>
+            <param name="y">Y-Koordinate wo der Text anfangen soll</param>
+            <param name="text">Der Text (oder die Zahl) die geschrieben werden soll</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.FillRect(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Füllt ein Rechteck mit einer Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">Linke Kante des Rechtecks</param>
+            <param name="y">Obere Kante des Rechtecks</param>
+            <param name="width">Breite des Rechtecks</param>
+            <param name="height">Höhe des Rechtecks</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.Rect(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Zeichnet den Umriss eines Rechtecks in einer Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">Linke Kante des Rechtecks</param>
+            <param name="y">Obere Kante des Rechtecks</param>
+            <param name="width">Breite des Rechtecks</param>
+            <param name="height">Höhe des Rechtecks</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.InverseRect(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Invertiert die Farbe aller Pixel innerhalb eines Rechtecks.
+            </summary>
+            <param name="x">Linke Kante des Rechtecks</param>
+            <param name="y">Obere Kante des Rechtecks</param>
+            <param name="width">Breite des Rechtecks</param>
+            <param name="height">Höhe des Rechtecks</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.FillCircle(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Füllt einen Kreis mit einer Farbe.
+            </summary>
+            <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
+            <param name="x">X-Koordinate des Mittelpunkts</param>
+            <param name="y">Y-Koordinate des Mittelpunkts</param>
+            <param name="radius">Radius des Kreises</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.LCD.BmpFile(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Zeichnet ein Bild aus einer Datei. Nur Dateien im .rgf-Format werden unterstützt.
+            </summary>
+            <param name="color">0 (normal) oder 1 (invertiert)</param>
+            <param name="x">X-Koordinate der linken Kante</param>
+            <param name="y">Y-Koordinate der oberen Kante</param>
+            <param name="filename">Name der Datei ohne die .rgf - Erweiterung. Dieser Dateiname kann relativ zum 'prjs'-Verzeichnis oder ein absoluter Name (mit führendem '/') sein.</param>
+        </member>
+        <member name="T:SmallBasicEV3Extension.EV3">
+            <summary>
+            Nützliche kleine Funktionen für verschiedene Teile des EV3-Bricks.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3.SetLEDColor(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Setzt die Farbe der Tasten-Beleuchtung und einen der optischen Effekte.
+            </summary>
+            <param name="color">Eines der folgenden: "OFF", "GREEN", "RED", "ORANGE"</param>
+            <param name="effect">Eines der folgenden: "NORMAL", "FLASH", "PULSE"</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3.SystemCall(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Führt einen externen Befehl das Linux-Systems aus. Alle Threads des Basic-Programmes werden so lange angehalten, bis der Systembefehl beendet ist. 
+            Um das vernünftig benutzen zu können, benötigt man entsprechende Linux-Kenntnisse.
+            </summary>
+            <param name="commandline">Auszuführendes Systemkommando.</param>
+            <returns>Exit-Status des Kommandos.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.EV3.QueueNextCommand">
+            <summary>
+            Reduziert den Kommunikationsaufwand, wenn das Programm am PC läuft und den EV3 fernsteuert: Das nächste Kommando wird nicht sofort an den EV3 geschickt, sondern erst wenn noch ein weiteres Kommando geschickt werden muss. Man kann das Abschicken mit weiteren QueueNextCommand - Befehlen noch weiter verzögern, um möglichst viele Befehle als ganzen Block auf einmal zu schicken. 
+            Wenn das Programm direkt am EV3 läuft, hat dieser Befehl keine Auswirkung.
+            </summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.EV3.Time">
+            <summary>
+            Die Zeit in Millisekunden seit dem Start des Programmes.
+            </summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.EV3.BatteryLevel">
+            <summary>
+            Aktueller Ladezustand der Batterie in Prozent (Wertebereich 0 bis 100).
+            </summary>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Motor">
+            <summary>
+            Steuert die angeschlossenen Motoren.
+            Bei jedem Befehl muss man einen oder mehrere Motor-Ports angeben, auf den sich der Befehl beziehen soll (zum Beispiel, "A", "BC", "ABD").
+            Falls weitere EV3-Bricks über ein Kabel mit dem Haupt-Brick verbunden sind, muss man eine Ziffer entsprechend der Stelle in der Kette hinzufügen (z.B. "3BC", "2A"). In diesem Fall kann man mit einem Befehlr nur die Motoren eines einzelnen Bricks ansprechen.
+            Geschwindigkeit oder Leistung: Wenn man einen Motor mit einer gewählten Geschwindigkeit betreiben will, dann reguliert der EV3 die Leistung für den Motor permanent so, dass die Geschwindikgkeit eingehalten wird, egal wie viel Widerstand dem entgegenwirkt (zumindest so lange noch genug Leistungsreserve verfügbar ist).
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Stop(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Stoppt einen oder mehrere Motoren. 
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="brake">"True", wenn der Motor die elektrische Bremse benutzen soll.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Start(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Startet einen oder mehrere Motoren mit der gewählten Geschwindigkeit oder setzt die Geschwindigkeit neu fest.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.StartPower(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Startet einen oder mehrere Motoren mit der angegebenen Leistung.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="power">Leistung von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.StartSync(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Startet zwei Motoren, die synchronisiert mit jeweils einstellbaren Geschwindigkeiten laufen.
+            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.
+            </summary>
+            <param name="ports">Name der beiden Motor-Ports</param>
+            <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
+			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.GetSpeed(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Fragt die derzeitige Geschwindigkeit eines Motors ab. 
+            </summary>
+            <param name="port">Motor port name</param>
+            <returns>Aktuelle Geschwindigkeit im Bereich -100 to 100</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.IsBusy(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob einer oder mehrere Motoren gerade aktiv laufen.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <returns>"True" wenn zumindest einer der Motoren läuft.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Schedule(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Bewegt einen oder mehrere Motoren entsprechend mehrerer Geschwindigkeits-Parameter. Die Geschwindkeit kann positionsabhängig gesteigert oder verringert werden um einen sanften Anlauf oder Stopp zu erreichen.
+            Der Gesamtwinkel den der Motor drehen soll, ist degrees1+degrees2+degrees3. Am Ende der Bewegung stoppt der Motor automatisch (mit oder ohne Bremsen).
+            Dieses Kommand kehrt sofort zurück während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+            <param name="degrees1">Der Teil der Rotation für die Beschleunigung</param>
+            <param name="degrees2">Der Teil der Rotation in gleichmäßiger Bewegung</param>
+            <param name="degrees3">Der Teil der Rotation für das Abbremsen</param>
+            <param name="brake">"True", wenn der Motor die elektrische Bremse benutzen soll.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.SchedulePower(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Bewegt einen oder mehrere Motoren entsprechend mehrerer Leistungs-Parameter. Die Leistung kann positionsabhängig gesteigert oder verringert werden um einen sanften Anlauf oder Stopp zu erreichen.
+            Der Gesamtwinkel den der Motor drehen soll, ist degrees1+degrees2+degrees3. Am Ende der Bewegung stoppt der Motor automatisch (mit oder ohne Bremsen).
+            Dieses Kommand kehrt sofort zurück während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="power">Leistung von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+            <param name="degrees1">Der Teil der Rotation für die Beschleunigung</param>
+            <param name="degrees2">Der Teil der Rotation in gleichmäßiger Bewegung</param>
+            <param name="degrees3">Der Teil der Rotation für das Abbremsen</param>
+            <param name="brake">"True", wenn der Motor die elektrische Bremse benutzen soll.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.ScheduleSync(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
+            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.
+            Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
+            </summary>
+            <param name="ports">Name der beiden Motor-Ports</param>
+            <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
+			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+            <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
+            <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.ResetCount(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Setzen den Rotationszähler eines oder mehrerer Motoren auf 0 zurück.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.GetCount(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Fragt den aktuellen Rotationszähler eines Motors ab.
+            So lange der Zähler nicht zurückgesetzt wird, misst er alle Bewegungen eines Motors, auch wenn der Motor durch externe Kräfte bewegt wird, während er nicht aktiv läuft.
+            </summary>
+            <param name="port">Name des Motor-Ports</param>
+            <returns>Der aktuelle Wert des Rotationszählers.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Move(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Bewegt einen oder mehrere Motoren mit der gewählten Geschindigkeit den angegebenen Winkel weit.
+            Dieser Befehl blockiert so lange, bis die Bewegung abgeschlossen ist.
+            Für eine feinere Kontrolle über die Bewegung kann man statt dessen auch Motor.Schedule verwenden.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+            <param name="degrees">Der Winkel den der Motor drehen soll</param>
+            <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.MovePower(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Bewegt einen oder mehrere Motoren mit der gewählten Leistung den angegebenen Winkel weit.
+            Dieser Befehl blockiert so lange, bis die Bewegung abgeschlossen ist.
+            Für eine feinere Kontrolle über die Bewegung kann man statt dessen auch Motor.SchedulePower verwenden.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+            <param name="power">Leistung von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
+            <param name="degrees">Der Winkel den der Motor drehen soll</param>
+            <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.MoveSync(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
+            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.
+            Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
+            Dieser Befehl blockiert so lange bis die Bewegung abgeschlossen ist.
+            </summary>
+            <param name="ports">Name der beiden Motor-Ports</param>
+            <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
+			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+            <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
+            <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Wait(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Wartet bis ein oder mehrere Motoren ihre Bewegung abgeschlossen habe.			
+            Dieses Kommando zu benutzen ist normalerweise besser als IsBusy() in einer Schleife abzufragen.
+            </summary>
+            <param name="ports">Name des/der Motor-Ports</param>
+        </member>
+		<member name="T:SmallBasicEV3Extension.Sensor">
+            <summary>
+            Steuert die angeschlossenen Sensoren.
+            Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1). 
+            Um Ports anderer EV3-Bricks, die mit dem Haupt-Brick verbunden sind, anzusprechen, verwendet man die nächst höheren Nummern (5 - 8 für die Sensor-Ports des ersten angeschlossenen Bricks, 9-12 für die des nächsten, und so weiter).
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.GetName(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest den Namen und den Modus eines gerade angeschlossenen Sensors.
+            Dieser Befehl ist hauptsächlich für Diagnosen nützlich, weil das Programm normalerweise implizit weiß, welche Sensorsen angeschlossen sind.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <returns>Lesbarer Text mit Port und Modus(z.B. "TOUCH")</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.GetType(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest die Identificationsnummer des Sensors.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <returns>Identificationsnummer (z.B. für einen Tastsensor)</returns>
+		</member>
+        <member name="M:SmallBasicEV3Extension.Sensor.GetMode(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest den aktuellen Modus des Sensors.
+            Viele Sensoren können in sehr verschiedenen Modi arbeiten und sehr unterschiedliche Werte liefern. Zum Beispiel kann der Farbsensor entweder das Umgebungslicht oder reflektiertes Licht, oder die Farbe einer Oberfläche messen. Sobald ein Sensor eingesteckt ist, startet er normalerweise mit Modus 0, kann aber später vom Programm in einen anderen Modus versetzt werden.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <returns>Aktuelle Modus (0 ist immer der Anfangs-Modus)</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.SetMode(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schalten einen Sensor in einen anderen Modus.
+            Viele Sensoren können in unterschiedlichen Modi arbeiten und sehr verschiedene Messergebnisse liefern. Die Bedeuting der Modus-Nummer hängt vom Sensor-Typ ab. Weitere Information dazu ist im Anhang zu finden.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <param name="mode">Der Modus in den umgeschaltet werden woll. Das funktioniert nur, wenn der Sensor diesen Modus auch unterstützt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.IsBusy(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob ein Sensor gerade mit einem Moduswechsel beschäftigt ist. Nach Umschaltung kann es einige Zeit dauern, bevor neue Messergebnisse vorliegen.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <returns>"True", wenn der Sensor gerade noch beschäftigt ist</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.Wait(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Wartet, bis ein Sensor seinen Moduswechsel abgeschlossen hat. Wenn keine Sensor am angegebenen Port angeschlossen ist, kehrt der Befehl sofort zurück.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.ReadPercent(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest einen einzelnen Wert und rechnet ihn in eine sinnvolle Prozentangabe um.
+            Viele Sensoren können ihre gelesenen Werte in einen einzelnen Wert umrechnen, wie z.B. Lichtintenität oder den Zustand eines Tastknopfes.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <returns>Der Prozentwert des gemessenen Werts (z.B.: Ein Tastsensor liefert immer 100 wenn gedrückt, und 0 wenn nicht gedrückt)</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.ReadRaw(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Liest einen Sensorwert wenn das Ergebnis von ReadPercent() nicht ausreichend ist.
+            Manche Sensoren liefern Werte, die nicht in Prozent ausgedrückt werden können (z.B. ein Farb-Index) oder die aus mehreren Werten auf einmal bestehen (z.B. Entfernung und Richtung des Infrarot-Peilsenders).
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <param name="values">Anzahl der Werte-Komponenten</param>
+            <returns>Ein Array mit der geforderten Anzahl an Komponenten. Der Index beginnt bei 0. Komponenten, für die der Sensor keinen Wert liefert, werden auf 0 gesetzt.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.CommunicateI2C(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.
+            Dieser Befehl adressiert ein Gerät am I2C-bus und kann mehrere Bytes senden und empfangen. 
+            Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
+            <param name="writebytes">Anzahl der Bytes, die gesendet werden sollen (maximal 31).</param>
+            <param name="readbytes">Anzahl der Bytes, die empfangen werden sollen (maximal 32, minimal 1).</param>
+            <param name="writedata">Array mit den zu sendenden Bytes (beginnend mit index 0).</param>
+            <returns>Ein Array mit den empfangenen Bytes. Index beginnt bei 0.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.SendUARTData(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Sendet Daten an Geräte, die über den UART an einen Sensor-Port angeschlossen sind.
+            Das kann nützlich sein, um verschiedene Spezialkommandos zu einem Sensor/Aktor zu schicken.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <param name="writebytes">Anzahl der zu sendenden Bytes (maximum 32).</param>
+            <param name="writedata">Array mit den Bytes.</param>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Mailbox">
+            <summary>
+            Kommunikationsystem um Daten von einem EV3-Brick zu einem anderen über Bluetooth-Funk zu übertragen.
+            </summary>            
+        </member>
+        <member name="M:SmallBasicEV3Extension.Mailbox.Create(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Erzeugt einen Briefkasten für ankommenden Nachrichten auf dem Brick. 
+            Erst wenn solch ein Briefkasten angelegt wurde, können Nachrichten empfangen werden.
+            Maximal 30 Briefkästen können auf einem Brick existieren.
+            </summary>
+            <param name="boxname">Name des neuen Briefkastens</param>
+            <returns>Eine Identifikationsnummer für den Briefkasten. Sie wird benötigt um später Nachrichten herauszuholen</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Mailbox.Send(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Sended eine Nachricht an einen Briefkasten eines anderen EV3-Bricks.
+            </summary>
+            <param name="brickname">Der Name des Bricks, der die Nachricht empfangen soll. Zuvor muss eine Verbindung zu diesem Brick geöffnet worden sein. Es ist auch möglich, einen Leertext als Namen anzugeben. In diesem Fall wird die Nachricht an alle verbundenen Bricks geschickt.</param>
+            <param name="boxname">Name des Briefkastens in dem die Nachricht gespeichert werden soll.</param>
+            <param name="message">Die Nachricht als einfacher Text. Derzeit werden keine anderen Nachrichtenformate unterstützt.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Mailbox.IsAvailable(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Prüft, ob bereits eine Nachricht im Briefkasten ist.
+            </summary>
+            <param name="id">Identifikationsnummer des lokalen Briefkastens.</param>
+            <returns>"True", falls bereits eine Nachricht vorliegt. Sonst "False".</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Mailbox.Receive(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Entfernt und holt die älteste Nachricht aus dem Briefkasten. Wenn noch keine Nachricht vorhanden ist, blockiert dieser Befehl so lange, bis eine Nachricht eintrifft.
+            Wenn man blockierendes Warten vermeiden will, kann man zuvor mit IsAvailable() prüfen, ob eine Nachricht da ist.
+            Falls gar kein Briefkasten mit der Identifikationsnummer existiert, liefert der Befehl sofort "".
+            </summary>
+            <param name="id">Identifikationsnummer des Briefkastens</param>
+            <returns>Die Nachricht als einfacher Text. Derzeit werden keine anderen Nachrichtenformate unterstützt.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Mailbox.Connect(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Versucht, eine Verbindung zu einem anderen EV3-Brick aufzubauen.
+            Nur wenn eine Verbindung geöffnet wurde (entweder mit diesem Befehl oder von Hand mit dem Menu am Brick), können Nachrichten ausgetauscht werden.
+            </summary>
+            <param name="brickname">Name des anderen Bricks.</param>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Speaker">
+            <summary>
+            Der eingebaute Lautsprecher des Bricks kann einfache Töne oder Geräuscheffekte abspielen.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.Stop">
+            <summary>
+            Stoppt jeden gerade laufenden Ton oder Geräuscheffekt..
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.Tone(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Beginnt einen Ton der angegebenen Frequenz zu spielen.
+            </summary>
+            <param name="volume">Lautstärke im Bereich 0 - 100</param>
+            <param name="frequency">Frequenz in Hz im Bereich 250 - 10000</param>
+            <param name="duration">Dauer des Tones in Millisekunden</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.Note(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Beginnt einen Ton zu spielen, der durch eine Text-Beschreibung definiert ist.
+            </summary>
+            <param name="volume">Lautstärke im Bereich 0 - 100</param>
+            <param name="note">Text-Beschreibung einer Note "C4"  "B7" oder eines Halbtones wie "C#5"</param>
+            <param name="duration">Dauer des Tones in Millisekunden</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.Play(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Spielt einen Geräuscheffekt aus einer am Brick gespeicherten Datei. Derzeit werden nur Dateien im .rsf - Format unterstützt. 
+            </summary>
+            <param name="volume">Lautstärke im Bereich 0 - 100</param>
+            <param name="filename">Name der Datei ohne die .rsf - Erweiterung. Dieser Dateiname kann relativ zum 'prjs'-Verzeichnis oder ein absoluter Pfadname sein (mit führendem '/').</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.IsBusy">
+            <summary>
+            Prüft, ob der Lautsprecher noch einen Ton oder einen Geräuscheffekt abspielt.
+            </summary>
+            <returns>"True", wenn noch etwas gespielt wird, sonst "False".</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Speaker.Wait">
+            <summary>
+            Wartet bis der gerade gespielte Ton/Geräuscheffekt fertig ist.
+            </summary>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Thread">
+            <summary>
+            Dieses Objekt unterstützt dier Verwendung von Nebenläufigkeiten (Threads) in einem Programm.
+            Ein Thread ist ein Programmstück, das unabhängig von und gleichzeitig mit anderen Teilen des Programmes ablaufen kann. Zum Beispiel könnte ein Thread die Motoren einer Maschine steuern, während ein anderer Thread Tasteneingaben verarbeitet.
+            Allgemein gesagt ist Multithreading ein sehr komplexes Thema. Um es wirklich zu verstehen, empfehle ich die Verwendung weiterführender Literatur.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Thread.Yield">
+            <summary>
+            Gibt die Kontrolle über die CPU explizit an dieser Stelle frei.
+            Threads laufen oft nicht wirklich parallel, weil es nicht genug CPUs für alle Threads gibt. Statt dessen macht eine CPU ein wenig Arbeit für einen Thread und schaltet dann schnell zu einem anderen Thread weiter. Dadurch entsteht der Eindruck, dass alles parallel abläuft.
+            Falls ein Thread gerade nichts zu tun hat, weil er gerade darauf wartet, dass irgendeine Bedingung eintritt, kann er die Kontrolle mit Yield() vorzeitig an andere Threads abgeben, die dann die Chance haben, ihre Arbeit durchzuführen.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Thread.CreateMutex">
+            <summary>
+            Erzeugt einen Mutex (kurz für "Mutual Exclusion" = "gegenseiter Ausschluss") der dann für die Synchronisierung von Threads benutzt werden kann.
+            Nur die Erzeugung von Mutexes wird unterstützt und kein Löschen. Idealerweise legt ein Programm alle nötigen Mutexe gleich beim Programmstart an speichert die Identifikationsnummern in globalen Variablen.
+            </summary>
+            <returns>Die Identifikationsnummer des neue erzeugten Mutex.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Thread.Lock(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Versucht, den Mutex exklusiv für diesen Thread zu sperren, sodass kein anderer Thread darauf zugreifen kann.
+            Falls ein anderer Thread bereits den Mutex gesperrt hat, dann wartet dieser Befehl darauf, dass die Sperre aufgehoben wird und sperrt den Mutex dann seinerseits. (Sobald dieser Befehl zurückkehrt, ist garantiert, dass der Mutex erfolgreich durch diesen Thread gesperrt wurde).
+            Dieser Sperr-Mechanismus wird normalerweise benutzt, um den Zugriff auf gemeinsame Datenstrukturen oder Resourcen zu koordinieren. 
+            Jeder Aufruf von Lock() muss mit einem nachfolgenden Aufruf von Unlock() aufgelöst werden.
+            </summary>
+            <param name="mutex">Die Identifikationsnummer des Mutex (wie von CreateMutex() zurückgeliefert)</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Thread.Unlock(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Gibt einen Mutex wieder frei. Dieser Befehl darf nur nach einem vorangegangen Lock() benutzt werden.
+            </summary>
+            <param name="mutex">Die Identifikationsnummer des Mutex</param>
+        </member>
+        <member name="E:SmallBasicEV3Extension.Thread.Run">
+            <summary>
+            Mit dieser Objekt-Eigenschaft werden neue Threads erzeugt. Sobald dieser Eigenschaft ein Unterprogram zugewiesen wird, startet dieses Unterprogramm als unabhängiger Thread (zum Beispiel: Thread.Run = MYSUB). 
+            Jedes Unterprogramm kann so als unabhängiger Thread gestartet werden, aber jedes Unterprogramm kann nur einmal zur gleichen Zeit ablaufen. Eine neuerliche Zuweisung zu Thread.Run(), während das Unterprogram noch als Thread läuft, fügt es nur in eine Warteschlange hinzu.
+            Sobald sich der vorige Thread beendet (Unterprogram läuft zu seinem Ende), wird es automatisch ein weiteres mal gestarted. Es gehen keine Aufrufe verloren, aber sie werden eventuell erst später abgearbeitet als gedacht.
+            Achtung: Auch wenn noch weitere Threads aktiv sind, wird das ganze Programm terminiert, sobald das Hauptprogramm zu seinem Ende läuft.
+            </summary>
+        </member>
+        <member name="T:SmallBasicEV3Extension.Vector">
+            <summary>
+             Dieses Objekt bietet verschiedene Operationen zur Manipulation größerer Zahlenmengen.
+             Sie werden Vektoren genannt und werden in normalen Arrays mit fortlaufendem Index, beginnend bei 0, abgelegt.
+             Wenn Operationen mit Arrays mit einer abweichenden Struktur aufgerufen werden, wird jedes fehlende Array-Element als 0 angenommen.
+            </summary>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Vector.Init(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Initialisiert einen Vektor mit angegebener Länge und Startwert für alle Elemente.
+            </summary>
+            <param name="size">Länge des Vektors</param>
+            <param name="value">Der Wert für alle Elemente</param>
+            <returns>Den neu erzeugten Vektor</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Vector.Add(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Addiert zwei Vektoren elementweise (C[0]=A[0]+B[0], C[1]=A[1]+B[2]...)
+            </summary>
+            <param name="size">Anzahl der Elemente von jedem Vektor für die Berechnung</param>
+            <param name="A">Erster Vektor</param>
+            <param name="B">Zweiter Vektor</param>
+            <returns>A Vektor der angegebenen Größe, der alle Summen enhält.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Vector.Sort(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Sortiert die Element eines Vektors in aufsteigender Reihenfolge.
+            </summary>
+            <param name="size">Anzahl der Elements</param>
+            <param name="A">Der zu sortierende Vektor</param>
+            <returns>Ein neuer Vektor mit den sortierten Elementen</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Vector.Multiply(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Matrizenmultiplikation.
+            Die Eingabevektoren werden jeweils als zweidimensioinale Matrix von gegebener Höhe und Breite interpretiert. Die einzelnen Zeilen der Matrix sind in den Vektor direkt nacheinander abgelegt.
+            Mehr zur Definition von Matrizenmultiplikation gibt es auf: https://de.wikipedia.org/wiki/Matrizenmultiplikation .
+            </summary>
+            <param name="rows">Anzahl der Zeilen der Ergebnis-Matrix</param>
+            <param name="columns">Anzahl der Spalten der Ergebnis-Matrix</param>
+            <param name="k">Anzahl der Spalten in Matrix A und gleichzeitig der Zeilen in Matrix B</param>
+            <param name="A">Ein Matrix der Größe rows * k</param>
+            <param name="B">Eine Matrix der Größe k * columns</param>
+            <returns>Eine neue Matrix mit dem Multiplikationsergebnis</returns>
+        </member>
+    </members>
+</doc>

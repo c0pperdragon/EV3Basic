@@ -1,6 +1,6 @@
 ' This example uses graphics and sound resources that must be already
 ' present on the EV3 in order to access them from the program. 
-' In this chase, a bitmap file (yamyam.rsf) and a sound file (emerald.rsf)
+' In this chase, a bitmap file (yamyam.rgf) and a sound file (emerald.rsf)
 ' are expected to exist in a sub-folder "GraphicsAndSounds'  inside the 
 '  "prjs" folder (you can create such a folder and transfer the files from the examples 
 ' to the  EV3 with the EV3Explorer. Contrary to the Small Basic convention,

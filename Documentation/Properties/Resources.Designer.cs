@@ -63,16 +63,17 @@ namespace Documentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to 
         ///&lt;H1 class=&quot;chapter&quot;&gt;Appendix - Sensors&lt;/H1&gt;
-        ///&lt;P&gt;
-        ///EV3 does a good job in auto-detecting many sensors, at least all sensors that came with the NXT 2.0 and EV3 kit. 
-        ///Nevertheless the program needs to know how to best interpret the sensor readings for the different types and modes. 
-        ///To keep the list simple, I only include the modes which I feel, make sense to use anyway.
-        ///&lt;/P&gt;
-        /// 
+        ///
         ///&lt;PRE&gt;
         ///Type  Mode  Name            get reading with   delivers 
         ///
-        ///1        0  NXT-TOUCH       ReadPercent        0=not pressed [rest of string was truncated]&quot;;.
+        ///1        0  NXT-TOUCH       ReadPercent        0=not pressed,  100=pressed  
+        ///
+        ///4        0  NXT-COL-REF     ReadPercent        0=no reflective light, 100=maximum reflective light
+        ///4        1  NXT-COL-AMB     ReadPercent        0=no ambient light, 100=maximum ambient light
+        ///4        2  NXT-COL-COL     ReadRaw (1 value)  1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
+        ///
+        ///5        0  NXT-US-CM [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Appendix {
             get {
@@ -95,6 +96,16 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Das Handbuch auf Deutsch
+        ///.
+        /// </summary>
+        internal static string ManualDE {
+            get {
+                return ResourceManager.GetString("ManualDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
         ///  H1.chapter {
         ///	margin-top: 100px;
@@ -113,18 +124,22 @@ namespace Documentation.Properties {
         ///    font-family: Verdana; 
         ///	float: right;
         ///  }
-        ///
-        ///  H2.object {
-        ///    font-family: Verdana; 
-        ///	border-bottom: medium solid;
+        ///  TABLE {
+        ///    font-family: Verdana;
+        ///	border-spacing: 0px;
+        ///	border:1px solid black;
         ///  }
-        ///  P.objectsummary {
-        ///    font-family: Verdana; 
+        ///  TD {
+        ///	padding: 4px;
         ///  }
-        ///  H3.operation {
-        ///    font-family: Verdana;  
-        ///	margin-top: 20px;
-        ///	margin-bottom: 10px [rest of string was truncated]&quot;;.
+        ///  TR:nth-child(1)
+        ///  {
+        ///	background: #d0d0d0;
+        ///  } 
+        ///  TD:nth-child(1)
+        ///  {
+        ///	background: #d0d0d0;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Styles {
             get {

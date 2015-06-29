@@ -31,14 +31,32 @@ namespace Documentation
     {
         static Dictionary<String,EV3Object> objects;
 
-        static void Main(string[] args)
+        static void Main(String[] args)
+        {
+            generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/SmallBasicEV3Extension/bin/Release/SmallBasicEV3Extension.xml",
+                     "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml",
+                     "EV3-Basic Developer Manual",
+                     Documentation.Properties.Resources.Manual,
+                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html"
+                     );
+        
+            generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/SmallBasicEV3Extension.DE.xml",
+                     "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.DE.xml",
+                     "EV3-Basic Benutzerhandbuch",
+                     Documentation.Properties.Resources.ManualDE,
+                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_de.html"
+                     );
+        }
+
+
+        internal static void generate(String xml1, String xml2, String title, String part1, String outfilename)
         {
             objects = new Dictionary<String,EV3Object>();
 
             // read documentation for the EV3 extension
-            ReadFile("C:/Users/Reinhard/Documents/GitHub/EV3Basic/SmallBasicEV3Extension/bin/Release/SmallBasicEV3Extension.xml");
+            ReadFile(xml1);
             // read documentation for the small basic classes 
-            ReadFile("C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml");
+            ReadFile(xml2);
             // remove unsupported objectgs
             objects.Remove("EV3Communicator");
             objects.Remove("Resources");
@@ -68,19 +86,19 @@ namespace Documentation
             objects.Remove("TextWindow");
 
             // write documentation file
-            String outfilename = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html";
             FileStream fs = new FileStream(outfilename, FileMode.Create, FileAccess.Write);
-            StreamWriter target = new StreamWriter(fs);
+            StreamWriter target = new StreamWriter(fs, Encoding.UTF8);
 
             target.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">");
             target.WriteLine("<HTML>");
             target.WriteLine("<HEAD>");
-            target.WriteLine("<TITLE>EV3-Basic Developer Manual</TITLE>");
+            target.WriteLine("<meta charset=\"utf-8\"/>");
+            target.WriteLine("<TITLE>"+title+"</TITLE>");
             target.WriteLine(Documentation.Properties.Resources.Styles);
             target.WriteLine("</HEAD>");
             target.WriteLine("<BODY>");
 
-            target.WriteLine(Documentation.Properties.Resources.Manual);
+            target.WriteLine(part1);
 
             // add API documentation
             var list = objects.Keys.ToList();
@@ -135,6 +153,8 @@ namespace Documentation
 
 //            Console.ReadLine();
         }
+
+
 
         internal static void ReadFile(String filename)
         {
