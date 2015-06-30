@@ -6,8 +6,8 @@
     <members>
         <member name="T:SmallBasicEV3Extension.Assert">
             <summary>
-            Das Assert-Objekt unterstützt dich dabei, Teile des Programmes auf Korrektheit zu überprüfen.
-            Eine 'Assertion' macht implizite Annahmen über das Programmverhalten explizit. Durch hinzufügen von Assertions, kannst du Fehler im Programm leicher finden. Wenn zum Beispiel ein Teil des Programmes davon ausgeht, dass die Variable A einen positiven Wert hat, dann kannst du das mit  Assert.Greater(A,0,"A muss > 0 sein!") an dieser Stelle überprüfen. 
+            Das Assert-Objekt unterstützt den Programmierer dabei, Teile des Programmes auf Korrektheit zu überprüfen.
+            Eine 'Assertion' macht implizite Annahmen über das Programmverhalten explizit. Durch hinzufügen von Assertions, kann man Fehler im Programm leicher finden. Wenn zum Beispiel ein Teil des Programmes davon ausgeht, dass die Variable A einen positiven Wert hat, dann kann man das mit Assert.Greater(A,0,"A muss > 0 sein!") an dieser Stelle überprüfen. 
             Falls das Programm auf eine Assertion trifft, die nicht erfüllt ist, wird eine entsprechende Fehlermeldung im Textfenster oder am Bildschirm des EV3 ausgegebeben.
             </summary>
         </member>
@@ -494,7 +494,7 @@
 		<member name="T:SmallBasicEV3Extension.Sensor">
             <summary>
             Steuert die angeschlossenen Sensoren.
-            Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1). 
+            Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1).
             Um Ports anderer EV3-Bricks, die mit dem Haupt-Brick verbunden sind, anzusprechen, verwendet man die nächst höheren Nummern (5 - 8 für die Sensor-Ports des ersten angeschlossenen Bricks, 9-12 für die des nächsten, und so weiter).
             </summary>
         </member>

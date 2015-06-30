@@ -1,4 +1,4 @@
-<H1 class="chapter">EV3-Basic</H1>
+<H1 class="chapter">EV3Basic</H1>
 <P>
 Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is the 
 graphical programming environment provided by Lego. 
@@ -7,7 +7,7 @@ There are already many different projects that have created programming environm
 But they all have one thing in common: They are awfully complicated to set up and use, and you probably need years of computer experience to get any of them working.
 </P>
 <P>
-To fill the gap between very-easy-to-use but limited and all-powerful but complicated, I have invented EV3-Basic. It is targeted mainly on users that want to go beyond
+To fill the gap between very-easy-to-use but limited and all-powerful but complicated, I have invented EV3Basic. It is targeted mainly on users that want to go beyond
 the limitations of graphical programming, but are no IT-professionals themselves. 
 EV3-Basic is quite easy to learn and still offers all functionality you need to create awesome programs. Learning to program on the way is probably an additional benefit.
 </P>
@@ -132,7 +132,7 @@ This example will not run on the EV3 brick, because it uses the Small Basic text
 </pre>
 
 
-<H1 class="chapter">Differences between Small Basic and EV3-Basic</H1>
+<H1 class="chapter">Differences between Small Basic and EV3Basic</H1>
 <P>
 While I have tried to mimic the original behaviour of Small Basic in my EV3-compiler as exactly as possible, 
 there are some things that simply can not be done with the EV3 byte code interpreter.
@@ -173,7 +173,7 @@ EV3-Basic can not do that. Only numbers are allowed as index and only non-negati
 There is no support for multi-dimensional arrays. 
 While arrays can be passed to library functions and out again, no temporary arrays are created to receive the result. For all functions that return an array,
 this return value must be immediately stored in an array variable.
-<P>
+</P>
 
 <H3 class="subchapter">Limitation for text</H3>
 <P>
@@ -219,6 +219,7 @@ a cable. WiFi has some advantages over Bluetooth concerning range, speed and rel
 but also comes with some drawbacks like higher power consumption and the need to add a WiFi dongle to the EV3. 
 And this setup only works when you have a WiFi router available. It is basically a matter of taste
 if you prefer bluetooth or WiFi, or maybe a matter of technical issues with one of the possibilites.
+</P>
 <P>
 To use the WiFi option, you need a specific WiFi dongle that is compatible with the EV3 brick. Currently there
 is only one model available that works with an unmodified EV3: "Netgear WNA1100" which must be inserted
@@ -227,18 +228,22 @@ Setting up the WiFi connection can be done from the settings menu on the brick. 
 WiFi option (this takes some time to start up the dongle) and then you have to establish a connection to 
 the WiFi router. In case you have set up encryption for your WiFi network, you need to enter the WPA2-key
 directly on the brick. Currently no other WiFi-encryption methods are supported.
+</P>
 <P>
 Once you have successfully established a connection between the EV3 and your router, the EV3 should have
 received an IP address, which would look something like "10.2.3.4". You can check which address was 
 assigned to your EV3 in the "Brick Info" section of the settings menu. It is at the very bottom of the list.
+</P>
 <P>
 When you want to finally connect to the EV3 from a Small Basic program or with the EV3-Explorer,
 use the "WiFi" button in the dialog box that asks for which connection to use. Then enter the IP address exactly as it
 was shown on the brick. You only have to enter the address once. For future uses, it will already appear in
 the selection list.
+</P>
 <P>
 Note, that the brick does not automatically connect to the WiFi router when starting up. You always have to 
 activate the connection after each power-up.
+</P>
 
 <H1 class="chapter">Motor object since v1.0</H1>
 <P>

@@ -27,6 +27,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_396BB60B39C544A1AC6C21B406F7B632"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3E85783D20824507B807D3816BE9F452"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
         "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
         "MsmSig" = "8:_UNDEFINED"
@@ -46,13 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
+        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
+        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,37 +118,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F5CDD074D58C3554E666A5E4C4C3A927"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2303BCFBEC09CC552C1787A745096EA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
+        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -148,7 +130,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
+        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2303BCFBEC09CC552C1787A745096EA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F5CDD074D58C3554E666A5E4C4C3A927"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -253,6 +265,11 @@
             "AssemblyAsmDisplayName" = "8:SmallBasicLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_2303BCFBEC09CC552C1787A745096EA5"
+                    {
+                    "Name" = "8:SmallBasicLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:SmallBasicLibrary.dll"
             "TargetName" = "8:"
@@ -272,6 +289,46 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_396BB60B39C544A1AC6C21B406F7B632"
+            {
+            "SourcePath" = "8:..\\Documentation\\ev3basic_manual_de.html"
+            "TargetName" = "8:ev3basic_manual_de.html"
+            "Tag" = "8:"
+            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E85783D20824507B807D3816BE9F452"
+            {
+            "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.de.XML"
+            "TargetName" = "8:SmallBasicEV3Extension.de.XML"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3FB6F29BDB75B4EA09B1C22FDB977915"
             {
             "AssemblyRegister" = "3:1"
@@ -279,6 +336,11 @@
             "AssemblyAsmDisplayName" = "8:EV3BasicCompiler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_3FB6F29BDB75B4EA09B1C22FDB977915"
+                    {
+                    "Name" = "8:EV3BasicCompiler.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EV3BasicCompiler.dll"
             "TargetName" = "8:"
@@ -305,6 +367,11 @@
             "AssemblyAsmDisplayName" = "8:EV3Communication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_53D194D021287DC4A1CE4CA14B8AB761"
+                    {
+                    "Name" = "8:EV3Communication.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EV3Communication.dll"
             "TargetName" = "8:"
@@ -351,6 +418,11 @@
             "AssemblyAsmDisplayName" = "8:LMSAssembler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CBDEC7B60E90E4F596B1D9E3A38786F4"
+                    {
+                    "Name" = "8:LMSAssembler.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LMSAssembler.dll"
             "TargetName" = "8:"
@@ -377,6 +449,11 @@
             "AssemblyAsmDisplayName" = "8:SmallBasicLibrary, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F5CDD074D58C3554E666A5E4C4C3A927"
+                    {
+                    "Name" = "8:SmallBasicLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:SmallBasicLibrary.dll"
             "TargetName" = "8:"
@@ -484,20 +561,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:EV3Basic 1.0.4"
+        "ProductName" = "8:EV3Basic 1.0.5"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
-        "PackageCode" = "8:{A1B01DCE-5347-4705-AE46-880FF7BBC583}"
+        "PackageCode" = "8:{4E18CAE7-313E-4B56-A8AC-9B56AB4CE569}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.4"
+        "ProductVersion" = "8:1.0.5"
         "Manufacturer" = "8:Reinhard Grafl"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:EV3Basic 1.0.4"
+        "Title" = "8:EV3Basic 1.0.5"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Reinhard Grafl"
         "Keywords" = "8:"
@@ -606,6 +683,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_220BC840114E4C17AE8DCC0743E46825"
+            {
+            "Name" = "8:Handbuch"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_396BB60B39C544A1AC6C21B406F7B632"
+            "Folder" = "8:_2093CF3C334A41D5AB8A4A7F58BAB1EE"
+            "WorkingFolder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_403F9785DB4242E0B1BBAA24E535734F"
             {
             "Name" = "8:EV3Explorer"

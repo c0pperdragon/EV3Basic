@@ -35,14 +35,14 @@ namespace Documentation
         {
             generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/SmallBasicEV3Extension/bin/Release/SmallBasicEV3Extension.xml",
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml",
-                     "EV3-Basic Developer Manual",
+                     "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.Manual,
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html"
                      );
         
             generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/SmallBasicEV3Extension.DE.xml",
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.DE.xml",
-                     "EV3-Basic Benutzerhandbuch",
+                     "EV3Basic Benutzerhandbuch",
                      Documentation.Properties.Resources.ManualDE,
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_de.html"
                      );

@@ -1,20 +1,25 @@
-<H1 class="chapter">EV3-Basic</H1>
+<H1 class="chapter">EV3Basic</H1>
 <P>
-Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is the 
-graphical programming environment provided by Lego. 
-But for larger and more complex programs, this no longer works and you need some text-based programming language to write programs.
-There are already many different projects that have created programming environments for the EV3 to provide exactly this (LeJOS, MonoBrick, RobotC, ev3dev, and many more).
-But they all have one thing in common: They are awfully complicated to set up and use, and you probably need years of computer experience to get any of them working.
+Einen Roboter nach eigenen Ideen zu programmieren macht Spaß. Der einfachste Weg, den Lego EV3 Brick für einfache Aufgaben
+zu programmieren, ist mit der grafischen Software von Lego.
+Aber für größere und komplexere Programm, ist diese Method nicht mehr gut geeignet und man braucht eine textbasierte 
+Programmiersprache dafür.
+Es gibt auch viele verschiedene Projekte um Programmiersprachen für den EV3 zu adaptieren (LeJOS, MonoBrick, RobotC, ev3dev, and andere).
+Aber alle haben eine Sache gemeinsam: Sie sind unglaublich schwierig zum Laufen zu bringen und zu benutzen. Man benötigt 
+jahrelange Erfahrung um auch nur eine davon benutzen zu können.
 </P>
 <P>
-To fill the gap between very-easy-to-use but limited and all-powerful but complicated, I have invented EV3-Basic. It is targeted mainly on users that want to go beyond
-the limitations of graphical programming, but are no IT-professionals themselves. 
-EV3-Basic is quite easy to learn and still offers all functionality you need to create awesome programs. Learning to program on the way is probably an additional benefit.
+Um diese Lücke zwischen ganz-einfach-aber-eingeschränkt und allmächtig-aber-schwierig zu füllen, habe ich EV3Basic entwickelt. 
+Diese Sprache ist speziell auf EV3-Benutzer zugeschnitten, die über die Beschränkungen der grafischen Programmierung hinausgehen 
+wollen, selbst aber noch keine IT-Profis sind.
+EV3Basic ist recht einfach zu lernen und bietet trotzdem alle Möglichkeiten, komplexere Steuerungen zu entwickeln. 
+Dabei programmieren zu lernen, ist noch ein zustätzlicher Bonus.
 </P>
 <P>
-EV3-Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
-but also for all interested persons new to this topic. "Small Basic" is intentionally designed for ease of use, and for my EV3-extension I tried to do the same.
-I would be very happy, if this language could indeed be of some use to learn programming and to use the EV3 brick more creatively.
+EV3Basic basiert auf der Programmiersprache "Small Basic" von Microsoft, die für Kinder oder allgemein für Anfänger als Möglichkeit eines 
+Einstiegs ins Programmieren geschaffen wurde. "Small Basic" wurde absichtlich einfach gehalten und für meine EV3-Erweiterung have ich versucht,
+das selbe Prinzip anzuwenden.
+Ich würde mich sehr freuen, wenn diese Sprache tatsächlich dabei helfen könnte, programmieren zu lernen und den EV3 kreativer zu benutzen.
 </P>
 <address>
 Reinhard Grafl
@@ -22,21 +27,24 @@ Reinhard Grafl
 reinhard.grafl@aon.at
 </address>
 
-<H1 class="chapter">Getting Started</H1>
+<H1 class="chapter">Erste Schritte</H1>
 <P>
-First thing you need is a PC running Microsoft Windows (any version up from Windows XP) and the current version of
-<a href="http://smallbasic.com">Microsoft Small Basic</a> which can be downloaded for free. If you are completely new to programming, 
-you probably need to learn the principles first. This does not take all too long and is quite fun in itself. There are some very good tutorials
-on the Small Basic website to help you with this.
+Was man zuerst braucht, ist ein PC mit Microsoft Windows (jede Version seit Windows XP) and the aktuelle Version von
+<a href="http://smallbasic.com">Microsoft Small Basic</a> die man sich gratis runterladen kann. Für komplette Programmier-Neulinge empfehle 
+ich die Tutorials auf Small Basic - Webseite um die grundlegenden Prinzipien zu erlernen. Das dauert nicht all zu lange und macht für sich
+alleine auch schon Spaß. 
 </P>
 <P>
-Next step is to download and install the EV3-extension for Small Basic to actually be able to control the EV3 brick with your program. 
-From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download and install the file "EV3BasicInstaller.msi".
-This should install the extension right into the installation directory of Small Basic. If you have before chosen a non-standard location for Small Basic, 
-use this same location here.
-At the next start of Small Basic (restart it if it was still running), you have access to various objects to control different aspects of the brick
-and some additional multi-purpose objects as well.
-Now create your very first EV3-program by writing 
+Der nächste Schritt ist, die EV3-Erweiterung für Small Basic zunterzuladen und zu installieren.
+Bei der <a href="https://github.com/c0pperdragon/EV3Basic/releases">neuesten Version</a> gibt es das die Datei "EV3BasicInstaller.msi", die 
+man gratis runterladen und installieren kann. 
+Die Installation muss direkt in das selbe Verzeichnis wie Small Basic gemacht werden. Normalerweise ist das schon richtig voreingestellt, wenn man
+den Installationspfad vom vorigen Schritt auch nicht verändert hat.
+Beim nächsten Start von Small Basic, hat man Zugriff auf verschiedene Objekte, mit denen sich die unterschiedlichen Aspekte des EV3-Bricks ansprechen lassen, 
+und noch ein paar weitere universell nützliche Objekte außerdem. 
+</P>
+<P>
+Als erstes Programm könnte man 
 </P>
 <pre>
    LCD.Clear()
@@ -44,87 +52,88 @@ Now create your very first EV3-program by writing
    Program.Delay(10000)
 </pre>
 <P>
-into the program window. 
-Then connect the EV3 brick with your computer using the USB cable, start it up, and when it is running, 
-press the big blue "Run" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
+in das Programm-Fenster tippen (oder kopieren).
+Sobald der EV3-Brick über ein USB-Kabel mit dem PC verbunden und eingeschaltet ist, kann man das Programm
+mit dem großen blauen "Ausführen" - Knopf von Small Basic starten.
 </P>
 <P>
-When writing your own programs, the Intellisense - system of Small Basic will show you the possible library functions and usage
-documentation which contains the same information that is also available in this document in the chapter "Library Documentation".
-Many more examples for the EV3 programming are also available on the releases page (probably named 'examples.zip'). 
+Während des Programmierens zeigt das Intellisense-System von Small Basic die möglichen Bibliotheksfunktionen und Erklärung
+für deren Benutzung. Diese Information is die selbe wie im Kapitel "Programmierbibliotheken".
+Es sind noch viele zusätzliche Beispiel auf der EV3Basic Webseite als 'Examples.zip' verfügbar. 
 </P>
 <P>
-Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independend robot that 
-has its own program and does not need the PC to tell it every single step.
+Den EV3-Brick vom PC aus fernzusteuern ist eine gute Sache, aber für viele Anwendungen ist es besser, das Programm direkt 
+und unabhängig auf dem Robotor auszuführen, ohne einen PC, der jeden einzelnen Schritt festlegen muss.
 </P>
 <P>
-To get the program to the brick, you need the EV3Explorer which was already installed along with the EV3-extension and is available on the 
-windows start menu (EV3Basic/EV3Explorer). Starting this program will open a window where you can see the files that are stored on the EV3 brick 
-(on the left side of the window) and also the files stored on your PC (on the right side of the window).
-You can compile any of the examples and your own programs by selecting the source code
-file (ends with .sb) and click "Compile and Run". 
-This will compile the source code file to a file that can be executed by the brick (having the file extension .rbf), uploads it to the brick
-and immediately starts it. 
-If you want to start your programs from the menu on the brick, you need to create a subfolder of the "prjs"-folder with a name of your
-choice and use this as a target folder for compilation. (The EV3 will only show programs in its menu that are properly placed in their own folder).
+Um das Programm auf den Brick zu bekommen, gibt es den EV3Explorer, der gleichzeit mit der EV3-Erweiterung mitinstalliert wurde, und
+nun über des Windows Start Menü (EV3Basic/EV3Explorer) geöffnet werden kann. Dieses Programm zeigt ein Fenster mit zwei Hälften: Links 
+sieht man die Dateien, die ma Brick gespeichert sind und rechts die Dateien am PC. 
+Man kann jedes der Beispiele oder jedes eigene Programm übersetzen und am Brick starten indem man es selektier und "Compile and Run" drückt.
+Dadurch wird das Quellprogramm in eine für den Brick verständliche Form übersetzt (in eine Datei mit der Erweiterung .rbf), auf den 
+Brick übertragen und sofort gestartet.
+Wenn das Programm auch im Menu auf dem Brick sichtbar sein soll, muss zuerst ein Unterverzeichnis des "prjs"-Verzeichnisses mit einem sprechenden
+Namen erstellt werden, in das das Ausführbar Programm hineincopiert werden muss (Der EV3-Brick zeigt nur Programme im Menü an, die auch in ihrem
+eignene Unterverzeichnis liegen).
 </P>
 
-<H1 class="chapter">Quick reference of Small Basic</H1>
+<H1 class="chapter">Kurzreferenz für Small Basic</H1>
 <p>
-For persons who already know how to program with some other languages and do not want to go through the complete Small Basic tutorials, 
-here is a short example that contains most language constructs and a short explanation of each.
-This example will not run on the EV3 brick, because it uses the Small Basic text window.
+Für Personen, die bereits in der einen oder anderen Sprache programmieren können, und die nicht die Small Basic Tutorials für die grundlegendsten
+Dinge durcharbeiten wollen, habe ich hier ein kleines Beispiel zusammengestellt, in dem die meisten Sprachkonstrukte von
+Small Basic vorkommen. 
+Das Beispiel läuft nicht am EV3-Brick sondern nur am PC, weil es das TextWindow - Objekt benutzt.
 </p>
 <pre>
 
-  ' Demo program explaining most of Small Basic
-  ' (all comments start with single quotation mark)
+  ' Demo-Programm zur Erklärung der meisten Small Basic - Elemente
+  ' (alle Kommentare starten mit einfachem Hochkomma)
 
-  ' Execution starts here
-  A = 5       ' variables are implicitly declared at first use 
-  a = a + 1   ' everything is case-insensitive
-  B[a] = 55   ' arrays are implicitly defined and grow as needed
-  X = "hi"    ' variables can also hold text
+  ' Ausführung startet hier
+  A = 5       ' Variablen werden implizit bei der ersten Benutzung deklariert
+  a = a + 1   ' Groß- und Kleinschreibung wird nie unterschieden
+  B[a] = 55   ' Arrays werden implizit deklariert und wachsen bei Bedarf
+  X = "hi"    ' Variablen können auch Text enthalten
 
-  Sub write   ' defines a sub-program with this name (no parameters possible)
-	TextWindow.WriteLine(X)           ' call library function, access variable defined elsewere
+  Sub write   ' Definiert ein Unterprogram (Parameter sind nicht möglich)
+	TextWindow.WriteLine(X)           ' Aufruf einer Bibliotheksfunktion, Zugriff auf Variable
   EndSub
-     ' control flow of the main program runs around the Sub - definitions
+     ' Ablauf des Hauptprogramms fließt um die Sub-Definition herum
 
-  TextWindow.WriteLine("A="+a)        ' string concatenation with +
-  WRITE()                             ' call subprogram. name is also case-insensitive
-  write2()                            ' may call subprogram that is defined further down the code
+  TextWindow.WriteLine("A="+a)        ' Texte werden mit + zusammengesetzt
+  WRITE()                             ' Aufruf eines Unterprogrammes. Groß- und Kleinschreibung ist egal.
+  write2()                            ' Kann Unterprogramm aufrufen, das erst später im Code definiert wird.
 
-  TextWindow.Writeline("B[6]="+B[6])  ' access to arrays'
+  TextWindow.Writeline("B[6]="+B[6])  ' Zugriff auf Arrays
   
-  For i=2 to 5 		               	  ' a loop from 2 to 5 (inclusively)
+  For i=2 to 5 		               	  ' Eine Schleife von 2 bis 5 (inclusive)
 	TextWindow.Writeline("I:"+I)
   EndFor
-  For i=6.5 to 10.5 step 2         	  ' a loop with fractional values and larger step
+  For i=6.5 to 10.5 step 2         	  ' Eine Schleife mit nicht-ganzzahligen Werten und größeren Schritten
 	TextWindow.Writeline("I:"+I)
   EndFor
 
   Sub write2
-	write()          ' subprogram can call other subprograms
+	write()          ' Unterprogram ruft andereres Unterprogram auf
 	write()
   EndSub
-     ' control flow of the main program runs around the Sub - definitions
+     ' Ablauf des Hauptprogramms fließt um die Sub-Definition herum
 
-   I=99				' case insensitive - overwrites previous i
-   while i>3        ' loop with condition
+   I=99				' i und I sind zwei Schreibungen für die gleiche Variable
+   while i>3        ' Schleife mit Bedingung
      i=i/2
      TextWindow.Writeline("I:"+i)
    endwhile
-   TextWindow.WriteLine("PI="+Math.PI)         ' a library property (access without parentesis)
-   TextWindow.WriteLine("SIN="+Math.Sin(0.5))  ' library function returning value
+   TextWindow.WriteLine("PI="+Math.PI)         ' Eine Bibliotheks-Eigenschaft (Zugriff ohne Klammern)
+   TextWindow.WriteLine("SIN="+Math.Sin(0.5))  ' Eine Bibliotheks-Funktioen mit Rückgabewert
 
    A=50
    B=20
-   If a<5 then				       ' an IF-construct with multiple conditions
+   If a<5 then				       ' Eine bedingte Anweisung mit mehreren Möglichkeiten
 		TextWindow.WriteLine("first")
-   elseif a<10 and b<100 then                ' logic 'and' of conditions
+   elseif a<10 and b<100 then                ' logische 'and' - Verknüpfung
 		TextWindow.WriteLine("second")
-   elseif a<20 or (b>40 and b<60) then       ' logic 'or' and nested conditions
+   elseif a<20 or (b>40 and b<60) then       ' verschachtelte logische Verknüpfungen
 		TextWindow.WriteLine("third")
    else
 		TextWindow.WriteLine("other")
@@ -132,140 +141,125 @@ This example will not run on the EV3 brick, because it uses the Small Basic text
 </pre>
 
 
-<H1 class="chapter">Differences between Small Basic and EV3-Basic</H1>
+<H1 class="chapter">Unterschiede zwischen Small Basic and EV3Basic</H1>
 <P>
-While I have tried to mimic the original behaviour of Small Basic in my EV3-compiler as exactly as possible, 
-there are some things that simply can not be done with the EV3 byte code interpreter.
+Obwohl ich versucht habe, das Originalverhalten von Small Basic in meinem EV3-Compiler so gut wie
+möglich zu imitieren, gibt es doch einige Dinge, die mit der Laufzeitumgebung des EV3-Bricks nicht möglich sind.
 </P>
 
-<H3 class="subchapter">Variables are typed</H3>
+<H3 class="subchapter">Variablen haben einen Datentyp</H3>
 <P>  
-While Small Basic has just one datatype which is a unicode string into which all possible values (even arrays) are mangled, 
-EV3Basic has 4 distinct datatypes for variables:
+Während Small Basic in jede Variable abwechselnd sowohl Zahlen oder Texte oder ganze Arrays speichern kann, 
+erhält bei EV3-Basic jede Variable einen der folgenden Datentypen:
+
 </P>
 <ul>
-<li>Number  (a 32bit floating point)</li>
+<li>Zahl  (eine 32bit Fließkommazahl)</li>
 <li>Text    </li>
-<li>Array of Numbers</li>
-<li>Array of Texts</li>
+<li>Array von Zahlen</li>
+<li>Array von Texten</li>
 </ul>
 <P>
-Every variable has one of these types (which is determined by its first use in the program code) 
-and can not be used to store anything else.
+Jede Variable bekommt bei der ersten Benutzung im Programm einen dieser Typen zugewiesen und kann
+ab dann nichts anderes als Werte dieses Types speichern. 
 </P>
 
-<H3 class="subchapter">Operators and functions work on compile-type types</H3>
+<H3 class="subchapter">Operatoren und Funktionen arbeiten entsprechend der Operanden-Typen</H3>
 <P>
-Arithmetic or logic operators need to be provided with either number or text parameters and deliver a result of also a defined type
-(for example, the "<" needs two numbers and delivers a text).
-One exception is the "=" which will perform either a numerical or a textual comparision, 
-depending on the compile-time type of the operands. Another exception is the "+" that will do a 
-numerical add when provided with two numbers, but will do a text concatenation if one of the operands is text.
-Similar requirements are there for function parameters, which also have a defined compile-time type. 
-To make things easier, an automatic conversion from number to text is done if a parameter needs a text (but not the other way round).
+Arithmetische oder logische Operatoren müssen mit spezifischen Datentypen benutzt werden und liefern ebenfalls 
+einen definierten Datentyp als Ergebnis (z.B. der Operator "<" erhält zwei Zahlen und liefert einen Text).
+Eine Ausnahme sind die Gleichheits/Ungleichheits-Operatoren, die entweder mit Zahlen oder Texten arbeiten, abhängig
+von den Datentypen der Operanden. Zweite Ausnahme ist der "+" - Operator, der entweder Zahlen addiert, oder
+Texte zusammenhängt.
+Ähnliche Einschränkungen gibt es für die Parameter von Bibliotheksfunktionen, die jeweils einen fixen Typ erwarten. 
+Als kleine Erleichterung werden dort Zahlen automatisch in Texte konvertiert, wenn die Funktion einen Text benötigt 
+(aber nicht anders herum)
 </P>
 
 <H3 class="subchapter">Arrays</H3>
 <P>
-In Small Basic arrays work like a dictionary and can use any text as an index. 
-EV3-Basic can not do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
- (A[4.5] is the same as A[4], A[-4] will always deliver 0 or "")
-There is no support for multi-dimensional arrays. 
-While arrays can be passed to library functions and out again, no temporary arrays are created to receive the result. For all functions that return an array,
-this return value must be immediately stored in an array variable.
+Die Arrays von Small Basic arbeiten sehr universell und können jede Zahl oder jeden Text als Index verwenden. 
+EV3-Basic kann das nicht. Nur Zahlen sind als Index erlaubt, und nur nicht-negative ganze Zahlen funktioniert wie erwartet.
+ (A[4.5] ist das selbe wie A[4], A[-4] liefert aber immer 0 oder "")
+Es gibt keine Unterstütztung für mehrdimensionale Arrays.
+Arrays können an Bibliotheksfunktionen übergeben werden. Array-Rückgabewerte müssen aber jeweils sofort in eine Variable gespeichert werden
+und können nicht statt dessen sofort an andere Funktionen geschickt werden (es gibt keinen automatisch angelegten temporären Speicher für Arrays).
 <P>
 
-<H3 class="subchapter">Limitation for text</H3>
+<H3 class="subchapter">Einschränkungen bei Text</H3>
 <P>
-Any text variable can only hold up to 251 characters and not the full unicode range is supported, 
-but only the codes 1 - 255  (they are just plain C-style char strings).
-The same holds for all elements of text arrays.
+Jede Variable vom Typ Text kann maximal 251 Zeichen enthalten und die möglichen Zeichen beschränken sich 
+auf die Unicode-Werte 1 - 255.
+Das selbe gilt für alle Elemente eines Text-Arrays.
 </P>
 
-<H1 class="chapter">Bluetooth Support</H1>
+<H1 class="chapter">Bluetooth-Unterstützung</H1>
 <P>
-Connecting the EV3 to your PC directly with an USB cable is the most easy and reliable
-way to use it with EV3-Basic. Nevertheless, having to use the cable can be quite cumbersome
-in many circumstances, especially when developing mobile robots.
+Die einfachste und verlässlichste Methode, den EV3 mit dem PC zu verbinden, ist über ein USB-Kabel.
+Aber in manchen Fällen ist eine Kabelverbindung zu unpraktisch, vor allem bei mobilen Robotern.
 </P>
 <P>
-When you have a working bluetooth faciliy on your PC (either with a bluetooth dongle or built-in),
-you can configure the EV3 to communicate with the PC wirelessly. If not already done, you have 
-to "pair" the EV3 with your PC to allow communication. To do so, first activate the bluetooth
-features on the EV3: In the settings menu, activate the "Visibility" and "Bluetooth" options.
-Then on the PC, open the system dialog "Bluetooth Devices". There you can search for the device 
-and start to establish a connection to EV3. The process may be a bit lengthy and requires to
- confirm the action on the
-EV3 as well as on the PC, and you will even have to enter the correct coupling code in some place 
-(should be "1234"). 
+Wenn der PC Bluetooth unterstützt (entweder mit einem Dongle oder schon eingebaut), kann der EV3 
+so konfiguriert werden, dass die Kommunikation auch drahtlos möglich ist.
+Wenn es noch nicht bereits geschehen ist, muss der EV3 zur Liste der Bluetooth-Geräte am
+PC hinzugefügt werden. Zuerst muss Bluetooth am EV3 aktiviert werden. Dazu müssen im Einstellungs-Menü die Punkte
+"Bluetooth" und  "Visibility" angewählt werden.
+Am PC muss man dann in der Übersicht der Bluetooth-Geräte ein neues Gerät suchen und hinzufügen. Nach einigen 
+weiteren geführten Schritten, bei denen man auch am EV3 den Zugriff zulassen, und einen Kopplungs-Code 
+(ist normalerweise "1234") eingeben muss, sollte die Verbindung hergestellt sein.
 </P>
 <P>
-Once the connection is set up and the automatic installation of the appropriate drivers is 
-finished, your PC can communicate with the EV3 over a so-called "Serial Port". Which will
-be named "COM1", "COM3" or the like. You can check which name was actually assigned by looking
-at the properties page of the EV3 bluetooth device. 
+Sobald es eine Verbindung gibt, und die notwendigen Gerätetreiber automatisch installiert wurden,
+kann der PC mit dem EV3 über einen sogenannten "Seriellen Anschluss" kommunizieren. Dieser Anschluss hat
+eine Bezeichnung in der Form "COM1", "COM2", oder ähnlich. Der tatsächlich vergebene Name ist
+in der Eigenschafts-Seite des Bluetooth-Gerätes ersichtlich.
 </P>
 <P>
-To use the newly established connection with EV3-Basic, just start your program from
-Small Basic or just start the EV3-Explorer. When no EV3 can be found directly connected via USB, 
-but there are possible "Serial Ports" available, the PC will prompt you to select one of
-these ports. When this is indeed the port for the EV3, the connection will work.
-</P>
-
-<H1 class="chapter">WiFi Support</H1>
-<P>
-Like a Bluetooth connection, a WiFi connection allows you to connect to your model without using 
-a cable. WiFi has some advantages over Bluetooth concerning range, speed and reliability, 
-but also comes with some drawbacks like higher power consumption and the need to add a WiFi dongle to the EV3. 
-And this setup only works when you have a WiFi router available. It is basically a matter of taste
-if you prefer bluetooth or WiFi, or maybe a matter of technical issues with one of the possibilites.
-<P>
-To use the WiFi option, you need a specific WiFi dongle that is compatible with the EV3 brick. Currently there
-is only one model available that works with an unmodified EV3: "Netgear WNA1100" which must be inserted
-into the large USB connector at the left side of the EV3.
-Setting up the WiFi connection can be done from the settings menu on the brick. You have to activate the 
-WiFi option (this takes some time to start up the dongle) and then you have to establish a connection to 
-the WiFi router. In case you have set up encryption for your WiFi network, you need to enter the WPA2-key
-directly on the brick. Currently no other WiFi-encryption methods are supported.
-<P>
-Once you have successfully established a connection between the EV3 and your router, the EV3 should have
-received an IP address, which would look something like "10.2.3.4". You can check which address was 
-assigned to your EV3 in the "Brick Info" section of the settings menu. It is at the very bottom of the list.
-<P>
-When you want to finally connect to the EV3 from a Small Basic program or with the EV3-Explorer,
-use the "WiFi" button in the dialog box that asks for which connection to use. Then enter the IP address exactly as it
-was shown on the brick. You only have to enter the address once. For future uses, it will already appear in
-the selection list.
-<P>
-Note, that the brick does not automatically connect to the WiFi router when starting up. You always have to 
-activate the connection after each power-up.
-
-<H1 class="chapter">Motor object since v1.0</H1>
-<P>
-For version 1.0, I made a re-design of the Motor object, so programs written for v0.9 or 
-earlier need some adjustments to work with v1.0.
-One of the main changes is, that there are no "Motor.Speed" or "Motor.Power" commands anymore. You 
-have to specify the speed or power directly at the "Motor.Start" command. Also the other motor control commands
-have been restructured into a functional matrix:
-</P>
-<TABLE>
-<TR><TD></TD><TD>Move x degrees while waiting</TD><TD>Start to run indefinitely</TD><TD>Start to move x degrees</TD></TR>
-<TR><TD>Regulate speed</TD><TD>Motor.Move</TD><TD>Motor.Start</TD><TD>Motor.Schedule</TD></TR>
-<TR><TD>Choose power</TD><TD>Motor.MovePower</TD><TD>Motor.StartPower</TD><TD>Motor.SchedulePower</TD></TR>
-<TR><TD>Synchronize</TD><TD>Motor.MoveSync</TD><TD>Motor.StartSync</TD><TD>Motor.ScheduleSync</TD></TR>
-</TABLE>
-<P>
-For most purposes the variants with speed regulation of a single motor will be the right choice. So these commands have
-shorter names (no "Power" or "Sync" suffix) when compared to their expert-feature counterparts. 
-</P>
-<P>
-When you have to change power or speed of an already running motor, just re-issue a start command with the appropriate
-speed or power value. The motor will then seemlessly switch over to the new mode of operation.
+Um diese neue Verbindung mit EV3-Basic zu verwenden, muss man nur das Programm wie gewohnt vom Small Basic
+starten, oder den EV3-Explorer benutzen. Falls kein EV3 an einem USB-Anschluss gefunden werden kann, zeigt 
+das Programm weitere Möglichkeiten an. In dem Dialogfenster erscheinen auch alle potentiellen "Seriellen
+Anschlüsse", an denen ein EV3 verbunden sein könnte. Wenn man den richtigen auswählt, dann sollte
+eine Verbindung funktionieren.
 </P>
 
-<H1 class="chapter">Library Documentation</H1>
+<H1 class="chapter">WiFi-Unterstützung (WLAN)</H1>
 <P>
-The runtime-library for the EV3 is organized in individual parts, called 'object's. Each object provides functionality for a different part of the system. 
-This list contains everything that is available for both Small Basic on the PC (with EV3-extension) and also on the brick when compiling with EV3Explorer.
-When developing programs that only need to run on the PC, you can also use everything else that is provided by Small Basic, but I have not documented it here.
+Wie die Bluetooth-Verbindung, dient eine Kommunikation über WiFi ebenfalls zur drahtlosen
+Kommunikation zwischen dem PC und dem EV3-Brick. WiFi hat einige Vorteile, wie höhere Geschwindigkeit,
+Reichweite und Stabilität. Es hat aber auch Nachteile wie größeren Stromverbrauch und die Tatsache,
+dass man einen WiFi-Dongle an den EV3 anstecken muss. Außerdem funktioniert das nur, wenn man 
+auch einen WiFi-Router zur Verfügung hat.
+Teilweise ist es eine Geschmackssache, ob man Bluetooth oder das WiFi verwenden will.
+</P>
+<P>
+Um die WiFi-Variante zu benutzen, benötigt man einen speziellen Dongle, der kompatibel mit dem EV3 ist.
+Derzeit gibt es nur ein einziges Modell das mit einem unmodifizierten EV3 funktioniert: "Netgear WNA1100", der
+an den großen USB-Stecker an der linken Seite des EV3 angesteckt wird.
+Die Verbindung kann man direkt am Einstellungs-Menü vom EV3 einrichten. Man muss zuerst die Option "WiFi" aktivieren
+(das dauert ein bisschen bis der Dongle gestartet ist) und dann muss man die Verbindung zum WiFi-Router herstellen.
+Für den Fall, dass das Wifi-Netzwerk durch Verschlüsselung geschützt ist, muss hier der WPA2-Schlüssel
+eingegeben werden. Derzeit werden keine anderen Verschlüsselungsmethoden unterstützt.
+</P>
+<P>
+Sobald eine Verbindung zwischen EV3 und Router hergestelllt ist, sollte der EV3 eine IP-Adresse erhalten haben.
+Diese Adresse in der Form "10.2.3.4" oder ähnlich, wird im Einstellungs-Menu im Punkt "Brick Info" ganz unten
+in der Liste angezeigt.
+</P>
+<P>
+Um endlich den EV3 von Small Basic oder mit dem EV3-Explorer anzusteuern, muss man den "WiFi"-Button im Dialogfenster,
+das nach der richtigen Verbindungsmethode fragt, drücken. 
+Dort muss man die IP-Adresse genauso wie vom Brick angezeigt eingegeben werden. Das muss man nur einmal machen,
+diese Adresse wird am PC für zukünftige Verwendung gespeichert.
+</P>
+<P>
+Achtung: Der EV3-Brick verbindet sich nach dem Start nicht automatisch mit dem Router. Das muss jedesmal von Hand veranlasst werden.
+</P>
+
+<H1 class="chapter">Dokumentation der Bibliotheksfunktionen</H1>
+<P>
+Die Laufzeit-Bibliothek für den EV3 besteht aus einzelnen Komponenten, die 'Objekte' genannt werden. Jedes Objekt 
+stellt Funktionen für eine spezifischen Teil des Systemes bereit.
+Diese Liste enthält alle Objekte, die sowohl für Small Basic am PC (mit der EV3-Erweiterung) als auch am EV3-Brick selbst verfügbar sind.
+Beim Schreiben vom Programmen, die sowieso nur am PC laufen sollen, kann man auch alle weiteren Objekte von Small Basic benutzen.
+Sie sind hier aber nicht beschrieben.
 </P>
