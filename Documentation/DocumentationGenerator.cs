@@ -48,7 +48,7 @@ namespace Documentation
                      Documentation.Properties.Resources.ManualDE,
                      "Rückgabewert",
                      "Eigenschaft",
-                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_de.html"
+                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_handbuch.html"
                      );
         }
 
