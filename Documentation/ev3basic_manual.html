@@ -438,7 +438,7 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Message that will be displayed if the assertion fails.</P>
 <H2 class="object">Buttons</H2>
 <P class="objectsummary">Reads the states and clicks of the buttons on the brick.<BR>The buttons are specified with the following letters:<BR>U   up<BR>D   down<BR>L   left<BR>R   right<BR>E   enter</P>
-<H3 class="property">Buttons.Current - property</H3>
+<H3 class="property">Buttons.Current - Property</H3>
 <P class="propertysummary">The buttons that are currently pressed. <BR>This property contains a text with the key letters of all keys being pressed at the moment.</P>
 <H3 class="operation">Buttons.Flush ()</H3>
 <P class="operationsummary">Remove any clicked-state of all buttons. Subsequent calls to GetClicks will only deliver the buttons that were clicked after the flush.</P>
@@ -450,9 +450,9 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="operationsummary">Wait until at least one button is clicked. If a buttons was already clicked before calling this function, it returns immediately.</P>
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Small utility functions that concern the EV3 brick as a whole.</P>
-<H3 class="property">EV3.BatteryLevel - property</H3>
+<H3 class="property">EV3.BatteryLevel - Property</H3>
 <P class="propertysummary">The current loading level of the battery (range 0 to 100).</P>
-<H3 class="property">EV3.Time - property</H3>
+<H3 class="property">EV3.Time - Property</H3>
 <P class="propertysummary">The time in milliseconds since the program was started.</P>
 <H3 class="operation">EV3.QueueNextCommand ()</H3>
 <P class="operationsummary">Increase performance when program runs in "PC mode": Do not send next command to the brick immediately, but wait until one more command is issued which will then be sent together with the first one. You can bunch more commands together by using an additional call to QueueNextCommand before any command that should be place into the queue.<BR>In "brick mode", this command has no effect.</P>
@@ -688,7 +688,7 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">The message as a text. Currently only text messages are supported.</P>
 <H2 class="object">Math</H2>
 <P class="objectsummary">The Math class provides lots of useful mathematics related methods</P>
-<H3 class="property">Math.Pi - property</H3>
+<H3 class="property">Math.Pi - Property</H3>
 <P class="propertysummary">Gets the value of Pi</P>
 <H3 class="operation">Math.Abs (number)</H3>
 <P class="operationsummary">Gets the absolute value of the given number.  For example, -32.233 will return 32.233.</P>
@@ -946,9 +946,9 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Motor port name(s)</P>
 <H2 class="object">Program</H2>
 <P class="objectsummary">The Program class provides helpers to control the program execution.</P>
-<H3 class="property">Program.ArgumentCount - property</H3>
+<H3 class="property">Program.ArgumentCount - Property</H3>
 <P class="propertysummary">Gets the number of command-line arguments passed to this program.</P>
-<H3 class="property">Program.Directory - property</H3>
+<H3 class="property">Program.Directory - Property</H3>
 <P class="propertysummary">Gets the executing program's directory.</P>
 <H3 class="operation">Program.Delay (milliSeconds)</H3>
 <P class="operationsummary">Delays program execution by the specified amount of MilliSeconds.</P>
@@ -1158,7 +1158,7 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="returnssummary">True if the subtext was found at the start of the given text.</P>
 <H2 class="object">Thread</H2>
 <P class="objectsummary">This object supports the use of threads in a program. <BR>A threads is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.<BR>Geneally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.</P>
-<H3 class="property">Thread.Run - property</H3>
+<H3 class="property">Thread.Run - Property</H3>
 <P class="propertysummary">With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). <BR>Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second<BR>use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.<BR>Note that even in the precence of running threads, the whole program stops as soon as the main program runs to its end.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
 <P class="operationsummary">Create a mutex (short for "mutual exclusion" handler) that can be used for thread synchronization. <BR>Only creation of mutexes is supported, but no deletion. Best practice is to create all needed mutexes at program start and keep their numbers in global variables.</P>

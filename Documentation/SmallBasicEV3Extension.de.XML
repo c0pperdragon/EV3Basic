@@ -7,7 +7,7 @@
         <member name="T:SmallBasicEV3Extension.Assert">
             <summary>
             Das Assert-Objekt unterstützt den Programmierer dabei, Teile des Programmes auf Korrektheit zu überprüfen.
-            Eine 'Assertion' macht implizite Annahmen über das Programmverhalten explizit. Durch hinzufügen von Assertions, kann man Fehler im Programm leicher finden. Wenn zum Beispiel ein Teil des Programmes davon ausgeht, dass die Variable A einen positiven Wert hat, dann kann man das mit Assert.Greater(A,0,"A muss > 0 sein!") an dieser Stelle überprüfen. 
+            Eine 'Assertion' macht implizite Annahmen über das Programmverhalten explizit. Durch Hinzufügen von Assertions, kann man Fehler im Programm leicher finden. Wenn zum Beispiel ein Teil des Programmes davon ausgeht, dass die Variable A einen positiven Wert hat, dann kann man das mit Assert.Greater(A,0,"A muss > 0 sein!") an dieser Stelle überprüfen. 
             Falls das Programm auf eine Assertion trifft, die nicht erfüllt ist, wird eine entsprechende Fehlermeldung im Textfenster oder am Bildschirm des EV3 ausgegebeben.
             </summary>
         </member>
@@ -93,7 +93,7 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Buttons.Wait">
             <summary>
-            Wartet bis zumindest eine Taste am Brick gedrück wird. Falls eine Taste bereits vorher gedrück war und der Tastendruck noch nicht mit GetClicks abgeholt wurde, dann kehrt dieser Befehl sofort zurück.
+            Wartet bis zumindest eine Taste am Brick gedrückt wird. Falls eine Taste bereits vorher gedrückt war und der Tastendruck noch nicht mit GetClicks abgeholt wurde, dann kehrt dieser Befehl sofort zurück.
             </summary>
         </member>
         <member name="M:SmallBasicEV3Extension.Buttons.Flush">
@@ -109,7 +109,7 @@
         </member>
         <member name="T:SmallBasicEV3Extension.EV3File">
             <summary>
-            EV3File dient zum Ansprechen des Dateisystems auf dem Brick um Daten zu lesen und zu schreiben.
+            EV3File dient zum Ansprechen des Dateisystems auf dem Brick, um Daten zu lesen und zu schreiben.
             Dateinamen können entweder absolut (mit führendem '/') oder relativ zum 'prjs'-Verzeichnis sein.
             </summary>
         </member>
@@ -118,7 +118,7 @@
             Öffnet eine Datei zum Schreiben. Falls die Datei schon existiert, wird sie überschrieben.
             </summary>
             <param name="filename">Name der Datei die angelegt bzw. überschrieben werden soll.</param>
-            <returns>Eine Nummer mit der die offene Datei später angesprochen wird.</returns>
+            <returns>Eine Nummer, mit der die offene Datei später angesprochen wird.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.EV3File.OpenAppend(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -131,8 +131,8 @@
             <summary>
             Öffnet eine Datei zum Lesen. Falls die Datei nicht existiert, wird 0 zurückgeben.
             </summary>
-            <param name="filename">Name der Datei von der gelesen werden soll.</param>
-            <returns>Eine Nummer mit der die offene Datei später angesprochen wird, oder 0 falls die Datei nicht existiert.</returns>
+            <param name="filename">Name der Datei, von der gelesen werden soll.</param>
+            <returns>Eine Nummer, mit der die offene Datei später angesprochen wird, oder 0 falls die Datei nicht existiert.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.EV3File.Close(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -158,14 +158,14 @@
             <summary>
             Liest eine Zeile Text aus einer Datei. Der Text wird bis zum Zeilenumbruch (code 10) aus der Datei gelesen und entsprechend ISO-8859-1 dekodiert.
             </summary>
-            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgegeben wurde.</param>
             <returns>Der Text, der aus der Datei gelesen wurde.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.EV3File.ReadByte(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Liest ein einzelnes Byte aus einer Datei.
             </summary>
-            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgegeben wurde.</param>
             <returns>Das nächste Byte aus der Datei.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.EV3File.ReadNumberArray(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
@@ -185,8 +185,8 @@
         </member>
         <member name="M:SmallBasicEV3Extension.EV3File.TableLookup(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Hilfsfunktion um aus einer möglicherweise extrem großen Datei ein einzelnes Byte herauszulesen.
-            Weil die Datei so groß sein kann, dass der Wertebereich normaler vom EV3 unterstützter Zahlen nicht mehr ausreicht, um alle Bytes zu adressieren, ist es möglich die Datei mit einer Zeilen/Spalten-Adressierung anzusprechen.
+            Hilfsfunktion, um aus einer möglicherweise extrem großen Datei ein einzelnes Byte herauszulesen.
+            Weil die Datei so groß sein kann, dass der Wertebereich normaler, vom EV3 unterstützter Zahlen, nicht mehr ausreicht, um alle Bytes zu adressieren, ist es möglich die Datei mit einer Zeilen/Spalten-Adressierung anzusprechen.
             </summary>
             <param name="filename">Der Name der Datei.</param>
             <param name="bytes_per_row">Wenn man eine Zeilen/Spalten-Adressierung verwenden will, ist das die Länge der einzelnen Zeilen. Ansonsten muss man hier 1 verwenden um jedes Byte als eigene Zeile zu interpretieren.</param>
@@ -249,18 +249,18 @@
             Schreibt einen Text (oder eine Zahl) in einer Größe und Farbe.
             </summary>
             <param name="color">0 (Weiß) oder 1 (Schwarz)</param>
-            <param name="x">X-Koordinate wo der Text anfangen soll</param>
-            <param name="y">Y-Koordinate wo der Text anfangen soll</param>
+            <param name="x">X-Koordinate, wo der Text anfangen soll</param>
+            <param name="y">Y-Koordinate, wo der Text anfangen soll</param>
             <param name="font">Schriftgröße: 0 (winzig), 1 (klein), 2 (groß)</param>
-            <param name="text">Der Text (oder die Zahl) die geschrieben werden soll</param>
+            <param name="text">Der Text (oder die Zahl), die geschrieben werden soll</param>
         </member>
         <member name="M:SmallBasicEV3Extension.LCD.Write(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Schreibt einen Text (oder eine Zahl) in mittlerer Größe und schwarzer Farbe.
             </summary>
-            <param name="x">X-Koordinate wo der Text anfangen soll</param>
-            <param name="y">Y-Koordinate wo der Text anfangen soll</param>
-            <param name="text">Der Text (oder die Zahl) die geschrieben werden soll</param>
+            <param name="x">X-Koordinate, wo der Text anfangen soll</param>
+            <param name="y">Y-Koordinate, wo der Text anfangen soll</param>
+            <param name="text">Der Text (oder die Zahl), die geschrieben werden soll</param>
         </member>
         <member name="M:SmallBasicEV3Extension.LCD.FillRect(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -349,7 +349,7 @@
             <summary>
             Steuert die angeschlossenen Motoren.
             Bei jedem Befehl muss man einen oder mehrere Motor-Ports angeben, auf den sich der Befehl beziehen soll (zum Beispiel, "A", "BC", "ABD").
-            Falls weitere EV3-Bricks über ein Kabel mit dem Haupt-Brick verbunden sind, muss man eine Ziffer entsprechend der Stelle in der Kette hinzufügen (z.B. "3BC", "2A"). In diesem Fall kann man mit einem Befehlr nur die Motoren eines einzelnen Bricks ansprechen.
+            Falls weitere EV3-Bricks über ein Kabel mit dem Haupt-Brick verbunden sind, muss man eine Ziffer entsprechend der Stelle in der Kette hinzufügen (z.B. "3BC", "2A"). In diesem Fall kann man mit einem Befehl nur die Motoren eines einzelnen Bricks ansprechen.
             Geschwindigkeit oder Leistung: Wenn man einen Motor mit einer gewählten Geschwindigkeit betreiben will, dann reguliert der EV3 die Leistung für den Motor permanent so, dass die Geschwindikgkeit eingehalten wird, egal wie viel Widerstand dem entgegenwirkt (zumindest so lange noch genug Leistungsreserve verfügbar ist).
             </summary>
         </member>
@@ -388,7 +388,7 @@
             Fragt die derzeitige Geschwindigkeit eines Motors ab. 
             </summary>
             <param name="port">Motor port name</param>
-            <returns>Aktuelle Geschwindigkeit im Bereich -100 to 100</returns>
+            <returns>Aktuelle Geschwindigkeit im Bereich -100 bis 100</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.Motor.IsBusy(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -399,9 +399,9 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Motor.Schedule(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Bewegt einen oder mehrere Motoren entsprechend mehrerer Geschwindigkeits-Parameter. Die Geschwindkeit kann positionsabhängig gesteigert oder verringert werden um einen sanften Anlauf oder Stopp zu erreichen.
-            Der Gesamtwinkel den der Motor drehen soll, ist degrees1+degrees2+degrees3. Am Ende der Bewegung stoppt der Motor automatisch (mit oder ohne Bremsen).
-            Dieses Kommand kehrt sofort zurück während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
+            Bewegt einen oder mehrere Motoren entsprechend mehrerer Geschwindigkeits-Parameter. Die Geschwindkeit kann positionsabhängig gesteigert oder verringert werden, um einen sanften Anlauf oder Stopp zu erreichen.
+            Der Gesamtwinkel, den der Motor drehen soll, ist degrees1+degrees2+degrees3. Am Ende der Bewegung stoppt der Motor automatisch (mit oder ohne Bremsen).
+            Dieses Kommand kehrt sofort zurück, während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
             </summary>
             <param name="ports">Name des/der Motor-Ports</param>
             <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
@@ -412,9 +412,9 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Motor.SchedulePower(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Bewegt einen oder mehrere Motoren entsprechend mehrerer Leistungs-Parameter. Die Leistung kann positionsabhängig gesteigert oder verringert werden um einen sanften Anlauf oder Stopp zu erreichen.
+            Bewegt einen oder mehrere Motoren entsprechend mehrerer Leistungs-Parameter. Die Leistung kann positionsabhängig gesteigert oder verringert werden, um einen sanften Anlauf oder Stopp zu erreichen.
             Der Gesamtwinkel den der Motor drehen soll, ist degrees1+degrees2+degrees3. Am Ende der Bewegung stoppt der Motor automatisch (mit oder ohne Bremsen).
-            Dieses Kommand kehrt sofort zurück während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
+            Dieses Kommand kehrt sofort zurück, während der Motor noch läuft. Mit IsBusy() kann man testen, wann die Bewegung abgeschlossen ist, oder das Programm kann mit Wait() direkt auf das Ende warten.
             </summary>
             <param name="ports">Name des/der Motor-Ports</param>
             <param name="power">Leistung von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</param>
@@ -474,7 +474,7 @@
         <member name="M:SmallBasicEV3Extension.Motor.MoveSync(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
-            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.
+            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für ein Fahrzeug mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.
             Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
             Dieser Befehl blockiert so lange bis die Bewegung abgeschlossen ist.
             </summary>
@@ -494,8 +494,7 @@
 		<member name="T:SmallBasicEV3Extension.Sensor">
             <summary>
             Steuert die angeschlossenen Sensoren.
-            Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1).
-            Um Ports anderer EV3-Bricks, die mit dem Haupt-Brick verbunden sind, anzusprechen, verwendet man die nächst höheren Nummern (5 - 8 für die Sensor-Ports des ersten angeschlossenen Bricks, 9-12 für die des nächsten, und so weiter).
+            Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1). Um Ports anderer EV3-Bricks, die mit dem Haupt-Brick verbunden sind, anzusprechen, verwendet man die nächst höheren Nummern (5 - 8 für die Sensor-Ports des ersten angeschlossenen Bricks, 9-12 für die des nächsten, und so weiter).
             </summary>
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.GetName(Microsoft.SmallBasic.Library.Primitive)">
@@ -523,11 +522,11 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.SetMode(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Schalten einen Sensor in einen anderen Modus.
-            Viele Sensoren können in unterschiedlichen Modi arbeiten und sehr verschiedene Messergebnisse liefern. Die Bedeuting der Modus-Nummer hängt vom Sensor-Typ ab. Weitere Information dazu ist im Anhang zu finden.
+            Schaltet einen Sensor in einen anderen Modus.
+            Viele Sensoren können in unterschiedlichen Modi arbeiten und sehr verschiedene Messergebnisse liefern. Die Bedeuting der Modus-Nummer hängt vom Sensor-Typ ab. Weitere Informationen dazu sind im Anhang zu finden.
             </summary>
             <param name="port">Nummer des Sensor-Ports</param>
-            <param name="mode">Der Modus in den umgeschaltet werden woll. Das funktioniert nur, wenn der Sensor diesen Modus auch unterstützt.</param>
+            <param name="mode">Der Modus, in den umgeschaltet werden soll. Das funktioniert nur, wenn der Sensor diesen Modus auch unterstützt.</param>
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.IsBusy(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -538,7 +537,7 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.Wait(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Wartet, bis ein Sensor seinen Moduswechsel abgeschlossen hat. Wenn keine Sensor am angegebenen Port angeschlossen ist, kehrt der Befehl sofort zurück.
+            Wartet, bis ein Sensor seinen Moduswechsel abgeschlossen hat. Wenn kein Sensor am angegebenen Port angeschlossen ist, kehrt der Befehl sofort zurück.
             </summary>
             <param name="port">Nummer des Sensor-Ports</param>
         </member>
@@ -569,8 +568,8 @@
             <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
             <param name="writebytes">Anzahl der Bytes, die gesendet werden sollen (maximal 31).</param>
             <param name="readbytes">Anzahl der Bytes, die empfangen werden sollen (maximal 32, minimal 1).</param>
-            <param name="writedata">Array mit den zu sendenden Bytes (beginnend mit index 0).</param>
-            <returns>Ein Array mit den empfangenen Bytes. Index beginnt bei 0.</returns>
+            <param name="writedata">Array mit den zu sendenden Bytes.</param>
+            <returns>Ein Array mit den empfangenen Bytes.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.SendUARTData(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -597,7 +596,7 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Mailbox.Send(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Sended eine Nachricht an einen Briefkasten eines anderen EV3-Bricks.
+            Sendet eine Nachricht an einen Briefkasten eines anderen EV3-Bricks.
             </summary>
             <param name="brickname">Der Name des Bricks, der die Nachricht empfangen soll. Zuvor muss eine Verbindung zu diesem Brick geöffnet worden sein. Es ist auch möglich, einen Leertext als Namen anzugeben. In diesem Fall wird die Nachricht an alle verbundenen Bricks geschickt.</param>
             <param name="boxname">Name des Briefkastens in dem die Nachricht gespeichert werden soll.</param>
@@ -672,7 +671,7 @@
         </member>
         <member name="T:SmallBasicEV3Extension.Thread">
             <summary>
-            Dieses Objekt unterstützt dier Verwendung von Nebenläufigkeiten (Threads) in einem Programm.
+            Dieses Objekt unterstützt die Verwendung von Nebenläufigkeiten (Threads) in einem Programm.
             Ein Thread ist ein Programmstück, das unabhängig von und gleichzeitig mit anderen Teilen des Programmes ablaufen kann. Zum Beispiel könnte ein Thread die Motoren einer Maschine steuern, während ein anderer Thread Tasteneingaben verarbeitet.
             Allgemein gesagt ist Multithreading ein sehr komplexes Thema. Um es wirklich zu verstehen, empfehle ich die Verwendung weiterführender Literatur.
             </summary>
@@ -687,7 +686,7 @@
         <member name="M:SmallBasicEV3Extension.Thread.CreateMutex">
             <summary>
             Erzeugt einen Mutex (kurz für "Mutual Exclusion" = "gegenseiter Ausschluss") der dann für die Synchronisierung von Threads benutzt werden kann.
-            Nur die Erzeugung von Mutexes wird unterstützt und kein Löschen. Idealerweise legt ein Programm alle nötigen Mutexe gleich beim Programmstart an speichert die Identifikationsnummern in globalen Variablen.
+            Nur die Erzeugung von Mutexes wird unterstützt aber kein Löschen. Idealerweise legt ein Programm alle nötigen Mutexe gleich beim Programmstart an und speichert die Identifikationsnummern in globalen Variablen.
             </summary>
             <returns>Die Identifikationsnummer des neue erzeugten Mutex.</returns>
         </member>
@@ -710,7 +709,7 @@
             <summary>
             Mit dieser Objekt-Eigenschaft werden neue Threads erzeugt. Sobald dieser Eigenschaft ein Unterprogram zugewiesen wird, startet dieses Unterprogramm als unabhängiger Thread (zum Beispiel: Thread.Run = MYSUB). 
             Jedes Unterprogramm kann so als unabhängiger Thread gestartet werden, aber jedes Unterprogramm kann nur einmal zur gleichen Zeit ablaufen. Eine neuerliche Zuweisung zu Thread.Run(), während das Unterprogram noch als Thread läuft, fügt es nur in eine Warteschlange hinzu.
-            Sobald sich der vorige Thread beendet (Unterprogram läuft zu seinem Ende), wird es automatisch ein weiteres mal gestarted. Es gehen keine Aufrufe verloren, aber sie werden eventuell erst später abgearbeitet als gedacht.
+            Sobald sich der vorige Thread beendet (Unterprogram läuft zu seinem Ende), wird es automatisch ein weiteres Mal gestartet. Es gehen keine Aufrufe verloren, aber sie werden eventuell erst später abgearbeitet, als gedacht.
             Achtung: Auch wenn noch weitere Threads aktiv sind, wird das ganze Programm terminiert, sobald das Hauptprogramm zu seinem Ende läuft.
             </summary>
         </member>

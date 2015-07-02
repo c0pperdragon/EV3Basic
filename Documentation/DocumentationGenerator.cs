@@ -37,6 +37,8 @@ namespace Documentation
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml",
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.Manual,
+                     "Returns",
+                     "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html"
                      );
         
@@ -44,12 +46,14 @@ namespace Documentation
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.DE.xml",
                      "EV3Basic Benutzerhandbuch",
                      Documentation.Properties.Resources.ManualDE,
+                     "Rückgabewert",
+                     "Eigenschaft",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_de.html"
                      );
         }
 
 
-        internal static void generate(String xml1, String xml2, String title, String part1, String outfilename)
+        internal static void generate(String xml1, String xml2, String title, String part1, String returnstext, String propertytext, String outfilename)
         {
             objects = new Dictionary<String,EV3Object>();
 
@@ -116,7 +120,7 @@ namespace Documentation
                 foreach (var pkey in plist)
                 {
                     String p = o.properties[pkey];
-                    target.WriteLine("<H3 class=\"property\">" + opkey+"."+pkey + " - property</H3>");
+                    target.WriteLine("<H3 class=\"property\">" + opkey+"."+pkey + " - "+propertytext+"</H3>");
                     target.WriteLine("<P class=\"propertysummary\">" + p.Replace("\n","<BR>") + "</P>");
                 }
                 // write functions
@@ -138,7 +142,7 @@ namespace Documentation
                     // write return value 
                     if (f.returnvalue != null)
                     {
-                        target.WriteLine("<H4 class=\"returns\">Returns</H4>");
+                        target.WriteLine("<H4 class=\"returns\">"+returnstext+"</H4>");
                         target.WriteLine("<P class=\"returnssummary\">" + f.returnvalue + "</P>");
                     }
                 }

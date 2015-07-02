@@ -1,12 +1,11 @@
 <H1 class="chapter">EV3Basic</H1>
 <P>
-Einen Roboter nach eigenen Ideen zu programmieren macht Spaß. Der einfachste Weg, den Lego EV3 Brick für einfache Aufgaben
-zu programmieren, ist mit der grafischen Software von Lego.
-Aber für größere und komplexere Programm, ist diese Method nicht mehr gut geeignet und man braucht eine textbasierte 
-Programmiersprache dafür.
-Es gibt auch viele verschiedene Projekte um Programmiersprachen für den EV3 zu adaptieren (LeJOS, MonoBrick, RobotC, ev3dev, and andere).
+Einen Roboter nach eigenen Ideen zu programmieren macht Spaß. Am einfachsten gelingt das Programmieren einfacher Aufgaben 
+mit der grafischen Software von Lego.
+Für größere und komplexere Programme braucht man jedoch eine textbasierte Programmiersprache.
+Es gibt auch viele verschiedene Projekte, um Programmiersprachen für den EV3 zu adaptieren (LeJOS, MonoBrick, RobotC, ev3dev, and andere).
 Aber alle haben eine Sache gemeinsam: Sie sind unglaublich schwierig zum Laufen zu bringen und zu benutzen. Man benötigt 
-jahrelange Erfahrung um auch nur eine davon benutzen zu können.
+jahrelange Erfahrung, um auch nur eine davon benutzen zu können.
 </P>
 <P>
 Um diese Lücke zwischen ganz-einfach-aber-eingeschränkt und allmächtig-aber-schwierig zu füllen, habe ich EV3Basic entwickelt. 
@@ -29,19 +28,19 @@ reinhard.grafl@aon.at
 
 <H1 class="chapter">Erste Schritte</H1>
 <P>
-Was man zuerst braucht, ist ein PC mit Microsoft Windows (jede Version seit Windows XP) and the aktuelle Version von
+Was man zuerst braucht, ist ein PC mit Microsoft Windows (jede Version seit Windows XP) und die aktuelle Version von
 <a href="http://smallbasic.com">Microsoft Small Basic</a> die man sich gratis runterladen kann. Für komplette Programmier-Neulinge empfehle 
 ich die Tutorials auf Small Basic - Webseite um die grundlegenden Prinzipien zu erlernen. Das dauert nicht all zu lange und macht für sich
 alleine auch schon Spaß. 
 </P>
 <P>
-Der nächste Schritt ist, die EV3-Erweiterung für Small Basic zunterzuladen und zu installieren.
-Bei der <a href="https://github.com/c0pperdragon/EV3Basic/releases">neuesten Version</a> gibt es das die Datei "EV3BasicInstaller.msi", die 
+Der nächste Schritt ist, die EV3-Erweiterung für Small Basic runterzuladen und zu installieren.
+Bei der <a href="https://github.com/c0pperdragon/EV3Basic/releases">neuesten Version</a> gibt es die Datei "EV3BasicInstaller.msi", die 
 man gratis runterladen und installieren kann. 
-Die Installation muss direkt in das selbe Verzeichnis wie Small Basic gemacht werden. Normalerweise ist das schon richtig voreingestellt, wenn man
+Die Installation muss direkt in das selbe Verzeichnis wie Small Basic gespeichert werden. Normalerweise ist das schon richtig voreingestellt, wenn man
 den Installationspfad vom vorigen Schritt auch nicht verändert hat.
-Beim nächsten Start von Small Basic, hat man Zugriff auf verschiedene Objekte, mit denen sich die unterschiedlichen Aspekte des EV3-Bricks ansprechen lassen, 
-und noch ein paar weitere universell nützliche Objekte außerdem. 
+Beim nächsten Start von Small Basic, hat man Zugriff auf verschiedene Objekte, mit denen sich die unterschiedlichen Aspekte des EV3-Bricks ansteuern lassen, 
+sowie noch ein paar weitere universell nützliche Objekte. 
 </P>
 <P>
 Als erstes Programm könnte man 
@@ -57,24 +56,24 @@ Sobald der EV3-Brick über ein USB-Kabel mit dem PC verbunden und eingeschaltet i
 mit dem großen blauen "Ausführen" - Knopf von Small Basic starten.
 </P>
 <P>
-Während des Programmierens zeigt das Intellisense-System von Small Basic die möglichen Bibliotheksfunktionen und Erklärung
+Während des Programmierens zeigt das Intellisense-System von Small Basic die möglichen Bibliotheksfunktionen und Erklärungen
 für deren Benutzung. Diese Information is die selbe wie im Kapitel "Programmierbibliotheken".
 Es sind noch viele zusätzliche Beispiel auf der EV3Basic Webseite als 'Examples.zip' verfügbar. 
 </P>
 <P>
 Den EV3-Brick vom PC aus fernzusteuern ist eine gute Sache, aber für viele Anwendungen ist es besser, das Programm direkt 
-und unabhängig auf dem Robotor auszuführen, ohne einen PC, der jeden einzelnen Schritt festlegen muss.
+auf dem Roboter auszuführen, unabhängig von einem PC, der jeden einzelnen Schritt festlegen muss.
 </P>
 <P>
 Um das Programm auf den Brick zu bekommen, gibt es den EV3Explorer, der gleichzeit mit der EV3-Erweiterung mitinstalliert wurde, und
-nun über des Windows Start Menü (EV3Basic/EV3Explorer) geöffnet werden kann. Dieses Programm zeigt ein Fenster mit zwei Hälften: Links 
-sieht man die Dateien, die ma Brick gespeichert sind und rechts die Dateien am PC. 
-Man kann jedes der Beispiele oder jedes eigene Programm übersetzen und am Brick starten indem man es selektier und "Compile and Run" drückt.
+nun über das Windows Start Menü (EV3Basic/EV3Explorer) geöffnet werden kann. Dieses Programm zeigt ein Fenster mit zwei Hälften: Links 
+sieht man die Dateien, die am Brick gespeichert sind und rechts die Dateien am PC. 
+Man kann jedes der Beispiele oder jedes eigene Programm übersetzen und am Brick starten, indem man es auswählt und "Compile and Run" drückt.
 Dadurch wird das Quellprogramm in eine für den Brick verständliche Form übersetzt (in eine Datei mit der Erweiterung .rbf), auf den 
 Brick übertragen und sofort gestartet.
-Wenn das Programm auch im Menu auf dem Brick sichtbar sein soll, muss zuerst ein Unterverzeichnis des "prjs"-Verzeichnisses mit einem sprechenden
-Namen erstellt werden, in das das Ausführbar Programm hineincopiert werden muss (Der EV3-Brick zeigt nur Programme im Menü an, die auch in ihrem
-eignene Unterverzeichnis liegen).
+Wenn das Programm auch im Menu auf dem Brick sichtbar sein soll, muss zuerst ein Unterverzeichnis des "prjs"-Verzeichnisses mit einem 
+aussagekräftigen Namen erstellt werden, in das das ausführbare Programm hineinkopiert werden muss (Der EV3-Brick zeigt nur Programme im Menü
+an, die auch in ihrem eigenen Unterverzeichnis liegen).
 </P>
 
 <H1 class="chapter">Kurzreferenz für Small Basic</H1>
@@ -95,7 +94,7 @@ Das Beispiel läuft nicht am EV3-Brick sondern nur am PC, weil es das TextWindow 
   B[a] = 55   ' Arrays werden implizit deklariert und wachsen bei Bedarf
   X = "hi"    ' Variablen können auch Text enthalten
 
-  Sub write   ' Definiert ein Unterprogram (Parameter sind nicht möglich)
+  Sub write   ' Definiert ein Unterprogramm (Parameter sind nicht möglich)
 	TextWindow.WriteLine(X)           ' Aufruf einer Bibliotheksfunktion, Zugriff auf Variable
   EndSub
      ' Ablauf des Hauptprogramms fließt um die Sub-Definition herum
@@ -114,7 +113,7 @@ Das Beispiel läuft nicht am EV3-Brick sondern nur am PC, weil es das TextWindow 
   EndFor
 
   Sub write2
-	write()          ' Unterprogram ruft andereres Unterprogram auf
+	write()          ' Unterprogramm ruft andereres Unterprogramm auf
 	write()
   EndSub
      ' Ablauf des Hauptprogramms fließt um die Sub-Definition herum
@@ -173,13 +172,13 @@ von den Datentypen der Operanden. Zweite Ausnahme ist der "+" - Operator, der en
 Texte zusammenhängt.
 Ähnliche Einschränkungen gibt es für die Parameter von Bibliotheksfunktionen, die jeweils einen fixen Typ erwarten. 
 Als kleine Erleichterung werden dort Zahlen automatisch in Texte konvertiert, wenn die Funktion einen Text benötigt 
-(aber nicht anders herum)
+(aber nicht anders herum).
 </P>
 
 <H3 class="subchapter">Arrays</H3>
 <P>
 Die Arrays von Small Basic arbeiten sehr universell und können jede Zahl oder jeden Text als Index verwenden. 
-EV3-Basic kann das nicht. Nur Zahlen sind als Index erlaubt, und nur nicht-negative ganze Zahlen funktioniert wie erwartet.
+EV3-Basic kann das nicht. Nur Zahlen sind als Index erlaubt, und nur nicht-negative ganze Zahlen funktionieren wie erwartet.
  (A[4.5] ist das selbe wie A[4], A[-4] liefert aber immer 0 oder "")
 Es gibt keine Unterstütztung für mehrdimensionale Arrays.
 Arrays können an Bibliotheksfunktionen übergeben werden. Array-Rückgabewerte müssen aber jeweils sofort in eine Variable gespeichert werden
@@ -204,7 +203,7 @@ so konfiguriert werden, dass die Kommunikation auch drahtlos möglich ist.
 Wenn es noch nicht bereits geschehen ist, muss der EV3 zur Liste der Bluetooth-Geräte am
 PC hinzugefügt werden. Zuerst muss Bluetooth am EV3 aktiviert werden. Dazu müssen im Einstellungs-Menü die Punkte
 "Bluetooth" und  "Visibility" angewählt werden.
-Am PC muss man dann in der Übersicht der Bluetooth-Geräte ein neues Gerät suchen und hinzufügen. Nach einigen 
+Am PC muss man dann in der Übersicht der Bluetooth-Geräte das neue Gerät suchen und hinzufügen. Nach einigen 
 weiteren geführten Schritten, bei denen man auch am EV3 den Zugriff zulassen, und einen Kopplungs-Code 
 (ist normalerweise "1234") eingeben muss, sollte die Verbindung hergestellt sein.
 </P>
@@ -218,7 +217,7 @@ in der Eigenschafts-Seite des Bluetooth-Gerätes ersichtlich.
 Um diese neue Verbindung mit EV3-Basic zu verwenden, muss man nur das Programm wie gewohnt vom Small Basic
 starten, oder den EV3-Explorer benutzen. Falls kein EV3 an einem USB-Anschluss gefunden werden kann, zeigt 
 das Programm weitere Möglichkeiten an. In dem Dialogfenster erscheinen auch alle potentiellen "Seriellen
-Anschlüsse", an denen ein EV3 verbunden sein könnte. Wenn man den richtigen auswählt, dann sollte
+Anschlüsse", an denen ein EV3 verbunden sein könnte. Wenn man den richtigen auswählt, sollte
 eine Verbindung funktionieren.
 </P>
 
@@ -248,7 +247,7 @@ in der Liste angezeigt.
 <P>
 Um endlich den EV3 von Small Basic oder mit dem EV3-Explorer anzusteuern, muss man den "WiFi"-Button im Dialogfenster,
 das nach der richtigen Verbindungsmethode fragt, drücken. 
-Dort muss man die IP-Adresse genauso wie vom Brick angezeigt eingegeben werden. Das muss man nur einmal machen,
+Dort muss die IP-Adresse genauso wie vom Brick angezeigt eingegeben werden. Das muss man nur einmal machen,
 diese Adresse wird am PC für zukünftige Verwendung gespeichert.
 </P>
 <P>
@@ -258,7 +257,7 @@ Achtung: Der EV3-Brick verbindet sich nach dem Start nicht automatisch mit dem R
 <H1 class="chapter">Dokumentation der Bibliotheksfunktionen</H1>
 <P>
 Die Laufzeit-Bibliothek für den EV3 besteht aus einzelnen Komponenten, die 'Objekte' genannt werden. Jedes Objekt 
-stellt Funktionen für eine spezifischen Teil des Systemes bereit.
+stellt Funktionen für einen spezifischen Teil des Systemes bereit.
 Diese Liste enthält alle Objekte, die sowohl für Small Basic am PC (mit der EV3-Erweiterung) als auch am EV3-Brick selbst verfügbar sind.
 Beim Schreiben vom Programmen, die sowieso nur am PC laufen sollen, kann man auch alle weiteren Objekte von Small Basic benutzen.
 Sie sind hier aber nicht beschrieben.
