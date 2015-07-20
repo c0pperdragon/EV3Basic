@@ -25,7 +25,7 @@ using EV3Communication;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// Use the built-in speaker of the brick to play tones or sound files.
+    /// Use the brick's built-in speaker to play tones or sound files.
     /// </summary>
     [SmallBasicType]
     public static class Speaker
@@ -116,7 +116,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Check if the speaker is still busy playing a previous sound.
+        /// Check whether the speaker is still busy playing a previous sound.
         /// </summary>
         /// <returns>"True", if there is a sound still playing, "False" otherwise.</returns>
         public static Primitive IsBusy()

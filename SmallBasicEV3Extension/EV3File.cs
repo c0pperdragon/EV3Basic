@@ -275,7 +275,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Read a whole array of numbers in binary from from the file. The numbers are encoded in IEEE single precision floating point representation.
+        /// Read a whole array of numbers in binary form from the file. The numbers are encoded in IEEE single precision floating point representation.
         /// </summary>
         /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
         /// <param name="size">Number of values to read</param>

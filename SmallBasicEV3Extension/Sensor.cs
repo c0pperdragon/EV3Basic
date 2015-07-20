@@ -64,7 +64,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Get the numercial type identifier of a currently connected sensor.
+        /// Get the numerical type identifier of a currently connected sensor.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>Sensor type identifier (for example, 16 for a touch sensor)</returns>
@@ -95,7 +95,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Get current operation mode of a sensor. 
-        /// Many sensors can work in substantially different modes. For example, the color sensor can detect either ambient light or reflective light or the color). When the sensor is plugged in it will normally start with mode 0, but that can be later changed by the program.
+        /// Many sensors can work in substantially different modes. For example, the color sensor can detect ambient light, reflected light or color. When the sensor is plugged in it will normally start with mode 0, but that can be changed later by the program.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <returns>Current operation mode (0 is always the default mode)</returns>
@@ -154,7 +154,7 @@ namespace SmallBasicEV3Extension
         /// Check if a sensor is currently busy switching mode or in process of initialization. After mode switching a sensor may take some time to become ready again.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>"True" if the sensor is currenty busy</returns>
+        /// <returns>"True" if the sensor is currently busy</returns>
         public static Primitive IsBusy(Primitive port)
         {
             int layer;
@@ -209,7 +209,7 @@ namespace SmallBasicEV3Extension
         /// Most sensors can translate the current reading to a meaningful single percentage value like light intensity or button press state.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <returns>The percentage value (For example, the touch sensor gives 100 for pressed and 0 for non pressed)</returns>
+        /// <returns>The percentage value (For example, the touch sensor gives 100 for pressed and 0 for non-pressed)</returns>
         public static Primitive ReadPercent(Primitive port)
         {
             int layer;
@@ -238,11 +238,11 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Read current sensor value where the result from ReadPercent() is not specific enough.
-        /// Some sensor modes deliver values that can not be translated to percentage (for example a color index) or that contain multiple values at once (for example the individual red, green, blue light intensities). 
+        /// Some sensor modes deliver values that cannot be translated to percentage (for example a color index) or that contain multiple values at once (for example the individual red, green, blue light intensities that make up RGB). 
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="values">Requested size of result array</param>
-        /// <returns>An array holding the requested number of values. Index starts at 0. Elements that did get no data are set to 0.</returns>
+        /// <returns>An array holding the requested number of values. Index starts at 0. Elements that got no data are set to 0.</returns>
         public static Primitive ReadRaw(Primitive port, Primitive values)
         {
             int layer;
@@ -288,7 +288,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Similiar to ReadRaw, but does not return an array of raw values, but only a single element.
+        /// Similiar to ReadRaw, but returns only a single raw value instead of an array of raw values.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="index">Index of the value that should be picked from the result array.</param>
@@ -335,7 +335,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
-        /// This command addresses one device on the I2C-bus and can send and receive multiple bytes. This feature could be used to attach a custom sensor or to communicate with any device that is capable to be connected to the I2C bus as a slave.
+        /// This command addresses one device on the I2C-bus and can send and receive multiple bytes. This feature could be used to attach a custom sensor or to communicate with any device that is capable of being connected to the I2C bus as a slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
@@ -406,7 +406,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the 
-        /// sensor ports. This can be useful to send custom commands to custom made sensors/actors.
+        /// sensor ports. This can be useful to send custom commands to custom made sensors/actuators.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="writebytes">Number of bytes to write to the device (maximum 32).</param>

@@ -26,7 +26,7 @@ namespace SmallBasicEV3Extension
 {
     /// <summary>
     /// This object supports the use of threads in a program. 
-    /// A threads is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.
+    /// A thread is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.
     /// Geneally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.
     /// </summary>
     [SmallBasicType]
@@ -45,7 +45,7 @@ namespace SmallBasicEV3Extension
         /// With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). 
         /// Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second
         /// use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.
-        /// Note that even in the precence of running threads, the whole program stops as soon as the main program runs to its end.
+        /// Note that even in the presence of running threads, the whole program stops as soon as the main program runs to its end.
         /// </summary>
         public static event SmallBasicCallback Run 
         {
@@ -79,7 +79,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Create a mutex (short for "mutual exclusion" handler) that can be used for thread synchronization. 
-        /// Only creation of mutexes is supported, but no deletion. Best practice is to create all needed mutexes at program start and keep their numbers in global variables.
+        /// Only creation of mutexes is supported, but not deletion. Best practice is to create all needed mutexes at program start and keep their numbers in global variables.
         /// </summary>
         /// <returns>A number specifying the new mutex. Use this for calls to Lock and Unlock</returns>
         public static Primitive CreateMutex()
@@ -93,9 +93,9 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Tries to lock the given mutex exclusively so no other thread can aquire a lock on it. 
-        /// When another thread already holds a lock on the mutex, the current thread will wait until the lock is released and then aquire the lock itself (once the function call returns, the mutex has been successfully locked).
-        /// This locking mechanism is normally used to protect some data structures or other resources to be accessed by two threads concurrently. Every call to Lock must be paired with a call to a subsequent Unlock.
+        /// Tries to lock the given mutex exclusively so no other thread can acquire a lock on it. 
+        /// When another thread already holds a lock on the mutex, the current thread will wait until the lock is released and then acquire the lock itself (once the function call returns, the mutex has been successfully locked).
+        /// This locking mechanism is normally used to protect some data structures or other resources from being accessed by two threads concurrently. Every call to Lock must be paired with a call to a subsequent Unlock.
         /// </summary>
         /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Lock(Primitive mutex)
@@ -122,7 +122,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Releases a lock on a mutex. This function must only be called when there was indeed a preceeding call to Lock. 
+        /// Releases a lock on a mutex. This function must only be called when there was indeed a preceding call to Lock. 
         /// </summary>
         /// <param name="mutex">The number of the mutex (as returned from CreateMutex() )</param>
         public static void Unlock(Primitive mutex)

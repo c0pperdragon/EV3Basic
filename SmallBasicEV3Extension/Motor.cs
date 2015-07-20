@@ -28,9 +28,9 @@ namespace SmallBasicEV3Extension
 
     /// <summary>
     /// Control the Motors connected to the Brick.
-    /// At any function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").
+    /// For every Motor function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").
     /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. 
-    /// Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will just be provided with this much electrical power and the actual speed will then depend on the resistance it meets.
+    /// Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will be provided with just this much electrical power and the actual speed will then depend on the resistance it meets.
     /// </summary>
     [SmallBasicType]
     public static class Motor
@@ -106,7 +106,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Set two motors to run synchronized at their chosen speed levels. 
-        /// The two motors will be synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The motors will keep running until stopped by another command.
         /// </summary>
         /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
@@ -201,14 +201,14 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Move one or more motors with the specified speed values. The speed can be adjusted along the total rotation to get a soft start and a soft stop if needed.
-        /// The angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
-        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
+        /// The total angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
+        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until the movement is finished.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="speed">Speed level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="degrees1">The part of the rotation where to accelerate</param>
+        /// <param name="degrees1">The part of the rotation during which to accelerate</param>
         /// <param name="degrees2">The part of the rotation with uniform motion</param>
-        /// <param name="degrees3">The part of the rotation where to decelerate</param>
+        /// <param name="degrees3">The part of the rotation during which to decelerate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void Schedule(Primitive ports, Primitive speed, Primitive degrees1, Primitive degrees2, Primitive degrees3, Primitive brake)
         {
@@ -237,14 +237,14 @@ namespace SmallBasicEV3Extension
         
         /// <summary>
         /// Move one or more motors with the specified power. The power can be adjusted along the total rotation to get a soft start and a soft stop if needed.
-        /// The angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
-        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
+        /// The total angle to rotate the motor is degrees1+degrees2+degrees3. At the end of the movement, the motor stops automatically (with or without using the brake).
+        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until the movement is finished.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         /// <param name="power">Power level from -100 (full reverse) to 100 (full forward)</param>
-        /// <param name="degrees1">The part of the rotation where to accelerate</param>
+        /// <param name="degrees1">The part of the rotation during which to accelerate</param>
         /// <param name="degrees2">The part of the rotation with uniform motion</param>
-        /// <param name="degrees3">The part of the rotation where to decelerate</param>
+        /// <param name="degrees3">The part of the rotation during which to decelerate</param>
         /// <param name="brake">"True", if the motor(s) should switch on the brake after movement</param>
         public static void SchedulePower (Primitive ports, Primitive power, Primitive degrees1, Primitive degrees2, Primitive degrees3, Primitive brake)
         {
@@ -273,16 +273,16 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Move 2 motors synchroniously a defined number of degrees. 
-        /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
-        /// The distance to move will be measured at the motor with the higher speed.
+        /// Move 2 motors synchronously a defined number of degrees. 
+        /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The distance to move is for the motor with the higher speed.
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
-        /// <param name="degrees">The angle of the faster motor to rotate</param>
-        /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
+        /// <param name="degrees">The angle through which the faster motor should rotate.</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
         public static void ScheduleSync(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
             int layer, nos;
@@ -405,9 +405,9 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Moves 2 motors synchroniously a defined number of degrees. 
-        /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
-        /// The angle to move will be measured at the motor with the higher speed.
+        /// Moves 2 motors synchronously a defined number of degrees. 
+        /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The angle to move is for the motor with the higher speed.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>

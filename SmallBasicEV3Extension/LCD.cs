@@ -79,7 +79,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Draw all changes to the display that have happened since the last call to StopUpdate().
-        /// After Update() everthing will again be drawn directly unless you use the StopUpdate() once more.
+        /// After Update() everything will again be drawn directly unless you use the StopUpdate() once more.
         /// </summary>
         public static void Update()
         {

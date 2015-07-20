@@ -25,7 +25,7 @@ namespace SmallBasicEV3Extension
 {
     /// <summary>
     /// A test facility to help check part of the code for correctness. 
-    /// Assertions make implicit assumptions about the current program state explicit. By adding assertion calls you can help finding bugs in your program more easily. For example, when a part of the program depends on the variable A having a positive value, you could call  Assert.Greater(A,0,"A must be > 0!"). 
+    /// Assertions make implicit assumptions about the current program state explicit. By adding assertion calls you can find bugs in your program more easily. For example, when a part of the program depends on the variable A having a positive value, you could call  Assert.Greater(A,0,"A must be > 0!"). 
     /// In the case that the program runs into an assertion that is not satisfied, the error message is displayed stating the problem.
     /// </summary>
     [SmallBasicType]

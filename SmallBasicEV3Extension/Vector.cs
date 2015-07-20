@@ -25,7 +25,7 @@ namespace SmallBasicEV3Extension
 {
     /// <summary>
     ///  This object allows direct manipulation of larger quantities of numbers. 
-    ///  These are called vectors and will be stored using arrays with consecutive indizes (starting at 0).
+    ///  These are called vectors and will be stored using arrays with consecutive indices (starting at 0).
     ///  When arrays with different content are given to the operations, every missing array 
     ///  element with be treated as being 0.
     /// </summary>
@@ -85,8 +85,8 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Matrix multipliation operation. 
-        /// The input vectors are treated as two-dimensional matrizes of given width and height. The individual rows of the matrix are stored inside the vectors directly one after the other.
+        /// Matrix multiplication operation. 
+        /// The input vectors are treated as two-dimensional matrices of given width and height. The individual rows of the matrix are stored inside the vectors directly one after the other.
         /// To learn more about this mathematical operation see http://en.wikipedia.org/wiki/Matrix_multiplication .
         /// </summary>
         /// <param name="rows">Number of rows in the resulting output matrix</param>
