@@ -261,7 +261,7 @@ have been restructured into a functional matrix:
 </TABLE>
 <P>
 For most purposes the variants with speed regulation of a single motor will be the right choice. So these commands have
-shorter names (no "Power" or "Sync" suffix) when compared to their expert-feature counterparts. 
+shorter names (no "Power" or "Sync" suffix) when compared to their unregulated or synchronized counterparts. 
 </P>
 <P>
 When you have to change power or speed of an already running motor, just re-issue a start command with the appropriate

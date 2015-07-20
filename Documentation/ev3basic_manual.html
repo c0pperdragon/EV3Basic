@@ -360,7 +360,7 @@ have been restructured into a functional matrix:
 </TABLE>
 <P>
 For most purposes the variants with speed regulation of a single motor will be the right choice. So these commands have
-shorter names (no "Power" or "Sync" suffix) when compared to their expert-feature counterparts. 
+shorter names (no "Power" or "Sync" suffix) when compared to their unregulated or synchronized counterparts. 
 </P>
 <P>
 When you have to change power or speed of an already running motor, just re-issue a start command with the appropriate
@@ -903,7 +903,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
 <H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
-<P class="operationsummary">Move 2 motors synchroniously a defined number of degrees. <BR>The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move will be measured at the motor with the higher speed.</P>
+<P class="operationsummary">Move 2 motors synchroniously a defined number of degrees. <BR>The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move will be measured at the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed1</H4>
@@ -1235,9 +1235,9 @@ Type  Mode  Name            get reading with   delivers
 29       0  COL-REFLECT     ReadPercent        0=no reflective light, 100=maximum reflective light
 29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
 29       2  COL-COLOR       ReadRaw (1 value)  0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
-29       5  RGB-RAW         ReadRaw (3 values) value1=red intensity, value2=green intensity, value3=blue intensity
+29       4  RGB-RAW         ReadRaw (3 values) value1=red intensity, value2=green intensity, value3=blue intensity
 
-33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
+33       0  IR-PROX         ReadPercent        distance in inch (not very accurate)
 33       1  IR-SEEK         ReadRaw (2 values) direction and distance to IR beacon
 33       2  IR-REMOTE       ReadRaw (4 values) value1=signal from channel 1 (*), value2=signal from channel 2...
                                     a remote control sender can be switched to use one of 4 channels 

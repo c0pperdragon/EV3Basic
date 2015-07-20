@@ -227,6 +227,11 @@ namespace EV3Communication
                 c.CONST(1);            // program slot 1 = user slot
                 c.GLOBVAR(9);
 
+                // as additional startup-action, reset the hardware (sensors and motors)
+                c.OP(0x99);            // opInput_Device (CMD, …)
+                c.CONST(0x0A);         // CLR_ALL = 0x0A
+                c.CONST(-1);           // LAYER – Specify chain layer number [0-3] (-1 = All)
+
                 byte[] response = con.DirectCommand(c, 10, 0);
                 if (response == null || response[8] != 0x0040 || response[9] == 0x0040)
                 {

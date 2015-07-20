@@ -132,6 +132,8 @@ namespace SmallBasicEV3Extension
         /// <param name="mode">New mode to switch to. This only succeeds when the mode is indeed supported by the sensor.</param>
         public static void SetMode(Primitive port, Primitive mode)
         {
+            Wait(port);  // make sure a previous mode change/init was already finished before attempting switching mode
+
             int layer;
             int no;
             DecodePort(port, out layer, out no);

@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_396BB60B39C544A1AC6C21B406F7B632"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3E85783D20824507B807D3816BE9F452"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -100,6 +94,12 @@
         "Entry"
         {
         "MsmKey" = "8:_DF6DF75A76C448C7A79E58FB0E384596"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F1BD66CBC21D4BE582F6D48E55E84D2E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -289,26 +289,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_396BB60B39C544A1AC6C21B406F7B632"
-            {
-            "SourcePath" = "8:..\\Documentation\\ev3basic_manual_de.html"
-            "TargetName" = "8:ev3basic_manual_de.html"
-            "Tag" = "8:"
-            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E85783D20824507B807D3816BE9F452"
             {
             "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.de.XML"
@@ -442,6 +422,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F1BD66CBC21D4BE582F6D48E55E84D2E"
+            {
+            "SourcePath" = "8:..\\Documentation\\ev3basic_handbuch.html"
+            "TargetName" = "8:ev3basic_handbuch.html"
+            "Tag" = "8:"
+            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F5CDD074D58C3554E666A5E4C4C3A927"
             {
             "AssemblyRegister" = "3:1"
@@ -561,7 +561,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:EV3Basic 1.0.5"
+        "ProductName" = "8:EV3Basic 1.0.6"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
         "PackageCode" = "8:{4E18CAE7-313E-4B56-A8AC-9B56AB4CE569}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
@@ -570,11 +570,11 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.5"
+        "ProductVersion" = "8:1.0.6"
         "Manufacturer" = "8:Reinhard Grafl"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:EV3Basic 1.0.5"
+        "Title" = "8:EV3Basic 1.0.6"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Reinhard Grafl"
         "Keywords" = "8:"
@@ -683,7 +683,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_220BC840114E4C17AE8DCC0743E46825"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_30C7A9AA44F541AB91987905083DD5D6"
             {
             "Name" = "8:Handbuch"
             "Arguments" = "8:"
@@ -691,7 +691,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_396BB60B39C544A1AC6C21B406F7B632"
+            "Target" = "8:_F1BD66CBC21D4BE582F6D48E55E84D2E"
             "Folder" = "8:_2093CF3C334A41D5AB8A4A7F58BAB1EE"
             "WorkingFolder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
             "Icon" = "8:"

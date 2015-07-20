@@ -218,6 +218,9 @@ namespace SmallBasicEV3Extension
             int dgr1 = degrees1;
             int dgr2 = degrees2;
             int dgr3 = degrees3;
+            if (dgr1 < 0) dgr1 = -dgr1;
+            if (dgr2 < 0) dgr2 = -dgr2;
+            if (dgr3 < 0) dgr3 = -dgr3;
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
@@ -251,7 +254,10 @@ namespace SmallBasicEV3Extension
             int dgr1 = degrees1;
             int dgr2 = degrees2;
             int dgr3 = degrees3;
-            int brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            if (dgr1 < 0) dgr1 = -dgr1;
+            if (dgr2 < 0) dgr2 = -dgr2;
+            if (dgr3 < 0) dgr3 = -dgr3;
+            int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xAC);        // start scheduled movement
@@ -270,6 +276,7 @@ namespace SmallBasicEV3Extension
         /// Move 2 motors synchroniously a defined number of degrees. 
         /// The two motors are synchronized, that means, when one motor experiences some resistance and can not keep up its speed, the other motor will also slow down or stop altogether. This is expecially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The distance to move will be measured at the motor with the higher speed.
+        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
@@ -283,7 +290,8 @@ namespace SmallBasicEV3Extension
             double spd1 = fclamp(speed1,-100,100);
             double spd2 = fclamp(speed2,-100,100);
             int dgr = degrees;
-            int brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            if (dgr < 0) dgr = -dgr;
+            int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
             if (dgr > 0)
             {

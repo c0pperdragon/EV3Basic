@@ -259,8 +259,11 @@ subcall MOTOR.SCHEDULE   // SFFFFSV    MOTORDECODEPORTSDESCRIPTOR
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
 	MOVEF_8 speed spd
+	MATH ABS step1 step1
 	MOVEF_32 step1 stp1
+	MATH ABS step2 step2
 	MOVEF_32 step2 stp2
+	MATH ABS step3 step3
 	MOVEF_32 step3 stp3	
 	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
     STRINGS COMPARE brake 'TRUE' brk	
@@ -287,8 +290,11 @@ subcall MOTOR.SCHEDULEPOWER   // SFFFFSV     MOTORDECODEPORTSDESCRIPTOR
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
 	MOVEF_8 power pwr
+	MATH ABS step1 step1
 	MOVEF_32 step1 stp1
+	MATH ABS step2 step2
 	MOVEF_32 step2 stp2
+	MATH ABS step3 step3
 	MOVEF_32 step3 stp3	
 	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
     STRINGS COMPARE brake 'TRUE' brk
@@ -313,6 +319,7 @@ subcall MOTOR.SCHEDULESYNC   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
 	DATA8 brk
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	MATH ABS count count
 	MOVEF_32 count cnt
 	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
     STRINGS COMPARE brake 'TRUE' brk	

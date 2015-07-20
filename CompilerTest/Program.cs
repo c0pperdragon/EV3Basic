@@ -15,8 +15,8 @@ namespace Test
         static void Main(string[] args)
         {
 //            TestWiFiReceiveBroadcast();
-            TestWiFi();
-//            TestCompile();
+//            TestWiFi();
+            TestCompile();
 //            TestAssemble();
 //            TestDisassemble();
         }
