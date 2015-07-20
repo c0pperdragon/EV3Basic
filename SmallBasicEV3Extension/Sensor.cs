@@ -127,6 +127,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Switches the mode of a sensor. 
         /// Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.
+        /// Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start and wait until they are ready. 
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="mode">New mode to switch to. This only succeeds when the mode is indeed supported by the sensor.</param>
@@ -284,6 +285,51 @@ namespace SmallBasicEV3Extension
                 map[new Primitive((double)i)] = new Primitive(v<-1000000000 ? 0:v);
             }            
             return Primitive.ConvertFromMap(map);
+        }
+
+        /// <summary>
+        /// Similiar to ReadRaw, but does not return an array of raw values, but only a single element.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="index">Index of the value that should be picked from the result array.</param>
+        /// <returns>One element of a raw sensor reading.</returns>
+        public static Primitive ReadRawValue(Primitive port, Primitive index)
+        {
+            int layer;
+            int no;
+            DecodePort(port, out layer, out no);
+
+            int _index = index;
+            if (_index < 0 || _index>7)
+            {
+                return new Primitive(0);  // index out of range - just return 0
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x9E);                // Input_ReadExt
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(0);                // 0 = don't change type
+            c.CONST(-1);               // -1 = don't change mode
+            c.CONST(18);               // FORMAT = raw (32bit)
+            c.CONST(8);                // return 8 32bit-values
+            c.GLOBVAR(0);
+            c.GLOBVAR(4);
+            c.GLOBVAR(8);
+            c.GLOBVAR(12);
+            c.GLOBVAR(16);
+            c.GLOBVAR(20);
+            c.GLOBVAR(24);
+            c.GLOBVAR(28);
+
+            byte[] result = EV3RemoteControler.DirectCommand(c, 32, 0);
+            if (result==null || result.Length<32)
+            {
+                return new Primitive(0);
+            }
+
+            double v = DecodeRaw(result, _index * 4);
+            return new Primitive(v < -1000000000 ? 0 : v);
         }
 
 

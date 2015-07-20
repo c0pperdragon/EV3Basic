@@ -228,6 +228,47 @@ arrayempty:
 	ARRAY RESIZE resultarray 0
 }
 
+subcall SENSOR.READRAWVALUE            // FFF
+{
+	IN_F port
+	IN_F index
+	OUT_F result
+
+	DATA8 layer
+	DATA8 no
+	DATA8 index8
+		
+	MOVEF_8 port no
+	SUB8 no 1 no
+	DIV8 no 4 layer
+	MATH MOD8 no 4 no
+
+	MOVEF_8 index index8
+	JR_LT8 index8 0 outofbounds
+	JR_GT8 index8 7 outofbounds
+
+	DATA32 rawvalue0
+	DATA32 rawvalue1
+	DATA32 rawvalue2
+	DATA32 rawvalue3
+	DATA32 rawvalue4
+	DATA32 rawvalue5
+	DATA32 rawvalue6
+	DATA32 rawvalue7
+	INPUT_READEXT layer no 0 -1 18 8 rawvalue0 rawvalue1 rawvalue2 rawvalue3 rawvalue4 rawvalue5 rawvalue6 rawvalue7
+	
+	DATA32 rawtmp
+	READ32 rawvalue0 index8 rawtmp
+
+	JR_LT32 rawtmp -1000000000 nomoredata
+	MOVE32_F rawtmp result
+	RETURN
+
+nomoredata:
+outofbounds:
+	MOVEF_F 0.0 result
+}
+
 
 subcall SENSOR.COMMUNICATEI2C     // FFFFAA
 {

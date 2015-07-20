@@ -1016,6 +1016,14 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Requested size of result array</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">An array holding the requested number of values. Index starts at 0. Elements that did get no data are set to 0.</P>
+<H3 class="operation">Sensor.ReadRawValue (port, index)</H3>
+<P class="operationsummary">Similiar to ReadRaw, but does not return an array of raw values, but only a single element.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">index</H4>
+<P class="parametersummary">Index of the value that should be picked from the result array.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">One element of a raw sensor reading.</P>
 <H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
 <P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the <BR>sensor ports. This can be useful to send custom commands to custom made sensors/actors.</P>
 <H4 class="parameter">port</H4>
@@ -1025,7 +1033,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">writedata</H4>
 <P class="parametersummary">Array holding the data bytes to be sent (starting at 0).</P>
 <H3 class="operation">Sensor.SetMode (port, mode)</H3>
-<P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.</P>
+<P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.<BR>Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start and wait until they are ready.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">mode</H4>

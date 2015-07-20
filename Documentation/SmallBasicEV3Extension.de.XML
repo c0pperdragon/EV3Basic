@@ -558,6 +558,14 @@
             <param name="values">Anzahl der Werte-Komponenten</param>
             <returns>Ein Array mit der geforderten Anzahl an Komponenten. Der Index beginnt bei 0. Komponenten, für die der Sensor keinen Wert liefert, werden auf 0 gesetzt.</returns>
         </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.ReadRawValue(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Ähnlich wie ReadRaw, aber anstatt eines ganzen Arrays von Komponenten liest dieser Befehl nur eine einzige Komponente.
+            </summary>
+            <param name="port">Nummer des Sensor-Ports</param>
+            <param name="index">Index der zu lesenden Komponente</param>
+            <returns>Eine Komponente des Sensor-Wertes.</returns>
+        </member>
         <member name="M:SmallBasicEV3Extension.Sensor.CommunicateI2C(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.

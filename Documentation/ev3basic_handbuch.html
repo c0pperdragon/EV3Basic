@@ -1004,6 +1004,14 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Anzahl der Werte-Komponenten</P>
 <H4 class="returns">Rückgabewert</H4>
 <P class="returnssummary">Ein Array mit der geforderten Anzahl an Komponenten. Der Index beginnt bei 0. Komponenten, für die der Sensor keinen Wert liefert, werden auf 0 gesetzt.</P>
+<H3 class="operation">Sensor.ReadRawValue (port, index)</H3>
+<P class="operationsummary">Ähnlich wie ReadRaw, aber anstatt eines ganzen Arrays von Komponenten liest dieser Befehl nur eine einzige Komponente.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Nummer des Sensor-Ports</P>
+<H4 class="parameter">index</H4>
+<P class="parametersummary">Index der zu lesenden Komponente</P>
+<H4 class="returns">Rückgabewert</H4>
+<P class="returnssummary">Eine Komponente des Sensor-Wertes.</P>
 <H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
 <P class="operationsummary">Sendet Daten an Geräte, die über den UART an einen Sensor-Port angeschlossen sind.<BR>Das kann nützlich sein, um verschiedene Spezialkommandos zu einem Sensor/Aktor zu schicken.</P>
 <H4 class="parameter">port</H4>
