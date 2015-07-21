@@ -84,7 +84,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// The current charging level of the battery (range 0 to 100).
+        /// The current charge level of the battery (range 0 to 100).
         /// </summary>
         public static Primitive BatteryLevel
         {

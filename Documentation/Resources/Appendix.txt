@@ -17,7 +17,7 @@ Type  Mode  Name            get reading with   delivers
 29       0  COL-REFLECT     ReadPercent        0=no reflected light, 100=maximum reflected light
 29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
 29       2  COL-COLOR       ReadRaw (1 value)  0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
-29       4  RGB-RAW         ReadRaw (3 values) value1=red intensity, value2=green intensity, value3=blue intensity
+29       4  RGB-RAW         ReadRaw (3 values) value0=red intensity, value1=green intensity, value2=blue intensity
 
 30       0  US-DIST-CM      ReadRaw (1 value)  distance in mm
 30       1  US-DIST-IN      ReadRaw (1 value)  distance in tenth of an inch
@@ -26,8 +26,8 @@ Type  Mode  Name            get reading with   delivers
 32       1  GYRO-RATE       ReadRaw (1 value)  rate of change of angle in deg/s
 
 33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
-33       1  IR-SEEK         ReadRaw (2 values) value1=direction and value2=distance to IR beacon
-33       2  IR-REMOTE       ReadRaw (4 values) value1=signal from channel 1 (*), value2=signal from channel 2...
+33       1  IR-SEEK         ReadRaw (2 values) value0=direction and value1=distance to IR beacon
+33       2  IR-REMOTE       ReadRaw (4 values) value0=signal from channel 1 (*), value1=signal from channel 2...
                                     a remote control sender can be switched to use one of 4 channels 
                                     (slider on top position is channel 1) and the remote receiver can detect 
                                     all channel signals at the same time

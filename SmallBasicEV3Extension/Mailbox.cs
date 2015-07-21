@@ -36,7 +36,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Create a mailbox on the local brick that can receive messages from other bricks. 
-        /// Only after creation of the box can incomming messages be stored for retrieval.
+        /// Only after creation of the box can incoming messages be stored for retrieval.
         /// There is a total limit of 30 mailboxes that can be created.
         /// </summary>
         /// <param name="boxname">Name of the message box to be created.</param>

@@ -27,7 +27,7 @@ namespace SmallBasicEV3Extension
     /// <summary>
     /// This object supports the use of threads in a program. 
     /// A thread is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.
-    /// Geneally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.
+    /// Generally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.
     /// </summary>
     [SmallBasicType]
     public class Thread

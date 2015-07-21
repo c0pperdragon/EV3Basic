@@ -127,7 +127,8 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Switches the mode of a sensor. 
         /// Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.
-        /// Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start and wait until they are ready. 
+        /// Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start. 
+        /// This command blocks execution until mode switching is finished and first sensor data is available.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="mode">New mode to switch to. This only succeeds when the mode is indeed supported by the sensor.</param>
@@ -148,6 +149,8 @@ namespace SmallBasicEV3Extension
             c.CONST(mod);              // set mode
             c.LOCVAR(0);
             EV3RemoteControler.DirectCommand(c, 0, 1);
+
+            Wait(port);  // make sure mode switch is finished
         }
 
         /// <summary>
@@ -179,6 +182,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the port, this function returns immediately.
+        /// Normally you would not need to call this command, because SetMode() blocks until the sensor is ready anyway. It can be useful in special circumstances, like when the mode was switched by a different thread, or when a sensor is plugged into the brick at runtime.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         public static void Wait(Primitive port)
@@ -288,10 +292,10 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Similiar to ReadRaw, but returns only a single raw value instead of an array of raw values.
+        /// Similar to ReadRaw, but returns only a single raw value instead of an array of raw values.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <param name="index">Index of the value that should be picked from the result array.</param>
+        /// <param name="index">Index of the value that should be picked from the result array (starting with index 0).</param>
         /// <returns>One element of a raw sensor reading.</returns>
         public static Primitive ReadRawValue(Primitive port, Primitive index)
         {
@@ -405,7 +409,7 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the 
+        /// Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the 
         /// sensor ports. This can be useful to send custom commands to custom made sensors/actuators.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>

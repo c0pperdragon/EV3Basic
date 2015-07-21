@@ -451,7 +451,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Small utility functions that concern the EV3 brick as a whole.</P>
 <H3 class="property">EV3.BatteryLevel - Property</H3>
-<P class="propertysummary">The current charging level of the battery (range 0 to 100).</P>
+<P class="propertysummary">The current charge level of the battery (range 0 to 100).</P>
 <H3 class="property">EV3.Time - Property</H3>
 <P class="propertysummary">The time in milliseconds since the program was started.</P>
 <H3 class="operation">EV3.QueueNextCommand ()</H3>
@@ -661,7 +661,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">brickname</H4>
 <P class="parametersummary">Name of the remote brick.</P>
 <H3 class="operation">Mailbox.Create (boxname)</H3>
-<P class="operationsummary">Create a mailbox on the local brick that can receive messages from other bricks. <BR>Only after creation of the box can incomming messages be stored for retrieval.<BR>There is a total limit of 30 mailboxes that can be created.</P>
+<P class="operationsummary">Create a mailbox on the local brick that can receive messages from other bricks. <BR>Only after creation of the box can incoming messages be stored for retrieval.<BR>There is a total limit of 30 mailboxes that can be created.</P>
 <H4 class="parameter">boxname</H4>
 <P class="parametersummary">Name of the message box to be created.</P>
 <H4 class="returns">Returns</H4>
@@ -1017,15 +1017,15 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">An array holding the requested number of values. Index starts at 0. Elements that got no data are set to 0.</P>
 <H3 class="operation">Sensor.ReadRawValue (port, index)</H3>
-<P class="operationsummary">Similiar to ReadRaw, but returns only a single raw value instead of an array of raw values.</P>
+<P class="operationsummary">Similar to ReadRaw, but returns only a single raw value instead of an array of raw values.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">index</H4>
-<P class="parametersummary">Index of the value that should be picked from the result array.</P>
+<P class="parametersummary">Index of the value that should be picked from the result array (starting with index 0).</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">One element of a raw sensor reading.</P>
 <H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
-<P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronious receiver transmitter) of one of the <BR>sensor ports. This can be useful to send custom commands to custom made sensors/actuators.</P>
+<P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the <BR>sensor ports. This can be useful to send custom commands to custom made sensors/actuators.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">writebytes</H4>
@@ -1033,13 +1033,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">writedata</H4>
 <P class="parametersummary">Array holding the data bytes to be sent (starting at 0).</P>
 <H3 class="operation">Sensor.SetMode (port, mode)</H3>
-<P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.<BR>Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start and wait until they are ready.</P>
+<P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.<BR>Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start. <BR>This command blocks execution until mode switching is finished and first sensor data is available.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">mode</H4>
 <P class="parametersummary">New mode to switch to. This only succeeds when the mode is indeed supported by the sensor.</P>
 <H3 class="operation">Sensor.Wait (port)</H3>
-<P class="operationsummary">Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the port, this function returns immediately.</P>
+<P class="operationsummary">Wait until a sensor has finished its reconfiguration. When no sensor is plugged into the port, this function returns immediately.<BR>Normally you would not need to call this command, because SetMode() blocks until the sensor is ready anyway. It can be useful in special circumstances, like when the mode was switched by a different thread, or when a sensor is plugged into the brick at runtime.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H2 class="object">Speaker</H2>
@@ -1165,7 +1165,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">True if the subtext was found at the start of the given text.</P>
 <H2 class="object">Thread</H2>
-<P class="objectsummary">This object supports the use of threads in a program. <BR>A thread is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.<BR>Geneally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.</P>
+<P class="objectsummary">This object supports the use of threads in a program. <BR>A thread is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.<BR>Generally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.</P>
 <H3 class="property">Thread.Run - Property</H3>
 <P class="propertysummary">With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). <BR>Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second<BR>use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.<BR>Note that even in the presence of running threads, the whole program stops as soon as the main program runs to its end.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
@@ -1243,7 +1243,7 @@ Type  Mode  Name            get reading with   delivers
 29       0  COL-REFLECT     ReadPercent        0=no reflected light, 100=maximum reflected light
 29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
 29       2  COL-COLOR       ReadRaw (1 value)  0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
-29       4  RGB-RAW         ReadRaw (3 values) value1=red intensity, value2=green intensity, value3=blue intensity
+29       4  RGB-RAW         ReadRaw (3 values) value0=red intensity, value1=green intensity, value2=blue intensity
 
 30       0  US-DIST-CM      ReadRaw (1 value)  distance in mm
 30       1  US-DIST-IN      ReadRaw (1 value)  distance in tenth of an inch
@@ -1252,8 +1252,8 @@ Type  Mode  Name            get reading with   delivers
 32       1  GYRO-RATE       ReadRaw (1 value)  rate of change of angle in deg/s
 
 33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
-33       1  IR-SEEK         ReadRaw (2 values) value1=direction and value2=distance to IR beacon
-33       2  IR-REMOTE       ReadRaw (4 values) value1=signal from channel 1 (*), value2=signal from channel 2...
+33       1  IR-SEEK         ReadRaw (2 values) value0=direction and value1=distance to IR beacon
+33       2  IR-REMOTE       ReadRaw (4 values) value0=signal from channel 1 (*), value1=signal from channel 2...
                                     a remote control sender can be switched to use one of 4 channels 
                                     (slider on top position is channel 1) and the remote receiver can detect 
                                     all channel signals at the same time

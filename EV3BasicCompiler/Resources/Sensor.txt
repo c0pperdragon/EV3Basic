@@ -95,23 +95,20 @@ subcall SENSOR.GETDATAFORMAT    // FS
 	STRINGS ADD result tmps result
 }
 
-subcall SENSOR.SETMODE		// FFV
+inline SENSOR.SETMODE		// FFV
 {
-	IN_F port
-	IN_F mode
-
-	DATA8 layer
-	DATA8 no
-	DATA8 mode8
+	DATA8 layer:#
+	DATA8 no:#
+	DATA8 mode8:#
 	
-	MOVEF_8 port no
-	SUB8 no 1 no
-	DIV8 no 4 layer
-	MATH MOD8 no 4 no
+	MOVEF_8 :0 no:#
+	SUB8 no:# 1 no:#
+	DIV8 no:# 4 layer:#
+	MATH MOD8 no:# 4 no:#
 
-	MOVEF_8 mode mode8
+	MOVEF_8 :1 mode8:#
 	
-	INPUT_DEVICE READY_RAW layer no 0 mode8 0
+	INPUT_DEVICE READY_RAW layer:# no:# 0 mode8:# 0
 }
 
 subcall SENSOR.ISBUSY       // FS
