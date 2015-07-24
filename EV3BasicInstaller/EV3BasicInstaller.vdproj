@@ -15,14 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
+        "MsmKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2303BCFBEC09CC552C1787A745096EA5"
-        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,31 +28,25 @@
         "Entry"
         {
         "MsmKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
+        "MsmKey" = "8:_4B499904014A4985995C360A753B51A8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "OwnerKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
+        "MsmKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
-        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
+        "MsmKey" = "8:_64CBF6051F954928AD757EF9684015DD"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,20 +63,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9069EED4D056458E866FDD93C9CC9605"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_96392621D8E44B0DA435C70856C500F8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CBDEC7B60E90E4F596B1D9E3A38786F4"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D0B9884C21804DF8BAAEEC057AA6326D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
-        "OwnerKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -105,20 +93,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F5CDD074D58C3554E666A5E4C4C3A927"
-        "OwnerKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D0B9884C21804DF8BAAEEC057AA6326D"
+        "OwnerKey" = "8:_9069EED4D056458E866FDD93C9CC9605"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
+        "OwnerKey" = "8:_96392621D8E44B0DA435C70856C500F8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_64CBF6051F954928AD757EF9684015DD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,37 +124,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4FD91A8516934B519CEFABDCAB429EEB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2303BCFBEC09CC552C1787A745096EA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_21B8D95FCB7B43E883F73B9387BB339E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F5CDD074D58C3554E666A5E4C4C3A927"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_53D194D021287DC4A1CE4CA14B8AB761"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -258,41 +228,10 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2303BCFBEC09CC552C1787A745096EA5"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SmallBasicLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2303BCFBEC09CC552C1787A745096EA5"
-                    {
-                    "Name" = "8:SmallBasicLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SmallBasicLibrary.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E85783D20824507B807D3816BE9F452"
             {
             "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.de.XML"
-            "TargetName" = "8:SmallBasicEV3Extension.de.XML"
+            "TargetName" = "8:SmallBasic10EV3Extension.de.XML"
             "Tag" = "8:"
             "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
             "Condition" = "8:"
@@ -340,14 +279,34 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_53D194D021287DC4A1CE4CA14B8AB761"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4B499904014A4985995C360A753B51A8"
+            {
+            "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.de.XML"
+            "TargetName" = "8:SmallBasicEV3Extension.de.XML"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:EV3Communication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_53D194D021287DC4A1CE4CA14B8AB761"
+                    "_5E5C4AA1D7CF1F48D0D2D233CE439A22"
                     {
                     "Name" = "8:EV3Communication.dll"
                     "Attributes" = "3:512"
@@ -377,6 +336,68 @@
             "TargetName" = "8:ev3basic_manual.html"
             "Tag" = "8:"
             "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9069EED4D056458E866FDD93C9CC9605"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SmallBasic10EV3Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9069EED4D056458E866FDD93C9CC9605"
+                    {
+                    "Name" = "8:SmallBasic10EV3Extension.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\SmallBasic10EV3Extension\\bin\\Release\\SmallBasic10EV3Extension.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_96392621D8E44B0DA435C70856C500F8"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SmallBasicEV3Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_96392621D8E44B0DA435C70856C500F8"
+                    {
+                    "Name" = "8:SmallBasicEV3Extension.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\SmallBasicEV3Extension\\bin\\Release\\SmallBasicEV3Extension.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -440,37 +461,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F5CDD074D58C3554E666A5E4C4C3A927"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SmallBasicLibrary, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_F5CDD074D58C3554E666A5E4C4C3A927"
-                    {
-                    "Name" = "8:SmallBasicLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:SmallBasicLibrary.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -563,7 +553,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EV3Basic 1.0.6"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
-        "PackageCode" = "8:{4E18CAE7-313E-4B56-A8AC-9B56AB4CE569}"
+        "PackageCode" = "8:{C891BDB3-69B0-495F-A51E-E6126B74DF0F}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -697,7 +687,7 @@
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_403F9785DB4242E0B1BBAA24E535734F"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_85FA9D5ED4B94D0BAEAEE3BE02FEB0E1"
             {
             "Name" = "8:EV3Explorer"
             "Arguments" = "8:"
@@ -705,7 +695,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_DB7CB564A6834BB59654A37073F3E2F6"
+            "Target" = "8:_1735C06DFE3F463683F60857CE396E78"
             "Folder" = "8:_2093CF3C334A41D5AB8A4A7F58BAB1EE"
             "WorkingFolder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
             "Icon" = "8:"
@@ -1124,12 +1114,12 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_21B8D95FCB7B43E883F73B9387BB339E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1735C06DFE3F463683F60857CE396E78"
             {
-            "SourcePath" = "8:..\\SmallBasicEV3Extension\\obj\\Release\\SmallBasicEV3Extension.dll"
+            "SourcePath" = "8:..\\EV3Explorer\\obj\\Release\\EV3Explorer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1146,15 +1136,15 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{1AA9B6CA-3833-4012-89C9-5628BEBA1657}"
+            "OutputProjectGuid" = "8:{3DAB387B-F044-4BEA-9511-EE6C71164830}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4FD91A8516934B519CEFABDCAB429EEB"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_64CBF6051F954928AD757EF9684015DD"
             {
-            "SourcePath" = "8:..\\SmallBasic10EV3Extension\\obj\\Release\\SmallBasic10EV3Extension.dll"
+            "SourcePath" = "8:..\\EV3Communication\\obj\\Release\\EV3Communication.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
@@ -1174,7 +1164,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{3A59574F-9711-4B3B-A713-0A3F3161205E}"
+            "OutputProjectGuid" = "8:{C3C8582B-F715-41F9-A565-14C6918A0105}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -1203,62 +1193,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Documentation"
             "OutputProjectGuid" = "8:{1AA9B6CA-3833-4012-89C9-5628BEBA1657}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D0B9884C21804DF8BAAEEC057AA6326D"
-            {
-            "SourcePath" = "8:..\\EV3Communication\\obj\\Release\\EV3Communication.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{C3C8582B-F715-41F9-A565-14C6918A0105}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_DB7CB564A6834BB59654A37073F3E2F6"
-            {
-            "SourcePath" = "8:..\\EV3Explorer\\obj\\Release\\EV3Explorer.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{3DAB387B-F044-4BEA-9511-EE6C71164830}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

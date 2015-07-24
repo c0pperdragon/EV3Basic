@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="SmallBasicLibrary">
       <HintPath>externals\SmallBasicLibrary.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +69,7 @@
     <ProjectReference Include="..\EV3Communication\EV3Communication.csproj">
       <Project>{c3c8582b-f715-41f9-a565-14c6918a0105}</Project>
       <Name>EV3Communication</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

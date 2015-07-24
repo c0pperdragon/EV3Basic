@@ -132,7 +132,7 @@ namespace Test
                 Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(data));
             }
 
-            c.Close();
+//          c.Close();
         }
 
     }
