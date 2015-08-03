@@ -23,12 +23,9 @@
   }
   TD {
 	padding: 4px;
+	border:1px solid black;
   }
   TR:nth-child(1)
-  {
-	background: #d0d0d0;
-  } 
-  TD:nth-child(1)
   {
 	background: #d0d0d0;
   } 
@@ -87,5 +84,10 @@
 	margin-top: 0px;
 	margin-bottom: 10px;
 	margin-left: 50px; 
+  }
+  STRONG {
+	font-family: Verdana;
+	font-style: italic;
+	font-weight: normal;
   }
 </style>

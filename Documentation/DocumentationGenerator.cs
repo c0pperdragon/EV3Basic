@@ -37,6 +37,7 @@ namespace Documentation
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.xml",
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.Manual,
+                     Documentation.Properties.Resources.Appendix,
                      "Returns",
                      "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html"
@@ -46,14 +47,24 @@ namespace Documentation
                      "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.DE.xml",
                      "EV3Basic Benutzerhandbuch",
                      Documentation.Properties.Resources.ManualDE,
-                     "Rückgabewert",
+                     Documentation.Properties.Resources.Appendix,
+                    "Rückgabewert",
                      "Eigenschaft",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_handbuch.html"
+                     );
+            generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/SmallBasicEV3Extension.FR.xml",
+                     "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.FR.xml",
+                     "EV3Basic Developer Manual",
+                     Documentation.Properties.Resources.ManualFR,
+                     Documentation.Properties.Resources.AppendixFR,
+                     "Returns",
+                     "Propriété",
+                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manuel.html"
                      );
         }
 
 
-        internal static void generate(String xml1, String xml2, String title, String part1, String returnstext, String propertytext, String outfilename)
+        internal static void generate(String xml1, String xml2, String title, String part1, String part2, String returnstext, String propertytext, String outfilename)
         {
             objects = new Dictionary<String,EV3Object>();
 
@@ -91,12 +102,12 @@ namespace Documentation
 
             // write documentation file
             FileStream fs = new FileStream(outfilename, FileMode.Create, FileAccess.Write);
-            StreamWriter target = new StreamWriter(fs, Encoding.UTF8);
+            StreamWriter target = new StreamWriter(fs, new UTF8Encoding(false));
 
             target.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">");
             target.WriteLine("<HTML>");
             target.WriteLine("<HEAD>");
-            target.WriteLine("<meta charset=\"utf-8\"/>");
+            target.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" >");
             target.WriteLine("<TITLE>"+title+"</TITLE>");
             target.WriteLine(Documentation.Properties.Resources.Styles);
             target.WriteLine("</HEAD>");
@@ -148,7 +159,7 @@ namespace Documentation
                 }
             }
 
-            target.WriteLine(Documentation.Properties.Resources.Appendix);
+            target.WriteLine(part2);
 
             target.WriteLine("</BODY>");
             target.WriteLine("</HTML>");

@@ -69,6 +69,12 @@
   <ItemGroup>
     <None Include="Resources\ManualDE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AppendixFR.txt" />
+    <None Include="Resources\ManualFR.txt" />
+    <Content Include="SmallBasicEV3Extension.de.XML" />
+    <Content Include="SmallBasicEV3Extension.fr.XML" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

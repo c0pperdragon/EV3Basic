@@ -33,9 +33,9 @@ Type  Mode  Name            get reading with   delivers
                                     all channel signals at the same time
                                                											       
 (*) numbers for the remote control buttons (A=left top, B=left bottom, C=right top, D=right bottom, E=beacon activated):
-	A = 1    A&B = 10   B&C = 7
-	B = 2    A&C = 5    B&D = 8
-	C = 3    A&D = 6    C&D = 11
-	D = 4               E = 9
+	A = 1    A & B = 10   B & C = 7
+	B = 2    A & C = 5    B & D = 8
+	C = 3    A & D = 6    C & D = 11
+	D = 4                 E = 9
    other combinations give a reading of 0
 </PRE>   

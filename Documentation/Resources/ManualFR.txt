@@ -1,0 +1,358 @@
+﻿<H1 class="chapter">EV3Basic</H1>
+<P>
+Programmer un robot selon vos désirs est très amusant. La façon la plus facile de programmer l’EV3 pour 
+exécuter des tâches simples est l'environnement de programmation graphique fourni par Lego. Mais pour des programmes plus 
+vastes et plus complexes, cela ne fonctionne plus si bien et vous avez plutôt besoin d’un langage de programmation textuel 
+pour écrire les programmes. Il y a déjà de nombreux projets différents pour créer des environnements de programmation textuel 
+pour l’EV3 (Lejos, MonoBrick, RobotC, ev3dev, etc), mais ils sont tous très compliqués à configurer et à utiliser, 
+et vous aurez probablement besoin de très bonnes connaissances en informatique pour les faire marcher.
+</P>
+<P>
+Pour combler l'écart entre les langages compatibles EV3 qui sont très faciles à utiliser mais limités et les langages 
+puissants mais compliqués, j'ai inventé ‘EV3 Basic’. Il est destiné principalement aux utilisateurs qui veulent aller au-delà
+des limites de la programmation graphique, mais qui ne sont pas des professionnels de l’informatique. EV3 Basic est assez facile
+à apprendre et offre toutes les fonctionnalités dont vous avez besoin pour créer des programmes impressionnants. 
+Apprendre à programmer par la même occasion est probablement un avantage supplémentaire.
+</P>
+<P>
+EV3-Basic est basé sur la langue de programmation "Small Basic" qui a été développée 
+par Microsoft pour fournir un portail d’entrée dans la programmation, en 
+particulier pour les enfants, mais aussi pour tous les adultes débutants. "Small Basic" 
+est volontairement conçu pour la facilité d'utilisation, et pour l’extension EV3 j’ai essayé de faire la même chose. 
+Je serais très heureux si cette langue pouvait en effet être d'une certaine utilité pour apprendre la programmation et pour 
+utiliser l’EV3 de façon plus créative.
+</P>
+<address>
+Reinhard Grafl
+<br>
+reinhard.grafl@aon.at
+</address>
+
+<H1 class="chapter">Pour Commencer</H1>
+<P>
+La première chose dont vous avez besoin est un ordinateur avec le système d’opérations Microsoft Windows (Windows XP ou au-delà)
+et la version actuelle de <a href="http://smallbasic.com">Microsoft Small Basic</a> qui peut être téléchargée gratuitement. 
+Microsoft Small Basic est disponible en une vingtaine de langues, dont le français. Si vous êtes débutant(e) en 
+programmation, vous avez probablement besoin d'apprendre les principes de base. Cela ne prend pas trop longtemps 
+et est très amusant en soi. Il y a quelques très bons tutoriels sur le site Small Basic pour vous aider 
+en cela.
+</P>
+<P>
+La prochaine étape consiste à télécharger et à installer l’extension EV3 pour Small Basic 
+afin de pouvoir contrôler l’EV3 avec votre programme. 
+De la <a href="https://github.com/c0pperdragon/EV3Basic/releases">dernière version de EV3 Basic</a>, 
+téléchargez et installez le fichier "EV3BasicInstaller.msi". Ceci devrait installer l'extension dans le répertoire d'installation 
+de Small Basic. Si vous avez choisi un emplacement non-standard pour Small Basic, installez l'extension dans le même répertoire. 
+Au prochain démarrage de Small Basic (redémarrez-le s’il est encore en marche), vous avez accès à divers objets pour pouvoir contrôler 
+différents aspects de la brique et 
+à certains objets multi-usages supplémentaires aussi. Maintenant, créez votre premier programme EV3 Basic en écrivant
+</P>
+<pre>
+  LCD.Clear()
+  LCD.Write(40, 40, "Hello EV3")
+  Program.Delay(10000)
+</pre>
+<P>
+dans la fenêtre de programmation. Ensuite, connectez la brique EV3 à votre ordinateur en utilisant le câble USB, la démarrer, 
+et quand elle est en marche, cliquez sur le gros bouton bleu "Exécuter" de Small Basic. Cela compilera et lancera le programme qui 
+contrôlera la brique à distance à partir du PC.
+</P>
+<P>
+Quand vous écrivez vos propres programmes, le système ‘IntelliSense’ de Small Basic va vous montrer les fonctions de la bibliothèque 
+qui sont disponibles et la documentation d'utilisation qui contient les mêmes informations qui sont également disponibles dans le présent 
+document dans le chapitre "Documentation de la bibliothèque". Beaucoup d'autres exemples de la programmation EV3 sont également disponibles 
+sur la page web des nouvelles versions (le 
+fichier est probablement nommé 'examples.zip'). 
+</P>
+<P>
+Télécommander la brique avec un programme sur le PC est amusant, mais pour de nombreuses utilisations, vous aurez besoin d'un 
+robot indépendant qui a son propre programme et n'a pas besoin du PC pour lui communiquer chaque étape.
+</P>
+<P>
+Pour copier le programme vers la brique, vous avez besoin du programme EV3 Explorer qui a 
+déjà été installé avec l’extension EV3 et qui est disponible dans le menu Démarrer de Windows (EV3Basic / EV3Explorer). 
+Le lancement de ce programme ouvrira une fenêtre où vous pouvez voir les fichiers qui sont stockés sur la brique EV3 
+(sur le côté gauche de la fenêtre) et également les fichiers stockés sur votre PC (sur le côté droit de la fenêtre). 
+Vous pouvez compiler tous les exemples et vos propres programmes en sélectionnant dans la fenêtre de droite le fichier 
+de code source (qui se termine par .sb) et en cliquant sur "Compiler and Exécuter" ("Compile and Run"). 
+Cela va compiler le fichier de code source dans un fichier qui peut être exécuté par la brique (ayant l'extension de fichier .rbf), 
+le télécharger vers la brique et le démarrer immédiatement. Si vous souhaitez démarrer vos programmes dans le menu sur la brique, 
+vous devez créer un sous-dossier dans le dossier "prjs" avec un nom de votre choix et l'utiliser comme dossier cible pour la compilation. 
+(L’EV3 montrera dans son menu seulement les programmes qui sont bien placés dans leur propre dossier). 
+</P>
+
+<H1 class="chapter">Référence rapide de Small Basic</H1>
+<p>
+Pour les personnes qui savent déjà comment programmer avec d'autres langues et qui ne veulent pas passer par les tutoriels de 
+base sur Small Basic, voici un petit exemple qui contient la plupart des éléments du langage et une brève explication de chacun. 
+Cet exemple ne fonctionnera pas sur la brique EV3, car il utilise la fenêtre textuelle de Small Basic.
+</p>
+<pre>
+
+'Programme Démo expliquant une bonne partie de Small Basic
+' (Tous les commentaires commencent par un guillemet simple)
+'L’exécution commence ici
+A = 5 'les variables sont déclarées de façon implicite, à la première utilisation
+a = a + 1 ' tout est insensible à la casse
+B[a] = 55 'les tableaux sont implicitement définis et s'agrandissent au besoin
+X = "salut" 'les variables peuvent également contenir du texte
+
+Sub write   'définit un sous-programme avec ce nom (pas de paramètres possibles)
+    TextWindow.WriteLine(X)           
+    'Appeler une fonction de la bibliothèque, utiliser un variable qui est défini ailleurs
+EndSub
+
+'Le flux de contrôle du programme principal passe autour des définitions de sous-programmes
+TextWindow.WriteLine ("A ="+a) 'concaténation avec +
+WRITE() ' appeler un sous-programme. Le nom est aussi insensible à la casse
+write2()'on peut appeler un sous-programme qui est défini plus bas dans le code
+TextWindow.WriteLine ("B[6]="+B[6]) 'accès à des tableaux 
+ 
+For i = 2 to 5 'une boucle de 2 à 5 (inclusivement)
+    TextWindow.WriteLine ("I:"+I)
+EndFor
+
+For i = 6.5 to 10.5 step 2 'une boucle avec des valeurs décimales et une plus grande étape
+    TextWindow.WriteLine ("I:" + I)
+EndFor
+
+Sub write2
+    write()' un sous-programme peut appeler d'autres sous-programmes
+    Write()
+EndSub
+
+'Le flux de contrôle du programme principal passe autour des définitions des sous-programmes 
+I=99   'insensible à la casse, écrase le ‘i’ précédant
+
+while i>3 'Boucle avec condition
+    i = i/2
+    TextWindow.WriteLine ("I:"+i)
+endwhile
+
+TextWindow.WriteLine ("PI ="+Math.PI) 'une fonction de la bibliothèque (accès sans parenthèses)
+TextWindow.WriteLine ("SIN ="+Math.sin(0.5)) 'fonction de la bibliothèque qui renvoie une valeur
+A=5
+B=20
+
+If a<5 Then 'une construction 'If' avec de multiples conditions
+    TextWindow.WriteLine ("première")
+elseif a<10 and b <100 then ' l’opérateur logique 'and' appliqué à des conditions
+    TextWindow.WriteLine("deuxième")
+ElseIf a<20 or (b>40 and b<60) then ' l’opérateur logique 'or' appliqué à des conditions imbriquées
+    TextWindow.WriteLine("troisième")
+Else
+    TextWindow.WriteLine("autre")
+EndIf
+
+</pre>
+
+
+<H1 class="chapter">Les différences entre Small Basic et EV3-Basic</H1>
+<P>
+J'ai essayé d'imiter le comportement originel de Small Basic dans mon compilateur EV3 aussi exactement que possible, 
+mais il y a certaines choses qui ne peuvent pas être faites avec l’interpréteur de l’EV3.
+</P>
+
+<H3 class="subchapter">Les variables sont typées</H3>
+<P>  
+Alors que Small Basic a seulement <em>un</em> type de données qui est une chaîne (string) de caractères Unicode dans laquelle 
+toutes les valeurs possibles (même les tableaux) sont forcées, EV3 Basic dispose de 
+<em>quatre</em> types de données distinctes pour les variables:
+</P>
+<ul>
+<li>Nombre (un nombre 32bit flottant)</li>
+<li>Texte</li>
+<li>Tableau de nombres</li>
+<li>Tableau de Textes</li>
+</ul>
+<P>
+Chaque variable a un de ces types (qui est déterminé par sa première utilisation dans le code du programme) et ne 
+peut pas être utilisée pour stocker quoi que ce soit d'autre.
+</P>
+
+<H3 class="subchapter">Les opérateurs et les fonctions travaillent sur des types de type compilation</H3>
+<P>
+Les opérateurs arithmétiques ou logiques doivent être fournis avec des arguments numériques ou textuels et livrent un résultat qui a 
+aussi un type défini (par exemple, le "<" a besoin de deux numéros et 
+livre un texte). Une exception est le "=" qui effectuera une comparaison soit numérique soit textuelle, selon le type des opérandes. 
+Une autre exception est le "+" qui fera une adition numérique lorsqu'il est fourni avec deux numéros, mais fera une concaténation 
+de texte si l'un des opérandes est du texte. Il y a des exigences similaires pour les paramètres des fonctions, 
+qui ont également un type défini. Pour faciliter les choses, une conversion automatique de numéro en texte se fait si un paramètre a 
+besoin d'un texte (mais pas l'inverse).
+</P>
+
+<H3 class="subchapter">Les Tableaux</H3>
+<P>
+Dans Small Basic les tableaux fonctionnent comme un dictionnaire et peuvent utiliser n'importe quel texte comme index. 
+EV3 Basic ne peut pas faire cela. Seulement les chiffres sont autorisés comme index et seuls les nombres non-négatifs et sans 
+décimales fonctionnent comme prévu (A [4,5] est le même que A [4], A [-4] livrera toujours 0 ou ""). 
+Les tableaux multidimensionnels ne sont pas pris en charge. Si les tableaux peuvent être passés à des fonctions de 
+bibliothèque et être récupérés, aucun tableau temporaire ne sera créé pour recevoir le résultat. 
+Pour toutes les fonctions qui renvoient un tableau, cette valeur de retour doit être immédiatement stockée dans une variable de tableau.
+</P>
+
+<H3 class="subchapter">Limitation pour le texte</H3>
+<P>
+Toute variable de texte ne peut contenir que 251 caractères et la gamme Unicode complète n'est pas prise en charge, 
+mais seulement les codes 1-255 (ils sont tout simplement des chaînes char style C). Il en va de même pour tous les éléments des tableaux de texte.
+</P>
+
+<H1 class="chapter">Prise en charge Bluetooth</H1>
+<P>
+Le raccordement direct (avec un câble USB) de l'EV3 à votre PC est le moyen le plus facile et fiable pour utiliser EV3 Basic. 
+Néanmoins, avoir à utiliser le câble peut être assez gênant dans de nombreuses circonstances, notamment lors de l'élaboration des 
+robots mobiles.
+</P>
+<P>
+Lorsque votre PC a une facilité Bluetooth (soit intégré soit avec un dongle Bluetooth), vous pouvez configurer l’EV3 
+pour communiquer avec le PC sans fil. Si vous ne l’avez pas déjà fait, vous devez 'coupler' 
+l'EV3 avec votre PC pour permettre la communication. Pour ce faire, activez d'abord les fonctions 
+Bluetooth sur l’EV3: dans le menu des paramètres, activez la "visibilité" et les options "Bluetooth". 
+Ensuite, sur le PC, ouvrez la boîte de dialogue du système "Périphériques Bluetooth". 
+Là, vous pouvez rechercher le périphérique et commencer à établir une connexion à l’EV3. Le processus peut être 
+un peu long et exige une confirmation de l'action sur l’EV3 ainsi que sur le PC. Vous pourrez même avoir à entrer le code 
+de couplage correct (qui devrait être "1234").
+</P>
+<P>
+Une fois que la connexion est établie et que l'installation automatique des pilotes appropriés est terminée, votre PC peut 
+communiquer avec l’EV3 par un "Serial Port" qui sera nommé "COM1", "COM3" ou similaire. Vous pouvez vérifier quel nom 
+a effectivement été affecté en regardant la page de propriétés Bluetooth de l’EV3. 
+</P>
+<P>
+Pour utiliser la connexion Bluetooth nouvellement créée avec EV3 Basic, il suffit de démarrer votre programme à partir de 
+Small Basic ou tout simplement démarrer EV3 Explorer. Quand le PC ne peut pas trouver un EV3 connecté directement via USB, 
+mais qu’il y a des "Serial Ports" disponibles, le PC vous invite à sélectionner un de ces ports. Lorsque c'est le bon port 
+pour l’EV3, la connexion fonctionnera.
+</P>
+
+<H1 class="chapter">Prise en charge du WiFi</H1>
+<P>
+Comme une connexion Bluetooth, une connexion WiFi permet de vous connecter à votre EV3 sans utiliser de câble. 
+Le WiFi a certains avantages par rapport au Bluetooth en ce qui concerne la portée, la vitesse et la fiabilité, 
+mais a aussi quelques inconvénients, comme une plus grande consommation d'énergie et la nécessité d'ajouter un dongle 
+WiFi à l'EV3. Et cette configuration ne fonctionne que lorsque vous avez un routeur WiFi disponible. Le choix entre le WiFi 
+et le Bluetooth se fera 
+selon votre préférence personnelle, ou en fonction des problèmes technologiques que vous pourrez éventuellement rencontrer.
+</P>
+<P>
+Pour utiliser l'option WiFi, vous avez besoin d'un dongle WiFi spécifique qui est compatible avec la brique EV3. 
+Actuellement, il n’y a qu’un seul modèle disponible qui fonctionne avec un EV3 non modifié: "Netgear WNA1100" 
+qui doit être inséré dans la grand 
+prise USB sur le côté gauche de l'EV3. La configuration de la connexion WiFi peut être faite à partir du menu des 
+paramètres sur la brique. Vous devez activer l'option WiFi (cela prend un peu de temps pour démarrer le dongle), 
+puis vous devez établir une connexion avec le routeur WiFi. Si vous avez mis en place le cryptage pour votre réseau WiFi, 
+vous devez entrer la clé WPA2 directement sur ​​la brique. Actuellement aucune autre méthode de cryptage WiFi n’est prise en charge.
+</P>
+<P>
+Une fois que vous avez réussi à établir une connexion entre l’EV3 et votre routeur, l’EV3 devrait recevoir une adresse IP, 
+ce qui ressemblerait à quelque chose comme "10.2.3.4". Vous pouvez vérifier quelle adresse a été attribuée à votre EV3 dans 
+la section "Brick Info" du menu des paramètres et qui est tout en bas de la liste.
+</P>
+<P>
+Lorsque vous voulez enfin vous connecter à l’EV3 à partir d'un programme Small Basic ou avec EV3 Explorer, 
+utilisez le bouton 'WiFi' dans la boîte de dialogue qui demande quelle connexion utiliser. Ensuite, 
+entrez l'adresse IP exactement comme cela a été montré sur la brique. Vous avez seulement à entrer 
+l'adresse une fois. Pour de futures utilisations, elle apparaitra déjà dans la liste de sélection.
+</P>
+<P>
+A noter que la brique ne se connecte pas automatiquement au routeur WiFi lors du démarrage. 
+Vous devez toujours activer la connexion après chaque démarrage.
+</P>
+
+<H1 class="chapter">L’objet ‘Motor’ depuis la version 1.0</H1>
+<P>
+Pour la version 1.0, j’ai reconfiguré l'objet 'Motor', et donc les programmes écrits pour la version 0.9 
+ou antérieure ont besoin de quelques ajustements pour pouvoir  fonctionner avec la version 1.0. L'un des principaux 
+changements, c'est qu'il n'y a plus de commandes "Motor.Speed" ou "Motor.Power". Vous devez spécifier la vitesse ou la 
+puissance directement avec la commande "Motor.Start". Aussi, les autres commandes de contrôle de moteur ont été restructurées 
+dans une matrice fonctionnelle:
+</P>
+<TABLE>
+<TR><TD></TD>
+	<TD>Tourner de x degrés en faisant<br>attendre le programme</TD>
+	<TD>Commencer à tourner indéfiniment</TD>
+	<TD>Commencer à tourner de x degrés</TD>
+</TR>
+<TR><TD>Régler la vitesse</TD>
+    <TD>Motor.Move</TD>
+	<TD>Motor.Start</TD>
+	<TD>Motor.Schedule</TD>
+</TR>
+<TR><TD>Régler la puissance</TD>
+    <TD>Motor.MovePower</TD>
+	<TD>Motor.StartPower</TD>
+	<TD>Motor.SchedulePower</TD>
+</TR>
+<TR><TD>Synchroniser</TD>
+    <TD>Motor.MoveSync</TD>
+	<TD>Motor.StartSync</TD>
+	<TD>Motor.ScheduleSync</TD>
+</TR>
+</TABLE>
+<P>
+Normalement une des quatre variantes en caractères gras dans le tableau sera le 
+bon choix.</P>
+<P>
+Lorsque vous devez changer la puissance ou la vitesse d'un moteur qui est déjà en marche, 
+il suffit de réémettre la commande « Start » avec la valeur de vitesse ou de puissance appropriée. 
+Le moteur passera ensuite sans problème au nouveau mode de fonctionnement.
+</P>
+<P>
+Les commandes Motor utilisent toujours la valeur absolue du paramètre d'angle. 
+En d'autres termes, tout signe négatif pour l'angle sera ignoré.
+Donc, si vous voulez que le moteur se déplace en 
+l'arrière, il faut utiliser une vitesse négative plutôt qu'un angle négatif.
+</P>
+<H3 class="subchapter">Angle spécifique</H3>
+<p>Pour faire tourner un seul moteur d'un angle spécifique, il faut utiliser 
+<strong>Motor.Move(port, vitesse, degrés, frein)</strong>. Exemple : faire tourner le moteur A à vitesse 40 
+de 80° et ensuite appliquer le frein: </p>
+<pre>Motor.Move ("A", 40, 80, "True")</pre>
+<p>Pour faire 
+tourner deux voire plusieurs moteurs avec la même vitesse d'un angle spécifique, 
+comme lors d'un déplacement en ligne droite, il faut aussi utiliser <strong>Motor.Move(ports, vitesse, degrés, frein)</strong>. Exemple : faire tourner les moteurs B et C à 
+vitesse -30 pour deux rotations des roues (càd 720°):</p>
+<pre>Motor.Move("BC", -30, 720, "True")</pre>
+<p>Pour que le robot fasse un virage ou tourne sur place d'un angle 
+donné de rotation de la roue (deux moteurs qui tournent à des vitesses 
+différentes), utilisez <strong>Motor.MoveSync (ports, vitesse1, vitesse2, degrés, 
+frein)</strong>. 'Vitesse1' et 'vitesse2' sont les vitesses du moteur avec la lettre de 
+port inférieure et la lettre de port plus élevée, respectivement. 'Degrés' est 
+l'angle tourné par le moteur le plus rapide. Cette commande est similaire au 
+bloc 'Mouvement char' du logiciel standard de l'EV3. Exemple : faire tourner le 
+moteur B a la vitesse 30 et le moteur C à la vitesse 40 pour un léger virage à 
+gauche, le moteur plus rapide tournant de 720°:</p>
+<pre>Motor.MoveSync("BC", 30, 40, 720, "True")</pre>
+<H3 class="subchapter">Durée spécifique</H3>
+<p>En général, pour faire tourner les moteurs pendant une durée spécifique, les 
+mettre en marche, puis utiliser Program.Delay pour faire attendre le programme 
+pendant la durée désirée, puis arrêter les moteurs avec Motor.Stop. Pour faire 
+tourner un ou plusieurs moteurs avec la même vitesse pendant une certaine durée, 
+il faut utiliser <strong>Motor.Start(ports)</strong>. Exemple : Activer les moteurs B et C à 
+la vitesse 80 pendant 3 secondes :&nbsp;&nbsp; &nbsp;&nbsp;</p>
+<pre>Motor.Start("BC",80)
+Program.Delay(3000) <em>'3000 millisecondes</em>
+Motor.Stop("BC","True")   &nbsp;<em>' "True" signifie "appliquer le frein"</em></pre>
+<p>Pour que le robot fasse un virage ou tourne sur place pendant une certaine 
+durée (deux moteurs qui tournent à des vitesses différentes), utilisez 
+<strong>Motor.StartSync(ports, vitesse1, vitesse2)</strong>. 'Vitesse1' et 'vitesse2' sont les 
+vitesses du moteur avec la lettre de port inférieure et la lettre de port plus 
+élevée, respectivement. Exemple : faire tourner le robot sur place pendant 5 
+secondes (vitesse du moteur B = 50 et vitesse du moteur C = -50) :</p>
+<pre>Motor.StartSync("BC", 50, -50)
+Program.Delay(5000)
+Motor.Stop("BC","True")</pre>
+
+<H1 class="chapter">Bibliothèque de documentation</H1>
+<P>
+La bibliothèque 'runtime' pour l'EV3 est organisée en différentes parties, appelés des ‘objets’. 
+Chaque objet fournit des fonctions pour une certaine partie du système. Cette liste contient tout ce qui est disponible 
+pour Small Basic sur le PC (avec l’extension EV3) et aussi sur la brique lors de la compilation avec EV3 Explorer. 
+Lors de l'élaboration des programmes qui seront toujours lancés à partir du PC (en 'mode PC', donc), 
+vous pouvez également utiliser tout ce qui est fourni par Small Basic (par exemple, la fenêtre graphique), 
+mais je ne l'ai pas documenté ici.
+</P>
+
+
+
+

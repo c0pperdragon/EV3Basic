@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <HTML>
 <HEAD>
-<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 <TITLE>EV3Basic Developer Manual</TITLE>
 <style type="text/css">
   H1.chapter {
@@ -28,12 +28,9 @@
   }
   TD {
 	padding: 4px;
+	border:1px solid black;
   }
   TR:nth-child(1)
-  {
-	background: #d0d0d0;
-  } 
-  TD:nth-child(1)
   {
 	background: #d0d0d0;
   } 
@@ -92,6 +89,11 @@
 	margin-top: 0px;
 	margin-bottom: 10px;
 	margin-left: 50px; 
+  }
+  STRONG {
+	font-family: Verdana;
+	font-style: italic;
+	font-weight: normal;
   }
 </style>
 
@@ -1259,10 +1261,10 @@ Type  Mode  Name            get reading with   delivers
                                     all channel signals at the same time
                                                											       
 (*) numbers for the remote control buttons (A=left top, B=left bottom, C=right top, D=right bottom, E=beacon activated):
-	A = 1    A&B = 10   B&C = 7
-	B = 2    A&C = 5    B&D = 8
-	C = 3    A&D = 6    C&D = 11
-	D = 4               E = 9
+	A = 1    A & B = 10   B & C = 7
+	B = 2    A & C = 5    B & D = 8
+	C = 3    A & D = 6    C & D = 11
+	D = 4                 E = 9
    other combinations give a reading of 0
 </PRE>   
 

@@ -82,12 +82,27 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3-Basic&lt;/H1&gt;
+        ///   Looks up a localized string similar to 
+        ///&lt;H1 class=&quot;chapter&quot;&gt;Annexe: Les Capteurs&lt;/H1&gt;
         ///&lt;P&gt;
-        ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is the 
+        ///EV3 Basic fait un bon travail d&apos;auto-détection de nombreux capteurs, au moins de tous les capteurs qui sont livrés avec les 
+        ///kits NXT 2.0 et EV3. Néanmoins, le programme a besoin de savoir comment interpréter au mieux les mesures des capteurs pour 
+        ///les différents types et modes. Pour que la liste reste simple, je n&apos;inclus que les modes que je trouve utiles. Les capteurs 
+        ///EV3 sont listés en premier et les capteurs NXT sont répertoriés dans un tableau d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AppendixFR {
+            get {
+                return ResourceManager.GetString("AppendixFR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
+        ///&lt;P&gt;
+        ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is to use the 
         ///graphical programming environment provided by Lego. 
         ///But for larger and more complex programs, this no longer works and you need some text-based programming language to write programs.
-        ///There are already many different projects that have created programming environments for the EV3 to provide exactly this (LeJOS, MonoBrick, RobotC, ev3dev, and [rest of string was truncated]&quot;;.
+        ///There are already many different projects that have created programming environments for the EV3 to provide exactly this (LeJOS, MonoBrick, RobotC, ev3de [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Manual {
             get {
@@ -96,12 +111,31 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Das Handbuch auf Deutsch
-        ///.
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
+        ///&lt;P&gt;
+        ///Einen Roboter nach eigenen Ideen zu programmieren macht Spaß. Am einfachsten gelingt das Programmieren einfacher Aufgaben 
+        ///mit der grafischen Software von Lego.
+        ///Für größere und komplexere Programme braucht man jedoch eine textbasierte Programmiersprache.
+        ///Es gibt auch viele verschiedene Projekte, um Programmiersprachen für den EV3 zu adaptieren (LeJOS, MonoBrick, RobotC, ev3dev, and andere).
+        ///Aber alle haben eine Sache gemeinsam: Sie sind unglaublich schwierig zum L [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ManualDE {
             get {
                 return ResourceManager.GetString("ManualDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
+        ///&lt;P&gt;
+        ///Programmer un robot selon vos désirs est très amusant. La façon la plus facile de programmer l’EV3 pour 
+        ///exécuter des tâches simples est l&apos;environnement de programmation graphique fourni par Lego. Mais pour des programmes plus 
+        ///vastes et plus complexes, cela ne fonctionne plus si bien et vous avez plutôt besoin d’un langage de programmation textuel 
+        ///pour écrire les programmes. Il y a déjà de nombreux projets différents pour créer des environnements de programmation [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ManualFR {
+            get {
+                return ResourceManager.GetString("ManualFR", resourceCulture);
             }
         }
         
@@ -131,15 +165,14 @@ namespace Documentation.Properties {
         ///  }
         ///  TD {
         ///	padding: 4px;
+        ///	border:1px solid black;
         ///  }
         ///  TR:nth-child(1)
         ///  {
         ///	background: #d0d0d0;
         ///  } 
         ///  TD:nth-child(1)
-        ///  {
-        ///	background: #d0d0d0;
-        ///  [rest of string was truncated]&quot;;.
+        ///  { [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Styles {
             get {
