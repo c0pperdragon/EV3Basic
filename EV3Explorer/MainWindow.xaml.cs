@@ -65,12 +65,17 @@ namespace EV3Explorer
                 System.Environment.Exit(1);
             }
 
+
+            // load peristent settings
+            ExplorerSettings settings = new ExplorerSettings();
+            settings.Load();
+
             // create the compiler and assembler instances
             assembler = new Assembler();
             compiler = new Compiler();
 
             // initialize common data
-            ev3path = "/home/root/lms2012/prjs/";
+            ev3path = "/home/root/lms2012/prjs/";            
             try
             {
                 pcdirectory = new DirectoryInfo(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal));
@@ -78,9 +83,20 @@ namespace EV3Explorer
             { 
                 pcdirectory = null;
             }
+            if (settings.localDirectory.Length>0)
+            {
+                try
+                {
+                    pcdirectory = settings.localDirectory.Equals("Computer") ? null : new DirectoryInfo(settings.localDirectory);
+                }
+                catch (Exception) { }
+            }
 
             // set up all UI controls
             InitializeComponent();
+            this.Width = settings.windowWidth;
+            this.Height = settings.windowHeight;
+            this.leftColumn.Width = new GridLength((double)settings.splitterPosition, GridUnitType.Pixel);
 
             // retrieve initial data from brick
             EV3Path.Text = ev3path;
@@ -121,6 +137,36 @@ namespace EV3Explorer
         }
 
         // --------------- UI event handlers ---------------
+
+        private void Window_closing(object sender, EventArgs e)
+        {
+            GridLengthConverter converter = new GridLengthConverter();
+
+            // write peristent settings
+            ExplorerSettings settings = new ExplorerSettings();
+            settings.windowWidth = (int) Width;
+            settings.windowHeight = (int) Height;
+            settings.splitterPosition = Convert.ToInt32(leftColumn.Width.Value);
+            settings.localDirectory = pcdirectory == null ? "Computer" : pcdirectory.FullName;        
+            settings.Save();            
+        }
+
+        private void Window_keydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5)
+            {
+                RefreshPCList(false);
+                try
+                {
+                    ReadEV3Directory(false);
+                }
+                catch (Exception)
+                {
+                    Reconnect();
+                }
+            }
+        }
+
         void EV3RefreshList_clicked(object sender, RoutedEventArgs e)
         {
             try
@@ -245,6 +291,14 @@ namespace EV3Explorer
             if (qb.ShowDialog() == true)
             {
                 String dirname = qb.Answer;
+
+                if (!checkFileName(dirname))
+                {
+                    MessageBox.Show("Directory names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
+                    return;
+                }
+
+
                 try
                 {
                     CreateEV3Directory(dirname);
@@ -257,6 +311,24 @@ namespace EV3Explorer
                     Reconnect();
                 }
             }
+        }
+
+        private bool checkFileName(String filename)
+        {
+            if (filename.Length > 25)
+            {
+                return false;
+            }
+            for (int i=0; i<filename.Length; i++)
+            {
+                char c = filename[i];
+                if (c >= 'A' && c <= 'Z') continue;
+                if (c >= 'a' && c <= 'z') continue;
+                if (c >= '0' && c <= '9') continue;
+                if (c==' ' || c == '-' || c=='_' || c=='~' || c=='.') continue;
+                return false;
+            }
+            return true;
         }
 
         private void DeleteDirectory_clicked(Object sender, EventArgs e)
@@ -377,6 +449,13 @@ namespace EV3Explorer
                         }
                         fs.Close();
 
+
+                        if (!checkFileName(fi.Name))
+                        {
+                            MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
+                            return;
+                        }
+
                         connection.CreateEV3File(internalPath(ev3path) + fi.Name, content);
                     }
                     ReadEV3Directory(false);
@@ -416,6 +495,14 @@ namespace EV3Explorer
                 if (pcfile.Name.EndsWith(".lms", StringComparison.InvariantCultureIgnoreCase))
                 {
                     targetfilename = pcfile.Name.Substring(0, pcfile.Name.Length - 4) + ".rbf";
+
+
+                    if (!checkFileName(targetfilename))
+                    {
+                        MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
+                        return;
+                    }
+                    
                     List<String> errors = new List<String>();
 
                     try
@@ -445,6 +532,12 @@ namespace EV3Explorer
                 else if (pcfile.Name.EndsWith(".sb", StringComparison.InvariantCultureIgnoreCase))
                 {
                     targetfilename = pcfile.Name.Substring(0, pcfile.Name.Length - 3) + ".rbf";
+                    if (!checkFileName(targetfilename))
+                    {
+                        MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
+                        return;
+                    }
+
                     List<String> errors = new List<String>();
 
                     try

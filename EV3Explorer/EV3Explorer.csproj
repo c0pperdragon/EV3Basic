@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExplorerSettings.cs" />
     <Compile Include="QuestionBox.xaml.cs">
       <DependentUpon>QuestionBox.xaml</DependentUpon>
     </Compile>

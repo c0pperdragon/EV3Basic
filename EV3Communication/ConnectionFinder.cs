@@ -83,11 +83,15 @@ namespace EV3Communication
                 {
                     if (port_or_device is String)
                     {
-                        return TestConnection(new EV3ConnectionBluetooth((String)port_or_device));
+                        EV3Connection c = TestConnection(new EV3ConnectionBluetooth((String)port_or_device));
+                        SavePreferredConnection((String)port_or_device);
+                        return c;
                     }
                     else if (port_or_device is int)
                     {
-                        return TestConnection(new EV3ConnectionUSB((int)port_or_device));
+                        EV3Connection c = TestConnection(new EV3ConnectionUSB((int)port_or_device));
+                        SavePreferredConnection("USB " + port_or_device);
+                        return c;
                     }
                     else if (port_or_device is IPAddress)
                     {
@@ -97,6 +101,7 @@ namespace EV3Communication
                         {
                             AddPossibleIPAddress(addr);
                         }
+                        SavePreferredConnection(addr.ToString());
                         return c;
                     }
                 }
@@ -135,7 +140,7 @@ namespace EV3Communication
             // simple operation when called from an UI thread
             if (isUIThread)
             {
-                dialog = new ConnectionTypeDialog(usbdevices, ports, addresses);
+                dialog = new ConnectionTypeDialog(usbdevices, ports, addresses, LoadPreferredConnection());
                 dialog.ShowDialog();
             }
             // when being called from a non-UI-thread, must create an own thread here
@@ -144,7 +149,7 @@ namespace EV3Communication
                 // Create an extra thread for the dialog window
                 Thread newWindowThread = new Thread(new ThreadStart(() =>
                 {
-                    Window window = (Window)new ConnectionTypeDialog(usbdevices, ports, addresses);
+                    Window window = (Window)new ConnectionTypeDialog(usbdevices, ports, addresses, LoadPreferredConnection());
                     // When the window closes, shut down the dispatcher
                     window.Closed += (s, e) =>
                        Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
@@ -214,6 +219,41 @@ namespace EV3Communication
 
         }
 
+        private static String LoadPreferredConnection()
+        {
+            String p = "";
+            try
+            {
+                string fileName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic"), "preferred.txt");
+                System.IO.StreamReader file = new System.IO.StreamReader(fileName);
+                String line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    p = line;
+                }
+                file.Close();
+            }
+            catch (Exception) { }
+
+            return p;
+        }
+
+        private static void SavePreferredConnection(String con)
+        {
+            try
+            {
+                string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EV3Basic");
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                string fileName = Path.Combine(dir, "preferred.txt");
+                System.IO.StreamWriter file = new System.IO.StreamWriter(fileName);
+                file.WriteLine(con);
+                file.Close();
+            }
+            catch (Exception) { }
+        }
         
     }
 }

@@ -41,26 +41,48 @@ namespace EV3Communication
         private IPAddress[] addresses;
         private object selected;
 
-        public ConnectionTypeDialog(int[] usbdevices, String[] ports, IPAddress[] addresses)
+        public ConnectionTypeDialog(int[] usbdevices, String[] ports, IPAddress[] addresses, String preferred)
         {
             this.usbdevices = usbdevices;
             this.ports = ports;
             this.addresses = addresses;
             this.selected = null;
 
+            int pref = 0;
+
             InitializeComponent();
 
             foreach (int i in usbdevices)
             {
-                PortList.Items.Add("USB "+i);
+                String txt = "USB " + i;
+                if (txt.Equals(preferred))
+                {
+                    pref = PortList.Items.Count;
+                }
+                PortList.Items.Add(txt);
             }
             foreach (String p in ports)
             {
+                if (p.Equals(preferred))
+                {
+                    pref = PortList.Items.Count;
+                }
                 PortList.Items.Add(p);
             }
             foreach (IPAddress a in addresses)
             {
-                PortList.Items.Add(a.ToString());
+                String txt = a.ToString();
+                if (txt.Equals(preferred))
+                {
+                    pref = PortList.Items.Count;
+                }
+                PortList.Items.Add(txt);
+            }
+
+            if (PortList.Items.Count>0)
+            {
+                PortList.Focus();
+                PortList.SelectedIndex = pref;
             }
         }
 
@@ -92,26 +114,34 @@ namespace EV3Communication
             }
         }
 
-        private void PortList_SelectionChanged(Object sender, EventArgs e)
+
+        private void PortList_selected(Object sender, EventArgs e)
         {
             int idx = PortList.SelectedIndex;
-            if (idx>=0 && idx<usbdevices.Length)
+            if (idx >= 0 && idx < usbdevices.Length)
             {
                 selected = usbdevices[idx];
                 Close();
             }
-            else if (idx>=usbdevices.Length && idx<usbdevices.Length + ports.Length)
+            else if (idx >= usbdevices.Length && idx < usbdevices.Length + ports.Length)
             {
                 selected = ports[idx - usbdevices.Length];
                 Close();
             }
-            else if (idx>=usbdevices.Length+ports.Length && idx<usbdevices.Length + ports.Length + addresses.Length)
+            else if (idx >= usbdevices.Length + ports.Length && idx < usbdevices.Length + ports.Length + addresses.Length)
             {
                 selected = addresses[idx - usbdevices.Length - ports.Length];
                 Close();
             }
         }
 
+        private void PortList_keydown(Object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                PortList_selected(sender, e);
+            }
+        }
 
     }
 }
