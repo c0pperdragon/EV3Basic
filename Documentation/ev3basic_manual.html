@@ -1236,22 +1236,22 @@ Type  Mode  Name            get reading with   delivers
 
 4        0  NXT-COL-REF     ReadPercent        0=no reflective light, 100=maximum reflective light
 4        1  NXT-COL-AMB     ReadPercent        0=no ambient light, 100=maximum ambient light
-4        2  NXT-COL-COL     ReadRaw (1 value)  1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
+4        2  NXT-COL-COL     ReadRawValue       1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
 
-5        0  NXT-US-CM       ReadRaw (1 value)  distance in cm
+5        0  NXT-US-CM       ReadRawValue       distance in cm
 
 16       0  TOUCH           ReadPercent        0=not pressed,  100=pressed  
 
 29       0  COL-REFLECT     ReadPercent        0=no reflected light, 100=maximum reflected light
 29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
-29       2  COL-COLOR       ReadRaw (1 value)  0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
+29       2  COL-COLOR       ReadRawValue       0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
 29       4  RGB-RAW         ReadRaw (3 values) value0=red intensity, value1=green intensity, value2=blue intensity
 
-30       0  US-DIST-CM      ReadRaw (1 value)  distance in mm
-30       1  US-DIST-IN      ReadRaw (1 value)  distance in tenth of an inch
+30       0  US-DIST-CM      ReadRawValue       distance in mm
+30       1  US-DIST-IN      ReadRawValue       distance in tenth of an inch
 
-32       0  GYRO-ANG        ReadRaw (1 value)  angle in degrees
-32       1  GYRO-RATE       ReadRaw (1 value)  rate of change of angle in deg/s
+32       0  GYRO-ANG        ReadRawValue       angle in degrees
+32       1  GYRO-RATE       ReadRawValue       rate of change of angle in deg/s
 
 33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
 33       1  IR-SEEK         ReadRaw (2 values) value0=direction and value1=distance to IR beacon

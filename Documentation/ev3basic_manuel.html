@@ -467,7 +467,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Deuxième valeur.</P>
 <H4 class="parameter">message</H4>
 <P class="parametersummary">Le message qui sera affiché si l'assertion échoue.</P>
-<H3 class="operation">Assert.Failed  (message)</H3>
+<H3 class="operation">Assert.Failed (message)</H3>
 <P class="operationsummary">Écrire un message d'échec à l'écran. Cette fonction ne doit être appelée que si quelque chose a déjà échoué dans le programme.</P>
 <H4 class="parameter">message</H4>
 <P class="parametersummary">Message à afficher.</P>
@@ -545,7 +545,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Peut être "OFF" (éteint), "GREEN" (vert), "RED" (rouge) ou "ORANGE".</P>
 <H4 class="parameter">effet</H4>
 <P class="parametersummary">Peut être "NORMAL" (continu), "FLASH" (clignotant lent) ou "PULSE" (clignotant rapide).</P>
-<H3 class="operation">EV3.SystemCall  (ligne de commande)</H3>
+<H3 class="operation">EV3.SystemCall (ligne de commande)</H3>
 <P class="operationsummary">Exécuter une commande du système par le shell de commande du système Linux de l'EV3. Tous les threads de la machine virtuelle sont interrompus jusqu'à ce que la commande du système soit terminée.</P>
 <H4 class="parameter">ligne de commande</H4>
 <P class="parametersummary">La commande du système.</P>
@@ -553,41 +553,41 @@ mais je ne l'ai pas documenté ici.
 <P class="returnssummary">L'état de sortie de la commande.</P>
 <H2 class="object">EV3File</H2>
 <P class="objectsummary">Accéder au système de fichier de la brique EV3 pour lire ou écrire des données.<BR>Les noms de fichier peuvent être donnés en absolu (commençant par '/') pour accéder à un fichier dans le système, ou par rapport au dossier 'prjs'.</P>
-<H3 class="operation">EV3File.Close  (handle)</H3>
+<H3 class="operation">EV3File.Close (handle)</H3>
 <P class="operationsummary">Fermer un fichier ouvert.</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open...).</P>
-<H3 class="operation">EV3File.ConvertToNumber  (texte)</H3>
+<H3 class="operation">EV3File.ConvertToNumber (texte)</H3>
 <P class="operationsummary">Fonction utilitaire pour convertir un texte en un nombre.</P>
 <H4 class="parameter">texte</H4>
 <P class="parametersummary">Un texte qui contient un nombre en représentation décimale (avec éventuellement des décimales).</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Le nombre</P>
-<H3 class="operation">EV3File.OpenAppend  (nom du fichier)</H3>
+<H3 class="operation">EV3File.OpenAppend (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier pour ajouter des données. Si le fichier n'existe pas, il sera créé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à créer/étendre.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle').</P>
-<H3 class="operation">EV3File.OpenRead  (nom du fichier)</H3>
+<H3 class="operation">EV3File.OpenRead (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier pour lire les données. Si le fichier n'existe pas, 0 est renvoyé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à lire.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle') ou 0 si le fichier n'existe pas.</P>
-<H3 class="operation">EV3File.OpenWrite  (nom du fichier)</H3>
+<H3 class="operation">EV3File.OpenWrite (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier en écriture. Lorsque le fichier existe déjà, il sera écrasé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à créer/écraser.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle').</P>
-<H3 class="operation">EV3File.ReadByte  (handle)</H3>
+<H3 class="operation">EV3File.ReadByte (handle)</H3>
 <P class="operationsummary">Lire un octet de données à partir du fichier.</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open ...).</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">L'octet suivant du fichier.</P>
-<H3 class="operation">EV3File.ReadLine  (handle)</H3>
+<H3 class="operation">EV3File.ReadLine (handle)</H3>
 <P class="operationsummary">Lire une ligne de texte à partir du fichier. La ligne sera décodée en utilisant l'encodage ISO-8859-1 et doit se terminer par un caractère 'saut de ligne' (code 10).</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open ...).</P>
@@ -739,23 +739,23 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le texte (ou le nombre) à écrire à l'écran.</P>
 <H2 class="object">Mailbox</H2>
 <P class="objectsummary">Facilité de communication pour envoyer des messages de brique à brique via Bluetooth.</P>
-<H3 class="operation">Mailbox.Connect  (nom brique)</H3>
+<H3 class="operation">Mailbox.Connect (nom brique)</H3>
 <P class="operationsummary">Tente d'établir une connexion Bluetooth à une autre brique si elle n'est pas déjà connectée.<BR>Des messages peuvent être échangés dans les deux sens seulement après qu'une connexion ait été établie (soit par cette commande, soit manuellement à partir du menu de la brique).</P>
 <H4 class="parameter">nom brique</H4>
 <P class="parametersummary">Nom de la brique distante.</P>
-<H3 class="operation">Mailbox.Create  (nom boite)</H3>
+<H3 class="operation">Mailbox.Create (nom boite)</H3>
 <P class="operationsummary">Créer une boîte aux lettres dans la brique locale qui peut recevoir des messages d'autres briques.<BR>Les messages entrants peuvent être stockés et récupérés seulement après la création de la boîte.<BR>Le nombre de boîtes aux lettres qui peuvent être créés est limité à 30.</P>
 <H4 class="parameter">nom boite</H4>
 <P class="parametersummary">Nom de la boîte aux lettres qui doit être créée.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">L'identifiant numérique de la boîte aux lettres. Il est utilisé pour récupérer les messages de la boîte.</P>
-<H3 class="operation">Mailbox.IsAvailable  (id)</H3>
+<H3 class="operation">Mailbox.IsAvailable (id)</H3>
 <P class="operationsummary">Vérifier s'il y a un message dans la boîte aux lettres spécifiée.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">L'identifiant de la boîte aux lettres locale.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">"True" s'il y a un message en attente, sinon "False".</P>
-<H3 class="operation">Mailbox.Receive  (id)</H3>
+<H3 class="operation">Mailbox.Receive (id)</H3>
 <P class="operationsummary">Recevoir le dernier message d'une boîte aux lettres locale. Lorsqu'aucun message n'est présent, la commande bloquera jusqu'à ce qu'un message arrive.<BR>Le message sera alors consommé et le prochain appel à Receive() attendra le prochain message.<BR>Pour éviter le blocage, vous pouvez vérifier avec IsAvailable() s'il y a un message dans la boîte.<BR>Quand il n'existe aucune boîte aux lettres avec le nom, la commande retournera "" immédiatement.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Identifiant de la boîte aux lettres locale.</P>
@@ -903,19 +903,19 @@ mais je ne l'ai pas documenté ici.
 <P class="returnssummary">La tangente d'un angle donné.</P>
 <H2 class="object">Motor</H2>
 <P class="objectsummary">Contrôler les moteurs connectés à la brique.<BR>Pour chaque fonction de Motor, vous devez spécifier un ou plusieurs ports moteur qui devraient être actionnés (par exemple, "A", "BC", "ABD").<BR>Lorsque des briques supplémentaires sont chaînés à la brique maîtresse, adresser le bon port en ajoutant le nombre de couche à la spécification (par exemple, "3BC", "2A"). Dans ce cas, on peut adresser les moteurs d'une seule brique avec une seule commande.<BR>Vitesse ou puissance: Quand on demande qu'un moteur soit entraîné avec une certaine VITESSE (Speed), la puissance électrique sera ajustée en permanence de façon à maintenir le moteur à cette vitesse indépendamment de la force d'entraînement nécessaire (tant que suffisamment de puissance reste disponible). Quand on demande qu'un moteur soit entraîné avec une certaine PUISSANCE (Power), le moteur sera alimenté avec une puissance électrique constante et la vitesse réelle dépendra ensuite de la résistance qu'il rencontre.</P>
-<H3 class="operation">Motor.GetCount  (port)</H3>
+<H3 class="operation">Motor.GetCount (port)</H3>
 <P class="operationsummary">Interroger l'angle de rotation actuel d'un seul moteur.<BR>Aussi longtemps que le compteur n'est pas remis à zéro il mesurera avec précision tous les mouvements d'un moteur, même si le moteur est entraîné par une force extérieure lorsqu'il ne fonctionne pas activement.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Le nom du port à moteur.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">L'angle de rotation actuel du moteur en degrés.</P>
-<H3 class="operation">Motor.GetSpeed ​​ (port)</H3>
+<H3 class="operation">Motor.GetSpeed (port)</H3>
 <P class="operationsummary">Interroger la vitesse actuelle d'un seul moteur.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Le nom du port moteur.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Vitesse actuelle dans la gamme -100 à 100.</P>
-<H3 class="operation">Motor.IsBusy  (ports)</H3>
+<H3 class="operation">Motor.IsBusy (ports)</H3>
 <P class="operationsummary">Vérifier si un ou plusieurs moteurs sont actuellement en train de tourner.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Le nom du ou des ports moteur.</P>
@@ -953,7 +953,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">L'angle duquel le moteur le plus rapide doit tourner.</P>
 <H4 class="parameter">frein</H4>
 <P class="parametersummary">"True", si les moteurs doivent appliquer le frein après le mouvement.</P>
-<H3 class="operation">Motor.ResetCount  (ports)</H3>
+<H3 class="operation">Motor.ResetCount (ports)</H3>
 <P class="operationsummary">Mettre à zero le compteur de rotation d'un ou de plusieurs moteurs.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Le nom du ou des ports moteur.</P>
@@ -1023,7 +1023,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le nom du ou des ports moteur.</P>
 <H4 class="parameter">frein</H4>
 <P class="parametersummary">"True", si le moteur doit utiliser le frein.</P>
-<H3 class="operation">Motor.Wait  (ports)</H3>
+<H3 class="operation">Motor.Wait (ports)</H3>
 <P class="operationsummary">Attendre que le ou les moteurs spécifiés aient terminé une opération "Schedule..." ou "Move...".<BR>L'utilisation de cette fonction est normalement préférable à l'utilisation de IsBusy() dans une boucle d'attente.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Le nom du ou des ports moteur.</P>
@@ -1061,31 +1061,31 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Tableau qui contient les octets des données à envoyer (en commençant à 0).</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Un tableau qui contient le nombre demandé de valeurs. L'indice commence à 0.</P>
-<H3 class="operation">Sensor.GetMode  (port)</H3>
+<H3 class="operation">Sensor.GetMode (port)</H3>
 <P class="operationsummary">Obtenir le mode de fonctionnement actuel d'un capteur.<BR>De nombreux capteurs peuvent fonctionner dans des modes sensiblement différents. Par exemple, le capteur de couleur peut détecter soit la lumière ambiante soit la lumière réfléchie soit la couleur). Lorsque le capteur est branché, il sera normalement en mode 0, mais le mode peut ensuite être modifié par le programme.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Le mode de fonctionnement actuel (0 est toujours le mode par défaut)</P>
-<H3 class="operation">Sensor.GetName  (port)</H3>
+<H3 class="operation">Sensor.GetName (port)</H3>
 <P class="operationsummary">Obtenir le nom d'un capteur qui est actuellement connecté.<BR>Cette fonction est principalement destinée à un diagnostique parce que normalement on sait quel capteur est branché sur quel port.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Texte descriptif (par exemple, "TOUCH").</P>
-<H3 class="operation">Sensor.GetType  (port)</H3>
+<H3 class="operation">Sensor.GetType (port)</H3>
 <P class="operationsummary">Obtenir l'identifiant numérique du type d'un capteur qui est actuellement connecté.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">L'identifiant du type de capteur (par exemple, 16 pour un capteur tactile).</P>
-<H3 class="operation">Sensor.IsBusy  (port)</H3>
+<H3 class="operation">Sensor.IsBusy (port)</H3>
 <P class="operationsummary">Vérifier si un capteur est actuellement en train de changer de mode ou en cours d'initialisation. Après une commutation de mode, un capteur peut prendre un certain temps avant d'être prêt.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">"True" si le capteur est actuellement occupé.</P>
-<H3 class="operation">Sensor.ReadPercent  (port)</H3>
+<H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Lire la valeur actuelle du capteur et appliquer une échelle adéquate pour obtenir une valeur en pourcentage.<BR>La plupart des capteurs peuvent traduire la valeur actuelle en une valeur unique significative exprimée en pourcentage comme l'intensité lumineuse ou l'état du capteur tactile.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
@@ -1116,12 +1116,12 @@ mais je ne l'ai pas documenté ici.
 <H4 class="parameter">tableau à envoyer</H4>
 <P class="parametersummary">Le tableau qui contient les octets des données à envoyer (en commençant à 0).</P>
 <H3 class="operation">Sensor.SetMode (port, mode)</H3>
-<P class="operationsummary">Modifier le mode d'un capteur.<BR>De nombreux capteurs peuvent fonctionner dans des modes sensiblement différents qui renvoient différents types de valeurs. La signification de chaque numéro de mode dépend du type de capteur spécifique. Pour de plus amples informations, voir la liste des capteurs dans l'annexe.<BR>A noter qu'un capteur restera dans le mode sélectionné même après l'arrêt d'un programme et le lancement d'un autre (ou le même) programme. Pour éviter toute confusion, la meilleure pratique est de toujours définir au démarrage du programme les modes de fonctionnement de tous les capteurs utilisés.<BR>Cette commande bloque l'exécution du programme jusqu'à ce que la commutation de mode soit terminée et que le premières données en provenance du capteur soient disponibles.</P>
+<P class="operationsummary">Modifier le mode d'un capteur.<BR>De nombreux capteurs peuvent fonctionner dans des modes sensiblement différents qui renvoient différents types de valeurs. La signification de chaque numéro de mode dépend du type de capteur spécifique. Pour de plus amples informations, voir la liste des capteurs dans l'annexe.<BR>A noter qu'un capteur restera dans le mode sélectionné même après l'arrêt d'un programme et le lancement d'un autre (ou le même) programme. Pour éviter toute confusion, la meilleure pratique est de toujours définir au démarrage du programme les modes de fonctionnement de tous les capteurs utilisés.<BR>Cette commande bloque l'exécution du programme jusqu'à ce que la commutation de mode soit terminée et que les premières données en provenance du capteur soient disponibles.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="parameter">mode</H4>
 <P class="parametersummary">Nouveau mode vers lequel basculer. Cela ne réussit que lorsque le nouveau mode est en effet pris en charge par le capteur.</P>
-<H3 class="operation">Sensor.Wait  (port)</H3>
+<H3 class="operation">Sensor.Wait (port)</H3>
 <P class="operationsummary">Attendre qu'un capteur ait terminé sa reconfiguration. Lorsqu'aucun capteur n'est branché sur le port, cette fonction retourne immédiatement.<BR>Normalement, vous n'aurez pas besoin d'appeler cette commande, parce que de toute façon SetMode() bloque le programme jusqu'à ce que le capteur soit prêt. Il peut être utile dans des circonstances particulières, comme lorsque le mode a été changé par un autre thread, ou quand un capteur est connecté à la brique pendant l'exécution d'un programme.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
@@ -1250,16 +1250,16 @@ mais je ne l'ai pas documenté ici.
 <H2 class="object">Thread</H2>
 <P class="objectsummary">Cet objet prend en charge l'utilisation de threads dans un programme.<BR>Un thread est un bloc de code du programme qui peut fonctionner indépendamment et en même temps que d'autres parties du programme. Par exemple, vous pouvez créer un thread qui commande les moteurs pendant qu'un autre thread surveille des capteurs ou des entrées utilisateur.<BR>De manière générale, le multithreading est un sujet assez complexe. Pour bien le comprendre, une étude complémentaire est recommandée.</P>
 <H3 class="property">Thread.Run - Propriété</H3>
-<P class="propertysummary">Avec cette propriété, de nouveaux threads sont créés. Il suffit simplement d'affecter un sous-programme à cette propriété et le sous-programme démarrera comme un thread indépendant (par exemple, Thread.Run = MYSUB).<BR>N'importe quel sous-programme peut être utilisé pour créer un thread indépendant, mais un même sous-programme ne peut être démarré que par un seul thread. Une seconde utilisation de Thread.Run, pendant que le même sous-programme est toujours en cours d'exécution, ne fera qu'ajouter l'appel à une file d'attente. Cette fil d'attente sera traitée après que l'exécution précédante sera terminée. Aucune exécution du sous-programme ne sera perdue dans ce cas, mais vraisemblablement repoussée à plus tard.<BR>A noter que, même en présence de threads en cours d'exécution, tout le programme s'arrête dès que le programme principal s'arrête.</P>
+<P class="propertysummary">Avec cette propriété, de nouveaux threads sont créés. Il suffit simplement d'affecter un sous-programme à cette propriété et le sous-programme démarrera comme un thread indépendant (par exemple, Thread.Run = MYSUB).<BR>N'importe quel sous-programme peut être utilisé pour créer un thread indépendant, mais un même sous-programme ne peut être démarré que par un seul thread. Une seconde utilisation de Thread.Run, pendant que le même sous-programme est toujours en cours d'exécution, ne fera qu'ajouter l'appel à une file d'attente. Cette file d'attente sera traitée après que l'exécution précédant sera terminée. Aucune exécution du sous-programme ne sera perdue dans ce cas, mais vraisemblablement repoussée à plus tard.<BR>A noter que, même en présence de threads en cours d'exécution, tout le programme s'arrête dès que le programme principal s'arrête.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
-<P class="operationsummary">Créer un mutex. Un mutex (de l'anglais : Mutual exclusion, Exclusion mutuelle) peut être utilisé pour la synchronisation des threads.<BR>Seulem la création des mutex est prise en charge, mais pas la suppression. La meilleure pratique consiste à créer tous les mutex nécessaires au démarrage du programme et de garder leurs numéros dans des variables globales.</P>
+<P class="operationsummary">Créer un mutex. Un mutex (de l'anglais : Mutual exclusion, Exclusion mutuelle) peut être utilisé pour la synchronisation des threads.<BR>Seulement la création des mutex est prise en charge, mais pas la suppression. La meilleure pratique consiste à créer tous les mutex nécessaires au démarrage du programme et de garder leurs numéros dans des variables globales.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Un nombre spécifiant le nouveau mutex. L'utiliser pour les appels à 'Lock()' (verrouiller) et à 'Unlock()' (déverrouiller).</P>
-<H3 class="operation">Thread.Lock  (mutex)</H3>
+<H3 class="operation">Thread.Lock (mutex)</H3>
 <P class="operationsummary">Tente de verrouiller le mutex donné de façon exclusive pour qu'aucun autre thread ne puisse le verrouiller.<BR>Quand un autre thread détient déjà un verrou sur le mutex, le thread actuel va attendre que le verrou soit libéré puis acquérir le verrou lui-même (une fois que la fonction revient, le mutex a été verrouillé avec succès).<BR>Ce mécanisme de verrouillage est normalement utilisé pour protéger des structures de données ou d'autres ressources afin qu'elles ne soient pas accédées par deux threads en même temps. Chaque appel à Lock() doit être couplé avec un appel ultérieur à Unlock().</P>
 <H4 class="parameter">mutex</H4>
 <P class="parametersummary">Le numéro du mutex (retourné par CreateMutex()).</P>
-<H3 class="operation">Thread.Unlock  (mutex)</H3>
+<H3 class="operation">Thread.Unlock (mutex)</H3>
 <P class="operationsummary">Déverrouille un mutex. Cette fonction ne doit être appelée que si Lock() avait été précédemment utilisé.</P>
 <H4 class="parameter">mutex</H4>
 <P class="parametersummary">Le numéro du mutex (retourné par CreateMutex())</P>
