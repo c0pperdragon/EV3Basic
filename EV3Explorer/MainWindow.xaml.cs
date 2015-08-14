@@ -294,7 +294,6 @@ namespace EV3Explorer
 
                 if (!checkFileName(dirname))
                 {
-                    MessageBox.Show("Directory names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
                     return;
                 }
 
@@ -317,6 +316,7 @@ namespace EV3Explorer
         {
             if (filename.Length > 25)
             {
+                MessageBox.Show("File/directory names must not exceed 25 characters", "Name too long");
                 return false;
             }
             for (int i=0; i<filename.Length; i++)
@@ -326,6 +326,8 @@ namespace EV3Explorer
                 if (c >= 'a' && c <= 'z') continue;
                 if (c >= '0' && c <= '9') continue;
                 if (c==' ' || c == '-' || c=='_' || c=='~' || c=='.') continue;
+
+                MessageBox.Show("File/directory may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
                 return false;
             }
             return true;
@@ -452,7 +454,6 @@ namespace EV3Explorer
 
                         if (!checkFileName(fi.Name))
                         {
-                            MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
                             return;
                         }
 
@@ -495,11 +496,8 @@ namespace EV3Explorer
                 if (pcfile.Name.EndsWith(".lms", StringComparison.InvariantCultureIgnoreCase))
                 {
                     targetfilename = pcfile.Name.Substring(0, pcfile.Name.Length - 4) + ".rbf";
-
-
                     if (!checkFileName(targetfilename))
                     {
-                        MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
                         return;
                     }
                     
@@ -534,7 +532,6 @@ namespace EV3Explorer
                     targetfilename = pcfile.Name.Substring(0, pcfile.Name.Length - 3) + ".rbf";
                     if (!checkFileName(targetfilename))
                     {
-                        MessageBox.Show("File names must not exceed 25 characters and may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
                         return;
                     }
 

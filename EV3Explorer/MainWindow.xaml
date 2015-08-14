@@ -43,7 +43,7 @@
         <TextBox x:Name="EV3DeviceName" LostKeyboardFocus="DeviceName_focuslost" KeyDown="DeviceName_keydown" Height="25" Margin="185,5,5,0" Grid.Row="0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsReadOnly="False"/>
         <Button x:Name="PCNavigateUp" Content="Up" Click="PCNavigateUp_clicked" Grid.Column="1" HorizontalAlignment="Left" Margin="12,7,0,0" VerticalAlignment="Top" Width="49.5" Height="25"/>
         <Button x:Name="PCRefreshList" Content="Refresh" Click="PCRefreshList_clicked" Grid.Column="1" HorizontalAlignment="Left" Margin="66.5,7,0,0" VerticalAlignment="Top" Width="45.5" Height="25"/>
-        <TextBox x:Name="PCPath" Grid.Column="1" Margin="12,0,5,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="25"/>
+        <TextBox x:Name="PCPath" Grid.Column="1" Margin="12,0,5,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" IsReadOnly="True" Height="25"/>
         <Button x:Name="DeleteFile" Content="Delete" Click="DeleteFile_clicked" HorizontalAlignment="Left" Margin="5,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.067,0.227" Height="30"/>
         <Button x:Name="DeleteDirectory" Content="Delete Folder" Click="DeleteDirectory_clicked" HorizontalAlignment="Left" Margin="85,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="85" Height="30"/>
         <Button x:Name="NewFolder" Content="New Folder" Click="NewFolder_clicked" HorizontalAlignment="Left" Margin="175,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="83" Height="30"/>
