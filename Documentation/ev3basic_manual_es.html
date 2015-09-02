@@ -1,0 +1,1337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<TITLE>EV3Basic Developer Manual</TITLE>
+<style type="text/css">
+  H1.chapter {
+	margin-top: 100px;
+    font-family: Verdana; 
+  }
+  H3.subchapter {
+    font-family: Verdana; 
+  }
+  P {
+    font-family: Verdana; 
+  }
+  UL {
+    font-family: Verdana; 
+  }
+  ADDRESS {
+    font-family: Verdana; 
+	float: right;
+  }
+  TABLE {
+    font-family: Verdana;
+	border-spacing: 0px;
+	border:1px solid black;
+  }
+  TD {
+	padding: 4px;
+	border:1px solid black;
+  }
+  TR:nth-child(1)
+  {
+	background: #d0d0d0;
+  } 
+
+  H2.object {
+    font-family: Verdana; 
+	border-bottom: medium solid;
+  }
+  P.objectsummary {
+    font-family: Verdana; 
+  }
+  H3.operation {
+    font-family: Verdana;  
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  P.operationsummary {
+    font-family: Verdana; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  H3.property {
+    font-family: Verdana;  
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  P.propertysummary {
+    font-family: Verdana; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px; 
+  }
+  H4.parameter {
+    font-family: Verdana; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px; 
+  }
+  P.parametersummary {
+    font-family: Verdana;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 50px; 
+  }
+  H4.returns {
+    font-family: Verdana; 
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px; 
+  }
+  P.returnssummary {
+    font-family: Verdana;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 50px; 
+  }
+  STRONG {
+	font-family: Verdana;
+	font-style: italic;
+	font-weight: normal;
+  }
+</style>
+
+</HEAD>
+<BODY>
+<H1 class="chapter">Manual EV3 Basic</H1>
+<STRING>Amablemente traducido por Angel Ivan Moreno, Frankfurt</STRONG>
+
+<P>
+Programar un robot para que obedezca tus órdenes es muy divertido. La manera más 
+fácil de programar el bloque de Lego EV3 para tareas sencillas es utilizar el 
+entorno de programación gráfica proporcionado por Lego. Pero para programas más 
+grandes y complejos, este entorno se queda corto y se necesita algún lenguaje de 
+programación textual para programarlo. Existen muchos proyectos diferentes que 
+han creado entornos de programación para el EV3 justamente para esto (LeJOS, 
+MonoBrick, RobotC, ev3dev, y muchos más). Pero todos ellos tienen una cosa en 
+común: son tremendamente complicadados de configurar y utilizar, y es probable 
+que necesites años de experiencia con ordenadores para conseguir hacer algo con 
+cualquiera de ellos.
+</P>
+<P>
+Para cubrir la brecha entre "fácil de usar, pero limitado" y "potente pero 
+complicado", he inventado EV3Basic. Está dirigido a los usuarios que quieren ir 
+más allá de las limitaciones de la programación gráfica, pero no son 
+profesionales informáticos. EV3-Basic es bastante fácil de aprender, sin dejar 
+de ofrecer toda la funcionalidad que necesitas para crear programas 
+sorprendentes. Que aprendas a programar por el camino es, probablemente, un 
+beneficio adicional.
+</P>
+<P>
+EV3-Basic se basa en el lenguaje de programación "Small Basic", que fue 
+desarrollado por Microsoft como introducción a la programación especialmente 
+diseñado para niños pero también para todas las personas interesadas sin 
+conocimientos previos en este tema. "Small Basic" fue diseñado con el propósito 
+de que su uso fuera sencillo y en mi extensión EV3 traté de hacer lo mismo. Mi 
+intención es que este lenguaje sea útil para aprender a programar y así utilizar 
+el bloque EV3 de manera más creativa.
+</P>
+<address>
+Reinhard Grafl
+<br>
+reinhard.grafl@aon.at
+</address>
+
+<H1 class="chapter">Empezando</H1>
+<P>
+Lo primero que se necesitas es un PC con Microsoft Windows (cualquier versión a 
+partir de Windows XP) y la versión actual de Microsoft Small Basic que puede ser 
+descargada de forma gratuita. Si no posees ningún conocimiento previo de 
+programación, es aconsejable que primero conozcas sus principios. Esto no 
+conlleva demasiado tiempo y es bastante divertido en sí mismo. Hay algunos 
+tutoriales muy buenos en la página web de Small Basic que pueden servirte de 
+ayuda.
+</P>
+<P>
+El siguiente paso consiste en descargar e instalar la extensión EV3 de Small 
+Basic para poder controlar el bloque EV3 con tu programa. Desde la última 
+versión de EV3 Basic, descarga e instala el archivo "EV3BasicInstaller.msi". 
+Esto debería instalar la extensión directamente en el directorio de instalación 
+de Small Basic. Si has elegido previamente una ubicación no estándar para Small 
+Basic, utiliza esa misma ubicación aquí. La próxima vez que inicies Small Basic 
+(reinícialo si aún se estaba ejecutando), tendrás acceso a diferentes objetos 
+para el control de las distintas funciones de las piezas así como algunos 
+objetos polivalentes adicionales. Ahora procede a crear tu primer programa EV3 
+escribiendo
+</P>
+<pre>
+   LCD.Clear()
+   LCD.Write(40,40, "Hola EV3")
+   Program.Delay(10000)
+</pre>
+<P>
+en la ventana del programa. A continuación, conecta el bloque EV3 al ordenador 
+mediante el cable USB, ponlo en marcha y cuando esté encendido, pulsa el botón 
+azul grande "Ejecutar" de Small Basic. Esto compilará y comenzará a ejecutar el 
+programa que controla remotamente el bloque desde su PC.
+</P>
+<P>
+Al escribir tus propios programas, el sistema Intellisense de Small Basic te 
+mostrará las posibles funciones de librería y documentación de uso que contiene 
+la misma información disponible también en este documento en el capítulo 
+"Documentación de la librería". Muchos más ejemplos de programación de EV3 están 
+asimismo disponibles en la página de versiones (probablemente con el nombre 
+'examples.zip'). 
+</P>
+<P>
+Controlar remotamente el bloque con un programa en el PC es algo genial, pero 
+para muchos usos necesitarás un robot independiente con su propio programa que 
+no necesite que el PC le diga cada paso.
+</P>
+<P>
+Para incorporar el programa al bloque, necesitas el EV3Explorer, que ya ha sido 
+instalado junto con la extensión EV3 y que está disponible en el menú de inicio 
+de Windows (EV3Basic / EV3Explorer). La ejecución de este programa abre una 
+ventana donde se pueden ver los archivos que se almacenan en el bloque EV3 (en 
+la parte izquierda de la ventana) así como los archivos almacenados en tu PC (en 
+la parte derecha de la ventana). Puedes compilar cualquiera de los ejemplos y 
+tus propios programas seleccionando el archivo de código fuente (termina con 
+.sb) y haciendo clic en "Compile and Run" (Compilar y Ejecutar).
+</P>
+<P>
+Esto compila el archivo de código fuente a un archivo que el bloque puede 
+ejecutar (tienen la extensión de archivo .rbf), lo carga en el bloque e 
+inmediatamente lo inicia. Si quieres empezar el programa desde el menú en el 
+bloque, necesitas crear una subcarpeta en la la carpeta "prjs" -carpeta con un 
+nombre que quieras y utilizarla como carpeta de destino para la compilación. (El 
+EV3 sólo mostrará en su menu los programas que estén correctamente ubicados en 
+su propia carpeta).
+</P>
+
+<H1 class="chapter">Referencia rápida de Small Basic</H1>
+<p>
+Para las personas que ya saben programar en otros lenguajes y no desean realizar 
+los tutoriales completos de Small Basic, aquí hay un ejemplo corto que contiene 
+la mayoría de las construcciones del lenguaje y una breve explicación de cada 
+una. Este ejemplo no se ejecutará en el bloque EV3, ya que utiliza la ventana de 
+texto de Small Basic.
+</p>
+<pre>
+
+  ' Programa de demostración que explica la mayor parte de Small Basic
+  ' (Todos los comentarios comienzan con comillas simples)
+
+  ' La ejecución comienza aquí
+  A = 5       ' las variables se declaran implícitamente al primer uso 
+  a = a + 1   ' todo es insensible a las mayúsculas y minúsculas
+  B[a] = 55   ' los arrays se definen implícitamente y crecen según sea necesario
+  X = "hi"    ' las variables también pueden contener texto
+
+  Sub write   ' define un sub-programa con este nombre (es posible sin parámetros)
+	TextWindow.WriteLine(X)           ' llamada a función de la librería, las variables de acceso se definen en otro lugar
+  EndSub
+     ' el flujo de control del programa principal se ejecuta alrededor de las definiciones Sub.
+
+  TextWindow.WriteLine("A="+a)        ' concatenación de cadenas con +
+  WRITE()                             ' llamada a subprograma. No se hace distinción entre mayúsculas y minúsculas
+  write2()                            ' puede llamar a subprogramas definidos más adelante en el código
+
+  TextWindow.Writeline("B[6]="+B[6])  ' acceso a arrays
+  
+  For i=2 to 5 		               	  ' un bucle de 2 a 5 (inclusive)
+	TextWindow.Writeline("I:"+I)
+  EndFor
+  For i=6.5 to 10.5 step 2         	  ' un bucle con valores fraccionarios y pasos mayores
+	TextWindow.Writeline("I:"+I)
+  EndFor
+
+  Sub write2
+	write()          ' un subprograma puede llamar a otros subprogramas
+	write()
+  EndSub
+     ' El flujo de control del programa principal se ejecuta sobre las definiciones Sub.
+
+   I=99				' insensible a mayúsculas y minúsculas - sobrescribe el i anterior
+   while i>3        ' bucle con condición
+     i=i/2
+     TextWindow.Writeline("I:"+i)
+   endwhile
+   TextWindow.WriteLine("PI="+Math.PI)         ' una propiedad de la librería (acceso sin paréntesis)
+   TextWindow.WriteLine("SIN="+Math.Sin(0.5))  ' la función de la librería devuelve un valor
+
+   A=50
+   B=20
+   If a<5 then				       ' una estructura condicional con múltiples condiciones
+		TextWindow.WriteLine("primero")
+   elseif a<10 and b<100 then                ' 'condiciones de lógica de AND
+		TextWindow.WriteLine("segundo")
+   elseif a<20 or (b>40 and b<60) then       ' lógica de OR y condiciones anidadas
+		TextWindow.WriteLine("tercero")
+   else
+		TextWindow.WriteLine("otros")
+   endif
+</pre>
+
+
+<H1 class="chapter">Diferencias entre Small Basic y EV3Basic</H1>
+<P>
+Aunque he tratado de imitar en todo lo posible el comportamiento original de 
+Small Basic en mi compilador EV3, hay algunas cosas que simplemente no se pueden 
+realizar con el intérprete de código de bytes EV3.
+</P>
+
+<H3 class="subchapter">Las variables tienen "tipo".</H3>
+<P>  
+Mientras Small Basic sólo tiene un tipo de datos que es una cadena Unicode para 
+todos los valores posibles (incluso arrays), EV3Basic tiene cuatro tipos de 
+datos diferentes para las variables:
+</P>
+<ul>
+<li>Número (un punto de 32 bits flotante)</li>
+<li>Texto</li>
+<li>Array de Números</li>
+<li>Array de Textos</li>
+</ul>
+<P>
+Cada variable tiene uno de estos tipos (que se determina al ser usadas por 
+primera vez en el código del programa) y no puede ser usado para almacenar 
+ningún otro tipo de dato.
+</P>
+
+<H3 class="subchapter">Los operadores y las funciones actúan según el tipo en tiempo de compilación</H3>
+<P>
+Los operadores aritméticos o lógicos necesitan parámetros bien numéricos o bien 
+de texto y también devuelven un resultado de tipo definido (por ejemplo, el "&lt;" 
+necesita dos números y devuelve un texto). Una excepción es el "=" que efectuará 
+una comparación bien numérica o bien textual, según el tipo en tiempo de 
+compilación de los operandos. Otra excepción es el "+" que efectuará una suma de 
+números cuando se le proveen dos números, pero hará una concatenación de textos 
+si uno de los operandos es texto. Requisitos similares existen para los 
+parámetros de función, que también tienen un tipo en tiempo de compilación 
+definido. Para facilitar las cosas, una conversión automática de número a texto 
+se realiza si un parámetro necesita un texto (pero no a la inversa).</P>
+
+<H3 class="subchapter">Matrices</H3>
+<P>
+En Small Basic, las matrices funcionan como un diccionario y pueden utilizar 
+cualquier texto como índice. EV3-Basic no puede hacer eso. Sólo se permiten 
+números como índice y sólo números no negativos sin decimales proporcionan los 
+resultados esperados (A [4.5] es lo mismo que A [4], A [-4] devolverá siempre 0 
+o ""). No existen las matrices multidimensionales. Mientras que las matrices se 
+pueden pasar a funciones de la librería y ser devueltas, no se pueden crear 
+matrices temporales que almacenen el resultado. Para todas las funciones que 
+devuelven una matriz, este valor debe ser almacenado directamente en una 
+variable de tipo matriz.
+</P>
+
+<H3 class="subchapter">Limitación de texto</H3>
+<P>
+Cualquier variable de tipo texto sólo puede contener hasta 251 caracteres y no 
+se admite la gama completa de Unicode, pero sólo los códigos 1-255 (son sólo 
+sencillas cadenas de caracteres tipo C). Lo mismo ocurre para todos los 
+elementos de las matrices de texto.
+</P>
+
+<H1 class="chapter">Soporte Bluetooth</H1>
+<P>
+Conectar EV3 a su PC directamente con un cable USB es la manera más fácil y 
+segura de utilizar EV3 Basic. Sin embargo, tener que utilizar el cable puede ser 
+bastante engorroso en algunas circunstancias, especialmente al desarrollar 
+robots móviles.
+</P>
+<P>
+Si tienes tiene bluetooth en tu PC (ya sea mediante un adaptador Bluetooth o 
+integrado), puedes configurar el EV3 para comunicarse con el PC de forma 
+inalámbrica. Si no lo has hecho aún, deberás emparejar el EV3 con tu PC para 
+permitir la comunicación. Para ello, primero activa las funciones de Bluetooth 
+en el EV3: En el menú de configuración, activa las opciones "Bluetooth" y 
+"Visibilidad". Luego, en el PC, abre el diálogo de sistema "Dispositivos 
+Bluetooth". Allí puedes buscar el dispositivo y empezar a establecer una 
+conexión con EV3. El proceso puede resultar un poco largo y requiere la 
+confirmación de la acción en la EV3 así como en el PC, e incluso deberás 
+introducir el código de acoplamiento correcto en algún lugar (debe ser "1234").
+</P>
+<P>
+Una vez que la conexión se establece y la instalación automática de los 
+controladores adecuados se termina, tu PC puede comunicarse con el EV3 a través 
+de lo que se llama un "Serial Port", que se llamará "COM1", "COM3" o similares. 
+Puedes comprobar qué nombre fue asignado de hecho al ver la página de 
+propiedades del dispositivo bluetooth EV3. 
+</P>
+<P>
+Para utilizar la conexión recién establecida con EV3-Basic, simplemente ejecuta 
+tu programa desde Small Basic o simplemente inicia el Explorador EV3. Si no 
+puede encontrarse ningún EV3 directamente conectado a través de USB pero hay 
+"Puertos serie" posiblemente disponibles, el PC te instará a seleccionar uno de 
+estos puertos. Si este es de hecho el puerto para el EV3, la conexión será 
+posible.
+</P>
+
+<H1 class="chapter">Soporte WiFi</H1>
+<P>
+Al igual que una conexión Bluetooth, una conexión WiFi te permite conectarte a 
+tu modelo sin usar un cable. El WiFi tiene alguna ventaja sobre Bluetooth en 
+cuanto a cobertura, velocidad y fiabilidad, aunque también posee inconvenientes 
+como el mayor consumo de energía y la necesidad de añadir un adaptador WiFi al 
+EV3. Y esta configuración sólo funciona dispones de un router WiFi. Se trata 
+básicamente de una cuestión de gusto, si prefieres bluetooth o WiFi, o tal vez 
+una cuestión de problemas técnicos con una de las posibilidades.</P>
+<P>
+Para utilizar la opción de WiFi, necesitas un adaptador WiFi específico 
+compatible con el bloque EV3. Actualmente sólo hay un modelo disponible que 
+funcione con un EV3 no modificado: "Netgear WNA1100", que debe ser insertado en 
+el conector USB grande en el lado izquierdo del EV3. La configuración de la 
+conexión Wi-Fi se puede hacer desde el menú de configuración en el bloque. Debes 
+activar la opción WiFi (esto lleva algo de tiempo para poner en marcha el 
+dispositivo de seguridad) y después has de establecer una conexión hasta el 
+router WiFi. Si has configurado el cifrado para la red Wi-Fi, es necesario 
+introducir la clave WPA2 directamente en el bloque. Actualmente no se admite 
+ningún otro método de cifrado WiFi.
+</P>
+<P>
+Una vez que hayas establecido una conexión entre EV3 y el router, el EV3 debería 
+haber recibido una dirección IP, que debería ser algo como "10.2.3.4". Puedes 
+comprobar la dirección que fue asignado a tu EV3 en la sección "Brick Info" del 
+menú de ajustes. Está en la parte inferior de la lista.
+</P>
+<P>
+Cuando quieras finalmente conectarte al EV3 desde un programa de Small Basic o 
+con el Explorador de EV3, utiliza el botón "Wi-Fi" en el cuadro de diálogo que 
+pregunta por la conexión a usar. A continuación, introduce la dirección IP tal y 
+como se mostraba en el bloque . Sólo tienes que escribir la dirección una vez. 
+En el futuro, aparecerá directamente en la lista de selección.
+</P>
+<P>
+Ten en cuenta que el bloque no se conecta automáticamente al wifi cuando se 
+enciende. Siempre tienes que activar la conexión después de cada encendido.
+</P>
+
+<H1 class="chapter">El objeto Motor</H1>
+<P>
+Los comandos de control del motor en una matriz funcional:
+</P>
+<TABLE>
+<TR><TD></TD><TD>Mover x grados mientras espera</TD><TD>Empezar a ejecutar indefinidamente</TD><TD>Empezar a mover x grados</TD></TR>
+<TR><TD>Regular la velocidad</TD><TD>Motor.Move</TD><TD>Motor.Start</TD><TD>Motor.Schedule</TD></TR>
+<TR><TD>Elegir potencia</TD><TD>Motor.MovePower</TD><TD>Motor.StartPower</TD><TD>Motor.SchedulePower</TD></TR>
+<TR><TD>Sincronizar</TD><TD>Motor.MoveSync</TD><TD>Motor.StartSync</TD><TD>Motor.ScheduleSync</TD></TR>
+</TABLE>
+<P>
+Los cuatro comandos resaltados son los más básicos, aquellos principiantes 
+utilizarán la mayor parte del tiempo.
+</P>
+<P>
+Para la mayoría de los usos las variantes con regulación de la velocidad de un 
+solo motor serán la elección correcta. Así, estos comandos tienen nombres más 
+cortos (sin sufijo "Power" o "Sync") cuando se comparan con sus equivalentes 
+sincronizados.
+</P>
+<P>
+Cuando tengas que cambiar la potencia o la velocidad de un motor que ya esté 
+funcionando, simplemente vuelve a emitir una orden de arranque con el valor de 
+velocidad o potencia apropiado. El motor cambiará directamente al nuevo modo de 
+funcionamiento.
+</P>
+
+<H1 class="chapter">Documentación de la librería</H1>
+<P>
+La librería de tiempo de ejecución para el EV3 se organiza en partes 
+individuales, llamadas "objetos". Cada objeto provee una funcionalidad para una 
+parte diferente del sistema. Esta lista contiene todo lo que está disponible 
+para tanto para Small Basic en el PC (con extensión EV3) como en el bloque una 
+vez compilado con EV3Explorer. Cuando desarrolles programas que sólo tengan que 
+ejecutarse en el PC, puedes utilizar todo lo que Small Basic proporciona 
+adicionalmente y que no he documentado aquí.
+</P>
+
+<H2 class="object">Assert</H2>
+<P class="objectsummary">Una utilidad de pruebas para ayudar a verificar la corrección de una parte del código.<BR>Un aserto hace explícitas suposiciones implícitas sobre el estado actual del programa. Al añadir asertos, se pueden encontrar errores en los programas con más facilidad. Por ejemplo, cuando una parte del programa depende de que la variable A tenga un valor positivo, se puede llamar a Assert.Greater (A, 0, "A debe ser> 0!").<BR>En el caso de que el programa ejecute un aserto que no se cumpla, se muestra el mensaje de error indicando el problema.</P>
+<H3 class="operation">Assert.Equal (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que los dos valores son iguales. Para esta prueba, incluso "True" y "tRue" no se consideran iguales.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.Failed (mensaje)</H3>
+<P class="operationsummary">Escribe un mensaje de error en la pantalla. Esta función sólo se debe llamar si algo ha fallado en el programa.</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se muestra</P>
+<H3 class="operation">Assert.Greater (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que el primer número es mayor que el segundo.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.GreaterEqual (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que el primer número es mayor que o igual que el segundo.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.Less (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que el primer número es menor que el segundo.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.LessEqual (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que el primer número es menor que o igual al segundo.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.Near (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que los dos números son casi idénticos. Esto puede ser usado para los números fraccionarios con muchos decimales en los que el cómputo podría dar resultados ligeramente diferentes debido a problemas de redondeo.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H3 class="operation">Assert.NotEqual (a, b, mensaje)</H3>
+<P class="operationsummary">Comprueba que dos valores no son iguales. Para esta prueba, incluso "True" y "tRue" no se consideran iguales.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Primer valor</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Segundo valor</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">Mensaje que se mostrará si el aserto falla.</P>
+<H2 class="object">Buttons</H2>
+<P class="objectsummary">Lee los estados y los clics de los botones del bloque.Los botones se especifican con las siguientes letras:<BR>U arriba (up)<BR>D abajo (down)<BR>L izquierda (left)<BR>R derecha (right)<BR>E introducir (enter)</P>
+<H3 class="property">Buttons.Current - Property</H3>
+<P class="propertysummary">Los botones que están presionados actualmente. Esta propiedad contiene un texto con las letras clave de todas las teclas que estén siendo pulsadas en ese momento.</P>
+<H3 class="operation">Buttons.Flush ()</H3>
+<P class="operationsummary">Elimina los estados de clic de todos los botones. Las llamadas subsiguientes a GetClicks sólo devolverán los botones en los que se ha hecho clic después de la llamada a Flush.</P>
+<H3 class="operation">Buttons.GetClicks ()</H3>
+<P class="operationsummary">Revisa los botones en los que se hizo clic desde la última llamada a GetClicks y devuelve un texto que contiene sus letras.. Luego se elimina el estado 'clic' de los botones. Además, se emite un sonido desde el bloque cuando se detectó un clic.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un texto que contiene las letras de los botones en los que se ha hecho clic (puede estar vacío).</P>
+<H3 class="operation">Buttons.Wait ()</H3>
+<P class="operationsummary">Espera hasta que se hace clic en al menos un botón. Si se había hecho clic en un botón antes de llamar a esta función, retorna inmediatamente.</P>
+<H2 class="object">EV3</H2>
+<P class="objectsummary">Pequeñas funciones de utilidad que afectan al bloque EV3 en su conjunto.</P>
+<H3 class="property">EV3.BatteryLevel - Property</H3>
+<P class="propertysummary">El nivel actual de carga de la batería (rango de 0 a 100).</P>
+<H3 class="property">EV3.Time - Property</H3>
+<P class="propertysummary">La duración en milisegundos desde que se inició el programa.</P>
+<H3 class="operation">EV3.QueueNextCommand ()</H3>
+<P class="operationsummary">Aumenta el rendimiento cuando el programa se ejecuta en modo "PC": No envía al bloque el siguiente comando de inmediato, sino que espera hasta que se lleguen más comandos que luego serán enviado junto con el primero. Se pueden agrupar más comandos juntos mediante llamadas adicionales a QueueNextCommand antes de cualquier comando que deba ser colocado en la cola. En el "modo de bloque", este comando no tiene efecto.</P>
+<H3 class="operation">EV3.SetLEDColor (color, efecto)</H3>
+<P class="operationsummary">Ajusta el color de la luz LED de bloque y el efecto a utilizar para ello.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">Puede ser "OFF", " GREEN", "RED", "ORANGE"</P>
+<H4 class="parameter">efecto</H4>
+<P class="parametersummary">Puede ser "NORMAL", "FLASH", "PULSE"</P>
+<H3 class="operation">EV3.SystemCall (Línea_de_comando)</H3>
+<P class="operationsummary">Ejecuta un comando de sistema a través del shell de comandos del sistema Linux EV3. Todos los hilos de la máquina virtual se detienen hasta que finalice el comando de sistema.</P>
+<H4 class="parameter">Línea_de_comando</H4>
+<P class="parametersummary">El comando del sistema.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Estado de salida del comando.</P>
+<H2 class="object">EV3File</H2>
+<P class="objectsummary">Accede al sistema de archivos del bloque EV3 para leer o escribir datos. Los nombres de archivo se puede dar tanto de manera absoluta (precedidos por '/') para llegar a cualquier archivo en el sistema, o de manera relativa con relación a la carpeta 'prjs'.</P>
+<H3 class="operation">EV3File.Close (identificador)</H3>
+<P class="operationsummary">Cierra un archivo abierto.</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador del archivo (previamente obtenido de un Open ... llamada)</P>
+<H3 class="operation">EV3File.ConvertToNumber (texto)</H3>
+<P class="operationsummary">Función de utilidad para convertir un texto a número.</P>
+<H4 class="parameter">texto</H4>
+<P class="parametersummary">Un texto que contiene un número en notación decimal (con los dígitos fraccionarios opcionales)</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El número</P>
+<H3 class="operation">EV3File.OpenAppend (nombre_del_archivo)</H3>
+<P class="operationsummary">Abre un archivo para agregar datos. Cuando el archivo no existe, se creará.</P>
+<H4 class="parameter">nombre_del_archivo</H4>
+<P class="parametersummary">Nombre del archivo a crear / ampliar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un número que identifica este archivo abierto (también conocido como identificador de archivo).</P>
+<H3 class="operation">EV3File.OpenRead (nombre_del_archivo)</H3>
+<P class="operationsummary">Abre un archivo para leer datos. Cuando el archivo no existe, devuelve un 0.</P>
+<H4 class="parameter">nombre_del_archivo</H4>
+<P class="parametersummary">Nombre del archivo a leer.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un número que identifica este archivo abierto (también conocido como identificador de archivo) o 0 si el archivo no existe.</P>
+<H3 class="operation">EV3File.OpenWrite (Nombre_del_archivo)</H3>
+<P class="operationsummary">Abre un archivo para escritura. Cuando el archivo ya existe, será sobrescrito.</P>
+<H4 class="parameter">Nombre_del_archivo</H4>
+<P class="parametersummary">Nombre del archivo a crear / sobreescribir.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un número que identifica este archivo abierto (también conocido como identificador del archivo).</P>
+<H3 class="operation">EV3File.ReadByte (identificador)</H3>
+<P class="operationsummary">Lee un byte de datos del archivo.</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador del archivo (previamente obtenido de un Open ... llamada)</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El siguiente byte del archivo.</P>
+<H3 class="operation">EV3File.ReadLine (identificador)</H3>
+<P class="operationsummary">Lee una línea de texto del archivo. La línea se decodifica usando la codificación ISO-8859-1 y debe terminar con un carácter de nueva línea (código 10).</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador del archivo (previamente obtenido de un Open ... llamada)</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El texto de la línea actual en el archivo.</P>
+<H3 class="operation">EV3File.ReadNumberArray (identificador, tamaño)</H3>
+<P class="operationsummary">Lee toda una serie de números en forma binaria del archivo. Los números están codificados en la representación IEEE de coma flotante de precisión simple.</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador de archivo (previamente obtenido de un Open ... llamada)</P>
+<H4 class="parameter">tamaño</H4>
+<P class="parametersummary">Número de valores a leer</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Una matriz (array) de elementos del tamaño indicado que contiene los valores.</P>
+<H3 class="operation">EV3File.TableLookup (Nombre_del_archivo, bytes_por_fila, fila, columna)</H3>
+<P class="operationsummary">Función de utilidad para leer bytes de archivos de datos potencialmente enormes que son demasiado grandes para ser transferido a la memoria en su conjunto.Debido a que el archivo podría ser tan grande que la precisión numérica de los números normales no fuese suficiente, es posible un direccionamiento de tipo fila / columna.</P>
+<H4 class="parameter">Nombre_del_archivo</H4>
+<P class="parametersummary">El nombre del archivo.</P>
+<H4 class="parameter">bytes_por_fila</H4>
+<P class="parametersummary">Cuando el archivo tiene una estructura fila / columna, este es el número de bytes en una fila. Se usa 1 si no aplica.</P>
+<H4 class="parameter">fila</H4>
+<P class="parametersummary">Fila a acceder (comenzando por 0).</P>
+<H4 class="parameter">columna</H4>
+<P class="parametersummary">Qué columna a acceder (comenzando por 0).</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El byte de la posición indicada</P>
+<H3 class="operation">EV3File.WriteByte (identificador, data)</H3>
+<P class="operationsummary">Escribe un solo byte de datos en el archivo.</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador de archivo (previamente obtenido de un Open ... llamada)</P>
+<H4 class="parameter">data</H4>
+<P class="parametersummary">Un byte a escribir (valor de 0 - 255).</P>
+<H3 class="operation">EV3File.WriteLine (identificador, text)</H3>
+<P class="operationsummary">Escribe una línea de texto en el archivo. La línea se codifica con codificación ISO-8859-1 y se termina con un carácter de nueva línea (código 10).</P>
+<H4 class="parameter">identificador</H4>
+<P class="parametersummary">El identificador del archivo (previamente obtenido de un Open ... llamada)</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto a escribir en el archivo.</P>
+<H2 class="object">LCD</H2>
+<P class="objectsummary">Controla la pantalla LCD en el bloque. El EV3 tiene una pantalla en blanco y negro de 178x128 píxeles. Todos los píxeles se abordan con coordenadas X, Y, donde X = 0 es el borde izquierdo e Y = 0 es el borde superior.</P>
+<H3 class="operation">LCD.BmpFile (color, x, y, Nombre_del_archivo)</H3>
+<P class="operationsummary">Muestra en la pantalla un archivo de mapa de bits en un color determinado. Sólo son compatibles los archivos en formato .rgf.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X del borde izquierdo</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y borde superior</P>
+<H4 class="parameter">Nombre_del_archivo</H4>
+<P class="parametersummary">Nombre del archivo de mapa de bits sin la extensión .rgf. Este nombre de archivo puede ser relativo a la carpeta 'prjs' o una ruta absoluta (cuando empieza con '/').</P>
+<H3 class="operation">LCD.Circle (color, x, y, radio)</H3>
+<P class="operationsummary">Dibuja un círculo en el color dado.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X del punto central</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y del punto central</P>
+<H4 class="parameter">radio</H4>
+<P class="parametersummary">Radio del círculo</P>
+<H3 class="operation">LCD.Clear ()</H3>
+<P class="operationsummary">Establece todos los píxeles de la pantalla a blanco.</P>
+<H3 class="operation">LCD.FillCircle (color, x, y, radio)</H3>
+<P class="operationsummary">Dibuja un círculo relleno con un color determinado.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X del punto central</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y del punto central</P>
+<H4 class="parameter">radio</H4>
+<P class="parametersummary">Radio del círculo</P>
+<H3 class="operation">LCD.FillRect (color, x, y, ancho, altura)</H3>
+<P class="operationsummary">Rellena un rectángulo con un color.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Borde izquierdo del rectángulo</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Borde superior del rectángulo</P>
+<H4 class="parameter">ancho</H4>
+<P class="parametersummary">Anchura del rectángulo</P>
+<H4 class="parameter">altura</H4>
+<P class="parametersummary">Altura del rectángulo</P>
+<H3 class="operation">LCD.InverseRect (x, y, ancho, altura)</H3>
+<P class="operationsummary">Invierte los colores de todos los píxeles dentro de un rectángulo.</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Borde izquierdo del rectángulo</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Borde superior del rectángulo</P>
+<H4 class="parameter">ancho</H4>
+<P class="parametersummary">Anchura del rectángulo</P>
+<H4 class="parameter">altura</H4>
+<P class="parametersummary">Altura del rectángulo</P>
+<H3 class="operation">LCD.Line (color, x1, y1, x2, y2)</H3>
+<P class="operationsummary">Establece un color para una línea recta de píxeles.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x1</H4>
+<P class="parametersummary">Coordenada X del punto de inicio</P>
+<H4 class="parameter">y1</H4>
+<P class="parametersummary">Coordenada Y del punto de inicio</P>
+<H4 class="parameter">x2</H4>
+<P class="parametersummary">Coordenada X del punto final</P>
+<H4 class="parameter">y2</H4>
+<P class="parametersummary">Coordenada Y del punto final</P>
+<H3 class="operation">LCD.Pixel (color, x, y)</H3>
+<P class="operationsummary">Establece un color para un píxel de la pantalla.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y</P>
+<H3 class="operation">LCD.Rect (color, x, y, ancho, altura)</H3>
+<P class="operationsummary">Dibuja con un color el borde de un rectángulo.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Borde izquierdo del rectángulo</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Borde superior del rectángulo</P>
+<H4 class="parameter">ancho</H4>
+<P class="parametersummary">Anchura del rectángulo</P>
+<H4 class="parameter">altura</H4>
+<P class="parametersummary">Altura del rectángulo</P>
+<H3 class="operation">LCD.StopUpdate ()</H3>
+<P class="operationsummary">Memoriza todos los cambios posteriores en la pantalla en lugar de dibujarlos directamente. En la siguiente llamada a Update(), estos cambios serán finalmente dibujados. Se puede utilizar esta función para evitar el parpadeo o para acelerar el dibujado de elementos complejos en la pantalla LCD.</P>
+<H3 class="operation">LCD.Text (color, x, y, fuente, texto)</H3>
+<P class="operationsummary">Escribe de un color determinado un texto dado (o número) en la pantalla.</P>
+<H4 class="parameter">color</H4>
+<P class="parametersummary">0 (blanco) o 1 (negro)</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X donde comienza el texto</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y de la esquina superior</P>
+<H4 class="parameter">fuente</H4>
+<P class="parametersummary">Tamaño de las letras: 0 (pequeña), 1 (SMALL), 2 (BIG)</P>
+<H4 class="parameter">texto</H4>
+<P class="parametersummary">El texto (o número) a escribir en la pantalla</P>
+<H3 class="operation">LCD.Update ()</H3>
+<P class="operationsummary">Dibuja todos los cambios en la pantalla que han sucedido desde la última llamada a StopUpdate(). Después de Update() todo se dibujará directamente de nuevo a menos que se utilice la instrucción StopUpdate() una vez más.</P>
+<H3 class="operation">LCD.Write (x, y, texto)</H3>
+<P class="operationsummary">Escribe en la pantalla un texto dado (o número) de color negro. Cuando se necesite un mayor control sobre el aspecto visual, se puede utilizar la función "Texto" en su lugar.</P>
+<H4 class="parameter">x</H4>
+<P class="parametersummary">Coordenada X donde comienza el texto</P>
+<H4 class="parameter">y</H4>
+<P class="parametersummary">Coordenada Y de la esquina superior</P>
+<H4 class="parameter">texto</H4>
+<P class="parametersummary">El texto (o número) a escribir en la pantalla</P>
+<H2 class="object">Mailbox</H2>
+<P class="objectsummary">Facilidad de comunicación para enviar mensajes a través de Bluetooth de bloque a bloque.</P>
+<H3 class="operation">Mailbox.Connect (nombre_de_bloque)</H3>
+<P class="operationsummary">Trata de establecer una conexión Bluetooth con otro bloque si no está conectado.<BR>Sólo después de que una conexión se haya hecho (ya sea con este comando o manualmente desde el menú del bloque), se pueden intercambiar mensajes en ambas direcciones.</P>
+<H4 class="parameter">nombre_de_bloque</H4>
+<P class="parametersummary">Nombre del bloque remoto.</P>
+<H3 class="operation">Mailbox.Create (nombre_del_buzón)</H3>
+<P class="operationsummary">Crea un buzón en el bloque local que puede recibir mensajes de otros bloques.<BR>Sólo después de la creación del buzón pueden almacenarse los mensajes entrantes para su recuperación. El límite total de buzones de correo que se pueden crear es de 30.</P>
+<H4 class="parameter">nombre_del_buzón</H4>
+<P class="parametersummary">Nombre del buzón de mensajes que se creará.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un identificador numérico del buzón. Es necesario para recuperar los mensajes del buzón.</P>
+<H3 class="operation">Mailbox.IsAvailable (id)</H3>
+<P class="operationsummary">Comprueba si hay un mensaje en el buzón de correo especificado.</P>
+<H4 class="parameter">id</H4>
+<P class="parametersummary">Identificador del buzón local</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">"True" si hay un mensaje en espera. "False" en caso contrario.</P>
+<H3 class="operation">Mailbox.Receive (id)</H3>
+<P class="operationsummary">Recibe el último mensaje de un buzón local. Cuando no hay ningún mensaje disponible, el comando se bloqueará hasta que llegue algún mensaje. El mensaje será consumido y la siguiente llamada a Receive esperará al siguiente mensaje. Para evitar el bloqueo, se puede comprobar con IsAvailable() si hay un mensaje en el buzón. Cuando no exista un buzón de mensajes con ese nombre, el comando devolverá "" inmediatamente.</P>
+<H4 class="parameter">id</H4>
+<P class="parametersummary">Identificador del buzón local</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El mensaje como texto. Actualmente sólo se admiten mensajes de texto.</P>
+<H3 class="operation">Mailbox.Send (nombre_del_bloque, nombre_del_buzón, mensaje)</H3>
+<P class="operationsummary">Enviar un mensaje a un buzón en otro bloque.</P>
+<H4 class="parameter">nombre_del_bloque</H4>
+<P class="parametersummary">El nombre del bloque que recibirá el mensaje. Tiene que estar ya abierta una conexión con este bloque para que este comando funcione. Se puede especificar un texto vacío aquí, en cuyo caso se enviará el mensaje a todos los bloques conectados.</P>
+<H4 class="parameter">nombre_del_buzón</H4>
+<P class="parametersummary">Nombre del buzón de voz en el bloque receptor.</P>
+<H4 class="parameter">mensaje</H4>
+<P class="parametersummary">El mensaje en forma de texto. Actualmente sólo se admiten mensajes de texto.</P>
+<H2 class="object">Math</H2>
+<P class="objectsummary">La clase Math (matemáticas) proporciona muchos métodos útiles relacionados con las matemáticas.</P>
+<H3 class="property">Math.Pi - Property</H3>
+<P class="propertysummary">Obtiene el valor de Pi.</P>
+<H3 class="operation">Math.Abs (number)</H3>
+<P class="operationsummary">Obtiene el valor absoluto del número proporcionado. Por ejemplo -32,233 devuelve 32,233.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número del que obtener su valor absoluto.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor absoluto del valor determinado.</P>
+<H3 class="operation">Math.ArcCos (cosValue)</H3>
+<P class="operationsummary">Obtiene el ángulo en radianes para el valor del coseno especificado.</P>
+<H4 class="parameter">cosValue</H4>
+<P class="parametersummary">El valor del coseno del ángulo especificado.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El ángulo (en radianes) del valor del coseno especificado.</P>
+<H3 class="operation">Math.ArcSin (sinValue)</H3>
+<P class="operationsummary">Obtiene el ángulo en radianes del valor del seno especificado.</P>
+<H4 class="parameter">sinValue</H4>
+<P class="parametersummary">El valor del seno del ángulo especificado.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El ángulo (en radianes) del valor del seno especificado.</P>
+<H3 class="operation">Math.ArcTan (tanValue)</H3>
+<P class="operationsummary">Obtiene el ángulo en radianes del valor de la tangente especificada.</P>
+<H4 class="parameter">tanValue</H4>
+<P class="parametersummary">El valor de la tangente del ángulo especificado.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El ángulo (en radianes) del valor de la tangente especificada.</P>
+<H3 class="operation">Math.Ceiling (number)</H3>
+<P class="operationsummary">Obtiene un valor entero que es mayor o igual que el número decimal proporcionado. Por ejemplo, 32,233 devuelve 33.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número al que se va a calcular el mínimo valor entero no mayor que él.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El mínimo valor entero no mayor del número dado.</P>
+<H3 class="operation">Math.Cos (angle)</H3>
+<P class="operationsummary">Obtiene el coseno del ángulo dado en radianes.</P>
+<H4 class="parameter">angle</H4>
+<P class="parametersummary">El ángulo para calcular su coseno (en radianes).</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El coseno del ángulo dado.</P>
+<H3 class="operation">Math.Floor (number)</H3>
+<P class="operationsummary">Obtiene un valor entero que es menor o igual al número decimal dado. Por ejemplo, 32,233 devuelve 32.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número al que se va a calcular el máximo valor entero no mayor que él.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El máximo valor entero no mayor del número dado.</P>
+<H3 class="operation">Math.GetDegrees (angle)</H3>
+<P class="operationsummary">Convierte un ángulo dado en radianes a grados.</P>
+<H4 class="parameter">angle</H4>
+<P class="parametersummary">El ángulo en radianes.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El ángulo convertido a grados.</P>
+<H3 class="operation">Math.GetRadians (angle)</H3>
+<P class="operationsummary">Convierte un ángulo dado en grados a radianes.</P>
+<H4 class="parameter">angle</H4>
+<P class="parametersummary">El ángulo en grados.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El ángulo convertido a radianes.</P>
+<H3 class="operation">Math.GetRandomNumber (maxNumber)</H3>
+<P class="operationsummary">Obtiene un número aleatorio entre 1 y el número especificado (incluido).</P>
+<H4 class="parameter">maxNumber</H4>
+<P class="parametersummary">El máximo valor para el número aleatorio solicitado.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un número aleatorio que es menor o igual que el máximo especificado.</P>
+<H3 class="operation">Math.Log (number)</H3>
+<P class="operationsummary">Obtiene el logaritmo (en base 10) del número dado.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número del cual se necesita el valor del logaritmo.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor del logaritmo del número dado.</P>
+<H3 class="operation">Math.Max (number1, number2)</H3>
+<P class="operationsummary">Compara dos números y devuelve el mayor de los dos.</P>
+<H4 class="parameter">number1</H4>
+<P class="parametersummary">El primero de los dos números a comparar.</P>
+<H4 class="parameter">number2</H4>
+<P class="parametersummary">El segundo de los dos números a comparar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor del mayor de los dos números.</P>
+<H3 class="operation">Math.Min (number1, number2)</H3>
+<P class="operationsummary">Compara dos números y devuelve el menor de los dos.</P>
+<H4 class="parameter">number1</H4>
+<P class="parametersummary">El primero de los dos números a comparar.</P>
+<H4 class="parameter">number2</H4>
+<P class="parametersummary">El segundo de los dos números a comparar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor del menor de los dos números.</P>
+<H3 class="operation">Math.NaturalLog (number)</H3>
+<P class="operationsummary">Obtiene el valor del logaritmo natural de un número dado.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número al que se va a calcular su logaritmo natural.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor del logaritmo natural del número dado.</P>
+<H3 class="operation">Math.Power (baseNumber, exponent)</H3>
+<P class="operationsummary">Eleva la base a la potencia indicada.</P>
+<H4 class="parameter">baseNumber</H4>
+<P class="parametersummary">El número a ser elevado a la potencia exponente.</P>
+<H4 class="parameter">exponent</H4>
+<P class="parametersummary">La potencia a la cual elevar el número base.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El número base elevado al exponente indicado.</P>
+<H3 class="operation">Math.Remainder (dividend, divisor)</H3>
+<P class="operationsummary">Divide el primer número entre el segundo y devuelve el resto.</P>
+<H4 class="parameter">dividend</H4>
+<P class="parametersummary">El dividendo.</P>
+<H4 class="parameter">divisor</H4>
+<P class="parametersummary">El divisor.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El resto de la división.</P>
+<H3 class="operation">Math.Round (number)</H3>
+<P class="operationsummary">Redondea un número a su valor entero más próximo. Por ejemplo, 32,233 se redondea a 32,0 mientras que 32,566 se redondea a 33.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número para calcular su número entero.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor entero del número dado.</P>
+<H3 class="operation">Math.Sin (angle)</H3>
+<P class="operationsummary">Obtiene el seno del ángulo dado en radianes.</P>
+<H4 class="parameter">angle</H4>
+<P class="parametersummary">El ángulo (en radianes) cuyo seno se necesita.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El seno del ángulo dado.</P>
+<H3 class="operation">Math.SquareRoot (number)</H3>
+<P class="operationsummary">Obtiene la raíz cuadrada de un número dado.</P>
+<H4 class="parameter">number</H4>
+<P class="parametersummary">El número para calcular su raíz cuadrada.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La raíz cuadrada del número dado.</P>
+<H3 class="operation">Math.Tan (angle)</H3>
+<P class="operationsummary">Obtiene la tangente del ángulo dado en radianes.</P>
+<H4 class="parameter">angle</H4>
+<P class="parametersummary">El ángulo para calcular su tangente (en radianes).</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La tangente del ángulo dado.</P>
+<H2 class="object">Motor</H2>
+<P class="objectsummary">Controlar los motores conectados al bloque. Para todas las funciones del motor es necesario especificar uno o más puertos de motor que deben ser afectados (por ejemplo, "A", "antes de Cristo", "ABD"). Cuando se encadenan bloques adicionales al bloque maestro, indica el puerto correcto añadiendo el número de capa a la especificador (por ejemplo, "3BC", "2A"). En este caso sólo los motores de un bloque se pueden acceder con un único comando. Velocidad vs Potencia: Al solicitar accionar un motor con una cierta velocidad, la potencia eléctrica se ajustará de forma permanente para mantener el motor a esta velocidad independientemente de la fuerza motriz necesaria (siempre y cuando pueda ser proporcionada la energía suficiente). Al solicitar una cierta potencia en cambio, se proporcionará sólo esta cantidad de energía eléctrica al motor y la velocidad real dependerá entonces la resistencia que encuentre.</P>
+<H3 class="operation">Motor.GetCount (puerto)</H3>
+<P class="operationsummary">Consulta el recuento actual de rotación de un solo motor. Mientras el contador no se restablece medirá con precisión todos los movimientos de un motor, incluso si el motor es accionado por una fuerza externa, sin estar girando activamente.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Nombre del puerto motor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El recuento de rotación actual en grados.</P>
+<H3 class="operation">Motor.GetSpeed (puerto)</H3>
+<P class="operationsummary">Consultar la velocidad actual de un solo motor.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Nombre del puerto motor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Velocidad actual en el rango de -100 a 100</P>
+<H3 class="operation">Motor.IsBusy (puertos)</H3>
+<P class="operationsummary">Comprueba si uno o más motores están activos actualmente.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">"True" si al menos uno de los motores está activo, "False" en caso contrario.</P>
+<H3 class="operation">Motor.Move (puertos, velocidad, grados, freno)</H3>
+<P class="operationsummary">Mueve uno o más motores el ángulo especificado (en grados) a la velocidad especificada. Este comando bloquea la ejecución hasta que el motor ha alcanzado su destino. Cuando se necesite un mayor control sobre el movimiento (aceleración suave o deceleración), es recomendable utilizar el comando Motor.Schedule en su lugar.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">velocidad</H4>
+<P class="parametersummary">Nivel de velocidad de -100 (velocidad máxima hacia atrás) a 100 (velocidad máxima hacia adelante)</P>
+<H4 class="parameter">grados</H4>
+<P class="parametersummary">El ángulo a girar</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el(los) motor(es) debe(n) activar el freno después del movimiento</P>
+<H3 class="operation">Motor.MovePower (puertos, potencia, grados, freno)</H3>
+<P class="operationsummary">Mueve uno o más motores el ángulo especificado (en grados) con la potencia especificada. Este comando bloquea la ejecución hasta que el motor ha alcanzado su destino. Cuando se necesite un mayor control sobre el movimiento (aceleración suave o deceleración), es recomendable utilizar el comando Motor.SchedulePower en su lugar.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">potencia</H4>
+<P class="parametersummary">Nivel de potencia de -100 (potencia máxima hacia atrás) a 100 (potencia máxima hacia adelante)</P>
+<H4 class="parameter">grados</H4>
+<P class="parametersummary">El ángulo a girar</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el(los) motor(es) debe(n) activar el freno después del movimiento</P>
+<H3 class="operation">Motor.MoveSync (puertos, velocidad1, velocidad2, grados, freno)</H3>
+<P class="operationsummary">Mueve 2 motores de manera síncrona un número determinado de grados. Los dos motores están sincronizados, lo que que significa que cuando un motor experimenta cierta resistencia y no puede mantener su velocidad, el otro motor también irá más lento o se detendrá por completo. Esto es especialmente útil en los vehículos con dos ruedas motrices independientes, ya que también tienen que ir en línea recta o hacer un giro especificado. El ángulo a mover es relativo al motor con la velocidad más alta.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Los nombres de los 2 puertos motores (por ejemplo "AB" o "CD")</P>
+<H4 class="parameter">velocidad1</H4>
+<P class="parametersummary">Valor de la velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante) del motor con la letra de puerto más baja</P>
+<H4 class="parameter">velocidad2</H4>
+<P class="parametersummary">Valor de la velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante) del motor con la letra de puerto más alta.
+grados El ángulo a girar asociado al motor más rápido</P>
+<H4 class="parameter">grados</H4>
+<P class="parametersummary">El ángulo a girar asociado al motor más rápido</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el(los) motor(es) debe(n) activar el freno después del movimiento</P>
+<H3 class="operation">Motor.ResetCount (puertos)</H3>
+<P class="operationsummary">Fija a 0 el recuento de rotación de uno o más motores.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H3 class="operation">Motor.Schedule (puertos, velocidad, grados1, grados2, grados3, freno)</H3>
+<P class="operationsummary">Mueve uno o más motores con los valores de velocidad especificados. La velocidad se puede ajustar a lo largo de la toda la rotación para conseguir un arranque suave y una parada suave si fuese necesario. El ángulo total a girar el motor es grados1 + grados2 + grados3. Al final del movimiento, el motor se detiene automáticamente (con o sin usar el freno). Esta función retorna inmediatamente. Se puede utilizar IsBusy() para detectar el final del movimiento o llamar a Wait() para esperar hasta que termine el movimiento.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">velocidad</H4>
+<P class="parametersummary">Nivel de velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante)</P>
+<H4 class="parameter">grados1</H4>
+<P class="parametersummary">La parte de la rotación durante la que acelerar</P>
+<H4 class="parameter">grados2</H4>
+<P class="parametersummary">La parte de la rotación con movimiento uniforme</P>
+<H4 class="parameter">grados3</H4>
+<P class="parametersummary">La parte de la rotación durante la que desacelerar</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el motor(es) debe activar el freno después del movimiento</P>
+<H3 class="operation">Motor.SchedulePower (puertos, potencia, grados1, grados2, grados3, freno)</H3>
+<P class="operationsummary">Mueve uno o más motores con la potencia especificada. La potencia se puede ajustar a lo largo de la toda la rotación para conseguir un arranque suave y una parada suave si fuese necesario. El ángulo total a girar el motor es grados1 + grados2 + grados3. Al final del movimiento, el motor se detiene automáticamente (con o sin usar el freno).<BR>Esta función retorna inmediatamente. Se puede utilizar IsBusy() para detectar el final del movimiento o llamar a Wait() para esperar hasta que termine el movimiento.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">potencia</H4>
+<P class="parametersummary">Nivel de potencia de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante)</P>
+<H4 class="parameter">grados1</H4>
+<P class="parametersummary">La parte de la rotación durante la que acelerar</P>
+<H4 class="parameter">grados2</H4>
+<P class="parametersummary">La parte de la rotación con movimiento uniforme</P>
+<H4 class="parameter">grados3</H4>
+<P class="parametersummary">La parte de la rotación durante la que desacelerar</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el motor(es) debe activar el freno después del movimiento</P>
+<H3 class="operation">Motor.ScheduleSync (puertos, velocidad1, velocidad2, grados, freno)</H3>
+<P class="operationsummary">Los dos motores están sincronizados, lo que significa que cuando un motor experimenta cierta resistencia y no puede mantener su velocidad, el otro motor también irá más lento o se detendrá por completo. Esto es especialmente útil en los vehículos con dos ruedas motrices independientes, ya que también tienen que ir en línea recta o hacer un giro especificado. La distancia a mover es relativa al motor con la velocidad más alta. Esta función retorna inmediatamente. Se puede utilizar IsBusy() para detectar el final del movimiento o llamar Wait() para esperar hasta que termine el movimiento.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Los nombres de los 2 puertos motores (por ejemplo "AB" o "CD"</P>
+<H4 class="parameter">velocidad1</H4>
+<P class="parametersummary">Valor de velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante) del motor con la letra de puerto más baja.</P>
+<H4 class="parameter">velocidad2</H4>
+<P class="parametersummary">Valor de la velocidad de -100 (inverso completo) a 100 (completamente hacia adelante) del motor con la letra de puerto más alta.</P>
+<H4 class="parameter">grados</H4>
+<P class="parametersummary">El ángulo que debe girar el motor más rápido.</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si los motores deben activar el freno después del movimiento.</P>
+<H3 class="operation">Motor.Start (puertos, velocidad)</H3>
+<P class="operationsummary">Inicia uno o más motores con la velocidad requerida o establecer esta velocidad para un motor que ya está funcionando.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">velocidad</H4>
+<P class="parametersummary">Valor de velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante).</P>
+<H3 class="operation">Motor.StartPower (puertos, potencia)</H3>
+<P class="operationsummary">Inicia uno o más motores con la potencia requerida o establece esta potencia para un motor que ya está funcionando.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">potencia</H4>
+<P class="parametersummary">Valor de potencia de -100 (máxima potencia hacia atrás) a 100 (máxima potencia hacia adelante).</P>
+<H3 class="operation">Motor.StartSync (puertos, velocidad1, velocidad2)</H3>
+<P class="operationsummary">Establece dos motores para que funcionen de manera sincronizada a las velocidad elegidas para cada uno. Los dos motores están sincronizados, lo que significa que cuando un motor experimenta cierta resistencia y no puede mantener su velocidad, el otro motor también irá más lento o se detendrá por completo. Esto es especialmente útil en los vehículos con dos ruedas motrices independientes, ya que también tienen que ir en línea recta o hacer un giro especificado. Los motores se mantendrán en funcionamiento hasta que sean detenidos por otro comando.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre de los dos puertos de motor (por ejemplo, "AB" o "CD").</P>
+<H4 class="parameter">velocidad1</H4>
+<P class="parametersummary">Valor de velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante) del motor con la letra de puerto más baja.</P>
+<H4 class="parameter">velocidad2</H4>
+<P class="parametersummary">Valor de velocidad de -100 (máxima velocidad hacia atrás) a 100 (máxima velocidad hacia adelante) del motor con la letra de puerto más alta.</P>
+<H3 class="operation">Motor.Stop (puertos, freno)</H3>
+<P class="operationsummary">Para uno o varios motores. Esto también cancela cualquier movimiento programado para este motor.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H4 class="parameter">freno</H4>
+<P class="parametersummary">"True", si el motor debe usar el freno</P>
+<H3 class="operation">Motor.Wait (puertos)</H3>
+<P class="operationsummary">Espera hasta que el motor(es) especificado ha terminado una operación de "Schedule" o "Move". El uso de este método es normalmente mejor que ir llamando a IsBusy() en un bucle continuo.</P>
+<H4 class="parameter">puertos</H4>
+<P class="parametersummary">Nombre(s) de los puertos de los motores</P>
+<H2 class="object">Program</H2>
+<P class="objectsummary">La clase Program (programa) proporciona ayuda para controlar la ejecución del programa.</P>
+<H3 class="property">Program.ArgumentCount - Property</H3>
+<P class="propertysummary">Obtiene el número de argumentos de línea de comando que se proporcionan al programa.</P>
+<H3 class="property">Program.Directory - Property</H3>
+<P class="propertysummary">Obtiene la carpeta donde se está ejecutando el programa.</P>
+<H3 class="operation">Program.Delay (milliSeconds)</H3>
+<P class="operationsummary">Retrasa la ejecución del programa por la cantidad indicada de milisegundos.</P>
+<H4 class="parameter">milliSeconds</H4>
+<P class="parametersummary">La duración del retraso.</P>
+<H3 class="operation">Program.End ()</H3>
+<P class="operationsummary">Finaliza el programa.</P>
+<H3 class="operation">Program.GetArgument (index)</H3>
+<P class="operationsummary">Devuelve el argumento especificado del argumento que se pasa al programa.</P>
+<H4 class="parameter">index</H4>
+<P class="parametersummary">Índice del argumento.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El argumento de línea de comando en el índice especificado.</P>
+<H2 class="object">Sensor</H2>
+<P class="objectsummary">Accede a los sensores conectados al bloque. Para especificar el sensor se debe utilizar el número de puerto impreso debajo del conector en el bloque (por ejemplo 1). Para acceder a los sensores de otros bloques que estén conectados en cadena, se deben utilizar en su lugar los siguientes números consecutivos superiores (5-8 accederá a los sensores del primer bloque encadenado, 9-12 los sensores del siguiente y así sucesivamente).</P>
+<H3 class="operation">Sensor.CommunicateI2C (puerto, dirección, bytes_de_escritura, bytes_de_lectura, datos_de_escritura)</H3>
+<P class="operationsummary">Se comunica con los dispositivos que utilicen el protocolo I2C en uno de los puertos de sensores. Este comando se dirige a un dispositivo en el bus I2C y puede enviar y recibir múltiples bytes. Esta característica podría ser utilizada para conectar un sensor personalizado o para comunicarse con cualquier dispositivo que sea capaz de ser conectado al bus I2C como esclavo. Hay que tener en cuenta que este comando no funciona durante la conexión en cadena.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="parameter">dirección</H4>
+<P class="parametersummary">Dirección (0 - 127) del esclavo I2C en el bus I2C</P>
+<H4 class="parameter">bytes_de_escritura</H4>
+<P class="parametersummary">Número de bytes a escribir al esclavo (máximo 31).</P>
+<H4 class="parameter">bytes_de_lectura</H4>
+<P class="parametersummary">Número de bytes a solicitar del esclavo (máximo 32, mínimo 1).</P>
+<H4 class="parameter">datos_de_escritura</H4>
+<P class="parametersummary">Matriz que contiene los bytes de datos a enviar (comenzando en 0)</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Una matriz que contiene el número solicitado de valores. El índice comienza en 0.</P>
+<H3 class="operation">Sensor.GetMode (puerto)</H3>
+<P class="operationsummary">Obtiene el modo de funcionamiento actual de un sensor. Muchos sensores pueden trabajar en modos sustancialmente diferentes. Por ejemplo, el sensor de color puede detectar la luz ambiente, la luz reflejada o el color. Cuando el sensor está conectado, normalmente se iniciará con el modo 0, pero este se puede cambiar después por programa.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Modo de funcionamiento actual (0 es siempre el modo por defecto)</P>
+<H3 class="operation">Sensor.GetName (puerto)</H3>
+<P class="operationsummary">Obtiene el nombre y el modo de un sensor conectado actualmente. Esta función está pensada principalmente para uso como diagnóstico, ya que normalmente sabes qué sensor está conectado a qué puerto en el modelo.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Texto descriptivo (por ejemplo, "TOUCH")</P>
+<H3 class="operation">Sensor.GetType (puerto)</H3>
+<P class="operationsummary">Obtiene el identificador de tipo numérico de un sensor conectado actualmente.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Identificador de tipo de sensor (por ejemplo, 16 para un sensor de contacto)</P>
+<H3 class="operation">Sensor.IsBusy (puerto)</H3>
+<P class="operationsummary">Comprueba si el sensor es actualmente ocupado cambiando de modo o en proceso de inicialización. Después de cambiar el modo, un sensor puede tardar algún tiempo para estar listo de nuevo.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">"True" if the sensor is currently busy</P>
+<H3 class="operation">Sensor.ReadPercent (puerto)</H3>
+<P class="operationsummary">Lee el valor de sensor de corriente y le aplica un escalado apropiado de porcentaje. La mayoría de los sensores pueden traducir la lectura actual a un valor porcentual como la intensidad de la luz o estado de un botón.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El valor porcentaje (por ejemplo, el sensor de contacto devuelve 100 para presionado y 0 para no presionado)</P>
+<H3 class="operation">Sensor.ReadRaw (puerto, valores)</H3>
+<P class="operationsummary">Lee el valor actual del sensor, donde el resultado de ReadPercent () no es lo suficientemente específico. Algunos modos de sensor entregan valores que no se pueden traducir a un porcentaje (por ejemplo, un índice de color) o que contienen varios valores a la vez (por ejemplo las intensidades individuales de luz el roja, verde y azul que conforman RGB).</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="parameter">valores</H4>
+<P class="parametersummary">Tamaño solicitado de la matriz resultado</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Una matriz que contiene el número solicitado de valores. El índice empieza en 0. Los elementos que no obtuvieron datos se fijan a 0.</P>
+<H3 class="operation">Sensor.ReadRawValue (puerto, indice)</H3>
+<P class="operationsummary">Similar a ReadRaw, pero devuelve un solo valor en lugar de una matriz de valores.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="parameter">indice</H4>
+<P class="parametersummary">Índice del valor que debe ser recogido de la matriz resultado (comenzando por el índice 0).</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un elemento de una lectura del sensor.</P>
+<H3 class="operation">Sensor.SendUARTData (puerto, bytes_a_escribir, datos_a_escribir)</H3>
+<P class="operationsummary">Envía datos a dispositivos que están conectados a la UART (transmisor receptor asíncrono universal) de uno de las puertos de los sensores. Esto puede ser útil para enviar comandos personalizados a sensores / actuadores hechos por uno mismo.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="parameter">bytes_a_escribir</H4>
+<P class="parametersummary">Número de bytes a escribir en el dispositivo (máximo 32).</P>
+<H4 class="parameter">datos_a_escribir</H4>
+<P class="parametersummary">Matriz que contiene los bytes de datos a enviar (comenzando en 0).</P>
+<H3 class="operation">Sensor.SetMode (puerto, modo)</H3>
+<P class="operationsummary">Cambia el modo de un sensor. Muchos sensores pueden trabajar en diferentes modos que dan lecturas muy diferentes. El significado de cada número de modo depende del tipo de sensor específico. Para más información, consultar la lista de sensores en el apéndice. Hay que tener en cuenta que un sensor permanecerá en el modo seleccionado incluso después de que el programa se detenga y se inicie otro programa (o el mismo). Para evitar confusiones, la mejor práctica es fijar siempre al principio del programa el modo de todos los sensores usados. Este comando bloquea la ejecución hasta que el cambio de modo finaliza el primero de los datos del sensor está disponible.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H4 class="parameter">modo</H4>
+<P class="parametersummary">Nuevo modo al que cambiar. Esto sólo tendrá éxito cuando el modo está realmente soportado por el sensor</P>
+<H3 class="operation">Sensor.Wait (puerto)</H3>
+<P class="operationsummary">Espera hasta que un sensor ha terminado su reconfiguración. Cuando no hay ningún sensor conectado al puerto, esta función retorna inmediatamente. Normalmente no se necesita llamar a este comando, porque de todos modos SetMode() bloquea hasta que el sensor está listo. Puede ser útil en circunstancias especiales, como cuando el modo se cambió en un hilo diferente, o cuando se conecta un sensor al bloque en tiempo de ejecución.</P>
+<H4 class="parameter">puerto</H4>
+<P class="parametersummary">Número de puerto del sensor</P>
+<H2 class="object">Speaker</H2>
+<P class="objectsummary">Utiliza el altavoz integrado del bloque para reproducir tonos o archivos de sonido.</P>
+<H3 class="operation">Speaker.IsBusy ()</H3>
+<P class="operationsummary">Comprueba si el altavoz está ocupado reproduciendo un sonido anterior.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">"True", si todavía se está reproduciendo un sonido, "False" en caso contrario.</P>
+<H3 class="operation">Speaker.Note (volumen, nota, duración)</H3>
+<P class="operationsummary">Empieza a reproducir un tono sencillo definido por su representación de texto.</P>
+<H4 class="parameter">volumen</H4>
+<P class="parametersummary">El volumen puede ser 0 - 100</P>
+<H4 class="parameter">nota</H4>
+<P class="parametersummary">Texto que define una nota "C4" a "B7" (C equivale a Do y B equivale a Si) o medios tonos (sostenidos) como "C#5"</P>
+<H4 class="parameter">duración</H4>
+<P class="parametersummary">Duración del tono en milisegundos</P>
+<H3 class="operation">Speaker.Play (volumen, nombre_del_archivo)</H3>
+<P class="operationsummary">Empieza a ejecutar un sonido de un archivo de sonido almacenado en el bloque. Sólo los archivos en formato .rsf son compatibles.</P>
+<H4 class="parameter">volumen</H4>
+<P class="parametersummary">El volumen puede ser 0 - 100</P>
+<H4 class="parameter">nombre_del_archivo</H4>
+<P class="parametersummary">Nombre del archivo de sonido sin la extensión .rsf. Este nombre de archivo puede ser relativo a la carpeta 'prjs' o una ruta absoluta (cuando empiezan con '/').</P>
+<H3 class="operation">Speaker.Stop ()</H3>
+<P class="operationsummary">Detiene cualquier sonido o tono que se esté reproduciendo.</P>
+<H3 class="operation">Speaker.Tone (volumen, frequencia, duración)</H3>
+<P class="operationsummary">Empieza a reproducir un tono sencillo de frecuencia definida.</P>
+<H4 class="parameter">volumen</H4>
+<P class="parametersummary">El volumen puede ser 0 - 100</P>
+<H4 class="parameter">frequencia</H4>
+<P class="parametersummary">Frecuencia en Hz, puede ser 250-10000</P>
+<H4 class="parameter">duración</H4>
+<P class="parametersummary">Duración del tono en milisegundos</P>
+<H3 class="operation">Speaker.Wait ()</H3>
+<P class="operationsummary">Espera hasta que el sonido actual ha terminado de reproducirse. Cuando no se está reproduciendo ningún sonido, esta función retorna inmediatamente.</P>
+<H2 class="object">Text</H2>
+<P class="objectsummary">El objeto Text (texto) proporciona operaciones útiles para trabajar con texto.</P>
+<H3 class="operation">Text.Append (text1, text2)</H3>
+<P class="operationsummary">Anexa dos entradas de texto y devuelve el resultado como otro texto. Esta operación es especialmente útil cuando se trabaja con texto desconocido en variables que pueden tratarse accidentalmente como números y agregarse en lugar de anexarse.</P>
+<H4 class="parameter">text1</H4>
+<P class="parametersummary">Primera parte del texto a anexar.</P>
+<H4 class="parameter">text2</H4>
+<P class="parametersummary">Segunda parte del texto a anexar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El texto anexado que contiene las dos partes indicadas.</P>
+<H3 class="operation">Text.ConvertToLowerCase (text)</H3>
+<P class="operationsummary">Convierte el texto dado a minúsculas.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto a convertir a minúsculas.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El texto convertido a minúsculas.</P>
+<H3 class="operation">Text.ConvertToUpperCase (text)</H3>
+<P class="operationsummary">Convierte el texto dado a mayúsculas.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto a convertir a mayúsculas.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">El texto convertido a mayúsculas.</P>
+<H3 class="operation">Text.EndsWith (text, subText)</H3>
+<P class="operationsummary">Indica si un texto dado es el final de un texto más largo.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">La cadena donde buscar.</P>
+<H4 class="parameter">subText</H4>
+<P class="parametersummary">El texto por el que buscar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Verdadero si se encuentra la subcadena al final del texto proporcionado.</P>
+<H3 class="operation">Text.GetCharacter (characterCode)</H3>
+<P class="operationsummary">Devuelve un carácter que se puede usar con texto normal del código Unicode proporcionado.</P>
+<H4 class="parameter">characterCode</H4>
+<P class="parametersummary">El código de carácter (basado en Unicode) para el carácter requerido.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un carácter Unicode que corresponde con el código indicado.</P>
+<H3 class="operation">Text.GetCharacterCode (character)</H3>
+<P class="operationsummary">Dado un carácter Unicode, obtiene el código correspondiente.</P>
+<H4 class="parameter">character</H4>
+<P class="parametersummary">El carácter del cual se solicita el código.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un código basado en Unicode correspondiente al carácter indicado.</P>
+<H3 class="operation">Text.GetIndexOf (text, subText)</H3>
+<P class="operationsummary">Encuentra la posición donde una subcadena aparece en el texto especificado.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto en el que buscar.</P>
+<H4 class="parameter">subText</H4>
+<P class="parametersummary">El texto a buscar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La posición en la que la subcadena aparece en el texto. Si el texto no se encuentra, devuelve 0.</P>
+<H3 class="operation">Text.GetLength (text)</H3>
+<P class="operationsummary">Obtiene la longitud del texto indicado.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto para calcular su longitud.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La longitud del texto indicado.</P>
+<H3 class="operation">Text.GetSubText (text, start, length)</H3>
+<P class="operationsummary">Obtiene una parte de un texto dado.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto en el que buscar la subcadena.</P>
+<H4 class="parameter">start</H4>
+<P class="parametersummary">Especifica desde dónde empezar.</P>
+<H4 class="parameter">length</H4>
+<P class="parametersummary">Especifica la longitud de la subcadena.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La parte del texto solicitada.</P>
+<H3 class="operation">Text.GetSubTextToEnd (text, start)</H3>
+<P class="operationsummary">Obtiene una subcadena dentro de la cadena de texto desde una posición especificada hasta el final.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">El texto en el que buscar la subcadena.</P>
+<H4 class="parameter">start</H4>
+<P class="parametersummary">Especifica desde dónde empezar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">La subcadena pedida.</P>
+<H3 class="operation">Text.IsSubText (text, subText)</H3>
+<P class="operationsummary">Indica si un texto proporcionado es parte de un texto más largo.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">La cadena de texto donde se buscará la subcadena.</P>
+<H4 class="parameter">subText</H4>
+<P class="parametersummary">El texto por el que buscar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Verdadero si se encuentra la subcadena dentro del texto proporcionado.</P>
+<H3 class="operation">Text.StartsWith (text, subText)</H3>
+<P class="operationsummary">Indica si un texto proporcionado es el comienzo de un texto más largo.</P>
+<H4 class="parameter">text</H4>
+<P class="parametersummary">La cadena donde buscar.</P>
+<H4 class="parameter">subText</H4>
+<P class="parametersummary">El texto por el que buscar.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Verdadero si se encuentra la subcadena al principio del texto proporcionado.</P>
+<H2 class="object">Thread</H2>
+<P class="objectsummary">Este objeto es compatible con el uso de hilos (threads) en un programa. Un hilo es una parte de código de programa que puede funcionar de forma independiente y, al mismo tiempo que otras partes del programa. Por ejemplo, podría crear un hilo que controla los motores, mientras que un hilo diferente puede ver sensores o la entrada del usuario. En términos generales, el multi-threading es un tema bastante complejo. Para realmente entender, se recomienda algún estudio adicional.</P>
+<H3 class="property">Thread.Run - Property</H3>
+<P class="propertysummary">Con esta propiedad, se crean nuevos hilos. Basta con asignar un subprograma a esta y el subprograma comenzará a funcionar como un hilo independiente (por ejemplo, Thread.Run = MYSUB). Cualquier subprograma se puede utilizar para crear un hilo independiente, pero el mismo subprograma sólo se puede iniciar como un hilo. Una segunda llamada de Thread.Run, mientras el subprograma especificado sigue en funcionamiento, simplemente añadirá la llamada a una cola que se procesará después de que termine la ejecución anterior. No se perderán ejecuciones en este caso, pero probablemente serán programadas para un momento posterior. Hay que tener en cuenta que incluso cuando se ejecuten hilos, todo el programa se detiene tan pronto como el programa principal se ejecuta hasta el final.</P>
+<H3 class="operation">Thread.CreateMutex ()</H3>
+<P class="operationsummary">Crea un mutex (abreviatura de identificador de "mutua exclusión") que se puede utilizar para la sincronizar hilos. Sólo se permite la creación de objetos mutex, pero no su eliminación. La mejor práctica es crear todos los mutex necesarios al inicio del programa y mantener sus números en variables globales.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un número que especifica el nuevo mutex. Utiliza este para llamadas para bloquear y desbloquear</P>
+<H3 class="operation">Thread.Lock (mutex)</H3>
+<P class="operationsummary">Intenta bloquear el mutex dado de manera exclusiva por lo que ningún otro hilo puede adquirir un bloqueo sobre él. Cuando otro hilo ya mantiene un bloqueo sobre el mutex, el subproceso actual esperará hasta que se libere el bloqueo y luego adquirirá el bloqueo él mismo (una vez que la función retorna, el mutex se ha bloqueado con éxito).<BR>Este mecanismo de bloqueo se utiliza normalmente para proteger algunas estructuras de datos u otros recursos del acceso de dos hilos al mismo tiempo. Cada llamada a Lock debe estar emparejada con una llamada subsiguiente a Unlock.</P>
+<H4 class="parameter">mutex</H4>
+<P class="parametersummary">El número mutex (tal como fue devuelto por CreateMutex())</P>
+<H3 class="operation">Thread.Unlock (mutex)</H3>
+<P class="operationsummary">Libera un bloqueo sobre un mutex. Esta función sólo se debe llamar cuando se haya hecho una llamada anterior a Lock.</P>
+<H4 class="parameter">mutex</H4>
+<P class="parametersummary">The number of the mutex (as returned from CreateMutex() )</P>
+<H3 class="operation">Thread.Yield ()</H3>
+<P class="operationsummary">Explícitamente cede el control de la CPU para que otros hilos puedan hacer su trabajo.<BR>Los hilos a menudo no están realmente funcionando en paralelo, porque puede que no haya suficientes CPUs hacer en exclusiva el trabajo para cada hilo. En lugar de ello, la CPU hará un poco de trabajo en un hilo y luego saltará al siguiente hilo y así rápida y sucesivamente, para que parezca como si todo estuviese funcionando en paralelo.<BR>Cada vez que un hilo no tenga nada que hacer en un determinado momento, pero tenga que esperar a que se cumpla alguna condición, puede ceder el control de la CPU con la función Yield(), para que otros hilos tengan la oportunidad de hacer su trabajo.</P>
+<H2 class="object">Vector</H2>
+<P class="objectsummary">Este objeto permite la manipulación directa de grandes cantidades de números. Estos se llaman vectores y se almacenarán utilizando matrices con índices consecutivos (comenzando en 0). Cuando se pasen a las operaciones matrices con diferente tamaño, cada elemento que falte será tratado como 0.</P>
+<H3 class="operation">Vector.Add (tamaño, A, B)</H3>
+<P class="operationsummary">Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[2]...)</P>
+<H4 class="parameter">tamaño</H4>
+<P class="parametersummary">That many numbers are taken for computation</P>
+<H4 class="parameter">A</H4>
+<P class="parametersummary">El primer vector</P>
+<H4 class="parameter">B</H4>
+<P class="parametersummary">El segundo vector</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un vector del tamaño dado que contiene valores de suma.</P>
+<H3 class="operation">Vector.Init (tamaño, value)</H3>
+<P class="operationsummary">Establece un vector de un tamaño dado con todos los elementos fijados a un mismo valor.</P>
+<H4 class="parameter">tamaño</H4>
+<P class="parametersummary">Size of the vector</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The value to use for all elements</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The created vector</P>
+<H3 class="operation">Vector.Multiply (filas, columnas, k, A, B)</H3>
+<P class="operationsummary">Operación de multiplicación de matrices. Los vectores de entrada son tratados como matrices de dos dimensiones de anchura y altura dada. Las filas individuales de la matriz se almacenan dentro de los vectores directamente uno después del otro. Para obtener más información sobre esta operación matemática ver https://es.wikipedia.org/wiki/Multiplicaci%C3%B3n_de_matrices.</P>
+<H4 class="parameter">filas</H4>
+<P class="parametersummary">Número de filas en la matriz de salida resultante</P>
+<H4 class="parameter">columnas</H4>
+<P class="parametersummary">Número de columnas en la matriz de salida resultante</P>
+<H4 class="parameter">k</H4>
+<P class="parametersummary">Número de columnas en la matriz de entrada A y el número de filas de la matriz de entrada B</P>
+<H4 class="parameter">A</H4>
+<P class="parametersummary">Una matriz tamaño filas * k</P>
+<H4 class="parameter">B</H4>
+<P class="parametersummary">Una matriz de tamaño k * columnas</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Una matriz que contiene el resultado de la multiplicación</P>
+<H3 class="operation">Vector.Sort (tamaño, A)</H3>
+<P class="operationsummary">Clasifica los elementos de un vector en orden creciente.</P>
+<H4 class="parameter">tamaño</H4>
+<P class="parametersummary">Número de elementos a ordenar</P>
+<H4 class="parameter">A</H4>
+<P class="parametersummary">La matriz que contiene los elementos</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">Un nuevo vector con los elementos en el orden correcto</P>
+
+<H1 class="chapter">Appendix - Sensors</H1>
+
+<PRE>
+Type  Mode  Name            get reading with   delivers 
+
+1        0  NXT-TOUCH       ReadPercent        0=not pressed,  100=pressed  
+
+4        0  NXT-COL-REF     ReadPercent        0=no reflective light, 100=maximum reflective light
+4        1  NXT-COL-AMB     ReadPercent        0=no ambient light, 100=maximum ambient light
+4        2  NXT-COL-COL     ReadRawValue       1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
+
+5        0  NXT-US-CM       ReadRawValue       distance in cm
+
+16       0  TOUCH           ReadPercent        0=not pressed,  100=pressed  
+
+29       0  COL-REFLECT     ReadPercent        0=no reflected light, 100=maximum reflected light
+29       1  COL-AMBIENT     ReadPercent        0=no ambient light, 100=maximum ambient light
+29       2  COL-COLOR       ReadRawValue       0=unknown, 1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white, 7=brown
+29       4  RGB-RAW         ReadRaw (3 values) value0=red intensity, value1=green intensity, value2=blue intensity
+
+30       0  US-DIST-CM      ReadRawValue       distance in mm
+30       1  US-DIST-IN      ReadRawValue       distance in tenth of an inch
+
+32       0  GYRO-ANG        ReadRawValue       angle in degrees
+32       1  GYRO-RATE       ReadRawValue       rate of change of angle in deg/s
+
+33       0  IR-PROX         ReadPercent        distance in cm (not very accurate)
+33       1  IR-SEEK         ReadRaw (2 values) value0=direction and value1=distance to IR beacon
+33       2  IR-REMOTE       ReadRaw (4 values) value0=signal from channel 1 (*), value1=signal from channel 2...
+                                    a remote control sender can be switched to use one of 4 channels 
+                                    (slider on top position is channel 1) and the remote receiver can detect 
+                                    all channel signals at the same time
+                                               											       
+(*) numbers for the remote control buttons (A=left top, B=left bottom, C=right top, D=right bottom, E=beacon activated):
+	A = 1    A & B = 10   B & C = 7
+	B = 2    A & C = 5    B & D = 8
+	C = 3    A & D = 6    C & D = 11
+	D = 4                 E = 9
+   other combinations give a reading of 0
+</PRE>   
+
+</BODY>
+</HTML>

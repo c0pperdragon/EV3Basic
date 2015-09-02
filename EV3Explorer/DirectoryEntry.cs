@@ -44,6 +44,10 @@ namespace EV3Explorer
                 {
                     return "Basic";
                 }
+                else if (name.EndsWith(".smallbasic", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return "Basic";
+                }
                 else if (name.EndsWith(".lms", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return "Assembler";
@@ -75,8 +79,21 @@ namespace EV3Explorer
                 if (!directory)
                 {
                     return name.EndsWith(".sb", StringComparison.InvariantCultureIgnoreCase)
+                       || name.EndsWith(".smallbasic", StringComparison.InvariantCultureIgnoreCase)
                        || name.EndsWith(".lms", StringComparison.InvariantCultureIgnoreCase)
                     ;
+                }
+                return false;
+            }
+        }
+
+        public bool IsRunable
+        {
+            get
+            {
+                if (!directory)
+                {
+                    return name.EndsWith(".rbf", StringComparison.InvariantCultureIgnoreCase);
                 }
                 return false;
             }

@@ -258,6 +258,31 @@ namespace EV3Explorer
 
         private void DeleteFile_clicked(Object sender, EventArgs e)
         {
+            // check if the explorer sees an empty directory - will delete this instead of files
+            if (EV3Directory.Items.Count == 0 && ev3path.Length > 1)  // can only remove empty directories but not the topmost element
+            {
+                try
+                {
+                    DeleteCurrentEV3Directory();
+
+                    int idx = ev3path.LastIndexOf('/', ev3path.Length - 2);
+                    if (idx >= 0)
+                    {
+                        ev3path = ev3path.Substring(0, idx + 1);
+                        EV3Path.Text = ev3path;
+                    }
+                    ReadEV3Directory(true);
+                    AdjustDisabledStates();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                    Reconnect();
+                }
+                return;
+            }
+            
+            
             // determine which things to delete
             List<DirectoryEntry> del = new List<DirectoryEntry>();
             foreach (DirectoryEntry de in EV3Directory.SelectedItems)
@@ -312,11 +337,21 @@ namespace EV3Explorer
             }
         }
 
+        private void RunFile_clicked(Object sender, EventArgs e)
+        {
+            DirectoryEntry de = (DirectoryEntry)EV3Directory.SelectedItem;
+            if (de != null && de.IsRunable)
+            {
+                RunEV3File(de.FileName);
+            }
+        }
+
+        
         private bool checkFileName(String filename)
         {
-            if (filename.Length > 25)
+            if (filename.Length > 30)
             {
-                MessageBox.Show("File/directory names must not exceed 25 characters", "Name too long");
+                MessageBox.Show("File/directory names must not exceed 30 characters", "Name too long");
                 return false;
             }
             for (int i=0; i<filename.Length; i++)
@@ -327,37 +362,12 @@ namespace EV3Explorer
                 if (c >= '0' && c <= '9') continue;
                 if (c==' ' || c == '-' || c=='_' || c=='~' || c=='.') continue;
 
-                MessageBox.Show("File/directory may only contain the letters A-Z, a-z, 0-9, -, _, ~, .", "Invalid name");
+                MessageBox.Show("File/directory names may only contain spaces and the characters A-Z a-z 0-9 -_~.", "Invalid name");
                 return false;
             }
             return true;
         }
 
-        private void DeleteDirectory_clicked(Object sender, EventArgs e)
-        {
-            if (EV3Directory.Items.Count==0 && ev3path.Length>1)  // can only remove empty directories but not the topmost element
-            { 
-
-                try
-                {
-                    DeleteCurrentEV3Directory();
-
-                    int idx = ev3path.LastIndexOf('/', ev3path.Length - 2);
-                    if (idx >= 0)
-                    {
-                        ev3path = ev3path.Substring(0, idx + 1);
-                        EV3Path.Text = ev3path;
-                    }
-                    ReadEV3Directory(true);
-                    AdjustDisabledStates();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Exception: " + ex.Message);
-                    Reconnect();
-                }
-            }
-        }
 
         private void Upload_clicked(Object sender, EventArgs e)
         {
@@ -527,9 +537,10 @@ namespace EV3Explorer
                     catch (Exception)
                     { }
                 }
-                else if (pcfile.Name.EndsWith(".sb", StringComparison.InvariantCultureIgnoreCase))
+                else if (pcfile.Name.EndsWith(".sb", StringComparison.InvariantCultureIgnoreCase) 
+                      || pcfile.Name.EndsWith(".smallbasic", StringComparison.InvariantCultureIgnoreCase) )
                 {
-                    targetfilename = pcfile.Name.Substring(0, pcfile.Name.Length - 3) + ".rbf";
+                    targetfilename = pcfile.Name.Substring(0, pcfile.Name.LastIndexOf('.')) + ".rbf";
                     if (!checkFileName(targetfilename))
                     {
                         return;
@@ -651,10 +662,10 @@ namespace EV3Explorer
             EV3Directory.IsEnabled = true;
             EV3NavigateUp.IsEnabled = !ev3path.Equals("/");
             BrickNotFound.Visibility = Visibility.Hidden;
-            DeleteFile.IsEnabled = de != null && !de.IsDirectory;
-            DeleteDirectory.IsEnabled = EV3Directory.Items.Count == 0;
+            DeleteFile.IsEnabled = (de != null && !de.IsDirectory) || (EV3Directory.Items.Count == 0 && ev3path.Length > 1);
             NewFolder.IsEnabled = true;
             Upload.IsEnabled = de != null && !de.IsDirectory;
+            RunFile.IsEnabled = de != null && de.IsRunable;
 
             de = (DirectoryEntry)PCDirectory.SelectedItem;
             PCNavigateUp.IsEnabled = pcdirectory != null;

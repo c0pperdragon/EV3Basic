@@ -71,7 +71,7 @@ namespace Documentation.Properties {
         ///
         ///4        0  NXT-COL-REF     ReadPercent        0=no reflective light, 100=maximum reflective light
         ///4        1  NXT-COL-AMB     ReadPercent        0=no ambient light, 100=maximum ambient light
-        ///4        2  NXT-COL-COL     ReadRaw (1 value)  1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
+        ///4        2  NXT-COL-COL     ReadRawValue       1=black, 2=blue, 3=green, 4=yellow, 5=red, 6=white
         ///
         ///5        0  NXT-US-CM [rest of string was truncated]&quot;;.
         /// </summary>
@@ -126,6 +126,22 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;Manual EV3 Basic&lt;/H1&gt;
+        ///&lt;STRING&gt;Amablemente traducido por Angel Ivan Moreno, Frankfurt&lt;/STRONG&gt;
+        ///
+        ///&lt;P&gt;
+        ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is to use the 
+        ///graphical programming environment provided by Lego. 
+        ///But for larger and more complex programs, this no longer works and you need some text-based programming language to write programs.
+        ///There are already many different projects that have created programmin [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ManualES {
+            get {
+                return ResourceManager.GetString("ManualES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
         ///&lt;P&gt;
         ///Programmer un robot selon vos désirs est très amusant. La façon la plus facile de programmer l’EV3 pour 
@@ -171,8 +187,9 @@ namespace Documentation.Properties {
         ///  {
         ///	background: #d0d0d0;
         ///  } 
-        ///  TD:nth-child(1)
-        ///  { [rest of string was truncated]&quot;;.
+        ///
+        ///  H2.object {
+        ///    f [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Styles {
             get {

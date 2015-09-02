@@ -1,0 +1,340 @@
+<H1 class="chapter">Manual EV3 Basic</H1>
+<STRING>Amablemente traducido por Angel Ivan Moreno, Frankfurt</STRONG>
+
+<P>
+Programar un robot para que obedezca tus órdenes es muy divertido. La manera más 
+fácil de programar el bloque de Lego EV3 para tareas sencillas es utilizar el 
+entorno de programación gráfica proporcionado por Lego. Pero para programas más 
+grandes y complejos, este entorno se queda corto y se necesita algún lenguaje de 
+programación textual para programarlo. Existen muchos proyectos diferentes que 
+han creado entornos de programación para el EV3 justamente para esto (LeJOS, 
+MonoBrick, RobotC, ev3dev, y muchos más). Pero todos ellos tienen una cosa en 
+común: son tremendamente complicadados de configurar y utilizar, y es probable 
+que necesites años de experiencia con ordenadores para conseguir hacer algo con 
+cualquiera de ellos.
+</P>
+<P>
+Para cubrir la brecha entre "fácil de usar, pero limitado" y "potente pero 
+complicado", he inventado EV3Basic. Está dirigido a los usuarios que quieren ir 
+más allá de las limitaciones de la programación gráfica, pero no son 
+profesionales informáticos. EV3-Basic es bastante fácil de aprender, sin dejar 
+de ofrecer toda la funcionalidad que necesitas para crear programas 
+sorprendentes. Que aprendas a programar por el camino es, probablemente, un 
+beneficio adicional.
+</P>
+<P>
+EV3-Basic se basa en el lenguaje de programación "Small Basic", que fue 
+desarrollado por Microsoft como introducción a la programación especialmente 
+diseñado para niños pero también para todas las personas interesadas sin 
+conocimientos previos en este tema. "Small Basic" fue diseñado con el propósito 
+de que su uso fuera sencillo y en mi extensión EV3 traté de hacer lo mismo. Mi 
+intención es que este lenguaje sea útil para aprender a programar y así utilizar 
+el bloque EV3 de manera más creativa.
+</P>
+<address>
+Reinhard Grafl
+<br>
+reinhard.grafl@aon.at
+</address>
+
+<H1 class="chapter">Empezando</H1>
+<P>
+Lo primero que se necesitas es un PC con Microsoft Windows (cualquier versión a 
+partir de Windows XP) y la versión actual de Microsoft Small Basic que puede ser 
+descargada de forma gratuita. Si no posees ningún conocimiento previo de 
+programación, es aconsejable que primero conozcas sus principios. Esto no 
+conlleva demasiado tiempo y es bastante divertido en sí mismo. Hay algunos 
+tutoriales muy buenos en la página web de Small Basic que pueden servirte de 
+ayuda.
+</P>
+<P>
+El siguiente paso consiste en descargar e instalar la extensión EV3 de Small 
+Basic para poder controlar el bloque EV3 con tu programa. Desde la última 
+versión de EV3 Basic, descarga e instala el archivo "EV3BasicInstaller.msi". 
+Esto debería instalar la extensión directamente en el directorio de instalación 
+de Small Basic. Si has elegido previamente una ubicación no estándar para Small 
+Basic, utiliza esa misma ubicación aquí. La próxima vez que inicies Small Basic 
+(reinícialo si aún se estaba ejecutando), tendrás acceso a diferentes objetos 
+para el control de las distintas funciones de las piezas así como algunos 
+objetos polivalentes adicionales. Ahora procede a crear tu primer programa EV3 
+escribiendo
+</P>
+<pre>
+   LCD.Clear()
+   LCD.Write(40,40, "Hola EV3")
+   Program.Delay(10000)
+</pre>
+<P>
+en la ventana del programa. A continuación, conecta el bloque EV3 al ordenador 
+mediante el cable USB, ponlo en marcha y cuando esté encendido, pulsa el botón 
+azul grande "Ejecutar" de Small Basic. Esto compilará y comenzará a ejecutar el 
+programa que controla remotamente el bloque desde su PC.
+</P>
+<P>
+Al escribir tus propios programas, el sistema Intellisense de Small Basic te 
+mostrará las posibles funciones de librería y documentación de uso que contiene 
+la misma información disponible también en este documento en el capítulo 
+"Documentación de la librería". Muchos más ejemplos de programación de EV3 están 
+asimismo disponibles en la página de versiones (probablemente con el nombre 
+'examples.zip'). 
+</P>
+<P>
+Controlar remotamente el bloque con un programa en el PC es algo genial, pero 
+para muchos usos necesitarás un robot independiente con su propio programa que 
+no necesite que el PC le diga cada paso.
+</P>
+<P>
+Para incorporar el programa al bloque, necesitas el EV3Explorer, que ya ha sido 
+instalado junto con la extensión EV3 y que está disponible en el menú de inicio 
+de Windows (EV3Basic / EV3Explorer). La ejecución de este programa abre una 
+ventana donde se pueden ver los archivos que se almacenan en el bloque EV3 (en 
+la parte izquierda de la ventana) así como los archivos almacenados en tu PC (en 
+la parte derecha de la ventana). Puedes compilar cualquiera de los ejemplos y 
+tus propios programas seleccionando el archivo de código fuente (termina con 
+.sb) y haciendo clic en "Compile and Run" (Compilar y Ejecutar).
+</P>
+<P>
+Esto compila el archivo de código fuente a un archivo que el bloque puede 
+ejecutar (tienen la extensión de archivo .rbf), lo carga en el bloque e 
+inmediatamente lo inicia. Si quieres empezar el programa desde el menú en el 
+bloque, necesitas crear una subcarpeta en la la carpeta "prjs" -carpeta con un 
+nombre que quieras y utilizarla como carpeta de destino para la compilación. (El 
+EV3 sólo mostrará en su menu los programas que estén correctamente ubicados en 
+su propia carpeta).
+</P>
+
+<H1 class="chapter">Referencia rápida de Small Basic</H1>
+<p>
+Para las personas que ya saben programar en otros lenguajes y no desean realizar 
+los tutoriales completos de Small Basic, aquí hay un ejemplo corto que contiene 
+la mayoría de las construcciones del lenguaje y una breve explicación de cada 
+una. Este ejemplo no se ejecutará en el bloque EV3, ya que utiliza la ventana de 
+texto de Small Basic.
+</p>
+<pre>
+
+  ' Programa de demostración que explica la mayor parte de Small Basic
+  ' (Todos los comentarios comienzan con comillas simples)
+
+  ' La ejecución comienza aquí
+  A = 5       ' las variables se declaran implícitamente al primer uso 
+  a = a + 1   ' todo es insensible a las mayúsculas y minúsculas
+  B[a] = 55   ' los arrays se definen implícitamente y crecen según sea necesario
+  X = "hi"    ' las variables también pueden contener texto
+
+  Sub write   ' define un sub-programa con este nombre (es posible sin parámetros)
+	TextWindow.WriteLine(X)           ' llamada a función de la librería, las variables de acceso se definen en otro lugar
+  EndSub
+     ' el flujo de control del programa principal se ejecuta alrededor de las definiciones Sub.
+
+  TextWindow.WriteLine("A="+a)        ' concatenación de cadenas con +
+  WRITE()                             ' llamada a subprograma. No se hace distinción entre mayúsculas y minúsculas
+  write2()                            ' puede llamar a subprogramas definidos más adelante en el código
+
+  TextWindow.Writeline("B[6]="+B[6])  ' acceso a arrays
+  
+  For i=2 to 5 		               	  ' un bucle de 2 a 5 (inclusive)
+	TextWindow.Writeline("I:"+I)
+  EndFor
+  For i=6.5 to 10.5 step 2         	  ' un bucle con valores fraccionarios y pasos mayores
+	TextWindow.Writeline("I:"+I)
+  EndFor
+
+  Sub write2
+	write()          ' un subprograma puede llamar a otros subprogramas
+	write()
+  EndSub
+     ' El flujo de control del programa principal se ejecuta sobre las definiciones Sub.
+
+   I=99				' insensible a mayúsculas y minúsculas - sobrescribe el i anterior
+   while i>3        ' bucle con condición
+     i=i/2
+     TextWindow.Writeline("I:"+i)
+   endwhile
+   TextWindow.WriteLine("PI="+Math.PI)         ' una propiedad de la librería (acceso sin paréntesis)
+   TextWindow.WriteLine("SIN="+Math.Sin(0.5))  ' la función de la librería devuelve un valor
+
+   A=50
+   B=20
+   If a<5 then				       ' una estructura condicional con múltiples condiciones
+		TextWindow.WriteLine("primero")
+   elseif a<10 and b<100 then                ' 'condiciones de lógica de AND
+		TextWindow.WriteLine("segundo")
+   elseif a<20 or (b>40 and b<60) then       ' lógica de OR y condiciones anidadas
+		TextWindow.WriteLine("tercero")
+   else
+		TextWindow.WriteLine("otros")
+   endif
+</pre>
+
+
+<H1 class="chapter">Diferencias entre Small Basic y EV3Basic</H1>
+<P>
+Aunque he tratado de imitar en todo lo posible el comportamiento original de 
+Small Basic en mi compilador EV3, hay algunas cosas que simplemente no se pueden 
+realizar con el intérprete de código de bytes EV3.
+</P>
+
+<H3 class="subchapter">Las variables tienen "tipo".</H3>
+<P>  
+Mientras Small Basic sólo tiene un tipo de datos que es una cadena Unicode para 
+todos los valores posibles (incluso arrays), EV3Basic tiene cuatro tipos de 
+datos diferentes para las variables:
+</P>
+<ul>
+<li>Número (un punto de 32 bits flotante)</li>
+<li>Texto</li>
+<li>Array de Números</li>
+<li>Array de Textos</li>
+</ul>
+<P>
+Cada variable tiene uno de estos tipos (que se determina al ser usadas por 
+primera vez en el código del programa) y no puede ser usado para almacenar 
+ningún otro tipo de dato.
+</P>
+
+<H3 class="subchapter">Los operadores y las funciones actúan según el tipo en tiempo de compilación</H3>
+<P>
+Los operadores aritméticos o lógicos necesitan parámetros bien numéricos o bien 
+de texto y también devuelven un resultado de tipo definido (por ejemplo, el "&lt;" 
+necesita dos números y devuelve un texto). Una excepción es el "=" que efectuará 
+una comparación bien numérica o bien textual, según el tipo en tiempo de 
+compilación de los operandos. Otra excepción es el "+" que efectuará una suma de 
+números cuando se le proveen dos números, pero hará una concatenación de textos 
+si uno de los operandos es texto. Requisitos similares existen para los 
+parámetros de función, que también tienen un tipo en tiempo de compilación 
+definido. Para facilitar las cosas, una conversión automática de número a texto 
+se realiza si un parámetro necesita un texto (pero no a la inversa).</P>
+
+<H3 class="subchapter">Matrices</H3>
+<P>
+En Small Basic, las matrices funcionan como un diccionario y pueden utilizar 
+cualquier texto como índice. EV3-Basic no puede hacer eso. Sólo se permiten 
+números como índice y sólo números no negativos sin decimales proporcionan los 
+resultados esperados (A [4.5] es lo mismo que A [4], A [-4] devolverá siempre 0 
+o ""). No existen las matrices multidimensionales. Mientras que las matrices se 
+pueden pasar a funciones de la librería y ser devueltas, no se pueden crear 
+matrices temporales que almacenen el resultado. Para todas las funciones que 
+devuelven una matriz, este valor debe ser almacenado directamente en una 
+variable de tipo matriz.
+</P>
+
+<H3 class="subchapter">Limitación de texto</H3>
+<P>
+Cualquier variable de tipo texto sólo puede contener hasta 251 caracteres y no 
+se admite la gama completa de Unicode, pero sólo los códigos 1-255 (son sólo 
+sencillas cadenas de caracteres tipo C). Lo mismo ocurre para todos los 
+elementos de las matrices de texto.
+</P>
+
+<H1 class="chapter">Soporte Bluetooth</H1>
+<P>
+Conectar EV3 a su PC directamente con un cable USB es la manera más fácil y 
+segura de utilizar EV3 Basic. Sin embargo, tener que utilizar el cable puede ser 
+bastante engorroso en algunas circunstancias, especialmente al desarrollar 
+robots móviles.
+</P>
+<P>
+Si tienes tiene bluetooth en tu PC (ya sea mediante un adaptador Bluetooth o 
+integrado), puedes configurar el EV3 para comunicarse con el PC de forma 
+inalámbrica. Si no lo has hecho aún, deberás emparejar el EV3 con tu PC para 
+permitir la comunicación. Para ello, primero activa las funciones de Bluetooth 
+en el EV3: En el menú de configuración, activa las opciones "Bluetooth" y 
+"Visibilidad". Luego, en el PC, abre el diálogo de sistema "Dispositivos 
+Bluetooth". Allí puedes buscar el dispositivo y empezar a establecer una 
+conexión con EV3. El proceso puede resultar un poco largo y requiere la 
+confirmación de la acción en la EV3 así como en el PC, e incluso deberás 
+introducir el código de acoplamiento correcto en algún lugar (debe ser "1234").
+</P>
+<P>
+Una vez que la conexión se establece y la instalación automática de los 
+controladores adecuados se termina, tu PC puede comunicarse con el EV3 a través 
+de lo que se llama un "Serial Port", que se llamará "COM1", "COM3" o similares. 
+Puedes comprobar qué nombre fue asignado de hecho al ver la página de 
+propiedades del dispositivo bluetooth EV3. 
+</P>
+<P>
+Para utilizar la conexión recién establecida con EV3-Basic, simplemente ejecuta 
+tu programa desde Small Basic o simplemente inicia el Explorador EV3. Si no 
+puede encontrarse ningún EV3 directamente conectado a través de USB pero hay 
+"Puertos serie" posiblemente disponibles, el PC te instará a seleccionar uno de 
+estos puertos. Si este es de hecho el puerto para el EV3, la conexión será 
+posible.
+</P>
+
+<H1 class="chapter">Soporte WiFi</H1>
+<P>
+Al igual que una conexión Bluetooth, una conexión WiFi te permite conectarte a 
+tu modelo sin usar un cable. El WiFi tiene alguna ventaja sobre Bluetooth en 
+cuanto a cobertura, velocidad y fiabilidad, aunque también posee inconvenientes 
+como el mayor consumo de energía y la necesidad de añadir un adaptador WiFi al 
+EV3. Y esta configuración sólo funciona dispones de un router WiFi. Se trata 
+básicamente de una cuestión de gusto, si prefieres bluetooth o WiFi, o tal vez 
+una cuestión de problemas técnicos con una de las posibilidades.</P>
+<P>
+Para utilizar la opción de WiFi, necesitas un adaptador WiFi específico 
+compatible con el bloque EV3. Actualmente sólo hay un modelo disponible que 
+funcione con un EV3 no modificado: "Netgear WNA1100", que debe ser insertado en 
+el conector USB grande en el lado izquierdo del EV3. La configuración de la 
+conexión Wi-Fi se puede hacer desde el menú de configuración en el bloque. Debes 
+activar la opción WiFi (esto lleva algo de tiempo para poner en marcha el 
+dispositivo de seguridad) y después has de establecer una conexión hasta el 
+router WiFi. Si has configurado el cifrado para la red Wi-Fi, es necesario 
+introducir la clave WPA2 directamente en el bloque. Actualmente no se admite 
+ningún otro método de cifrado WiFi.
+</P>
+<P>
+Una vez que hayas establecido una conexión entre EV3 y el router, el EV3 debería 
+haber recibido una dirección IP, que debería ser algo como "10.2.3.4". Puedes 
+comprobar la dirección que fue asignado a tu EV3 en la sección "Brick Info" del 
+menú de ajustes. Está en la parte inferior de la lista.
+</P>
+<P>
+Cuando quieras finalmente conectarte al EV3 desde un programa de Small Basic o 
+con el Explorador de EV3, utiliza el botón "Wi-Fi" en el cuadro de diálogo que 
+pregunta por la conexión a usar. A continuación, introduce la dirección IP tal y 
+como se mostraba en el bloque . Sólo tienes que escribir la dirección una vez. 
+En el futuro, aparecerá directamente en la lista de selección.
+</P>
+<P>
+Ten en cuenta que el bloque no se conecta automáticamente al wifi cuando se 
+enciende. Siempre tienes que activar la conexión después de cada encendido.
+</P>
+
+<H1 class="chapter">El objeto Motor</H1>
+<P>
+Los comandos de control del motor en una matriz funcional:
+</P>
+<TABLE>
+<TR><TD></TD><TD>Mover x grados mientras espera</TD><TD>Empezar a ejecutar indefinidamente</TD><TD>Empezar a mover x grados</TD></TR>
+<TR><TD>Regular la velocidad</TD><TD>Motor.Move</TD><TD>Motor.Start</TD><TD>Motor.Schedule</TD></TR>
+<TR><TD>Elegir potencia</TD><TD>Motor.MovePower</TD><TD>Motor.StartPower</TD><TD>Motor.SchedulePower</TD></TR>
+<TR><TD>Sincronizar</TD><TD>Motor.MoveSync</TD><TD>Motor.StartSync</TD><TD>Motor.ScheduleSync</TD></TR>
+</TABLE>
+<P>
+Los cuatro comandos resaltados son los más básicos, aquellos principiantes 
+utilizarán la mayor parte del tiempo.
+</P>
+<P>
+Para la mayoría de los usos las variantes con regulación de la velocidad de un 
+solo motor serán la elección correcta. Así, estos comandos tienen nombres más 
+cortos (sin sufijo "Power" o "Sync") cuando se comparan con sus equivalentes 
+sincronizados.
+</P>
+<P>
+Cuando tengas que cambiar la potencia o la velocidad de un motor que ya esté 
+funcionando, simplemente vuelve a emitir una orden de arranque con el valor de 
+velocidad o potencia apropiado. El motor cambiará directamente al nuevo modo de 
+funcionamiento.
+</P>
+
+<H1 class="chapter">Documentación de la librería</H1>
+<P>
+La librería de tiempo de ejecución para el EV3 se organiza en partes 
+individuales, llamadas "objetos". Cada objeto provee una funcionalidad para una 
+parte diferente del sistema. Esta lista contiene todo lo que está disponible 
+para tanto para Small Basic en el PC (con extensión EV3) como en el bloque una 
+vez compilado con EV3Explorer. Cuando desarrolles programas que sólo tengan que 
+ejecutarse en el PC, puedes utilizar todo lo que Small Basic proporciona 
+adicionalmente y que no he documentado aquí.
+</P>
