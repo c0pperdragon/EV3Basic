@@ -97,6 +97,7 @@ namespace EV3Explorer
             this.Width = settings.windowWidth;
             this.Height = settings.windowHeight;
             this.leftColumn.Width = new GridLength((double)settings.splitterPosition, GridUnitType.Pixel);
+            this.OnlyShowPrograms.IsChecked = settings.onlyShowPrograms;
 
             // retrieve initial data from brick
             EV3Path.Text = ev3path;
@@ -147,7 +148,8 @@ namespace EV3Explorer
             settings.windowWidth = (int) Width;
             settings.windowHeight = (int) Height;
             settings.splitterPosition = Convert.ToInt32(leftColumn.Width.Value);
-            settings.localDirectory = pcdirectory == null ? "Computer" : pcdirectory.FullName;        
+            settings.localDirectory = pcdirectory == null ? "Computer" : pcdirectory.FullName;
+            settings.onlyShowPrograms = (bool) OnlyShowPrograms.IsChecked;
             settings.Save();            
         }
 
@@ -490,6 +492,10 @@ namespace EV3Explorer
             CompileAndDownload(true);
         }
 
+        private void OnlyShowPrograms_clicked(Object sneder, EventArgs e)
+        {
+            RefreshPCList(true);
+        }
 
 
         private void CompileAndDownload(bool run)
@@ -624,7 +630,12 @@ namespace EV3Explorer
                 {
                     if (info is FileInfo)
                     {
-                        PCDirectory.Items.Add(new PCFile((FileInfo)info));
+                        PCFile pcf = new PCFile((FileInfo)info);
+
+                        if (pcf.IsCompileable || !((bool)OnlyShowPrograms.IsChecked))
+                        {
+                            PCDirectory.Items.Add(pcf);
+                        }
                     }
                     else if (info is DirectoryInfo)
                     {

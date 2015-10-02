@@ -12,6 +12,7 @@ namespace EV3Explorer
         public int windowHeight;
         public int splitterPosition;
         public String localDirectory;
+        public Boolean onlyShowPrograms;
 
         public ExplorerSettings()
         {
@@ -19,6 +20,7 @@ namespace EV3Explorer
             windowHeight = 600;
             splitterPosition = 400;
             localDirectory = "";
+            onlyShowPrograms = false;
         }
 
         public void Load()
@@ -49,6 +51,10 @@ namespace EV3Explorer
                         {
                             localDirectory = line.Substring(9).Trim();
                         }
+                        if (line.StartsWith("ONLYSHOWPROGRAMS", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            onlyShowPrograms = true;
+                        }
                     }
                     catch (Exception) { }
                 }
@@ -72,6 +78,10 @@ namespace EV3Explorer
                 file.WriteLine("HEIGHT=" + windowHeight);
                 file.WriteLine("SPLITTER=" + splitterPosition);
                 file.WriteLine("LOCALDIR=" + localDirectory);
+                if (onlyShowPrograms)
+                {
+                    file.WriteLine("ONLYSHOWPROGRAMS");
+                }
                 file.Close();
             }
             catch (Exception) { }
