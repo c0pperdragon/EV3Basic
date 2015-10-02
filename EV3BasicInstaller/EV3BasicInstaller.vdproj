@@ -64,13 +64,13 @@
         "Entry"
         {
         "MsmKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-        "OwnerKey" = "8:_BB2084EF1F724B90B0EEA5817739C202"
+        "OwnerKey" = "8:_49E9E09B54DA4F75B8D1390CFA66203A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-        "OwnerKey" = "8:_49E9E09B54DA4F75B8D1390CFA66203A"
+        "OwnerKey" = "8:_BB2084EF1F724B90B0EEA5817739C202"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -148,25 +148,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CBDEC7B60E90E4F596B1D9E3A38786F4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
+        "OwnerKey" = "8:_64CBF6051F954928AD757EF9684015DD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -178,7 +160,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_64CBF6051F954928AD757EF9684015DD"
+        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CBDEC7B60E90E4F596B1D9E3A38786F4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -343,11 +343,6 @@
             "AssemblyAsmDisplayName" = "8:EV3BasicCompiler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3FB6F29BDB75B4EA09B1C22FDB977915"
-                    {
-                    "Name" = "8:EV3BasicCompiler.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EV3BasicCompiler.dll"
             "TargetName" = "8:"
@@ -425,11 +420,6 @@
             "AssemblyAsmDisplayName" = "8:EV3Communication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-                    {
-                    "Name" = "8:EV3Communication.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:EV3Communication.dll"
             "TargetName" = "8:"
@@ -527,11 +517,6 @@
             "AssemblyAsmDisplayName" = "8:LMSAssembler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CBDEC7B60E90E4F596B1D9E3A38786F4"
-                    {
-                    "Name" = "8:LMSAssembler.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:LMSAssembler.dll"
             "TargetName" = "8:"
@@ -719,7 +704,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:EV3Basic 1.0.7"
+        "ProductName" = "8:EV3Basic 1.0.8"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
         "PackageCode" = "8:{229F590D-0C7F-4FB7-A8BB-A299E2DAE487}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
@@ -728,11 +713,11 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.7"
+        "ProductVersion" = "8:1.0.8"
         "Manufacturer" = "8:Reinhard Grafl"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:EV3Basic 1.0.7"
+        "Title" = "8:EV3Basic 1.0.8"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Reinhard Grafl"
         "Keywords" = "8:"

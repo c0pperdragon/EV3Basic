@@ -352,7 +352,9 @@ readcopy:
 	SUB32 tmp32 1 tmp32
 	MOVE32_8 tmp32 i8
 	READ8 indata i8 v8
-	MOVE8_F v8 v
+	MOVE8_32 0 tmp32
+	INJECTLOWBYTE v8 tmp32
+	MOVE32_F tmp32 v
 	ARRAY_WRITE resultarray i v
 	ADD32 i 1 i
 	JR_LT32 i rd readcopy

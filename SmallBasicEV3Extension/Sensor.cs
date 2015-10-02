@@ -258,6 +258,10 @@ namespace SmallBasicEV3Extension
             {
                 return new Primitive();  // no values requested - just return empty object
             }
+            if (_values>8)
+            { 
+                _values = 8;
+            }
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x9E);                // Input_ReadExt
@@ -266,17 +270,13 @@ namespace SmallBasicEV3Extension
             c.CONST(0);                // 0 = don't change type
             c.CONST(-1);               // -1 = don't change mode
             c.CONST(18);               // FORMAT = raw (32bit)
-            c.CONST(8);                // return 8 32bit-values
-            c.GLOBVAR(0);
-            c.GLOBVAR(4);
-            c.GLOBVAR(8);
-            c.GLOBVAR(12);
-            c.GLOBVAR(16);
-            c.GLOBVAR(20);
-            c.GLOBVAR(24);
-            c.GLOBVAR(28);
+            c.CONST(_values);           // return desired number of 32bit-values
+            for (int i = 0; i < _values; i++)
+            {
+                c.GLOBVAR(4 * i);      // values should be stored in global variables 
+            }
 
-            byte[] result = EV3RemoteControler.DirectCommand(c, 32, 0);
+            byte[] result = EV3RemoteControler.DirectCommand(c, 4*_values, 0);
 
             Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
             for (int i = 0; i < _values; i++)
@@ -308,6 +308,7 @@ namespace SmallBasicEV3Extension
             {
                 return new Primitive(0);  // index out of range - just return 0
             }
+            int _values = _index + 1;
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0x9E);                // Input_ReadExt
@@ -316,18 +317,14 @@ namespace SmallBasicEV3Extension
             c.CONST(0);                // 0 = don't change type
             c.CONST(-1);               // -1 = don't change mode
             c.CONST(18);               // FORMAT = raw (32bit)
-            c.CONST(8);                // return 8 32bit-values
-            c.GLOBVAR(0);
-            c.GLOBVAR(4);
-            c.GLOBVAR(8);
-            c.GLOBVAR(12);
-            c.GLOBVAR(16);
-            c.GLOBVAR(20);
-            c.GLOBVAR(24);
-            c.GLOBVAR(28);
+            c.CONST(_values);           // return desired number of 32bit-values
+            for (int i = 0; i < _values; i++)
+            {
+                c.GLOBVAR(4 * i);      // values should be stored in global variables 
+            }
 
-            byte[] result = EV3RemoteControler.DirectCommand(c, 32, 0);
-            if (result==null || result.Length<32)
+            byte[] result = EV3RemoteControler.DirectCommand(c, 4 * _values, 0);
+            if (result==null || result.Length<4*_values)
             {
                 return new Primitive(0);
             }

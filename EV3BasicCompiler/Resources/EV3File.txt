@@ -57,7 +57,7 @@ subcall EV3FILE.CLOSE          // FV
 	IN_F handle
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	MOVEF_16 handle handle16
 	FILE CLOSE handle16
@@ -70,7 +70,7 @@ subcall EV3FILE.WRITELINE     // FSV
 	IN_S text 252
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	MOVEF_16 handle handle16
 	FILE WRITE_TEXT handle16 6 text
@@ -83,7 +83,7 @@ subcall EV3FILE.WRITEBYTE     // FFV
 	IN_F byte
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	DATA8 byte8
 	MOVEF_16 handle handle16
@@ -98,7 +98,7 @@ subcall EV3FILE.READLINE     // FS
 	OUT_S text 252
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	MOVEF_16 handle handle16
 	FILE READ_TEXT handle16 6 127 text
@@ -116,7 +116,7 @@ subcall EV3FILE.READBYTE     // FF
 	MOVEF_F 0.0 byte
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	DATA8 byte8
 	MOVEF_16 handle handle16
@@ -133,7 +133,7 @@ subcall EV3FILE.READNUMBERARRAY    // FFA
 	IN_16 a
 
 	JR_LTF handle 1.0 invalidhandle
-	JR_GTF handle 65536.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
 	DATA16 handle16
 	DATA8 byte8
 	MOVEF_16 handle handle16
