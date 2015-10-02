@@ -390,6 +390,7 @@ wrtnottomuch:
 	// decode float values from array and put in outdata buffer
 	DATA32 i
 	DATA8 i8
+	DATA32 tmp
 	MOVE32_32 0 i
 	JR_GTEQ32 i wrt endwritecopy
 writecopyloop:
@@ -397,7 +398,8 @@ writecopyloop:
 	DATAF v
 	DATA8 v8
 	ARRAY_READ writedata i v 
-	MOVEF_8 v v8
+	MOVEF_32 v tmp
+	EXTRACTLOWBYTE tmp v8
 	ADD32 i 1 i
 	WRITE8 v8 i8 outdata
 	MOVE32_8 i i8
