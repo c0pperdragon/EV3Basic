@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+Examples.zip
 
 # Build results
 [Dd]ebug/

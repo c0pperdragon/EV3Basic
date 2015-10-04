@@ -227,25 +227,30 @@ namespace Documentation
                             objects[name] = new EV3Object(summarystring);
                             break;
                         case 'M':
-                            int dotidx = name.IndexOf('.');
-                            EV3Function f = new EV3Function(summarystring);
-                            objects[name.Substring(0, dotidx)].functions[name.Substring(dotidx + 1)] = f;
-                            foreach (XmlNode param in member.SelectNodes("param"))
+                            if (!name.EndsWith("DoubleToDecimal"))      // do not document this internal function
                             {
-//                                Console.WriteLine("PAR: "+param.Attributes["name"].Value);
-//                                Console.WriteLine("INFO: "+TrimIndents(param.InnerText.Trim()));
-                                f.parameters[param.Attributes["name"].Value] = TrimIndents(param.InnerText.Trim());
-                            }
-                            XmlNode returnvalue = member.SelectSingleNode("returns");
-                            if (returnvalue!=null)
-                            {
-                                f.returnvalue = TrimIndents(returnvalue.InnerText.Trim());
+                                int dotidx = name.IndexOf('.');
+                                EV3Function f = new EV3Function(summarystring);
+                                objects[name.Substring(0, dotidx)].functions[name.Substring(dotidx + 1)] = f;
+                                foreach (XmlNode param in member.SelectNodes("param"))
+                                {
+                                    //                                Console.WriteLine("PAR: "+param.Attributes["name"].Value);
+                                    //                                Console.WriteLine("INFO: "+TrimIndents(param.InnerText.Trim()));
+                                    f.parameters[param.Attributes["name"].Value] = TrimIndents(param.InnerText.Trim());
+                                }
+                                XmlNode returnvalue = member.SelectSingleNode("returns");
+                                if (returnvalue != null)
+                                {
+                                    f.returnvalue = TrimIndents(returnvalue.InnerText.Trim());
+                                }
                             }
                             break;
                         case 'E':
                         case 'P':
-                            dotidx = name.IndexOf('.');
-                            objects[name.Substring(0, dotidx)].properties[name.Substring(dotidx + 1)] = summarystring;
+                            {
+                                int dotidx = name.IndexOf('.');
+                                objects[name.Substring(0, dotidx)].properties[name.Substring(dotidx + 1)] = summarystring;
+                            }
                             break;
                     }
                 }
