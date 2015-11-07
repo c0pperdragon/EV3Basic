@@ -37,14 +37,14 @@ subcall MAILBOX.ISAVAILABLE        // FS
 	DATA8 busy
 	MOVEF_8 id id8
 
-	MAILBOX_TEST id busy
-	JR_EQ8 busy 0 available:
+	MAILBOX_TEST id8 busy
+	JR_EQ8 busy 0 available
 
-	STRINGS DUPLICATE "False" result
-	return
+	STRINGS DUPLICATE 'False' result
+	RETURN
 
 available:
-	STRINGS DUPLICATE "True" result
+	STRINGS DUPLICATE 'True' result
 }
 
 inline MAILBOX.RECEIVE            // FS

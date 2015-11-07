@@ -17,7 +17,7 @@ namespace Test
 //            TestWiFiReceiveBroadcast();
 //            TestWiFi();
             TestCompile();
-//            TestAssemble();
+            TestAssemble();
 //            TestDisassemble();
         }
 
@@ -35,7 +35,7 @@ namespace Test
 
         static void TestCompile()
         {    
-            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/TowersOfHanoi.sb";
+            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/MailboxReceive.sb";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
             FileStream ofs = new FileStream("c:/temp/compiledbasic.lms", FileMode.Create, FileAccess.Write);
 

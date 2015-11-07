@@ -54,7 +54,7 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[2]...)
+        /// Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)
         /// </summary>
         /// <param name="size">That many numbers are taken for computation</param>
         /// <param name="A">First vector</param>
