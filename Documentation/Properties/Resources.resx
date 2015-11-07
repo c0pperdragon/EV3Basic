@@ -136,6 +136,9 @@
   <data name="ManualFR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ManualFR.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="ManualRU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ManualRU.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="Styles" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Styles.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

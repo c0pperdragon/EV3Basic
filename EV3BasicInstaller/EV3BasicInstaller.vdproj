@@ -64,13 +64,13 @@
         "Entry"
         {
         "MsmKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-        "OwnerKey" = "8:_49E9E09B54DA4F75B8D1390CFA66203A"
+        "OwnerKey" = "8:_BB2084EF1F724B90B0EEA5817739C202"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
-        "OwnerKey" = "8:_BB2084EF1F724B90B0EEA5817739C202"
+        "OwnerKey" = "8:_49E9E09B54DA4F75B8D1390CFA66203A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -93,7 +93,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_70BC8C46DFF745FDBBF2722F57ACCC27"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9D20429B6620479E95B8AEC6C2D025F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AB39639453C54323A9FFDD407175EC5C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B8826883704D4BA7A56916F01BCCD87B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -148,25 +166,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_64CBF6051F954928AD757EF9684015DD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_49E9E09B54DA4F75B8D1390CFA66203A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
+        "OwnerKey" = "8:_64CBF6051F954928AD757EF9684015DD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -178,7 +190,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1735C06DFE3F463683F60857CE396E78"
+        "OwnerKey" = "8:_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3FB6F29BDB75B4EA09B1C22FDB977915"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -343,6 +361,11 @@
             "AssemblyAsmDisplayName" = "8:EV3BasicCompiler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_3FB6F29BDB75B4EA09B1C22FDB977915"
+                    {
+                    "Name" = "8:EV3BasicCompiler.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EV3BasicCompiler.dll"
             "TargetName" = "8:"
@@ -420,6 +443,11 @@
             "AssemblyAsmDisplayName" = "8:EV3Communication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_5E5C4AA1D7CF1F48D0D2D233CE439A22"
+                    {
+                    "Name" = "8:EV3Communication.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:EV3Communication.dll"
             "TargetName" = "8:"
@@ -459,12 +487,72 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70BC8C46DFF745FDBBF2722F57ACCC27"
+            {
+            "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.ru.XML"
+            "TargetName" = "8:SmallBasicEV3Extension.ru.XML"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9D20429B6620479E95B8AEC6C2D025F6"
             {
             "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.es.XML"
             "TargetName" = "8:SmallBasic10EV3Extension.es.XML"
             "Tag" = "8:"
             "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AB39639453C54323A9FFDD407175EC5C"
+            {
+            "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.ru.XML"
+            "TargetName" = "8:SmallBasic10EV3Extension.ru.XML"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B8826883704D4BA7A56916F01BCCD87B"
+            {
+            "SourcePath" = "8:..\\Documentation\\ev3basic_manual_ru.html"
+            "TargetName" = "8:ev3basic_manual_ru.html"
+            "Tag" = "8:"
+            "Folder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -517,6 +605,11 @@
             "AssemblyAsmDisplayName" = "8:LMSAssembler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CBDEC7B60E90E4F596B1D9E3A38786F4"
+                    {
+                    "Name" = "8:LMSAssembler.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LMSAssembler.dll"
             "TargetName" = "8:"
@@ -704,20 +797,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:EV3Basic 1.0.8"
+        "ProductName" = "8:EV3Basic 1.0.9"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
-        "PackageCode" = "8:{229F590D-0C7F-4FB7-A8BB-A299E2DAE487}"
+        "PackageCode" = "8:{FCBB39EF-D7E0-4DE7-A9C2-E1BA999970B3}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.8"
+        "ProductVersion" = "8:1.0.9"
         "Manufacturer" = "8:Reinhard Grafl"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:EV3Basic 1.0.8"
+        "Title" = "8:EV3Basic 1.0.9"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Reinhard Grafl"
         "Keywords" = "8:"
@@ -884,13 +977,27 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_AB6DA00565BC4C309386C7019233E762"
             {
-            "Name" = "8:Manuel (FR)"
+            "Name" = "8:Manual (FR)"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_2150D18FEB334DF5849BFDF0DA353773"
+            "Folder" = "8:_2093CF3C334A41D5AB8A4A7F58BAB1EE"
+            "WorkingFolder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BEC5887FEACE49D7A1A93C0138B05D86"
+            {
+            "Name" = "8:Manual (RU)"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_B8826883704D4BA7A56916F01BCCD87B"
             "Folder" = "8:_2093CF3C334A41D5AB8A4A7F58BAB1EE"
             "WorkingFolder" = "8:_0F8274DEA69D446583FF614B39EA7D98"
             "Icon" = "8:"

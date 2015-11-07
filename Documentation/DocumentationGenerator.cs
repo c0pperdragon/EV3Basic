@@ -70,6 +70,16 @@ namespace Documentation
                      "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_es.html"
                      );
+
+            generate("C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/SmallBasicEV3Extension.RU.xml",
+                     "C:/Program Files (x86)/Microsoft/Small Basic/SmallBasicLibrary.RU.xml",
+                     "EV3Basic Developer Manual",
+                     Documentation.Properties.Resources.ManualRU,
+                     "",
+                     "Returns",
+                     "Property",
+                     "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_ru.html"
+                     );
         }
 
 
