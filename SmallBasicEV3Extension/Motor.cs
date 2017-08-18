@@ -35,7 +35,14 @@ namespace SmallBasicEV3Extension
     [SmallBasicType]
     public static class Motor
     {
- 
+        // flags for motor inversion.
+        // some commands already honor the explicit inversion setting, others do not (synchronized movement, tacho count read)
+        // for those, extra numerical conversion is needed
+        private static bool[] inverted = new bool[16];
+        // determine the first and second set bits in a 4-bit array (only no-negative if contains 2 bis in the first place)
+        private static readonly int[] firstof2 =  { -1, -1, -1, 0,  -1, 0, 1, -1, -1, 0, 1, -1, 2, -1, -1, -1 };
+        private static readonly int[] secondof2 = { -1, -1, -1, 1,  -1, 2, 2, -1, -1, 3, 2, -1, 3, -1, -1, -1 };
+
         /// <summary>
         /// Stop one or multiple motors. This will also cancel any scheduled movement for this motor.
         /// </summary>
@@ -48,12 +55,15 @@ namespace SmallBasicEV3Extension
             DecodePortsDescriptor(ports==null?"":ports.ToString(), out layer, out nos);
             int brk = (brake==null?"":brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xA3);
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xA3);
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(brk);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
         }
 
         /// <summary>
@@ -68,16 +78,19 @@ namespace SmallBasicEV3Extension
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
             int spd = clamp(speed, -100, 100);
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAF);       // opOutput_Time_Speed
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(spd);
-            c.CONST(0);           // step1
-            c.CONST(2147483647);  // step2 (run over three weeks)
-            c.CONST(0);           // step3
-            c.CONST(0);           // don't brake
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xAF);       // opOutput_Time_Speed
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(spd);
+                c.CONST(0);           // step1
+                c.CONST(2147483647);  // step2 (run over three weeks)
+                c.CONST(0);           // step3
+                c.CONST(0);           // don't brake
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
         }
 
         /// <summary>
@@ -92,16 +105,80 @@ namespace SmallBasicEV3Extension
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
             int pwr = clamp(power, -100, 100);
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAD);       // opOutput_Time_Power
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(pwr);
-            c.CONST(0);           // step1
-            c.CONST(2147483647);  // step2 (run over three weeks)
-            c.CONST(0);           // step3
-            c.CONST(0);           // don't brake
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xAD);       // opOutput_Time_Power
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(pwr);
+                c.CONST(0);           // step1
+                c.CONST(2147483647);  // step2 (run over three weeks)
+                c.CONST(0);           // step3
+                c.CONST(0);           // don't brake
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
+        }
+
+
+        private static void startsteer(Primitive ports, double speed, double turn)
+        {
+            int layer, nos;
+            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+
+            int f = firstof2[nos];
+            int s = secondof2[nos];
+            if (f >= 0)
+            {
+                // the motor with lower letter is the "master"
+                if (turn >= 0)
+                {   // when the master is inverted, use inverted overall speed
+                    if (inverted[f]) {
+                        speed = -speed;
+                    }
+                    // when the slave's inversion is different from the master, modify the turn value
+                    if (inverted[s] != inverted[f])
+                    {
+                        turn = 200 - turn;
+                    }
+                // the motor with higher letter is the "master"
+                } else {
+                    // when the master is inverted, use inverted overall speed
+                    if (inverted[s]) {
+                        speed = -speed;
+                    }
+                    // when the slave's inversion is different from the master, modify the turn value
+                    if (inverted[f] != inverted[s])
+                    {
+                        turn = -200 - turn;
+                    }
+                }
+
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xB0);        // turn on synchronized movement
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST((int)speed);
+                c.CONST((int)turn);
+                c.CONST(0);
+                c.CONST(0);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
+        }
+
+        /// <summary>
+        /// Set two motors to run with a specified speed and relative ratio. 
+        /// This ratio is determined by the 'turn' parameter which basically determines
+        /// into which direction a vehicle with a simple two-wheel drive would make its turn (when the motor with the lower port letter is mounted on the left side).
+        /// The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The motors will keep running until stopped by another command.
+        /// </summary>
+        /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</param>
+        /// <param name="turn">Turn ratio from -200 (rotating left) to 200 (rotating right).</param>
+        public static void StartSteer(Primitive ports, Primitive speed, Primitive turn)
+        {
+            startsteer(ports, fclamp(speed, -100, 100), fclamp(turn, -200, 200));
         }
 
         /// <summary>
@@ -114,37 +191,30 @@ namespace SmallBasicEV3Extension
         /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
         public static void StartSync(Primitive ports, Primitive speed1, Primitive speed2)
         {
-            int layer, nos;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
             double spd1 = fclamp(speed1, -100, 100);
             double spd2 = fclamp(speed2, -100, 100);
 
             // the computed values that will be needed by the firmware function
-            int spd;
-            int trn;
-
-            // motor with lower letter is faster or equally fast and must become master      
-            if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
+            if (spd1 != 0 || spd2 != 0)
             {
-                spd = (int)spd1;
-                trn = 100 - (int)((100.0 * spd2) / spd1);
-            }
-            // motor with higher letter is faster and must become master
-            else
-            {
-                spd = (int)spd2;
-                trn = -(100 - (int)((100.0 * spd1) / spd2));
-            }
+                double spd;
+                double trn;
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xB0);        // turn on synchronized movement
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(spd);
-            c.CONST(trn);
-            c.CONST(0);
-            c.CONST(0);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+                // motor with lower letter is faster or equally fast and must become master      
+                if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
+                {
+                    spd = spd1;
+                    trn = 100 - ((100.0 * spd2) / spd1);
+                }
+                // motor with higher letter is faster and must become master
+                else
+                {
+                    spd = spd2;
+                    trn = -(100 - ((100.0 * spd1) / spd2));
+                }
+
+                startsteer(ports, spd, trn);
+            }
         }
 
 
@@ -174,6 +244,7 @@ namespace SmallBasicEV3Extension
                 byte[] reply = EV3RemoteControler.DirectCommand(c, 5, 0);
 
                 int spd = reply == null ? 0 : (sbyte)reply[4];
+                if (inverted[layer * 4 + no]) spd = -spd;
                 return new Primitive(spd);
             }
         }
@@ -188,6 +259,11 @@ namespace SmallBasicEV3Extension
             int layer;
             int nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+
+            if (nos == 0)
+            {
+                return new Primitive("False");
+            }
 
             ByteCodeBuffer c = new ByteCodeBuffer();
             c.OP(0xA9);
@@ -223,16 +299,19 @@ namespace SmallBasicEV3Extension
             if (dgr3 < 0) dgr3 = -dgr3;
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAE);        // start scheduled movement
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(spd);
-            c.CONST(dgr1);
-            c.CONST(dgr2);
-            c.CONST(dgr3);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xAE);        // start scheduled movement
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(spd);
+                c.CONST(dgr1);
+                c.CONST(dgr2);
+                c.CONST(dgr3);
+                c.CONST(brk);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
         }
         
         /// <summary>
@@ -259,18 +338,85 @@ namespace SmallBasicEV3Extension
             if (dgr3 < 0) dgr3 = -dgr3;
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xAC);        // start scheduled movement
-            c.CONST(layer);
-            c.CONST(nos);
-            c.CONST(pwr);
-            c.CONST(dgr1);
-            c.CONST(dgr2);
-            c.CONST(dgr3);
-            c.CONST(brk);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xAC);        // start scheduled movement
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(pwr);
+                c.CONST(dgr1);
+                c.CONST(dgr2);
+                c.CONST(dgr3);
+                c.CONST(brk);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
         }
 
+
+        private static void schedulesteer(Primitive ports, double speed, double turn, double degrees, int brake)
+        {
+            int layer, nos;
+            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+            int dgr = (int)degrees;
+            if (dgr < 0) dgr = -dgr;
+
+            int f = firstof2[nos];
+            int s = secondof2[nos];
+            if (dgr > 0 && f >= 0)
+            {
+                // the motor with lower letter is the "master"
+                if (turn >= 0)
+                {   // when the master is inverted, use inverted overall speed
+                    if (inverted[f]) {
+                        speed = -speed;
+                    }
+                    // when the slave's inversion is different from the master, modify the turn value
+                    if (inverted[s] != inverted[f])
+                    {
+                        turn = 200 - turn;
+                    }
+                // the motor with higher letter is the "master"
+                } else {
+                    // when the master is inverted, use inverted overall speed
+                    if (inverted[s]) {
+                        speed = -speed;
+                    }
+                    // when the slave's inversion is different from the master, modify the turn value
+                    if (inverted[f] != inverted[s])
+                    {
+                        turn = -200 - turn;
+                    }
+                }
+
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xB0);        // start scheduled command
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST((int)speed);
+                c.CONST((int)turn);
+                c.CONST(dgr);
+                c.CONST(brake);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
+        }
+
+        /// <summary>
+        /// Move 2 motors a defined number of degrees using with steering synchronization. 
+        /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The distance to move is for the motor with the higher speed.
+        /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
+        /// </summary>
+        /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
+        /// <param name="turn">Turn ratio from -200 (rotating left) to 200 (rotating right).</param>
+        /// <param name="degrees">The angle through which the faster motor should rotate.</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
+        public static void ScheduleSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
+        {
+            int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            schedulesteer(ports, fclamp(speed, -100, 100), fclamp(turn, -200, 200), degrees, brk);
+        }
 
         /// <summary>
         /// Move 2 motors synchronously a defined number of degrees. 
@@ -285,42 +431,29 @@ namespace SmallBasicEV3Extension
         /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
         public static void ScheduleSync(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
-            int layer, nos;
-            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
-            double spd1 = fclamp(speed1,-100,100);
-            double spd2 = fclamp(speed2,-100,100);
-            int dgr = degrees;
-            if (dgr < 0) dgr = -dgr;
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-
-            if (dgr > 0)
+            double spd1 = fclamp(speed1, -100, 100);
+            double spd2 = fclamp(speed2,-100,100);
+            
+            // the computed values that will be needed by the firmware function
+            if (spd1 != 0 || spd2 != 0)
             {
-                // the computed values that will be needed by the firmware function
-                int spd;   
-                int trn;
+                double spd;
+                double trn;
 
                 // motor with lower letter is faster or equally fast and must become master      
-                if ( (spd1>=0?spd1:-spd1) >= (spd2>=0?spd2:-spd2))
+                if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
                 {
-                    spd = (int)spd1;
-                    trn = 100 - (int)((100.0*spd2)/spd1);
+                    spd = spd1;
+                    trn = 100 - ((100.0 * spd2) / spd1);
                 }
                 // motor with higher letter is faster and must become master
-                else   
+                else
                 {
-                    spd = (int)spd2;
-                    trn = - (100 - (int)((100.0*spd1) / spd2));
+                    spd = spd2;
+                    trn = -(100 - ((100.0 * spd1) / spd2));
                 }
-
-                ByteCodeBuffer c = new ByteCodeBuffer();
-                c.OP(0xB0);        // start scheduled command
-                c.CONST(layer);
-                c.CONST(nos);
-                c.CONST(spd);
-                c.CONST(trn);
-                c.CONST(dgr);
-                c.CONST(brk);
-                EV3RemoteControler.DirectCommand(c, 0, 0);
+                schedulesteer(ports, spd, trn, degrees, brk);
             }
         }
 
@@ -334,11 +467,14 @@ namespace SmallBasicEV3Extension
             int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.OP(0xB2);
-            c.CONST(layer);
-            c.CONST(nos);
-            EV3RemoteControler.DirectCommand(c, 0, 0);
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xB2);
+                c.CONST(layer);
+                c.CONST(nos);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+            }
         }
 
         /// <summary>
@@ -369,6 +505,11 @@ namespace SmallBasicEV3Extension
                 if (reply != null)
                 {
                     tacho = ((int)reply[0]) | (((int)reply[1]) << 8) | (((int)reply[2]) << 16) | (((int)reply[3]) << 24);
+                }
+
+                if (inverted[layer * 4 + no])
+                {
+                    tacho = -tacho;
                 }
                 return new Primitive(tacho);
             }
@@ -405,6 +546,22 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
+        /// Move 2 motors a defined number of degrees using with steering synchronization.  
+        /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+        /// The angle to move is for the motor with the higher speed.
+        /// </summary>
+        /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
+        /// <param name="turn">Turn ratio from -200 (rotating left) to 200 (rotating right).</param>
+        /// <param name="degrees">The angle of the faster motor to rotate</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
+        public static void MoveSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
+        {
+            ScheduleSteer(ports, speed, turn, degrees, brake);
+            Wait(ports);
+        }
+
+        /// <summary>
         /// Moves 2 motors synchronously a defined number of degrees. 
         /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The angle to move is for the motor with the higher speed.
@@ -431,24 +588,58 @@ namespace SmallBasicEV3Extension
             int layer, nos;
             DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
 
-            ByteCodeBuffer c = new ByteCodeBuffer();
-            c.Clear();
-            c.OP(0xA9);
-            c.CONST(layer);
-            c.CONST(nos);
-            c.GLOBVAR(0);
-
-            for (;;)
+            if (nos != 0)
             {
-                byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
-                if (reply==null || reply[0] == 0)
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.Clear();
+                c.OP(0xA9);
+                c.CONST(layer);
+                c.CONST(nos);
+                c.GLOBVAR(0);
+
+                for (; ; )
                 {
-                    break;
+                    byte[] reply = EV3RemoteControler.DirectCommand(c, 1, 0);
+                    if (reply == null || reply[0] == 0)
+                    {
+                        break;
+                    }
+                    System.Threading.Thread.Sleep(2);
                 }
-                System.Threading.Thread.Sleep(2);
             }
         }
 
+        /// <summary>
+        /// Set the direction of one or more motors to inverted. This will affect all future motor commands related to these
+        /// motor. Even reading the tacho count will be inverted.
+        /// This operation makes it easy change the way a motor is built into a robot without altering most of the program.
+        /// You just need to add a single Motor.Invert() command at the start of the program. Note that there is intentionally no 
+        /// way to disable the inversion later on.
+        /// </summary>
+        /// <param name="ports">Motor port name(s)</param>
+        public static void Invert(Primitive ports)
+        {
+            int layer, nos;
+            DecodePortsDescriptor(ports == null ? "" : ports.ToString(), out layer, out nos);
+
+            if (nos != 0)
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xA7);
+                c.CONST(layer);
+                c.CONST(nos);
+                c.CONST(-1);
+                EV3RemoteControler.DirectCommand(c, 0, 0);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if ((nos & (1 << i)) != 0)
+                    {
+                        inverted[4 * layer + i] = true;
+                    }
+                }
+            }
+        }
 
 
         private static void DecodePortDescriptor(String descriptor, out int layer, out int no)

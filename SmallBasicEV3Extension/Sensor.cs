@@ -404,6 +404,87 @@ namespace SmallBasicEV3Extension
             return Primitive.ConvertFromMap(map);
         }
 
+        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.
+        /// Note that this command does not work over daisy-chaining.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        /// <param name="registernumber">Number of register in the slave to read data from.</param>
+        /// <returns>The content of the register, or -1 in case of an error</returns>
+        public static Primitive ReadI2CRegister(Primitive port, Primitive address, Primitive registernumber)
+        {
+            int layer;
+            int no;
+            // decode parameters
+            DecodePort(port, out layer, out no);
+            int addr = address;
+            int reg = registernumber;
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(1 + 1);            // number of bytes: the address and the register number
+            c.CONST(addr & 0x7f);      // first byte: address (from 0 - 127)
+            c.CONST(reg & 0xff);       // second byte: register number (from 0 - 255)
+
+            c.OP(0x99);                // opInput_Device
+            c.CONST(0x09);             // CMD: SETUP = 0x09
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(1);                // repeat
+            c.CONST(0);                // time
+            c.CONST(2);                // bytes to write (address and register number)
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+            c.CONST(1);                // number of bytes to read (just the one register content)
+            c.GLOBVAR(0);              // buffer to read into is global variable, beginning from 0
+
+            byte[] result = EV3RemoteControler.DirectCommand(c, 1, 2);
+            return new Primitive((result != null && result.Length == 1) ? result[0] : -1);
+        }
+
+        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.
+        /// Note that this command does not work over daisy-chaining.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        /// <param name="registernumber">Number of register in the slave to write data to.</param>
+        /// <param name="valuer">Number to write into the register.</param>
+
+        public static void WriteI2CRegister(Primitive port, Primitive address, Primitive registernumber, Primitive value)
+        {
+            int layer;
+            int no;
+            // decode parameters
+            DecodePort(port, out layer, out no);
+            int addr = address;
+            int reg = registernumber;
+            int val = value;
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(4);                // number of bytes: the address and the register number and the value and dummy space for dummy read
+            c.CONST(addr & 0x7f);      // first byte: address (from 0 - 127)
+            c.CONST(reg & 0xff);       // second byte: register number (from 0 - 255)
+            c.CONST(val & 0xff);       // third byte: value to write in register
+            c.CONST(0);                // reserve a 4th byte to receive unused response into
+
+            c.OP(0x99);                // opInput_Device
+            c.CONST(0x09);             // CMD: SETUP = 0x09
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(1);                // repeat
+            c.CONST(0);                // time
+            c.CONST(3);                // bytes to write (address and register number)
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+            c.CONST(1);                // number of bytes to read (one byte is mandatory)
+            c.LOCVAR(3);               // buffer to read into is local variable, beginning from 3
+
+            EV3RemoteControler.DirectCommand(c, 0, 4);
+        }
+
 
         /// <summary>
         /// Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the 

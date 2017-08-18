@@ -1,0 +1,14 @@
+' simple commucation with a I2C slave providing register access
+port = 1       ' where slave is connected
+address = 99   ' I2C address of the slave
+
+Sensor.WriteI2CRegister(port,address,2,105)
+Sensor.WriteI2CRegister(port,address,5,48)
+Sensor.WriteI2CRegister(port,address,6,12)
+
+LCD.Clear()
+For reg=0 To 7 
+  LCD.Write(0,reg*16,  reg+": "+Sensor.ReadI2CRegister(port,address,reg))
+EndFor
+
+Program.Delay(10000)
