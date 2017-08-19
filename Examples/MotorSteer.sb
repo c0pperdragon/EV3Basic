@@ -1,0 +1,15 @@
+' do some demonstration of the steer commands and then do the whole thing
+' but with motor A inverted
+For i=1 To 2 
+  Motor.MoveSteer("AB",70,-25, 1000,"True")
+  Motor.MoveSteer("AB",70,25, 1000,"True")
+  Program.Delay(1000)
+  Motor.ScheduleSteer("AB",100,75,1000,"false")
+  Program.Delay(2000)
+  Motor.StartSteer("AB",50,-25)
+  Program.Delay(2000)
+  Motor.Stop("AB", "True")
+  Program.Delay(2000)
+  Motor.Invert("A") 
+EndFor
+Program.End()

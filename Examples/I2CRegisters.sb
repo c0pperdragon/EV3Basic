@@ -3,12 +3,22 @@ port = 1       ' where slave is connected
 address = 99   ' I2C address of the slave
 
 Sensor.WriteI2CRegister(port,address,2,105)
-Sensor.WriteI2CRegister(port,address,5,48)
-Sensor.WriteI2CRegister(port,address,6,12)
+Sensor.WriteI2CRegister(port,address,3,48)
+Sensor.WriteI2CRegister(port,address,4,12)
+W[0] = 15
+W[1] = 16
+W[2] = 17
+Sensor.WriteI2CRegisters(port,address,5,3,w)
 
 LCD.Clear()
-For reg=0 To 7 
+R = Sensor.ReadI2CRegisters(port,address,0,5)
+For reg=0 To 4 
+  LCD.Write(0,reg*16,  reg+": "+R[reg])
+EndFor
+For reg=5 To 7 
   LCD.Write(0,reg*16,  reg+": "+Sensor.ReadI2CRegister(port,address,reg))
 EndFor
 
 Program.Delay(10000)
+
+

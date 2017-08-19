@@ -411,7 +411,7 @@ namespace SmallBasicEV3Extension
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
         /// <param name="registernumber">Number of register in the slave to read data from.</param>
-        /// <returns>The content of the register, or -1 in case of an error</returns>
+        /// <returns>The content of the register</returns>
         public static Primitive ReadI2CRegister(Primitive port, Primitive address, Primitive registernumber)
         {
             int layer;
@@ -444,14 +444,67 @@ namespace SmallBasicEV3Extension
         }
 
         /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.
+        /// Note that this command does not work over daisy-chaining.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        /// <param name="registernumber">Number of register in the slave to read data from.</param>
+        /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
+        public static Primitive ReadI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive readbytes)
+        {
+            int layer;
+            int no;
+            // decode parameters
+            DecodePort(port, out layer, out no);
+            int addr = address;
+            int reg = registernumber; 
+            int rd = readbytes;
+            if (rd<1)       // must read at least one byte to not confuse the firmware
+            {
+                rd = 1;
+            }
+            if (rd>32)      // can not read more than 32 bytes
+            {
+                rd = 32;
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(1 + 1);            // number of bytes: the address and the register number
+            c.CONST(addr & 0x7f);      // first byte: address (from 0 - 127)
+            c.CONST(reg & 0xff);       // second byte: register number (from 0 - 255)
+
+            c.OP(0x99);                // opInput_Device
+            c.CONST(0x09);             // CMD: SETUP = 0x09
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(1);                // repeat
+            c.CONST(0);                // time
+            c.CONST(2);                // bytes to write (address and register number)
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+            c.CONST(rd);               // number of bytes to read
+            c.GLOBVAR(0);              // buffer to read into is global variable, beginning from 0
+
+            byte[] result = EV3RemoteControler.DirectCommand(c, rd, 2);
+            Dictionary<Primitive, Primitive> map = new Dictionary<Primitive, Primitive>();
+            for (int i = 0; i < rd; i++)
+            {
+                map[new Primitive((double)i)] = new Primitive((result != null && result.Length == rd) ? result[rd - 1 - i] : 0);
+            }
+            return Primitive.ConvertFromMap(map);
+        }
+
+
+        /// Communicates with devices using the I2C protocol over one of the sensor ports.
         /// This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of register in the slave to write data to.</param>
+        /// <param name="registernumber">Number of the register in the slave to write data to.</param>
         /// <param name="valuer">Number to write into the register.</param>
-
         public static void WriteI2CRegister(Primitive port, Primitive address, Primitive registernumber, Primitive value)
         {
             int layer;
@@ -483,6 +536,61 @@ namespace SmallBasicEV3Extension
             c.LOCVAR(3);               // buffer to read into is local variable, beginning from 3
 
             EV3RemoteControler.DirectCommand(c, 0, 4);
+        }
+
+        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// This command addresses one device on the I2C-bus and tries to write the values of multiple register of a connected I2C slave.
+        /// Note that this command does not work over daisy-chaining.
+        /// </summary>
+        /// <param name="port">Number of the sensor port</param>
+        /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        /// <param name="registernumber">Number of the first register in the slave to write data to.</param>
+        /// <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
+        /// <param name="writebytes">How many bytes to write into the regisers.</param>
+        public static void WriteI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive writebytes, Primitive writedata)
+        {
+            int layer;
+            int no;
+            // decode parameters
+            DecodePort(port, out layer, out no);
+            int addr = address;
+            int reg = registernumber;
+            int wrt = writebytes;
+            if (wrt <= 0)
+            {
+                return;  // not writing anything
+            }
+            if (wrt > 31)     // can not write more than 31 bytes in one transmission
+            {
+                wrt = 31;
+            }
+
+            ByteCodeBuffer c = new ByteCodeBuffer();
+            c.OP(0x2F);                // opInit_Bytes
+            c.LOCVAR(0);               // prepare sending data from local variable
+            c.CONST(3+wrt);            // number of bytes: the address and the register number and the payload and space for dummy read
+            c.CONST(addr & 0x7f);      // first byte: address (from 0 - 127)
+            c.CONST(reg & 0xff);       // second byte: register number (from 0 - 255)
+            for (int i = 0; i < wrt; i++)
+            {
+                Primitive v = writedata == 0 ? null : Primitive.GetArrayValue(writedata, new Primitive((double)i));
+                int d = v; 
+                c.CONST(d & 0xff);    // values to write in registers
+            }
+            c.CONST(0);                // reserve one more byte to receive unused response into
+
+            c.OP(0x99);                // opInput_Device
+            c.CONST(0x09);             // CMD: SETUP = 0x09
+            c.CONST(layer);
+            c.CONST(no);
+            c.CONST(1);                // repeat
+            c.CONST(0);                // time
+            c.CONST(2+wrt);            // bytes to write (address and register number and payload)
+            c.LOCVAR(0);               // data to write is in local variables, beginning from 0
+            c.CONST(1);                // number of bytes to read (one byte is mandatory)
+            c.LOCVAR(2+wrt);           // buffer to read into is local variable
+
+            EV3RemoteControler.DirectCommand(c, 0, 3+wrt);
         }
 
 
