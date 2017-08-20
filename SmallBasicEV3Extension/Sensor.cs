@@ -545,8 +545,8 @@ namespace SmallBasicEV3Extension
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
         /// <param name="registernumber">Number of the first register in the slave to write data to.</param>
-        /// <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
         /// <param name="writebytes">How many bytes to write into the regisers.</param>
+        /// <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
         public static void WriteI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive writebytes, Primitive writedata)
         {
             int layer;

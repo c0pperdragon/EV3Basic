@@ -1112,7 +1112,7 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Number of the register in the slave to write data to.</P>
 <H4 class="parameter">value</H4>
 <P class="parametersummary">Value to write into the register.</P>
-<H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writedata, writebytes)</H3>
+<H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writebytes, writedata)</H3>
 <P class="operationsummary">This command addresses one device on the I2C-bus and tries to write the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
@@ -1120,10 +1120,10 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
 <P class="parametersummary">Number of the first register in the slave to write data to.</P>
-<H4 class="parameter">writedata</H4>
-<P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
 <H4 class="parameter">writebytes</H4>
 <P class="parametersummary">How many bytes to write into the regisers.</P>
+<H4 class="parameter">writedata</H4>
+<P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
 <H2 class="object">Speaker</H2>
 <P class="objectsummary">Use the brick's built-in speaker to play tones or sound files.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>
