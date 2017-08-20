@@ -1050,7 +1050,7 @@ namespace EV3BasicCompiler
                     if (total.type!=ExpressionType.Number) s.ThrowParseError("need number on left side of '<='");
                     Expression right = parse_additive_expression();
                     if (right.type != ExpressionType.Number) s.ThrowParseError("need number on right side of '<='");
-                    total = new ComparisonExpression("CALL LE", "JR_LTEF", "JR_GTF", total, right);
+                    total = new ComparisonExpression("CALL LE", "JR_LTEQF", "JR_GTF", total, right);
                 }
                 else if (s.NextIsSPECIAL(">="))
                 {

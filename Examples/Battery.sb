@@ -1,9 +1,10 @@
-
-While "True"
+A=1
+While A<=2
   LCD.StopUpdate()
   LCD.Clear()
+  l = EV3.BatteryLevel
   LCD.Text(1, 30,30, 1, "Battery Level")
-  LCD.Text(1, 50,50, 2, EV3.BatteryLevel)
+  LCD.Text(1, 50,50, 2, l)
   LCD.Update()
   Program.Delay(1000)
 endwhile
