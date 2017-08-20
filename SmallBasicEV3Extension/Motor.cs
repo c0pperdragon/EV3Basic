@@ -169,7 +169,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set two motors to run with a specified speed and relative ratio. 
         /// This ratio is determined by the 'turn' parameter which basically determines
-        /// into which direction a vehicle with a simple two-wheel drive would make its turn (when the motor with the lower port letter is mounted on the left side).
+        /// into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
         /// The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The motors will keep running until stopped by another command.
         /// </summary>
@@ -610,10 +610,10 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Set the polarity (direction) of one or more motors to inverted. This will affect all future commands that move this motors
+        /// Set the polarity (direction) of one or more motors to being inverted. This will affect all future commands that move this motors
         /// and also the tacho and speed readings will deliver inverted values.
         /// This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.
-        /// You just need to add a single Motor.Invert() command at the start of the program. Note that there is intentionally no 
+        /// You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no 
         /// way to disable the inversion later on.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>

@@ -404,7 +404,7 @@ namespace SmallBasicEV3Extension
             return Primitive.ConvertFromMap(map);
         }
 
-        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// <summary>
         /// This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
@@ -443,13 +443,14 @@ namespace SmallBasicEV3Extension
             return new Primitive((result != null && result.Length == 1) ? result[0] : -1);
         }
 
-        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// <summary>
         /// This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of register in the slave to read data from.</param>
+        /// <param name="registernumber">Number of the first register in the slave to read data from.</param>
+        /// <param name="readbytes">How many register to read.</param>
         /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
         public static Primitive ReadI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive readbytes)
         {
@@ -496,15 +497,14 @@ namespace SmallBasicEV3Extension
             return Primitive.ConvertFromMap(map);
         }
 
-
-        /// Communicates with devices using the I2C protocol over one of the sensor ports.
+        /// <summary>
         /// This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
         /// <param name="registernumber">Number of the register in the slave to write data to.</param>
-        /// <param name="valuer">Number to write into the register.</param>
+        /// <param name="value">Value to write into the register.</param>
         public static void WriteI2CRegister(Primitive port, Primitive address, Primitive registernumber, Primitive value)
         {
             int layer;
@@ -538,8 +538,8 @@ namespace SmallBasicEV3Extension
             EV3RemoteControler.DirectCommand(c, 0, 4);
         }
 
-        /// Communicates with devices using the I2C protocol over one of the sensor ports.
-        /// This command addresses one device on the I2C-bus and tries to write the values of multiple register of a connected I2C slave.
+        /// <summary>
+        /// This command addresses one device on the I2C-bus and tries to write the values of multiple registers of a connected I2C slave.
         /// Note that this command does not work over daisy-chaining.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>

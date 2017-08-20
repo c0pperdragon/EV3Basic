@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ManualRU.txt" />
+    <None Include="Resources\I2C.txt" />
     <Content Include="SmallBasicEV3Extension.ru.XML" />
     <None Include="Resources\AppendixFR.txt" />
     <None Include="Resources\ManualFR.txt" />

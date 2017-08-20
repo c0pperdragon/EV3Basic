@@ -1,5 +1,5 @@
 ' do some demonstration of the steer commands and then do the whole thing
-' but with motor A inverted
+' again but with motor A inverted
 For i=1 To 2 
   Motor.MoveSteer("AB",70,-25, 1000,"True")
   Motor.MoveSteer("AB",70,25, 1000,"True")

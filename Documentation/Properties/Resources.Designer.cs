@@ -97,6 +97,24 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;H1&gt;Appendix - I2C Tutorial&lt;/H1&gt;
+        ///&lt;H2&gt;Why accessing I2C directly?&lt;/H1&gt;
+        ///&lt;P&gt;
+        ///Normally interfacing to sensors from the EV3 brick is done using the easy-to-use Sensor.Read... commands. 
+        ///But some third-party devices are not compatible with the default sensor protocol and require extra programming. 
+        ///The vendors of such devices normally provide some programming blocks for the original graphics programming 
+        ///environment that handle all the details of the communication. 
+        ///&lt;/P&gt;
+        ///&lt;P&gt;
+        ///For EV3Basic there is probabl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string I2C {
+            get {
+                return ResourceManager.GetString("I2C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
         ///&lt;P&gt;
         ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is to use the 
@@ -158,7 +176,11 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;Справочник по командам EV3 Бейсик&lt;/H1&gt;
+        ///&lt;P&gt;
+        ///&lt;STRONG&gt;Перевод: Андрей Степанов, «Карандаш и Самоделкин»&lt;/STRONG&gt;
+        ///&lt;/P&gt;
+        ///.
         /// </summary>
         internal static string ManualRU {
             get {

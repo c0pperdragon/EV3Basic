@@ -1493,5 +1493,107 @@ qui contient les textes pour le système 'Intellisense' a été assurée par Nig
 Ward, Catherine Colardelle et Frédéric Maria en juillet 2015. Merci, Frédéric!
 <br><br><br>
 </p>
+<H1 class="chapter">Appendix - I2C Tutorial</H1>
+<H3 class="subchapter">Why accessing I2C directly?</H3>
+<P>
+Normally interfacing to sensors from the EV3 brick is done using the easy-to-use Sensor.Read... commands. 
+But some third-party devices are not compatible with the default sensor protocol and require extra programming. 
+The vendors of such devices normally provide some programming blocks for the original graphics programming 
+environment that handle all the details of the communication. 
+</P>
+<P>
+For EV3Basic there is probably no such support available, but normally there is some documentation specifying 
+the low-level communication protocol. Having this information, the Sensor.CommunicateI2C can be used to implement
+any such protocol.
+</P>
+<H3 class="subchapter">Introduction to I2C</H3>
+<P>
+I2C is a communication facility that allows a single master to access multiple slaves on a common bus
+for reading and writing data. In the case of the EV3 each sensor port with its attached sensor device(s)
+can form such a bus. 
+</P>
+<P>
+The communication is done by the master sending a bunch of data bytes to a slave or by requesting
+a bunch of data bytes. The slaves themselves can not initiate any data transfer. Because there can be multiple 
+slaves connected to the bus, the master needs to make clear to which slave it wants to talk. This is done by 
+sending a slave address (a number from 0 to 127) before communication. The designer of the system must 
+make sure that no two slaves on a bus have the same address to avoid conflict.
+</P>
+<P>
+The I2C protocol itself does only provide a means for communication, the meaning of the data is
+totally depending on the devices in question. 
+</P>
+<H3 class="subchapter">CommunicateI2C</H3>
+<P>
+This command of EV3Basic is the only way to access the I2C functionality directly in a raw form.
+It combines the operation of sending an arbitrary number of bytes and receiving some bytes back. 
+Example:
+<pre>
+W[0]=60
+W[1]=70
+W[2]=80
+R=Sensor.CommunicateI2C(1,44,3,4,W)
+</pre>
+This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
+Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
+<H3 class="subchapter">I2C Registers</H3>
+<p>
+The concept of registers is basically not part of the I2C protocol, but this concept is used
+so widely, that it is now a kind of standard way to do communication with many devices.
+On devices that use registers, all data transfer is done by the master writing 
+into the slaves registers or reading data from the registers. A register is basically just 
+a storage location that can hold one byte of data and is accessed via its register number
+(or register 'address' - but using this name will probably lead to confusion because the slaves
+themselves already have an I2C-address).
+</p>
+<p>
+For the sake of simplicity, imagine a device that has 256 registers, with register numbers from 0 to 255 
+that can be written to or read from (in fact you can buy a single chip that does exactly that - 
+it is a 256 byte I2C RAM). The master can write into these registers by sending a data packet that 
+contains the register number in the first byte and the content that should be written there and 
+into the following registers in the subsequent bytes.
+</p>
+<P>
+Reading data from registers is done in two steps. First a data packet containing just the 
+register number is sent to the slave (like a normal write operation with zero data bytes). Then the 
+required number of bytes are requested from the slave (which will have memorized the previously 
+sent register number).
+</p>
+<p>
+Example:  Receive registers 4 - 8 from the slave with address 55 on port 2.
+<pre>
+W[0] = 4
+R = Sensor.CommunicateI2C (2, 55, 1, 5, W)
+</pre>
+</p>
+<p>
+Example: Write into register 99 and 100 of the slave with address 97 on port 1.
+In this case, one byte is unnecessarily received back from the slave because due to a bug/strange behaviour 
+of the EV3 firmware is not possible to have a write operation without a read.
+<pre>
+W[0] = 99
+W[1] = 8
+W[2] = 8
+R = Sensor.CommunicateI2C (1, 97, 3, 1, W)
+</pre>
+</p>
+
+<H3 class="subchapter">Sources of confusion</H3>
+<P>
+Slave address vs. Register address.<br>
+Many device documents refer to the slave address and the register number both just as 'address'. 
+Make sure to understand the difference and what the documentation really means in each case.
+</P>
+<P>
+Slave address is pre-multiplied by 2<br>
+The inner working of the protocol combines the 7 bits of the slave address (values from 0 to 127) with
+a single bit that specifies the direction (read or write) to give 8 bits that need to be transmitted from master to slave.
+Sometimes the developers of a device just write this combined value into the program to save a few processor cycles
+during execution. When this value finds is way into the documentation, a slave address of for example 80 will 
+be written 160 there. It is sometimes quite hard to figure out what the real address is. In doubt you need to 
+write a test program to try if a slave address is valid.
+</P>
+
+
 </BODY>
 </HTML>

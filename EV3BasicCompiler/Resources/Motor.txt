@@ -1,8 +1,34 @@
 // ------------------------------------------ EV3 MODULE: MOTOR ----------------------------------------------
 
+// 4 flags for each daisy-chaining layer
+ARRAY8 MOTORISINVERTED 4     
+// lookup table to quickly mask out the lower-bit of two bits
+ARRAY8 FIRSTOF2  16
+
 init
 {
 	OUTPUT_RESET 0 15
+
+	WRITE8 0 0 MOTORISINVERTED
+	WRITE8 0 1 MOTORISINVERTED
+	WRITE8 0 2 MOTORISINVERTED
+	WRITE8 0 3 MOTORISINVERTED
+	WRITE8 0 0 FIRSTOF2
+	WRITE8 0 1 FIRSTOF2
+	WRITE8 0 2 FIRSTOF2
+	WRITE8 1 3 FIRSTOF2
+	WRITE8 0 4 FIRSTOF2
+	WRITE8 1 5 FIRSTOF2
+	WRITE8 2 6 FIRSTOF2
+	WRITE8 0 7 FIRSTOF2
+	WRITE8 0 8 FIRSTOF2
+	WRITE8 1 9 FIRSTOF2
+	WRITE8 2 10 FIRSTOF2
+	WRITE8 0 11 FIRSTOF2
+	WRITE8 4 12 FIRSTOF2
+	WRITE8 0 13 FIRSTOF2
+	WRITE8 0 14 FIRSTOF2
+	WRITE8 0 15 FIRSTOF2
 }
 
 subcall MOTORDECODEPORTSDESCRIPTOR  //  V
@@ -95,10 +121,13 @@ subcall MOTOR.STOP       // SSV      MOTORDECODEPORTSDESCRIPTOR
 	DATA8 brk
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
+
 	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
     STRINGS COMPARE brake 'TRUE' brk	
 	
 	OUTPUT_STOP layer nos brk
+noport:
 }
 
 
@@ -111,6 +140,7 @@ subcall MOTOR.START      // SFV     MOTORDECODEPORTSDESCRIPTOR
 	DATA8 nos	
 
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
 
 	JR_GTEQF speed -100.0 nottoosmall
 	MOVEF_F -100.0 speed
@@ -123,6 +153,7 @@ nottoobig:
 	MOVEF_8 speed spd
 
     OUTPUT_TIME_SPEED layer nos spd 0 2147483647 0 0
+noport:
 }
 
 subcall MOTOR.STARTPOWER      // SFV     MOTORDECODEPORTSDESCRIPTOR
@@ -134,6 +165,7 @@ subcall MOTOR.STARTPOWER      // SFV     MOTORDECODEPORTSDESCRIPTOR
 	DATA8 nos	
 
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
 	
 	JR_GTEQF power -100.0 nottoosmall
 	MOVEF_F -100.0 power
@@ -146,18 +178,93 @@ nottoobig:
 	MOVEF_8 power pwr
 
     OUTPUT_TIME_POWER layer nos pwr 0 2147483647 0 0
+noport:
 }
 
-subcall MOTOR.STARTSYNC      // SFFV       MOTORDECODEPORTSDESCRIPTOR
+
+
+subcall MOTORSTARTSTEERIMPL      // SFFV       MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+
+	DATA8 layer
+	DATA8 nos	
+	DATA8 first
+	DATA8 second
+	DATA8 invfirst
+	DATA8 invsecond
+
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	READ8 FIRSTOF2 nos first
+	JR_EQ8 0 first not_two_ports
+	XOR8 first nos second
+	READ8 MOTORISINVERTED layer invfirst
+	AND8 first invfirst invfirst
+	READ8 MOTORISINVERTED layer invsecond
+	AND8 second invsecond invsecond
+
+	JR_LTF turn 0.0 second_is_master
+first_is_master:
+	JR_EQ8 invfirst 0 non_invert_first
+	SUBF 0.0 speed speed
+	JR_NEQ8 invsecond 0 done_inversion
+	SUBF 200.0 turn turn
+	JR done_inversion
+non_invert_first:
+	JR_EQ8 invsecond 0 done_inversion
+	SUBF 200.0 turn turn
+	JR done_inversion
+
+second_is_master:
+	JR_EQ8 invsecond 0 non_invert_second
+	SUBF 0.0 speed speed
+	JR_NEQ8 invfirst 0 done_inversion
+	SUBF -200.0 turn turn
+	JR done_inversion
+non_invert_second:
+	JR_EQ8 invfirst 0 done_inversion
+	SUBF -200.0 turn turn
+	JR done_inversion
+
+done_inversion:
+	DATA8 spd  
+	DATA16 trn
+	MOVEF_16 turn trn
+	MOVEF_8 speed spd
+	OUTPUT_STEP_SYNC layer nos spd trn 0 0
+not_two_ports:
+}
+
+subcall MOTOR.STARTSTEER      // SFFV       MOTORSTARTSTEERIMPL
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+
+	JR_GTEQF speed -100.0 nottoosmall1
+	MOVEF_F -100.0 speed
+nottoosmall1:
+	JR_LTEQF speed 100.0 nottoobig1
+	MOVEF_F 100.0 speed
+nottoobig1:
+	JR_GTEQF turn -100.0 nottoosmall2
+	MOVEF_F -100.0 turn
+nottoosmall2:
+	JR_LTEQF turn 100.0 nottoobig2
+	MOVEF_F 100.0 turn
+nottoobig2:
+	
+	MULF turn 2.0 turn
+	CALL MOTORSTARTSTEERIMPL ports speed turn
+}
+
+subcall MOTOR.STARTSYNC      // SFFV       MOTORSTARTSTEERIMPL
 {
 	IN_S ports 8
 	IN_F speed1
 	IN_F speed2
-
-	DATA8 layer
-	DATA8 nos	
-
-	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
 
 	JR_GTEQF speed1 -100.0 nottoosmall1
 	MOVEF_F -100.0 speed1
@@ -172,30 +279,27 @@ nottoosmall2:
 	MOVEF_F 100.0 speed2
 nottoobig2:
 
-	DATA8 spd  
-	DATA16 trn
+	DATAF speed  
+	DATAF turn
 
 	DATAF speed1abs
 	DATAF speed2abs
-	DATAF tmpf
 	MATH ABS speed1 speed1abs
 	MATH ABS speed2 speed2abs
 	JR_LTF speed1abs speed2abs secondisfaster
-	 MOVEF_8 speed1 spd
-	 MULF 100.0 speed2 tmpf
-	 DIVF tmpf speed1 tmpf
-	 SUBF 100.0 tmpf tmpf
-	 MOVEF_16 tmpf trn
+	 MOVEF_F speed1 speed
+	 MULF 100.0 speed2 turn
+	 DIVF turn speed1 turn
+	 SUBF 100.0 turn turn
 	JR donecomputation
 secondisfaster:
-	 MOVEF_8 speed2 spd
-	 MULF 100.0 speed1 tmpf
-	 DIVF tmpf speed2 tmpf
-	 SUBF tmpf 100.0 tmpf
-	 MOVEF_16 tmpf trn
+	 MOVEF_F speed2 speed
+	 MULF 100.0 speed1 turn
+	 DIVF turn speed2 turn
+	 SUBF turn 100.0 turn
 donecomputation:
 
-	OUTPUT_STEP_SYNC layer nos spd trn 0 0
+	CALL MOTORSTARTSTEERIMPL ports speed turn
 }
 
 
@@ -211,11 +315,21 @@ subcall MOTOR.GETSPEED // SF      MOTORDECODEPORTDESCRIPTOR
 	DATA32 tacho
 	
 	CALL MOTORDECODEPORTDESCRIPTOR ports layer no
-	
 	JR_LT8 no 0 no_port
+
 	OUTPUT_READ layer no speed tacho
 	MOVE8_F speed result
+
+	DATA8 nos
+	RL8 1 no nos
+	DATA8 inv
+	READ8 MOTORISINVERTED layer inv 
+	AND8 inv nos inv
+	JR_EQ8 inv 0 noinvert
+	SUBF 0.0 result result
+noinvert:
 	RETURN
+
 no_port:
 	MOVE8_f 0 result
 }
@@ -230,6 +344,7 @@ subcall MOTOR.ISBUSY   // SS    MOTORDECODEPORTSDESCRIPTOR
 	DATA8 busy
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 notbusy
 
 	OUTPUT_TEST layer nos busy
 	JR_EQ8 busy 0 notbusy
@@ -258,6 +373,8 @@ subcall MOTOR.SCHEDULE   // SFFFFSV    MOTORDECODEPORTSDESCRIPTOR
 	DATA8 brk
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
+
 	MOVEF_8 speed spd
 	MATH ABS step1 step1
 	MOVEF_32 step1 stp1
@@ -269,6 +386,7 @@ subcall MOTOR.SCHEDULE   // SFFFFSV    MOTORDECODEPORTSDESCRIPTOR
     STRINGS COMPARE brake 'TRUE' brk	
 
 	OUTPUT_STEP_SPEED layer nos spd stp1 stp2 stp3 brk
+noport:
 }
 
 subcall MOTOR.SCHEDULEPOWER   // SFFFFSV     MOTORDECODEPORTSDESCRIPTOR
@@ -289,6 +407,8 @@ subcall MOTOR.SCHEDULEPOWER   // SFFFFSV     MOTORDECODEPORTSDESCRIPTOR
 	DATA8 brk
 	
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
+
 	MOVEF_8 power pwr
 	MATH ABS step1 step1
 	MOVEF_32 step1 stp1
@@ -300,10 +420,102 @@ subcall MOTOR.SCHEDULEPOWER   // SFFFFSV     MOTORDECODEPORTSDESCRIPTOR
     STRINGS COMPARE brake 'TRUE' brk
 	
 	OUTPUT_STEP_POWER layer nos pwr stp1 stp2 stp3 brk
+noport:
 }
 
 
-subcall MOTOR.SCHEDULESYNC   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
+subcall MOTORSCHEDULESTEERIMPL   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+	IN_F count
+	IN_S brake 8
+	
+	DATA8 layer
+	DATA8 nos	
+	DATA8 first
+	DATA8 second
+	DATA8 invfirst
+	DATA8 invsecond
+	
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	READ8 FIRSTOF2 nos first
+	JR_EQ8 0 first not_two_ports
+	XOR8 first nos second
+	READ8 MOTORISINVERTED layer invfirst
+	AND8 first invfirst invfirst
+	READ8 MOTORISINVERTED layer invsecond
+	AND8 second invsecond invsecond
+
+	JR_LTF turn 0.0 second_is_master
+first_is_master:
+	JR_EQ8 invfirst 0 non_invert_first
+	SUBF 0.0 speed speed
+	JR_NEQ8 invsecond 0 done_inversion
+	SUBF 200.0 turn turn
+	JR done_inversion
+non_invert_first:
+	JR_EQ8 invsecond 0 done_inversion
+	SUBF 200.0 turn turn
+	JR done_inversion
+
+second_is_master:
+	JR_EQ8 invsecond 0 non_invert_second
+	SUBF 0.0 speed speed
+	JR_NEQ8 invfirst 0 done_inversion
+	SUBF -200.0 turn turn
+	JR done_inversion
+non_invert_second:
+	JR_EQ8 invfirst 0 done_inversion
+	SUBF -200.0 turn turn
+	JR done_inversion
+
+done_inversion:
+	DATA32 cnt
+	DATA8 brk
+	MATH ABS count count
+	MOVEF_32 count cnt
+	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE brake 'TRUE' brk	
+
+	JR_LTEQ32 cnt 0 dontmove	
+
+	DATA8 spd  
+	DATA16 trn
+	MOVEF_16 turn trn
+	MOVEF_8 speed spd
+	OUTPUT_STEP_SYNC layer nos spd trn cnt brk	
+dontmove:	
+not_two_ports:
+}
+
+subcall MOTOR.SCHEDULESTEER   // SFFFSV    MOTORSCHEDULESTEERIMPL
+{
+	IN_S ports 8
+	IN_F speed
+	IN_F turn
+	IN_F count
+	IN_S brake 8
+
+	JR_GTEQF speed -100.0 nottoosmall1
+	MOVEF_F -100.0 speed
+nottoosmall1:
+	JR_LTEQF speed 100.0 nottoobig1
+	MOVEF_F 100.0 speed
+nottoobig1:
+	JR_GTEQF turn -100.0 nottoosmall2
+	MOVEF_F -100.0 turn
+nottoosmall2:
+	JR_LTEQF turn 100.0 nottoobig2
+	MOVEF_F 100.0 turn
+nottoobig2:
+	
+	MULF turn 2.0 turn
+	CALL MOTORSCHEDULESTEERIMPL ports speed turn count brake
+}
+
+subcall MOTOR.SCHEDULESYNC   // SFFFSV    MOTORSCHEDULESTEERIMPL
 {
 	IN_S ports 8
 	IN_F speed1
@@ -311,19 +523,6 @@ subcall MOTOR.SCHEDULESYNC   // SFFFSV    MOTORDECODEPORTSDESCRIPTOR
 	IN_F count
 	IN_S brake 8
 	
-	DATA8 layer
-	DATA8 nos
-	DATA8 spd
-	DATA16 trn
-	DATA32 cnt
-	DATA8 brk
-	
-	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
-	MATH ABS count count
-	MOVEF_32 count cnt
-	AND8888_32 brake -538976289 brake        // AND 0xdfdfdfdf performs an upcase for 4 letters
-    STRINGS COMPARE brake 'TRUE' brk	
-
 	JR_GTEQF speed1 -100.0 nottoosmall1
 	MOVEF_F -100.0 speed1
 nottoosmall1:
@@ -337,30 +536,27 @@ nottoosmall2:
 	MOVEF_F 100.0 speed2
 nottoobig2:
 
+	DATAF speed
+	DATAF turn
+	
 	DATAF speed1abs
 	DATAF speed2abs
-	DATAF tmpf
 	MATH ABS speed1 speed1abs
 	MATH ABS speed2 speed2abs
 	JR_LTF speed1abs speed2abs secondisfaster
-	 MOVEF_8 speed1 spd
-	 MULF 100.0 speed2 tmpf
-	 DIVF tmpf speed1 tmpf
-	 SUBF 100.0 tmpf tmpf
-	 MOVEF_16 tmpf trn
+	 MOVEF_F speed1 speed
+	 MULF 100.0 speed2 turn
+	 DIVF turn speed1 turn
+	 SUBF 100.0 turn turn
 	JR donecomputation
 secondisfaster:
-	 MOVEF_8 speed2 spd
-	 MULF 100.0 speed1 tmpf
-	 DIVF tmpf speed2 tmpf
-	 SUBF tmpf 100.0 tmpf
-	 MOVEF_16 tmpf trn
+	 MOVEF_F speed2 speed
+	 MULF 100.0 speed turn
+	 DIVF turn speed turn
+	 SUBF turn 100.0 turn 
 donecomputation:
-
-
-	JR_LTEQ32 cnt 0 dontmove	
-	OUTPUT_STEP_SYNC layer nos spd trn cnt brk	
-dontmove:	
+	
+	CALL MOTORSCHEDULESTEERIMPL ports speed turn count brake
 }
 
 subcall MOTOR.RESETCOUNT    // SV        MOTORDECODEPORTSDESCRIPTOR
@@ -370,8 +566,28 @@ subcall MOTOR.RESETCOUNT    // SV        MOTORDECODEPORTSDESCRIPTOR
 	DATA8 layer
 	DATA8 nos
 	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 noport
 
 	OUTPUT_CLR_COUNT layer nos
+noport:
+}
+
+subcall MOTOR.INVERT      // SV        MOTORDECODEPORTSDESCRIPTOR
+{
+	IN_S ports 8
+	
+	DATA8 layer
+	DATA8 nos
+	CALL MOTORDECODEPORTSDESCRIPTOR ports layer nos
+	JR_EQ8 nos 0 nomotorselected
+
+	OUTPUT_POLARITY layer nos -1
+
+	DATA8 inv
+	READ8 layer MOTORISINVERTED inv
+	OR8 nos inv inv
+	WRITE8 inv layer MOTORISINVERTED 
+nomotorselected:
 }
 
 subcall MOTOR.GETCOUNT    // SF     MOTORDECODEPORTDESCRIPTOR
@@ -388,7 +604,17 @@ subcall MOTOR.GETCOUNT    // SF     MOTORDECODEPORTDESCRIPTOR
 	
 	OUTPUT_GET_COUNT layer no tacho
 	MOVE32_F tacho result
+
+	DATA8 nos
+	RL8 1 no nos
+	DATA8 inv
+	READ8 MOTORISINVERTED layer inv 
+	AND8 inv nos inv
+	JR_EQ8 inv 0 noinvert
+	SUBF 0.0 result result
+noinvert:
 	RETURN
+
 noport:	
 	MOVE8_F 0 result	
 }
@@ -402,6 +628,7 @@ inline MOTOR.MOVE     // SFFSV   MOTOR.SCHEDULE MOTORDECODEPORTDESCRIPTOR
 	DATA8 nos:#
 	DATA8 busy:#
 	CALL MOTORDECODEPORTSDESCRIPTOR :0 layer:# nos:#
+	JR_EQ8 0 nos:# motornotbusy:#
   motorwaiting:#:
 	OUTPUT_TEST layer:# nos:# busy:#
 	JR_EQ8 busy:# 0 motornotbusy:#
@@ -418,6 +645,24 @@ inline MOTOR.MOVEPOWER     // SFFSV   MOTOR.SCHEDULEPOWER MOTORDECODEPORTDESCRIP
 	DATA8 nos:#
 	DATA8 busy:#
 	CALL MOTORDECODEPORTSDESCRIPTOR :0 layer:# nos:#
+	JR_EQ8 0 nos:# motornotbusy:#
+  motorwaiting:#:
+	OUTPUT_TEST layer:# nos:# busy:#
+	JR_EQ8 busy:# 0 motornotbusy:#
+	SLEEP
+	JR motorwaiting:#
+  motornotbusy:#:
+}
+
+inline MOTOR.MOVESTEER     // SFFFSV   MOTOR.SCHEDULESTEER MOTORDECODEPORTDESCRIPTOR
+{
+	CALL MOTOR.SCHEDULESTEER :0 :1 :2 :3 :4
+
+	DATA8 layer:#
+	DATA8 nos:#
+	DATA8 busy:#
+	CALL MOTORDECODEPORTSDESCRIPTOR :0 layer:# nos:#
+	JR_EQ8 0 nos:# motornotbusy:#
   motorwaiting:#:
 	OUTPUT_TEST layer:# nos:# busy:#
 	JR_EQ8 busy:# 0 motornotbusy:#
@@ -434,6 +679,7 @@ inline MOTOR.MOVESYNC     // SFFFSV   MOTOR.SCHEDULESYNC MOTORDECODEPORTDESCRIPT
 	DATA8 nos:#
 	DATA8 busy:#
 	CALL MOTORDECODEPORTSDESCRIPTOR :0 layer:# nos:#
+	JR_EQ8 0 nos:# motornotbusy:#
   motorwaiting:#:
 	OUTPUT_TEST layer:# nos:# busy:#
 	JR_EQ8 busy:# 0 motornotbusy:#

@@ -1,0 +1,27 @@
+' Do some motor movements and measurements, but
+' one of the motors is mounted inverted.
+' This should not bother the rest of the program - 
+' even the speed and count values are adjusted.
+Motor.Invert("A")
+
+LCD.Clear()
+Motor.Start("AB", 50)
+for i=0 to 7
+  LCD.Write(  0,i*16,  Motor.GetSpeed("A") + ":" + Motor.GetCount("A"))
+  LCD.Write(100,i*16,  Motor.GetSpeed("B") + ":" + Motor.GetCount("B"))
+  Program.Delay(200)
+endfor
+Motor.Stop("AB", "False")
+
+Program.Delay(3000)
+
+LCD.Clear()
+Motor.StartSteer("AB", 70, -25)
+for i=0 to 7
+  LCD.Write(  0,i*16,  Motor.GetSpeed("A") + ":" + Motor.GetCount("A"))
+  LCD.Write(100,i*16,  Motor.GetSpeed("B") + ":" + Motor.GetCount("B"))
+  Program.Delay(200)
+endfor
+Motor.Stop("AB", "False")
+
+Program.Delay(3000)

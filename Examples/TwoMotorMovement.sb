@@ -1,6 +1,10 @@
-Y_PREV = 0          ' memorize position of motor C
+' create a coordinate motor movement where
+' motor A has linear increasing position and
+' motor B moves in a sine wave
 
-For X=1 To 360      ' move steps of single degrees
+Y_PREV = 0          ' memorize position of motor B
+
+For X=1 To 3600     ' move steps of single degrees
   Y = 50*Math.Sin(X/180*Math.PI)     ' calculate Y dependent of X
   Y = Math.Round(Y)      ' rounding (motor can only go to integer values)
 
@@ -9,11 +13,11 @@ For X=1 To 360      ' move steps of single degrees
 
   Motor.SchedulePower("A",30,0,1,0,"true")  ' move A by one degree
   
-  If Y_INC>0 Then              ' move motor C either forward
-    Motor.SchedulePower("C",30,0,Y_INC,0,"true")
+  If Y_INC>0 Then              ' move motor B either forward
+    Motor.SchedulePower("B",30,0,Y_INC,0,"true")
   Else                         ' or backwards
-    Motor.SchedulePower("C",-30,0,Y_INC,0,"true")
+    Motor.SchedulePower("B",-30,0,Y_INC,0,"true")
   EndIf
 
-  Motor.Wait("AC")  ' wait until both motors have reached the position
+  Motor.Wait("AB")  ' wait until both motors have reached the position
 EndFor
