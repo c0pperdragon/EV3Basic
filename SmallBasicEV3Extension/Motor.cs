@@ -175,7 +175,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
         /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left) to 100 (rotating right).</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
         public static void StartSteer(Primitive ports, Primitive speed, Primitive turn)
         {
             startsteer(ports, fclamp(speed, -100, 100), 2*fclamp(turn, -100, 100));
@@ -194,12 +194,12 @@ namespace SmallBasicEV3Extension
             double spd1 = fclamp(speed1, -100, 100);
             double spd2 = fclamp(speed2, -100, 100);
 
+            double spd = 0;
+            double trn = 0;
+
             // the computed values that will be needed by the firmware function
             if (spd1 != 0 || spd2 != 0)
             {
-                double spd;
-                double trn;
-
                 // motor with lower letter is faster or equally fast and must become master      
                 if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
                 {
@@ -212,9 +212,9 @@ namespace SmallBasicEV3Extension
                     spd = spd2;
                     trn = -(100 - ((100.0 * spd1) / spd2));
                 }
-
-                startsteer(ports, spd, trn);
             }
+
+            startsteer(ports, spd, trn);
         }
 
 
@@ -402,14 +402,16 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move 2 motors a defined number of degrees using steering synchronization. 
+        /// Move 2 motors a defined number of degrees with a specified speed and relative ratio.
+        /// This ratio is determined by the 'turn' parameter which basically determines
+        /// into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
         /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The distance to move is for the motor with the higher speed.
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left) to 100 (rotating right).</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
         /// <param name="degrees">The angle through which the faster motor should rotate.</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
         public static void ScheduleSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
@@ -434,13 +436,13 @@ namespace SmallBasicEV3Extension
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
             double spd1 = fclamp(speed1, -100, 100);
             double spd2 = fclamp(speed2,-100,100);
-            
+
+            double spd = 0;
+            double trn = 0;
+
             // the computed values that will be needed by the firmware function
             if (spd1 != 0 || spd2 != 0)
             {
-                double spd;
-                double trn;
-
                 // motor with lower letter is faster or equally fast and must become master      
                 if ((spd1 >= 0 ? spd1 : -spd1) >= (spd2 >= 0 ? spd2 : -spd2))
                 {
@@ -453,8 +455,9 @@ namespace SmallBasicEV3Extension
                     spd = spd2;
                     trn = -(100 - ((100.0 * spd1) / spd2));
                 }
-                schedulesteer(ports, spd, trn, degrees, brk);
             }
+
+            schedulesteer(ports, spd, trn, degrees, brk);
         }
 
 
@@ -546,13 +549,15 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Move 2 motors a defined number of degrees with steering synchronization.  
+        /// Move 2 motors a defined number of degrees with a specified speed and relative ratio.
+        /// This ratio is determined by the 'turn' parameter which basically determines
+        /// into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
         /// The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The angle to move is for the motor with the higher speed.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
         /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left) to 100 (rotating right).</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
         /// <param name="degrees">The angle of the faster motor to rotate</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
         public static void MoveSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
@@ -610,7 +615,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Set the polarity (direction) of one or more motors to being inverted. This will affect all future commands that move this motors
+        /// Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors
         /// and also the tacho and speed readings will deliver inverted values.
         /// This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.
         /// You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no 

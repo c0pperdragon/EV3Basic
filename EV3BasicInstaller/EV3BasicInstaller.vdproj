@@ -639,7 +639,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EV3Basic 1.2"
-        "ProductCode" = "8:{92E5C053-7AB0-4D67-BFAC-67DE5D6E8F4E}"
+        "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
         "PackageCode" = "8:{5A324342-1499-415F-883C-E730736021BE}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
         "AspNetVersion" = "8:4.0.30319.0"

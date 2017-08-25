@@ -450,7 +450,7 @@ namespace SmallBasicEV3Extension
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
         /// <param name="registernumber">Number of the first register in the slave to read data from.</param>
-        /// <param name="readbytes">How many register to read.</param>
+        /// <param name="readbytes">How many register to read (maximum 32).</param>
         /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
         public static Primitive ReadI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive readbytes)
         {
@@ -545,7 +545,7 @@ namespace SmallBasicEV3Extension
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
         /// <param name="registernumber">Number of the first register in the slave to write data to.</param>
-        /// <param name="writebytes">How many bytes to write into the regisers.</param>
+        /// <param name="writebytes">How many bytes to write into the registers (maximum 30).</param>
         /// <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
         public static void WriteI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive writebytes, Primitive writedata)
         {

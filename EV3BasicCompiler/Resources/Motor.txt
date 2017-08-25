@@ -281,12 +281,15 @@ nottoobig2:
 
 	DATAF speed  
 	DATAF turn
+	MOVE8_F 0 speed
+	MOVE8_F 0 turn
 
 	DATAF speed1abs
 	DATAF speed2abs
 	MATH ABS speed1 speed1abs
 	MATH ABS speed2 speed2abs
 	JR_LTF speed1abs speed2abs secondisfaster
+	JR_EQF speed1abs 0.0 donecomputation
 	 MOVEF_F speed1 speed
 	 MULF 100.0 speed2 turn
 	 DIVF turn speed1 turn
@@ -536,14 +539,17 @@ nottoosmall2:
 	MOVEF_F 100.0 speed2
 nottoobig2:
 
-	DATAF speed
+	DATAF speed  
 	DATAF turn
-	
+	MOVE8_F 0 speed
+	MOVE8_F 0 turn
+
 	DATAF speed1abs
 	DATAF speed2abs
 	MATH ABS speed1 speed1abs
 	MATH ABS speed2 speed2abs
 	JR_LTF speed1abs speed2abs secondisfaster
+	JR_EQF speed1abs 0.0 donecomputation
 	 MOVEF_F speed1 speed
 	 MULF 100.0 speed2 turn
 	 DIVF turn speed1 turn
@@ -551,9 +557,9 @@ nottoobig2:
 	JR donecomputation
 secondisfaster:
 	 MOVEF_F speed2 speed
-	 MULF 100.0 speed turn
-	 DIVF turn speed turn
-	 SUBF turn 100.0 turn 
+	 MULF 100.0 speed1 turn
+	 DIVF turn speed2 turn
+	 SUBF turn 100.0 turn
 donecomputation:
 	
 	CALL MOTORSCHEDULESTEERIMPL ports speed turn count brake

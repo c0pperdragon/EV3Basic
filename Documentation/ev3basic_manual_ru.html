@@ -562,6 +562,10 @@
 <P class="parametersummary">Порт мотора</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Текущая скорость в диапазоне от -100 до 100</P>
+<H3 class="operation">Motor.Invert (ports)</H3>
+<P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no<BR>way to disable the inversion later on.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Motor port name(s)</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
 <P class="operationsummary">Проверить один или несколько моторов на занятость.</P>
 <H4 class="parameter">ports</H4>
@@ -588,6 +592,18 @@
 <P class="parametersummary">Угол поворота</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<H3 class="operation">Motor.MoveSteer (ports, speed, turn, degrees, brake)</H3>
+<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The angle to move is for the motor with the higher speed.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The angle of the faster motor to rotate</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
 <H3 class="operation">Motor.MoveSync (ports, speed1, speed2, degrees, brake)</H3>
 <P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для колесных роботов - для возможнрости сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.</P>
 <H4 class="parameter">ports</H4>
@@ -632,6 +648,18 @@
 <P class="parametersummary">зона3: часть общего угла поворота мотора, в пределах которой мотор плавно замедляется до полной остановки</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<H3 class="operation">Motor.ScheduleSteer (ports, speed, turn, degrees, brake)</H3>
+<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move is for the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">The angle through which the faster motor should rotate.</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement.</P>
 <H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
 <P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для колесных роботов - для возможности сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - испольузйте Wait().</P>
 <H4 class="parameter">ports</H4>
@@ -656,6 +684,14 @@
 <P class="parametersummary">Порт(ы) моторов</P>
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Мощность от -100 (полный назад) до 100 (полный вперед).</P>
+<H3 class="operation">Motor.StartSteer (ports, speed, turn)</H3>
+<P class="operationsummary">Set two motors to run with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Name of two motor ports (for example "AB" or "CD").</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
 <H3 class="operation">Motor.StartSync (ports, speed1, speed2)</H3>
 <P class="operationsummary">Синхронно запустить два мотора с указанными скоростями в режиме контроля за их вращением.<BR>Если один мотор будет испытывать нагрузку, которая замедлит его скорость, второй мотор пропорционально замедлится, чтобы сохранить траекторию движения.</P>
 <H4 class="parameter">ports</H4>
@@ -732,6 +768,28 @@
 <P class="parametersummary">Номер порта датчика</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">"True" если датчик занят (не доступен)</P>
+<H3 class="operation">Sensor.ReadI2CRegister (port, address, registernumber)</H3>
+<P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Number of register in the slave to read data from.</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The content of the register</P>
+<H3 class="operation">Sensor.ReadI2CRegisters (port, address, registernumber, readbytes)</H3>
+<P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Number of the first register in the slave to read data from.</P>
+<H4 class="parameter">readbytes</H4>
+<P class="parametersummary">How many register to read (maximum 32).</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Прочитать текущее показание датчика с отображением его в процентах (0..100).<BR>Большинство датчиков могут перевести свои показания в проценты, например у датчика нажатия 0 - не нажат, 100 - нажат.</P>
 <H4 class="parameter">port</H4>
@@ -772,6 +830,28 @@
 <P class="operationsummary">Дождаться, пока датчик не переключится в новый режим или не инициализируется. <BR>Обычно тебе не нужно использовать эту команду, так как SetMode() дожидается смены режима.<BR>Если ты используешь параллельные задачи - без этой команды не обойтись - в ней датчик мог менять режим и стать на время недоступным.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
+<H3 class="operation">Sensor.WriteI2CRegister (port, address, registernumber, value)</H3>
+<P class="operationsummary">This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Number of the register in the slave to write data to.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Value to write into the register.</P>
+<H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writebytes, writedata)</H3>
+<P class="operationsummary">This command addresses one device on the I2C-bus and tries to write the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Number of the sensor port</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Number of the first register in the slave to write data to.</P>
+<H4 class="parameter">writebytes</H4>
+<P class="parametersummary">How many bytes to write into the registers (maximum 30).</P>
+<H4 class="parameter">writedata</H4>
+<P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
 <H2 class="object">Speaker</H2>
 <P class="objectsummary">Использование динамика на блоке EV3 для воспроизведения тонов, нот или звуковых файлов.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>

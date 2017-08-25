@@ -822,6 +822,10 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Motor port name</P>
 <H4 class="returns">Rückgabewert</H4>
 <P class="returnssummary">Aktuelle Geschwindigkeit im Bereich -100 bis 100</P>
+<H3 class="operation">Motor.Invert (ports)</H3>
+<P class="operationsummary">Invertiert the Bedeutung von Vorwärts und Rückwärts eines oder mehrerer Motoren. Alle späteren Motor-Befehle<BR>werden dann mit umgekehrter Richtung ausgeführt, und auch die Befehle zum Auslesen des Umdrehungszählers und <BR>der Geschwindkeit funktionieren umgekehrt.<BR>Diese Funktion ist nützlich, wenn man einen Motor umgekehrt in ein Modell einbaut und den Rest des <BR>Programm nicht änderen muss. Ein einmaliger Aufruf von Invert ganz am Anfang des Programms kann die Umkehrung<BR>kompensieren.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Name des/der Motor-Ports</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
 <P class="operationsummary">Prüft, ob einer oder mehrere Motoren gerade aktiv laufen.</P>
 <H4 class="parameter">ports</H4>
@@ -848,6 +852,18 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Der Winkel den der Motor drehen soll</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</P>
+<H3 class="operation">Motor.MoveSteer (ports, speed, turn, degrees, brake)</H3>
+<P class="operationsummary">Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.<BR>Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.<BR>Dieser Befehl blockiert so lange bis die Bewegung abgeschlossen ist.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Name der beiden Motor-Ports</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">Der Winkel, den der schnellere Motor zurücklegen soll</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</P>
 <H3 class="operation">Motor.MoveSync (ports, speed1, speed2, degrees, brake)</H3>
 <P class="operationsummary">Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für ein Fahrzeug mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.<BR>Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.<BR>Dieser Befehl blockiert so lange bis die Bewegung abgeschlossen ist.</P>
 <H4 class="parameter">ports</H4>
@@ -861,7 +877,7 @@ Sie sind hier aber nicht beschrieben.
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</P>
 <H3 class="operation">Motor.ResetCount (ports)</H3>
-<P class="operationsummary">Setzen den Rotationszähler eines oder mehrerer Motoren auf 0 zurück.</P>
+<P class="operationsummary">Setzt den Rotationszähler eines oder mehrerer Motoren auf 0 zurück.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Name des/der Motor-Ports</P>
 <H3 class="operation">Motor.Schedule (ports, speed, degrees1, degrees2, degrees3, brake)</H3>
@@ -892,8 +908,20 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Der Teil der Rotation für das Abbremsen</P>
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", wenn der Motor die elektrische Bremse benutzen soll.</P>
-<H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
+<H3 class="operation">Motor.ScheduleSteer (ports, speed, turn, degrees, brake)</H3>
 <P class="operationsummary">Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.<BR>Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Name der beiden Motor-Ports</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</P>
+<H4 class="parameter">degrees</H4>
+<P class="parametersummary">Der Winkel, den der schnellere Motor zurücklegen soll</P>
+<H4 class="parameter">brake</H4>
+<P class="parametersummary">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</P>
+<H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
+<P class="operationsummary">Dreht 2 Motoren mit einem fixen Geschwindigkeitsverhältnis einen gewünschten Winkel weit.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.<BR>Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Name der beiden Motor-Ports</P>
 <H4 class="parameter">speed1</H4>
@@ -916,6 +944,14 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Name des/der Motor-Ports</P>
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Leistung von -100 (maximal rückwärts) bis 100 (maximal vorwärts).</P>
+<H3 class="operation">Motor.StartSteer (ports, speed, turn)</H3>
+<P class="operationsummary">Startet zwei Motoren, die synchronisiert mit fixem Geschwindigkeitsverhältnis laufen.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.</P>
+<H4 class="parameter">ports</H4>
+<P class="parametersummary">Name der beiden Motor-Ports</P>
+<H4 class="parameter">speed</H4>
+<P class="parametersummary">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</P>
+<H4 class="parameter">turn</H4>
+<P class="parametersummary">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</P>
 <H3 class="operation">Motor.StartSync (ports, speed1, speed2)</H3>
 <P class="operationsummary">Startet zwei Motoren, die synchronisiert mit jeweils einstellbaren Geschwindigkeiten laufen.<BR>Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.</P>
 <H4 class="parameter">ports</H4>
@@ -992,6 +1028,28 @@ Sie sind hier aber nicht beschrieben.
 <P class="parametersummary">Nummer des Sensor-Ports</P>
 <H4 class="returns">Rückgabewert</H4>
 <P class="returnssummary">"True", wenn der Sensor gerade noch beschäftigt ist</P>
+<H3 class="operation">Sensor.ReadI2CRegister (port, address, registernumber)</H3>
+<P class="operationsummary">Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.<BR>Dieser Befehl liest den Wert eines einzelnen Geräte-Registers aus (sofern das Gerät die Kommunikation über Register unterstützt).<BR>Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Nummer des Sensor-Ports</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Die Nummer (0 - 255) des zu lesenden Registers.</P>
+<H4 class="returns">Rückgabewert</H4>
+<P class="returnssummary">Den gelesen Registerwert (0-255).</P>
+<H3 class="operation">Sensor.ReadI2CRegisters (port, address, registernumber, readbytes)</H3>
+<P class="operationsummary">Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.<BR>Dieser Befehl liest den Wert mehrerer Geräte-Registers aus (sofern das Gerät die Kommunikation über Register unterstützt).<BR>Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Nummer des Sensor-Ports</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Die Nummer (0 - 255) des zu lesenden Registers.</P>
+<H4 class="parameter">readbytes</H4>
+<P class="parametersummary">Die Anzahl der zu lesenden Register (maximal 32)</P>
+<H4 class="returns">Rückgabewert</H4>
+<P class="returnssummary">Ein Array mit den empfangenen Bytes.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Liest einen einzelnen Wert und rechnet ihn in eine sinnvolle Prozentangabe um.<BR>Viele Sensoren können ihre gelesenen Werte in einen einzelnen Wert umrechnen, wie z.B. Lichtintenität oder den Zustand eines Tastknopfes.</P>
 <H4 class="parameter">port</H4>
@@ -1032,6 +1090,28 @@ Sie sind hier aber nicht beschrieben.
 <P class="operationsummary">Wartet, bis ein Sensor seinen Moduswechsel abgeschlossen hat. Wenn kein Sensor am angegebenen Port angeschlossen ist, kehrt der Befehl sofort zurück.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Nummer des Sensor-Ports</P>
+<H3 class="operation">Sensor.WriteI2CRegister (port, address, registernumber, value)</H3>
+<P class="operationsummary">Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.<BR>Dieser Befehl schreibt den Wert eines einzelnen Geräte-Registers (sofern das Gerät die Kommunikation über Register unterstützt).<BR>Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Nummer des Sensor-Ports</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Die Nummer (0 - 255) des zu beschreibenden Registers.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Der Wert (0 - 255), der in das Register geschrieben werden soll.</P>
+<H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writebytes, writedata)</H3>
+<P class="operationsummary">Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.<BR>Dieser Befehl beschreibt schreibt den Wert mehrerer Geräte-Register (sofern das Gerät die Kommunikation über Register unterstützt).<BR>Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.</P>
+<H4 class="parameter">port</H4>
+<P class="parametersummary">Nummer des Sensor-Ports</P>
+<H4 class="parameter">address</H4>
+<P class="parametersummary">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</P>
+<H4 class="parameter">registernumber</H4>
+<P class="parametersummary">Die Nummer (0 - 255) des ersten zu beschreibenden Registers.</P>
+<H4 class="parameter">writebytes</H4>
+<P class="parametersummary">Wie Anzahl der zu beschreibenden Register (maximal 30).</P>
+<H4 class="parameter">writedata</H4>
+<P class="parametersummary">Ein Array mit den zu schreibenden Werten.</P>
 <H2 class="object">Speaker</H2>
 <P class="objectsummary">Der eingebaute Lautsprecher des Bricks kann einfache Töne oder Geräuscheffekte abspielen.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>

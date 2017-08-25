@@ -60,7 +60,7 @@ namespace Documentation
                      Documentation.Properties.Resources.ManualFR,
                      Documentation.Properties.Resources.AppendixFR,
                      Documentation.Properties.Resources.I2C,
-                     "Returns",
+                     "résultats",
                      "Propriété",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manuel.html"
                      );

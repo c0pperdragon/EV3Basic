@@ -789,5 +789,100 @@
             <param name="B">Матрица В размера k * столбцов</param>
             <returns>Матрица, содержащая результаты умножения</returns>
         </member>
+
+      <member name="M:SmallBasicEV3Extension.Motor.StartSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Set two motors to run with a specified speed and relative ratio.
+          This ratio is determined by the 'turn' parameter which basically determines
+          into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
+          The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+          The motors will keep running until stopped by another command.
+        </summary>
+        <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
+        <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</param>
+        <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Motor.ScheduleSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Move 2 motors a defined number of degrees with a specified speed and relative ratio.
+          This ratio is determined by the 'turn' parameter which basically determines
+          into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
+          The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+          The distance to move is for the motor with the higher speed.
+          This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
+        </summary>
+        <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
+        <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
+        <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
+        <param name="degrees">The angle through which the faster motor should rotate.</param>
+        <param name="brake">"True", if the motors should switch on the brake after movement.</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Motor.MoveSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Move 2 motors a defined number of degrees with a specified speed and relative ratio.
+          This ratio is determined by the 'turn' parameter which basically determines
+          into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).
+          The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
+          The angle to move is for the motor with the higher speed.
+        </summary>
+        <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
+        <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
+        <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
+        <param name="degrees">The angle of the faster motor to rotate</param>
+        <param name="brake">"True", if the motors should switch on the brake after movement</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Motor.Invert(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors
+          and also the tacho and speed readings will deliver inverted values.
+          This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.
+          You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no
+          way to disable the inversion later on.
+        </summary>
+        <param name="ports">Motor port name(s)</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Sensor.ReadI2CRegister(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.
+          Note that this command does not work over daisy-chaining.
+        </summary>
+        <param name="port">Number of the sensor port</param>
+        <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        <param name="registernumber">Number of register in the slave to read data from.</param>
+        <returns>The content of the register</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Sensor.ReadI2CRegisters(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.
+          Note that this command does not work over daisy-chaining.
+        </summary>
+        <param name="port">Number of the sensor port</param>
+        <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        <param name="registernumber">Number of the first register in the slave to read data from.</param>
+        <param name="readbytes">How many register to read (maximum 32).</param>
+        <returns>An array holding the requested number of values. Index starts at 0.</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Sensor.WriteI2CRegister(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.
+          Note that this command does not work over daisy-chaining.
+        </summary>
+        <param name="port">Number of the sensor port</param>
+        <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        <param name="registernumber">Number of the register in the slave to write data to.</param>
+        <param name="value">Value to write into the register.</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Sensor.WriteI2CRegisters(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          This command addresses one device on the I2C-bus and tries to write the values of multiple registers of a connected I2C slave.
+          Note that this command does not work over daisy-chaining.
+        </summary>
+        <param name="port">Number of the sensor port</param>
+        <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
+        <param name="registernumber">Number of the first register in the slave to write data to.</param>
+        <param name="writebytes">How many bytes to write into the registers (maximum 30).</param>
+        <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
+      </member>
+
     </members>
 </doc>

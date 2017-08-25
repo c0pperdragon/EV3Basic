@@ -381,7 +381,16 @@
             </summary>
             <param name="ports">Name der beiden Motor-Ports</param>
             <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
-			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+			      <param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Motor.StartSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Startet zwei Motoren, die synchronisiert mit fixem Geschwindigkeitsverhältnis laufen.
+            Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit mit unabhängig angetriebenen Rädern, das aber trotzdem gerade oder eine definierte Kurve fahren soll.
+         </summary>
+         <param name="ports">Name der beiden Motor-Ports</param>
+         <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</param>
+         <param name="turn">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</param>
         </member>
         <member name="M:SmallBasicEV3Extension.Motor.GetSpeed(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
@@ -425,19 +434,31 @@
         </member>
         <member name="M:SmallBasicEV3Extension.Motor.ScheduleSync(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
+            Dreht 2 Motoren mit einem fixen Geschwindigkeitsverhältnis einen gewünschten Winkel weit.
             Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.
             Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
             </summary>
             <param name="ports">Name der beiden Motor-Ports</param>
             <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
-			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+            <param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
             <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
             <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
         </member>
-        <member name="M:SmallBasicEV3Extension.Motor.ResetCount(Microsoft.SmallBasic.Library.Primitive)">
+      <member name="M:SmallBasicEV3Extension.Motor.ScheduleSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
+          Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.
+          Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
+        </summary>
+        <param name="ports">Name der beiden Motor-Ports</param>
+        <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</param>
+        <param name="turn">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</param>
+        <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
+        <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Motor.ResetCount(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Setzen den Rotationszähler eines oder mehrerer Motoren auf 0 zurück.
+            Setzt den Rotationszähler eines oder mehrerer Motoren auf 0 zurück.
             </summary>
             <param name="ports">Name des/der Motor-Ports</param>
         </member>
@@ -480,18 +501,43 @@
             </summary>
             <param name="ports">Name der beiden Motor-Ports</param>
             <param name="speed1">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem niedrigeren Port-Namen (A vor B, etc.).</param>
-			<param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
+			      <param name="speed2">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des Motors mit dem höheren Port-Namen (A vor B, etc.).</param>
             <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
             <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
         </member>
-        <member name="M:SmallBasicEV3Extension.Motor.Wait(Microsoft.SmallBasic.Library.Primitive)">
+      <member name="M:SmallBasicEV3Extension.Motor.MoveSteer(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Dreht 2 Motoren synchronisiert einen gewünschten Winkel weit.
+          Synchronisiert bedeutet, dass die Regelung immer versucht, das Geschwindigkeitsverhältnis beizubehalten, auch wenn ein Motor gebremst wird. In diesem Fall wird der zweite Motor automatisch auch langsamer. Das ist besonders nützlich für Fahrzeuge mit unabhängig angetriebenen Rädern, die aber trotzdem gerade oder eine definierte Kurve fahren sollen.
+          Der Winkel für die Gesamtrotation wird immer beim Motor mit der höheren Geschwindigkeit gemessen.
+          Dieser Befehl blockiert so lange bis die Bewegung abgeschlossen ist.
+        </summary>
+        <param name="ports">Name der beiden Motor-Ports</param>
+        <param name="speed">Geschwindigkeit von -100 (maximal rückwärts) bis 100 (maximal vorwärts) des schnelleren Motors.</param>
+        <param name="turn">Kurvenform von -100 (im Stehen links drehen) bis 100 (im Stehen rechts drehen).</param>
+        <param name="degrees">Der Winkel, den der schnellere Motor zurücklegen soll</param>
+        <param name="brake">"True", wenn die Motoren die elektrische Bremse benutzen sollen.</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Motor.Wait(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Wartet bis ein oder mehrere Motoren ihre Bewegung abgeschlossen habe.			
             Dieses Kommando zu benutzen ist normalerweise besser als IsBusy() in einer Schleife abzufragen.
             </summary>
             <param name="ports">Name des/der Motor-Ports</param>
+      </member>
+        <member name="M:SmallBasicEV3Extension.Motor.Invert(Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Invertiert the Bedeutung von Vorwärts und Rückwärts eines oder mehrerer Motoren. Alle späteren Motor-Befehle
+            werden dann mit umgekehrter Richtung ausgeführt, und auch die Befehle zum Auslesen des Umdrehungszählers und 
+            der Geschwindkeit funktionieren umgekehrt.
+            Diese Funktion ist nützlich, wenn man einen Motor umgekehrt in ein Modell einbaut und den Rest des 
+            Programm nicht änderen muss. Ein einmaliger Aufruf von Invert ganz am Anfang des Programms kann die Umkehrung
+            kompensieren.
+          </summary>
+          <param name="ports">Name des/der Motor-Ports</param>
         </member>
-		<member name="T:SmallBasicEV3Extension.Sensor">
+
+        <member name="T:SmallBasicEV3Extension.Sensor">
             <summary>
             Steuert die angeschlossenen Sensoren.
             Um einen Sensor-Port zu adressieren, verwendet man die Portnummer, die unterhalb des Ports aufgedruckt ist (z.B. 1). Um Ports anderer EV3-Bricks, die mit dem Haupt-Brick verbunden sind, anzusprechen, verwendet man die nächst höheren Nummern (5 - 8 für die Sensor-Ports des ersten angeschlossenen Bricks, 9-12 für die des nächsten, und so weiter).
@@ -578,6 +624,52 @@
             <param name="readbytes">Anzahl der Bytes, die empfangen werden sollen (maximal 32, minimal 1).</param>
             <param name="writedata">Array mit den zu sendenden Bytes.</param>
             <returns>Ein Array mit den empfangenen Bytes.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.ReadI2CRegister(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.
+            Dieser Befehl liest den Wert eines einzelnen Geräte-Registers aus (sofern das Gerät die Kommunikation über Register unterstützt).
+            Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.
+          </summary>
+          <param name="port">Nummer des Sensor-Ports</param>
+          <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
+          <param name="registernumber">Die Nummer (0 - 255) des zu lesenden Registers.</param>
+          <returns>Den gelesen Registerwert (0-255).</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.ReadI2CRegisters(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.
+            Dieser Befehl liest den Wert mehrerer Geräte-Registers aus (sofern das Gerät die Kommunikation über Register unterstützt).
+            Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.
+          </summary>
+          <param name="port">Nummer des Sensor-Ports</param>
+          <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
+          <param name="registernumber">Die Nummer (0 - 255) des zu lesenden Registers.</param>
+          <param name="readbytes">Die Anzahl der zu lesenden Register (maximal 32)</param>
+          <returns>Ein Array mit den empfangenen Bytes.</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.WriteI2CRegister(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.
+            Dieser Befehl schreibt den Wert eines einzelnen Geräte-Registers (sofern das Gerät die Kommunikation über Register unterstützt).
+            Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.
+          </summary>
+          <param name="port">Nummer des Sensor-Ports</param>
+          <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
+          <param name="registernumber">Die Nummer (0 - 255) des zu beschreibenden Registers.</param>
+          <param name="value">Der Wert (0 - 255), der in das Register geschrieben werden soll.</param>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Sensor.WriteI2CRegisters(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+            Kommuniziert mit Geräten (nicht unbedingt nur Sensoren), die an einem Sensor-Port angeschlossen sind und das I2C-Protokoll verwenden.
+            Dieser Befehl beschreibt schreibt den Wert mehrerer Geräte-Register (sofern das Gerät die Kommunikation über Register unterstützt).
+            Achtung: Dieser Befehl funktioniert nicht bei EV3-Bricks, die an einem Haupt-Brick angeschlossen und von diesem gesteuert werden.
+          </summary>
+          <param name="port">Nummer des Sensor-Ports</param>
+          <param name="address">Adresse (0 - 127) des I2C-Slaves am I2C-Bus</param>
+          <param name="registernumber">Die Nummer (0 - 255) des ersten zu beschreibenden Registers.</param>
+          <param name="writebytes">Wie Anzahl der zu beschreibenden Register (maximal 30).</param>
+          <param name="writedata">Ein Array mit den zu schreibenden Werten.</param>
         </member>
         <member name="M:SmallBasicEV3Extension.Sensor.SendUARTData(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>

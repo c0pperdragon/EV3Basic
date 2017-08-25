@@ -835,7 +835,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Current speed in range -100 to 100</P>
 <H3 class="operation">Motor.Invert (ports)</H3>
-<P class="operationsummary">Set the polarity (direction) of one or more motors to being inverted. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no <BR>way to disable the inversion later on.</P>
+<P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no <BR>way to disable the inversion later on.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
@@ -865,13 +865,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
 <H3 class="operation">Motor.MoveSteer (ports, speed, turn, degrees, brake)</H3>
-<P class="operationsummary">Move 2 motors a defined number of degrees with steering synchronization.  <BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The angle to move is for the motor with the higher speed.</P>
+<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The angle to move is for the motor with the higher speed.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed</H4>
 <P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left) to 100 (rotating right).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">The angle of the faster motor to rotate</P>
 <H4 class="parameter">brake</H4>
@@ -921,13 +921,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">brake</H4>
 <P class="parametersummary">"True", if the motor(s) should switch on the brake after movement</P>
 <H3 class="operation">Motor.ScheduleSteer (ports, speed, turn, degrees, brake)</H3>
-<P class="operationsummary">Move 2 motors a defined number of degrees using steering synchronization. <BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move is for the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
+<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move is for the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed</H4>
 <P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left) to 100 (rotating right).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">The angle through which the faster motor should rotate.</P>
 <H4 class="parameter">brake</H4>
@@ -963,7 +963,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">speed</H4>
 <P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left) to 100 (rotating right).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
 <H3 class="operation">Motor.StartSync (ports, speed1, speed2)</H3>
 <P class="operationsummary">Set two motors to run synchronized at their chosen speed levels. <BR>The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
 <H4 class="parameter">ports</H4>
@@ -1059,7 +1059,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">registernumber</H4>
 <P class="parametersummary">Number of the first register in the slave to read data from.</P>
 <H4 class="parameter">readbytes</H4>
-<P class="parametersummary">How many register to read.</P>
+<P class="parametersummary">How many register to read (maximum 32).</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
@@ -1121,7 +1121,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">registernumber</H4>
 <P class="parametersummary">Number of the first register in the slave to write data to.</P>
 <H4 class="parameter">writebytes</H4>
-<P class="parametersummary">How many bytes to write into the regisers.</P>
+<P class="parametersummary">How many bytes to write into the registers (maximum 30).</P>
 <H4 class="parameter">writedata</H4>
 <P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
 <H2 class="object">Speaker</H2>
