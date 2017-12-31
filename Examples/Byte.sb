@@ -1,0 +1,27 @@
+' do some byte operations and check for correct results
+
+' simple bit operations
+Assert.Equal( Byte.NOT(33,), 222, "")
+Assert.Equal( Byte.NOT(255,), 0, "")
+Assert.Equal( Byte.AND_(33,15), 1, "")
+Assert.Equal( Byte.OR_(16,3), 19, "")
+Assert.Equal( Byte.XOR(16,255), 239, "")
+Assert.Equal( Byte.XOR(16,16), 0, "")
+Assert.Equal( Byte.BIT(31,1), 1, "")
+Assert.Equal( Byte.BIT(31,5), 0, "")
+Assert.Equal( Byte.SHL(31,2), 31*4, "")
+Assert.Equal( Byte.SHL(127,7), 128, "")
+Assert.Equal( Byte.SHR(31,2), 7, "")
+Assert.Equal( Byte.SHR(127,5), 3, "")
+
+' conversion
+Assert.Equal( Byte.FromBinary("00110010"), 50, "")
+Assert.Equal( Byte.FromBinary("011"), 3, "")
+Assert.Equal( Byte.FromHex("FF"), 255, "")
+Assert.Equal( Byte.FromHex("D3"), 211, "")
+Assert.Equal( Byte.ToBinary(50), "00110010", "")
+Assert.Equal( Byte.ToBinary(3), "011", "")
+Assert.Equal( Byte.ToHex(255), "FF", "")
+Assert.Equal( Byte.ToHex(211), "D3", "")
+
+

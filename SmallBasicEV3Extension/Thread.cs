@@ -1,5 +1,5 @@
 ﻿/*  EV3-Basic: A basic compiler to target the Lego EV3 brick
-    Copyright (C) 2015 Reinhard Grafl
+    Copyright (C) 2017 Reinhard Grafl
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 
 using Microsoft.SmallBasic.Library;
 
@@ -56,7 +55,7 @@ namespace SmallBasicEV3Extension
                 {
                     if (!triggeredThreads.ContainsKey(value))
                     {
-                        triggeredThreads[value] = new Thread(value);
+                        triggeredThreads[value] = new Thread(value, "EV3-"+triggeredThreads.Count);
                     }
                     triggeredThreads[value].Trigger();
                 }
@@ -108,7 +107,7 @@ namespace SmallBasicEV3Extension
                     // try to aquire a lock.  if not ready, must wait until it gets released
                     while (locks[idx])
                     {
-                        Monitor.Wait(locks);
+                        System.Threading.Monitor.Wait(locks);
                     }
                     locks[idx] = true;
                     return;
@@ -133,7 +132,7 @@ namespace SmallBasicEV3Extension
                 if (idx >= 0 && idx < locks.Count())
                 {
                     locks[idx] = false;
-                    Monitor.PulseAll(locks);
+                    System.Threading.Monitor.PulseAll(locks);
                 }
             }
         }
@@ -143,11 +142,13 @@ namespace SmallBasicEV3Extension
         private SmallBasicCallback callback;
         private int triggerCount;
 
-        private Thread(SmallBasicCallback callback)
+        private Thread(SmallBasicCallback callback, String name)
         {
             this.callback = callback;
             this.triggerCount = 0;
-            (new System.Threading.Thread(run)).Start();
+            System.Threading.Thread t = new System.Threading.Thread(run);
+            t.Name = name;
+            t.Start();
         }
 
         private void Trigger()
@@ -155,7 +156,7 @@ namespace SmallBasicEV3Extension
             lock (this)
             {
                 triggerCount++;
-                Monitor.PulseAll(this);
+                System.Threading.Monitor.PulseAll(this);
             }
         }
 
@@ -174,7 +175,7 @@ namespace SmallBasicEV3Extension
                     }
                     else
                     {
-                        Monitor.Wait(this);
+                        System.Threading.Monitor.Wait(this);
                     }
                 }
                 // when a trigger is detected, run the basic thread once

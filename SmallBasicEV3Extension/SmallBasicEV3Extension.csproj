@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="Buttons.cs" />
+    <Compile Include="Byte.cs" />
     <Compile Include="EV3File.cs" />
+    <Compile Include="F.cs" />
     <Compile Include="LCD.cs" />
     <Compile Include="EV3.cs" />
     <Compile Include="Motor.cs" />

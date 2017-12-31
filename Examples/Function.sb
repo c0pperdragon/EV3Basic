@@ -1,0 +1,17 @@
+
+F.Start = HANOI
+F.Function("HANOI", "FROM:STRING TO:STRING TMP:STRING DISKS:NUMBER", "NUMBER")
+Sub HANOI
+  If F.Get("DISKS") <2 then
+    F.Return(F.Get("FROM") + F.Get("TO")+ ",")
+  Else
+    F.Set("V1", F.Call4("HANOI", F.Get("FROM"), F.Get("TMP"), F.Get("TO"), F.Get("DISKS")-1))
+    F.Set("V2", F.Call2("HANOI", F.Get("FROM"), F.Get("TO")))
+    F.Set("V3", F.Call4("HANOI", F.Get("TMP"), F.Get("TO"), F.Get("FROM"), F.Get("DISKS")-1))
+    F.Return(F.Get("V1")+F.Get("V2")+F.Get("V3"))
+  EndIf
+EndSub
+
+MOVES = F.Call4("HANOI", "A", "B", "C", 5)
+Assert.Equal(MOVES,"AB,AC,BC,AB,CA,CB,AB,AC,BC,BA,CA,BC,AB,AC,BC,AB,CA,CB,AB,CA,BC,BA,CA,CB,AB,AC,BC,AB,CA,CB,AB,", "")
+

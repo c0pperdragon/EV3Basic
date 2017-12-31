@@ -78,7 +78,9 @@
     <None Include="Resources\AppendixFR.txt" />
     <None Include="Resources\ManualFR.txt" />
     <None Include="Resources\ManualES.txt" />
-    <Content Include="SmallBasicEV3Extension.de.XML" />
+    <Content Include="SmallBasicEV3Extension.de.XML">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SmallBasicEV3Extension.es.XML" />
     <Content Include="SmallBasicEV3Extension.fr.XML" />
   </ItemGroup>
