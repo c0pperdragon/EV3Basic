@@ -24,22 +24,26 @@ using Microsoft.SmallBasic.Library;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// A framework to create true functions with parameters and local variables.
+    /// A framework to create functions with parameters and local variables in Small Basic.
+    /// Functions can be defined by use of the F.Function command and can be later called with one of the F.Call - commands.
     /// </summary>
     [SmallBasicType]
     public static class F
     {
-        static SmallBasicCallback sub = null;
+        static SmallBasicCallback start = null;
         static Dictionary<String, FunctionDefinition> functions = new Dictionary<String, FunctionDefinition>();
         static Dictionary<String, List<StackFrame>> stacks = new Dictionary<String, List<StackFrame>>();
 
+        /// <summary>
+        /// This property must be set to a subprogram before a subsequent F.Function operation is done to actually define the function.
+        /// </summary>
         public static event SmallBasicCallback Start
         {
             add
             {
                 lock (functions)
                 {
-                    sub = value;
+                    start = value;
                 }
             }
             remove
@@ -47,45 +51,83 @@ namespace SmallBasicEV3Extension
             }
         }
 
-        public static void Function(Primitive name, Primitive parameterdefinitions, Primitive returntype)
+        /// <summary>
+        /// Define a named function with call parameters and a return value. 
+        /// Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.
+        /// </summary>
+        /// <param name="name">The name for the function (needs to be a string literal)</param>
+        /// <param name="parameterdefinitions">A string that holds a sequence of parameter names and default values</param>
+        /// <param name="defaultreturn">The default to be used as return value (when the function does not itself assign  a value)</param>
+        public static void Function(Primitive name, Primitive parameterdefinitions, Primitive defaultreturn)
         {
+            String n = (name == null) ? "" : name.ToString();
+            String pd = (parameterdefinitions == null) ? "" : parameterdefinitions.ToString();
+            if (n.Length <= 0)
+            {
+                TextWindow.WriteLine("Can not define function with empty name");
+                return;
+            }
+
             lock (functions)
             {
-                if (name != null && parameterdefinitions!=null)
+                if (start==null)
+                {   TextWindow.WriteLine("Need to specify a start subroutine before defining a function");
+                    return;
+                }
+
+                string[] parameternames = pd.Split(new Char[] { ' ', '\t' });
+                Primitive[] defaults = new Primitive[parameternames.Length];
+                for (int i = 0; i < parameternames.Length; i++ )
                 {
-                    String n = name.ToString();
-                    String pd = parameterdefinitions.ToString();
-                    if (n.Length > 0)
+                    int colonidx = parameternames[i].IndexOf(':');
+                    if (colonidx > 0)
                     {
-                        string[] parameternames = pd.Split(new Char[] { ' ', '\t' });
-                        for (int i = 0; i < parameternames.Length; i++ )
-                        {
-                            int colonidx = parameternames[i].IndexOf(':');
-                            if (colonidx > 0) parameternames[i] = parameternames[i].Substring(0, colonidx);
-                        }
-                        functions[n] = new FunctionDefinition(sub, parameternames);
+                        defaults[i] = new Primitive(parameternames[i].Substring(colonidx + 1));
+                        parameternames[i] = parameternames[i].Substring(0, colonidx);
+                    }
+                    else
+                    {
+                        defaults[i] = new Primitive("");
                     }
                 }
+                
+                functions[n] = new FunctionDefinition(start, 
+                    parameternames, 
+                    defaults,
+                    defaultreturn==null ? new Primitive(""): defaultreturn);
+
+                start = null;  // do not use same start subroutine twice
             }
         }
 
+
+        /// <summary>
+        /// Set a named local variable to a specified value.
+        /// </summary>
+        /// <param name="variablename">The name of the local variable</param>
+        /// <param name="value">The value to store into the local variable</param>
         public static void Set(Primitive variablename, Primitive value)
         {
+            String vn = (variablename == null) ? "" : variablename.ToString();
+            if (vn.Length<1)
+            {
+                TextWindow.WriteLine("Can not set local variable with empty name");
+                return;
+            }
+
             lock (functions)
             {
                 List<StackFrame> stack = GetCurrentStack();
                 StackFrame sf = stack[stack.Count - 1];
-                if (variablename != null)
-                {
-                    String vn = variablename.ToString();
-                    if (vn.Length > 0)
-                    {
-                        sf.Set(vn, value);
-                    }
-                }
+                sf.Set(vn, value);
             }
         }
 
+        /// <summary>
+        /// Set the return value for the current function call. This value will be passed out of the F.Call command after
+        /// this function returns.
+        /// </summary>
+        /// <param name="value">The return value</param>
         public static void Return(Primitive value)
         {
             lock (functions)
@@ -96,56 +138,204 @@ namespace SmallBasicEV3Extension
             }
         }
 
+        /// <summary>
+        /// Retrieve the value of a named local variable.
+        /// </summary>
+        /// <param name="variablename">The name of the local variable</param>
+        /// <returns>The value stored in the variable</returns>
         public static Primitive Get(Primitive variablename)
         {
+            String vn = (variablename == null) ? "" : variablename.ToString();
+            if (vn.Length < 1)
+            {
+                TextWindow.WriteLine("Can not get local variable with empty name");
+                return new Primitive("");
+            }
+
             lock (functions)
             {
                 List<StackFrame> stack = GetCurrentStack();
                 StackFrame sf = stack[stack.Count - 1];
-                if (variablename != null)
-                {
-                    String vn = variablename.ToString();
-                    if (vn.Length > 0)
-                    {
-                        return sf.Get(vn);
-                    }
-                }
+                return sf.Get(vn);
             }
-            return new Primitive("0");
         }
 
-        public static Primitive Call0(Primitive functionname)
-        {   return Call(functionname); 
+        /// <summary>
+        /// Do a function call without passing parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call0(Primitive name)
+        {   return Call(name); 
         }
-        public static Primitive Call1(Primitive functionname, Primitive p1)
+        /// <summary>
+        /// Do a function call with 1 parameter.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call1(Primitive name, Primitive p1)
         {
-            return Call(functionname, p1);
+            return Call(name, p1);
         }
-        public static Primitive Call2(Primitive functionname, Primitive p1, Primitive p2)
+        /// <summary>
+        /// Do a function call with 2 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call2(Primitive name, Primitive p1, Primitive p2)
         {
-            return Call(functionname, p1, p2);
+            return Call(name, p1, p2);
         }
-        public static Primitive Call3(Primitive functionname, Primitive p1, Primitive p2, Primitive p3)
+        /// <summary>
+        /// Do a function call with 3 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call3(Primitive name, Primitive p1, Primitive p2, Primitive p3)
         {
-            return Call(functionname, p1, p2, p3);
+            return Call(name, p1, p2, p3);
         }
-        public static Primitive Call4(Primitive functionname, Primitive p1, Primitive p2, Primitive p3, Primitive p4)
+        /// <summary>
+        /// Do a function call with 4 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call4(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4)
         {
-            return Call(functionname, p1, p2, p3, p4);
+            return Call(name, p1, p2, p3, p4);
         }
-        public static Primitive Call5(Primitive functionname, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5)
+        /// <summary>
+        /// Do a function call with 5 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call5(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5)
         {
-            return Call(functionname, p1, p2, p3, p4, p5);
+            return Call(name, p1, p2, p3, p4, p5);
+        }
+        /// <summary>
+        /// Do a function call with 6 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call6(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6);
+        }
+        /// <summary>
+        /// Do a function call with 7 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call7(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7);
+        }
+        /// <summary>
+        /// Do a function call with 8 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call8(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8);
+        }
+        /// <summary>
+        /// Do a function call with 9 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call9(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+        }
+        /// <summary>
+        /// Do a function call with 10 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call10(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
+        }
+        /// <summary>
+        /// Do a function call with 11 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call11(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
+        }
+        /// <summary>
+        /// Do a function call with 12 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call12(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12);
+        }
+        /// <summary>
+        /// Do a function call with 13 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call13(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13);
+        }
+        /// <summary>
+        /// Do a function call with 14 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call14(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);
+        }
+        /// <summary>
+        /// Do a function call with 15 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call15(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15);
+        }
+        /// <summary>
+        /// Do a function call with 16 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call16(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16);
+        }
+        /// <summary>
+        /// Do a function call with 17 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call17(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17);
+        }
+        /// <summary>
+        /// Do a function call with 18 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call18(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18);
+        }
+        /// <summary>
+        /// Do a function call with 19 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call19(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18, Primitive p19)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19);
+        }
+        /// <summary>
+        /// Do a function call with 20 parameters.
+        /// <param name="name">The name of the function</param>
+        /// </summary>
+        public static Primitive Call20(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18, Primitive p19, Primitive p20)
+        {
+            return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20);
         }
 
 
         private static Primitive Call(Primitive functionname, params Primitive[] args)
         {
-            if (functionname == null) return new Primitive("0");
-            String fn = functionname.ToString();
+            String fn = functionname==null ? "" : functionname.ToString();
             if (fn.Length < 1)
             {
-                return new Primitive("0");
+                TextWindow.WriteLine("Can not call function with empty name");
+                return new Primitive("");
             }
 
             FunctionDefinition fd;
@@ -154,13 +344,18 @@ namespace SmallBasicEV3Extension
 
             lock (functions)
             {
-                if (!functions.ContainsKey(fn)) return new Primitive("0");
+                if (!functions.ContainsKey(fn))
+                {
+                    TextWindow.WriteLine("Can not call undefined function: "+fn);
+                    return new Primitive("");
+                }
+
                 fd = functions[fn];
                 stack = GetCurrentStack();
-                stack.Add(new StackFrame(fd.parameternames, args));
+                stack.Add(new StackFrame(fd.parameternames, fd.defaults, fd.defaultreturn, args));
             }
 
-            fd.sub.Invoke();
+            fd.start.Invoke();
 
             lock (functions)
             {
@@ -184,7 +379,7 @@ namespace SmallBasicEV3Extension
             else
             {
                 List<StackFrame> s = new List<StackFrame>();
-                s.Add(new StackFrame(null, null));
+                s.Add(new StackFrame(null, null, null, null));
                 stacks[threadname] = s;
                 return s;
             }
@@ -193,13 +388,17 @@ namespace SmallBasicEV3Extension
 
     class FunctionDefinition
     {
-        internal readonly SmallBasicCallback sub;
+        internal readonly SmallBasicCallback start;
         internal readonly String[] parameternames;
+        internal readonly Primitive[] defaults;
+        internal readonly Primitive defaultreturn;
 
-        public FunctionDefinition(SmallBasicCallback sub, String[] parameternames)
+        public FunctionDefinition(SmallBasicCallback start, String[] parameternames, Primitive[] defaults, Primitive defaultreturn)
         {
-            this.sub = sub;
+            this.start = start;
             this.parameternames = parameternames;
+            this.defaults = defaults;
+            this.defaultreturn = defaultreturn;
         }
     }
 
@@ -207,18 +406,19 @@ namespace SmallBasicEV3Extension
     {
         Dictionary<String, Primitive> variables;
 
-        public StackFrame(String[] names, Primitive[] values)
+        public StackFrame(String[] names, Primitive[] defaults, Primitive defaultreturn, Primitive[] args)
         {
             variables = new Dictionary<String,Primitive>();
-            for (int i = 0; names!=null && i < names.Length && values!=null && i < values.Length; i++)
+            if (defaultreturn!=null) Set("", defaultreturn);
+            for (int i = 0; names!=null && i < names.Length && defaults!=null && i < defaults.Length; i++)
             {
-                Set(names[i], values[i]);
+                Set(names[i], i < args.Length ? args[i] : defaults[i]);
             }
         }
 
         public void Set(String name, Primitive value)
         {
-            variables[name] = value;
+            if (value!=null) variables[name] = value;
         }
 
         public Primitive Get(String name)
@@ -227,7 +427,7 @@ namespace SmallBasicEV3Extension
             {
                 return variables[name];
             }
-            return new Primitive("0");
+            return new Primitive("");
         }
     }
 }

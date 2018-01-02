@@ -1,0 +1,161 @@
+// ------------------------------------------ EV3 MODULE: BYTE -------------------------------------------------
+
+subcall BYTE.NOT   // FF
+{
+	IN_F value
+	OUT_F result
+	
+	DATA16 value_16
+	MOVEF_16 value value_16
+
+	XOR16 value_16 255 value_16
+	AND16 value_16 255 value_16
+	MOVE16_F value_16 result
+}
+
+subcall BYTE.AND_    // FFF
+{
+	IN_F value1
+	IN_F value2
+	OUT_F result
+
+	DATA16 value1_16
+	DATA16 value2_16
+	MOVEF_16 value1 value1_16
+	MOVEF_16 value2 value2_16
+
+	AND16 value1_16 value2_16 value2_16
+	AND16 value2_16 255 value2_16
+	MOVE16_F value2_16 result
+}
+
+subcall BYTE.OR_    // FFF
+{
+	IN_F value1
+	IN_F value2
+	OUT_F result
+
+	DATA16 value1_16
+	DATA16 value2_16
+	MOVEF_16 value1 value1_16
+	MOVEF_16 value2 value2_16
+
+	OR16 value1_16 value2_16 value2_16
+	AND16 value2_16 255 value2_16
+	MOVE16_F value2_16 result
+}
+
+subcall BYTE.XOR    // FFF
+{
+	IN_F value1
+	IN_F value2
+	OUT_F result
+
+	DATA16 value1_16
+	DATA16 value2_16
+	MOVEF_16 value1 value1_16
+	MOVEF_16 value2 value2_16
+
+	XOR16 value1_16 value2_16 value2_16
+	AND16 value2_16 255 value2_16
+	MOVE16_F value2_16 result
+}
+
+subcall BYTE.BIT    // FFF
+{
+	IN_F value
+	IN_F index
+	OUT_F result
+
+	DATA16 value_16
+	DATA16 index_16
+	DATA8 result_8
+	MOVEF_16 value value_16
+	MOVEF_16 index index_16
+
+	AND16 index_16 255 index_16
+	RL16 1 index_16 index_16
+	AND16 index_16 value_16 value_16
+	CP_NEQ16 value_16 0 result_8
+	MOVE8_F result_8 result
+}
+
+subcall BYTE.SHL    // FFF
+{
+	IN_F value
+	IN_F distance
+	OUT_F result
+
+	DATA16 value_16
+	DATA16 distance_16
+	MOVEF_16 value value_16
+	MOVEF_16 distance distance_16
+
+	AND16 distance_16 255 distance_16
+	RL16 value_16 distance_16 value_16
+	AND16 value_16 255 value_16
+	MOVE16_F value_16 result
+}
+
+subcall BYTE.SHR    // FFF
+{
+	IN_F value
+	IN_F distance
+	OUT_F result
+
+	DATA16 value_16
+	DATA16 distance_16
+	MOVEF_16 value value_16
+	MOVEF_16 distance distance_16
+
+	AND16 distance_16 255 distance_16
+	JR_GT16 distance_16 7 outside
+
+	RL16 1 distance_16 distance_16
+	DIV16 value_16 distance_16 value_16
+	MOVE16_F value_16 result
+	RETURN
+
+outside:
+	MOVE16_F 0 result
+}
+
+subcall BYTE.TOHEX     // FS
+{
+	IN_F value
+    OUT_S result 4
+	
+	DATA32 value_32
+	MOVEF_32 value value_32
+
+	AND32 value_32 255 value_32
+	STRINGS NUMBER_FORMATTED value_32 '%02X' 3 result
+}
+
+subcall BYTE.TOBINARY     // FS
+{
+	IN_F value
+    OUT_S result 10
+	
+	DATA32 value_32
+	MOVEF_32 value value_32
+
+	AND32 value_32 255 value_32
+	STRINGS NUMBER_FORMATTED value_32 '%02X' 9 result
+}
+
+subcall BYTE.FROMHEX     // SF
+{
+	IN_S a 252
+    OUT_F result 
+
+	MOVE32_F 4344,result	
+}
+
+subcall BYTE.FROMBINARY     // SF
+{
+	IN_S a 252
+    OUT_F result 
+
+	MOVE32_F 4344,result	
+}

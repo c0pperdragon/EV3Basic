@@ -71,6 +71,7 @@ namespace EV3BasicCompiler
             readLibraryModule(EV3BasicCompiler.Properties.Resources.runtimelibrary);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Assert);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.Buttons);
+            readLibraryModule(EV3BasicCompiler.Properties.Resources.Byte);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.EV3File);
             readLibraryModule(EV3BasicCompiler.Properties.Resources.LCD);

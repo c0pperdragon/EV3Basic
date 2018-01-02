@@ -24,23 +24,32 @@ using Microsoft.SmallBasic.Library;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// Manipulate individual bis of an 8-bit quantity.
+    /// Manipulate individual bis of an 8-bit numerical quantity.
+    /// This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a "bytes").
+    /// To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.
+    /// The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead.
+    /// For further information see https://en.wikipedia.org/wiki/Bitwise_operation .
     /// </summary>
     [SmallBasicType]
     public static class Byte
     {
         /// <summary>
-        /// Get the name and mode of a currently connected sensor. 
-        /// This function is mainly intended for diagnostic use because you normally know which sensor is plugged to which port on the model.
+        /// Bitwise negation. 
         /// </summary>
-        /// <param name="port">Number of the sensor port</param>
-        /// <returns>Description text (for example, "TOUCH")</returns>
+        /// <param name="value">Number to negate</param>
+        /// <returns>The number you get when every bit of the input byte is individually inverted</returns>
         public static Primitive NOT(Primitive value)
         {
             int v = value;
             return new Primitive((~v) & 0xff);
         }
 
+        /// <summary>
+        /// Bitwise AND operation. 
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        /// <returns>The number you get when merging the two input bytes a and b by doing a binary AND operation on their individual bits</returns>
         public static Primitive AND_(Primitive a, Primitive b)
         {
             int va = a;
@@ -48,6 +57,12 @@ namespace SmallBasicEV3Extension
             return new Primitive((va & vb) & 0xff);
         }
 
+        /// <summary>
+        /// Bitwise OR operation. 
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        /// <returns>The number you get when merging the two input bytes a and b by doing a binary OR operation on their individual bits</returns>
         public static Primitive OR_(Primitive a, Primitive b)
         {
             int va = a;
@@ -55,6 +70,12 @@ namespace SmallBasicEV3Extension
             return new Primitive((va | vb) & 0xff);
         }
 
+        /// <summary>
+        /// Bitwise OR operation. 
+        /// </summary>
+        /// <param name="a">First operand</param>
+        /// <param name="b">Second operand</param>
+        /// <returns>The number you get when merging the two input bytes a and b by doing a binary XOR operation on their individual bits</returns>
         public static Primitive XOR(Primitive a, Primitive b)
         {
             int va = a;
@@ -62,32 +83,56 @@ namespace SmallBasicEV3Extension
             return new Primitive((va ^ vb) & 0xff);
         }
 
+        /// <summary>
+        /// Extract a single bit from a byte.
+        /// </summary>
+        /// <param name="value">The byte number from where to extract the bit</param>
+        /// <param name="index">Position of the bit inside the byte</param>
+        /// <returns>The bit on the specified position which is either 0 or 1</returns>
         public static Primitive BIT(Primitive value, Primitive index)
         {
             int v = value;
             int i = index;
-            if (i < 0 || i > 7) return new Primitive(0);
+            i = i & 0xff;
+            if (i > 7) return new Primitive(0);
             return new Primitive((v>>i) & 1);
         }
 
+        /// <summary>
+        /// Perform a bitwise shift operation to the left.
+        /// </summary>
+        /// <param name="value">The byte whose bits will be shifted</param>
+        /// <param name="distance">By how many positions to shift the bits</param>
+        /// <returns>The number you get after moving every bit of the input value towards the more significant positions</returns>
         public static Primitive SHL(Primitive value, Primitive distance)
         {
             int v = value;
             int i = distance;
-            if (i <= 0) return new Primitive(v & 0xff);
+            i = i & 0xff;
             if (i > 7) return new Primitive(0);
             return new Primitive((v << i) & 0xff);
         }
 
+        /// <summary>
+        /// Perform a bitwise shift operation to the right.
+        /// </summary>
+        /// <param name="value">The byte whose bits will be shifted</param>
+        /// <param name="distance">By how many positions to shift the bits</param>
+        /// <returns>The number you get after moving every bit of the input value towards the less significant positions</returns>
         public static Primitive SHR(Primitive value, Primitive distance)
         {
             int v = value;
             int i = distance;
-            if (i <= 0) return new Primitive(v & 0xff);
+            i = i & 0xff;
             if (i > 7) return new Primitive(0);
-            return new Primitive((v >> i) & 0xff);
+            return new Primitive((v&0xff) >> i);
         }
 
+        /// <summary>
+        /// Convert an 8-bit byte to its 2-digit hexadecimal string representation.
+        /// </summary>
+        /// <param name="value">The byte to convert into a string</param>
+        /// <returns>A string holding 2 hexadecimal digits</returns>
         public static Primitive ToHex(Primitive value)
         {
             int v = value;
@@ -95,6 +140,11 @@ namespace SmallBasicEV3Extension
             return new Primitive(v.ToString("X2"));
         }
 
+        /// <summary>
+        /// Convert an 8-bit byte to its 8-digit binary string representation.
+        /// </summary>
+        /// <param name="value">The byte to convert into a string</param>
+        /// <returns>A string holding 8 binary digits</returns>
         public static Primitive ToBinary(Primitive value)
         {
             int v = value;
@@ -104,6 +154,11 @@ namespace SmallBasicEV3Extension
             return new Primitive(s);
         }
 
+        /// <summary>
+        /// Convert a string that contains a hexadecimal value into a number.
+        /// </summary>
+        /// <param name="value">The string holding a byte in hexadecimal form (for example: "4F")</param>
+        /// <returns>The byte as number</returns>
         public static Primitive FromHex(Primitive value)
         {
             String s= (value==null)?"0":value.ToString();
@@ -117,6 +172,11 @@ namespace SmallBasicEV3Extension
             return new Primitive(i & 0xff); 
         }
 
+        /// <summary>
+        /// Convert a string that contains a binary value into a number.
+        /// </summary>
+        /// <param name="value">The string holding a byte in binary form (for example: "01001111")</param>
+        /// <returns>The byte as number</returns>
         public static Primitive FromBinary(Primitive value)
         {
             String s = (value == null) ? "0" : value.ToString();

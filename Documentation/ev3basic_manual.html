@@ -450,6 +450,86 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="returnssummary">A text containing the letters of the clicked buttons (can be empty)</P>
 <H3 class="operation">Buttons.Wait ()</H3>
 <P class="operationsummary">Wait until at least one button is clicked. If a buttons was already clicked before calling this function, it returns immediately.</P>
+<H2 class="object">Byte</H2>
+<P class="objectsummary">Manipulate individual bis of an 8-bit numerical quantity.<BR>This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a "bytes").<BR>To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.<BR>The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead.<BR>For further information see https://en.wikipedia.org/wiki/Bitwise_operation .</P>
+<H3 class="operation">Byte.AND_ (a, b)</H3>
+<P class="operationsummary">Bitwise AND operation.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">First operand</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Second operand</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary AND operation on their individual bits</P>
+<H3 class="operation">Byte.BIT (value, index)</H3>
+<P class="operationsummary">Extract a single bit from a byte.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The byte number from where to extract the bit</P>
+<H4 class="parameter">index</H4>
+<P class="parametersummary">Position of the bit inside the byte</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The bit on the specified position which is either 0 or 1</P>
+<H3 class="operation">Byte.FromBinary (value)</H3>
+<P class="operationsummary">Convert a string that contains a binary value into a number.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The string holding a byte in binary form (for example: "01001111")</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The byte as number</P>
+<H3 class="operation">Byte.FromHex (value)</H3>
+<P class="operationsummary">Convert a string that contains a hexadecimal value into a number.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The string holding a byte in hexadecimal form (for example: "4F")</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The byte as number</P>
+<H3 class="operation">Byte.NOT (value)</H3>
+<P class="operationsummary">Bitwise negation.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Number to negate</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get when every bit of the input byte is individually inverted</P>
+<H3 class="operation">Byte.OR_ (a, b)</H3>
+<P class="operationsummary">Bitwise OR operation.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">First operand</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Second operand</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary OR operation on their individual bits</P>
+<H3 class="operation">Byte.SHL (value, distance)</H3>
+<P class="operationsummary">Perform a bitwise shift operation to the left.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The byte whose bits will be shifted</P>
+<H4 class="parameter">distance</H4>
+<P class="parametersummary">By how many positions to shift the bits</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get after moving every bit of the input value towards the more significant positions</P>
+<H3 class="operation">Byte.SHR (value, distance)</H3>
+<P class="operationsummary">Perform a bitwise shift operation to the right.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The byte whose bits will be shifted</P>
+<H4 class="parameter">distance</H4>
+<P class="parametersummary">By how many positions to shift the bits</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get after moving every bit of the input value towards the less significant positions</P>
+<H3 class="operation">Byte.ToBinary (value)</H3>
+<P class="operationsummary">Convert an 8-bit byte to its 8-digit binary string representation.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The byte to convert into a string</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">A string holding 8 binary digits</P>
+<H3 class="operation">Byte.ToHex (value)</H3>
+<P class="operationsummary">Convert an 8-bit byte to its 2-digit hexadecimal string representation.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The byte to convert into a string</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">A string holding 2 hexadecimal digits</P>
+<H3 class="operation">Byte.XOR (a, b)</H3>
+<P class="operationsummary">Bitwise OR operation.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">First operand</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Second operand</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary XOR operation on their individual bits</P>
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Small utility functions that concern the EV3 brick as a whole.</P>
 <H3 class="property">EV3.BatteryLevel - Property</H3>
@@ -544,6 +624,76 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">The text to write to the file.</P>
+<H2 class="object">F</H2>
+<P class="objectsummary">A framework to create functions with parameters and local variables in Small Basic.<BR>Functions can be defined by use of the F.Function command and can be later called with one of the F.Call - commands.</P>
+<H3 class="property">F.Start - Property</H3>
+<P class="propertysummary">This property must be set to a subprogram before a subsequent F.Function operation is done to actually define the function.</P>
+<H3 class="operation">F.Call0 ()</H3>
+<P class="operationsummary">Do a function call without passing parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call1 ()</H3>
+<P class="operationsummary">Do a function call with 1 parameter.<BR>The name of the function</P>
+<H3 class="operation">F.Call10 ()</H3>
+<P class="operationsummary">Do a function call with 10 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call11 ()</H3>
+<P class="operationsummary">Do a function call with 11 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call12 ()</H3>
+<P class="operationsummary">Do a function call with 12 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call13 ()</H3>
+<P class="operationsummary">Do a function call with 13 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call14 ()</H3>
+<P class="operationsummary">Do a function call with 14 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call15 ()</H3>
+<P class="operationsummary">Do a function call with 15 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call16 ()</H3>
+<P class="operationsummary">Do a function call with 16 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call17 ()</H3>
+<P class="operationsummary">Do a function call with 17 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call18 ()</H3>
+<P class="operationsummary">Do a function call with 18 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call19 ()</H3>
+<P class="operationsummary">Do a function call with 19 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call2 ()</H3>
+<P class="operationsummary">Do a function call with 2 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call20 ()</H3>
+<P class="operationsummary">Do a function call with 20 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call3 ()</H3>
+<P class="operationsummary">Do a function call with 3 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call4 ()</H3>
+<P class="operationsummary">Do a function call with 4 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call5 ()</H3>
+<P class="operationsummary">Do a function call with 5 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call6 ()</H3>
+<P class="operationsummary">Do a function call with 6 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call7 ()</H3>
+<P class="operationsummary">Do a function call with 7 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call8 ()</H3>
+<P class="operationsummary">Do a function call with 8 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Call9 ()</H3>
+<P class="operationsummary">Do a function call with 9 parameters.<BR>The name of the function</P>
+<H3 class="operation">F.Function (name, parameterdefinitions, defaultreturn)</H3>
+<P class="operationsummary">Define a named function with call parameters and a return value. <BR>Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">The name for the function (needs to be a string literal)</P>
+<H4 class="parameter">parameterdefinitions</H4>
+<P class="parametersummary">A string that holds a sequence of parameter names and default values</P>
+<H4 class="parameter">defaultreturn</H4>
+<P class="parametersummary">The default to be used as return value (when the function does not itself assign  a value)</P>
+<H3 class="operation">F.Get (variablename)</H3>
+<P class="operationsummary">Retrieve the value of a named local variable.</P>
+<H4 class="parameter">variablename</H4>
+<P class="parametersummary">The name of the local variable</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The value stored in the variable</P>
+<H3 class="operation">F.Return (value)</H3>
+<P class="operationsummary">Set the return value for the current function call. This value will be passed out of the F.Call command after<BR>this function returns.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The return value</P>
+<H3 class="operation">F.Set (variablename, value)</H3>
+<P class="operationsummary">Set a named local variable to a specified value.</P>
+<H4 class="parameter">variablename</H4>
+<P class="parametersummary">The name of the local variable</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The value to store into the local variable</P>
 <H2 class="object">LCD</H2>
 <P class="objectsummary">Control the LCD display on the brick.<BR>The EV3 has a black-and-white display with 178x128 pixels. All pixels are addressed with X,Y coordinates where X=0 is the left edge and Y=0 is the top edge.</P>
 <H3 class="operation">LCD.BmpFile (color, x, y, filename)</H3>
