@@ -3,7 +3,6 @@
 subcall ASSERT.FAILED     // SV         TEXT.GETSUBTEXT TEXT.GETSUBTEXTTOEND
 {
 	IN_S message 252
-	DATA32 timer
 	
 	UI_DRAW CLEAN
 	UI_DRAW SELECT_FONT 1
@@ -15,23 +14,19 @@ subcall ASSERT.FAILED     // SV         TEXT.GETSUBTEXT TEXT.GETSUBTEXTTOEND
 linesloop:
 	DATA16 len	
 	STRINGS GET_SIZE message len
-	JR_LTEQ16 len 20 lastline
+	JR_LTEQ16 len 22 lastline
 	
-	DATAS oneline 32
-	CALL TEXT.GETSUBTEXT message 1.0 20.0 oneline
+	DATAS oneline 252
+	CALL TEXT.GETSUBTEXT message 1.0 22.0 oneline
 	UI_DRAW TEXT 1 0 y oneline
 	ADD16 y 12 y
 
-	CALL TEXT.GETSUBTEXTTOEND message 21.0 message
-		
+	CALL TEXT.GETSUBTEXTTOEND message 23.0 message		
 	JR linesloop
 	
 lastline:
 	UI_DRAW TEXT 1 0 y message
 	UI_DRAW UPDATE	
-	
-	TIMER_WAIT(10000,timer)
-	TIMER_READY(timer)	
 }
 
 subcall ASSERT.EQUAL      // SSSV   ASSERT.FAILED TEXT.APPEND

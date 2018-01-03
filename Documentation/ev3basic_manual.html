@@ -460,6 +460,12 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Second operand</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary AND operation on their individual bits</P>
+<H3 class="operation">Byte.B (value)</H3>
+<P class="operationsummary">Convert a string that contains a binary value into a number.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">The string holding a byte in binary form (for example: "01001111")</P>
+<H4 class="returns">Returns</H4>
+<P class="returnssummary">The byte as number</P>
 <H3 class="operation">Byte.BIT (value, index)</H3>
 <P class="operationsummary">Extract a single bit from a byte.</P>
 <H4 class="parameter">value</H4>
@@ -468,13 +474,7 @@ When developing programs that only need to run on the PC, you can also use every
 <P class="parametersummary">Position of the bit inside the byte</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The bit on the specified position which is either 0 or 1</P>
-<H3 class="operation">Byte.FromBinary (value)</H3>
-<P class="operationsummary">Convert a string that contains a binary value into a number.</P>
-<H4 class="parameter">value</H4>
-<P class="parametersummary">The string holding a byte in binary form (for example: "01001111")</P>
-<H4 class="returns">Returns</H4>
-<P class="returnssummary">The byte as number</P>
-<H3 class="operation">Byte.FromHex (value)</H3>
+<H3 class="operation">Byte.H (value)</H3>
 <P class="operationsummary">Convert a string that contains a hexadecimal value into a number.</P>
 <H4 class="parameter">value</H4>
 <P class="parametersummary">The string holding a byte in hexadecimal form (for example: "4F")</P>
@@ -523,7 +523,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">A string holding 2 hexadecimal digits</P>
 <H3 class="operation">Byte.XOR (a, b)</H3>
-<P class="operationsummary">Bitwise OR operation.</P>
+<P class="operationsummary">Bitwise XOR operation.</P>
 <H4 class="parameter">a</H4>
 <P class="parametersummary">First operand</P>
 <H4 class="parameter">b</H4>

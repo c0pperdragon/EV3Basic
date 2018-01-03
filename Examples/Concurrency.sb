@@ -1,0 +1,83 @@
+' Complex example that combines recursive functions with multiple threads.
+' This program will solve 4 instances of the towers of hanoi problem in parallel.
+
+' Global storage for the disk stacks (3 x 4 stacks in total)
+STACK[0] = "HGFEDCBA"  
+STACK[1] = ""
+STACK[2] = ""
+STACK[3] = "HGFEDCBA"  
+STACK[4] = ""
+STACK[5] = ""
+STACK[6] = "HGFEDCBA"  
+STACK[7] = ""
+STACK[8] = ""
+STACK[9] = "HGFEDCBA"  
+STACK[10] = ""
+STACK[11] = ""
+' Access to the global objects needs to be guarded with a Mutex
+MUTEX = Thread.CreateMutex()
+
+' Atomic modifictiaon of global data (accesses global variables for intermedate storage while holding lock)
+F.Start = MOVE
+F.Function("MOVE", "FROM:0 TO:0", "0")
+Sub MOVE
+  Thread.Lock(MUTEX)
+
+  ' transfer last letter 
+  F = STACK[F.Get("FROM")]
+  T = STACK[F.Get("TO")]
+  STACK[F.Get("FROM")] = Text.GetSubText(F, 1, Text.GetLength(F)-1) 
+  STACK[F.Get("TO")] = Text.Append(T, Text.GetSubText(F,Text.GetLength(F),1))
+  
+  ' paint situation to screen
+  LCD.StopUpdate()
+  LCD.Clear()
+  For S=0 To 11 
+    H = Text.GetLength(STACK[S])
+    For D=0 To H-1
+      X = 15 + Math.Remainder(S,6) * 29
+      Y = 58 + Math.Floor(S/6) * 64 - D*7
+      W = 3.5 * (Text.GetCharacterCode(Text.GetSubText(STACK[S],D+1,1)) - 64)
+      LCD.FillRect(1, X-W/2, Y, W, 6)
+    EndFor 
+  EndFor
+  LCD.Update()
+  
+  Thread.Unlock(MUTEX)  
+EndSub
+
+' Recursive algorithm
+F.Start = HANOI
+F.Function("HANOI", "SPEED:0 FROM:0 MIDDLE:0 TO:0 DISKS:1", "0") 
+Sub HANOI
+  If F.Get("DISKS")<2 Then
+    F.Call2("MOVE", F.Get("FROM"), F.Get("TO"))
+    Program.Delay(F.Get("SPEED"))
+  Else
+    F.Call5("HANOI", F.Get("SPEED"), F.Get("FROM"), F.Get("TO"), F.Get("MIDDLE"), F.Get("DISKS")-1)
+    F.Call4("HANOI", F.Get("SPEED"), F.Get("FROM"), -1, F.Get("TO"))
+    F.Call5("HANOI", F.Get("SPEED"), F.Get("MIDDLE"), F.Get("FROM"), F.Get("TO"), F.Get("DISKS")-1)
+  EndIf  
+EndSub 
+
+' Start the solve runs as individual threads with different speeds
+Thread.Run = THREAD1
+Thread.Run = THREAD2
+Thread.Run = THREAD3
+Thread.Run = THREAD4
+Program.Delay(1000000) ' prevent program from termination
+
+Sub THREAD1
+  F.Call5("HANOI", 1000, 0,1,2, 8)
+EndSub
+Sub THREAD2
+  F.Call5("HANOI", 1250, 3,4,5, 8)
+EndSub
+Sub THREAD3
+  F.Call5("HANOI", 1500, 6,7,8, 8)
+EndSub
+Sub THREAD4
+  F.Call5("HANOI", 1750, 9,10,11, 8)
+EndSub
+
+

@@ -138,24 +138,95 @@ subcall BYTE.TOBINARY     // FS
     OUT_S result 10
 	
 	DATA32 value_32
+	DATA32 x
+	DATA32 y
 	MOVEF_32 value value_32
-
 	AND32 value_32 255 value_32
-	STRINGS NUMBER_FORMATTED value_32 '%02X' 9 result
+
+	// stretch bits so every bit is placed in an individual nibble
+	RL32 value_32 12 y
+	OR32 value_32 y x
+	AND32 x 983055 x   // mask bits
+	RL32 x 6 y
+	OR32 x y x
+	RL32 x 3 y
+	OR32 x y x
+	AND32 x 286331153 x   // mask bits
+
+	STRINGS NUMBER_FORMATTED x '%08X' 9 result
 }
 
-subcall BYTE.FROMHEX     // SF
+subcall BYTE.H     // SF
 {
 	IN_S a 252
     OUT_F result 
 
-	MOVE32_F 4344,result	
+	DATA32 value
+	DATA8 idx
+	DATA8 char
+	DATA32 digit
+
+	MOVE32_32 0 value
+	MOVE8_8 0 idx
+loop:
+    READ8 a idx char
+	JR_EQ8 char 0 done
+	JR_LT8 char 48 next
+	JR_GT8 char 57 checkuppercases
+	MOVE8_32 char digit
+	SUB32 digit 48 digit
+	JR digitfound
+checkuppercases:
+	JR_LT8 char 65 next
+	JR_GT8 char 70 checklowercases
+	MOVE8_32 char digit
+	SUB32 digit 55 digit
+	JR digitfound
+checklowercases:
+	JR_LT8 char 97 next
+	JR_GT8 char 102 next
+	MOVE8_32 char digit
+	SUB32 digit 87 digit
+digitfound:
+	MUL32 value 16 value
+	ADD32 value digit value
+next:
+	JR_GT8 idx 126 done
+	ADD8 idx 1 idx
+	JR loop
+
+done:
+	AND32 value 255 value
+	MOVE32_F value result	
 }
 
-subcall BYTE.FROMBINARY     // SF
+subcall BYTE.B     // SF
 {
 	IN_S a 252
     OUT_F result 
 
-	MOVE32_F 4344,result	
+	DATA32 value
+	DATA8 idx
+	DATA8 char
+	DATA32 digit
+
+	MOVE32_32 0 value
+	MOVE8_8 0 idx
+loop:
+    READ8 a idx char
+	JR_EQ8 char 0 done
+	JR_LT8 char 48 next
+	JR_GT8 char 49 next
+	MOVE8_32 char digit
+	SUB32 digit 48 digit
+	MUL32 value 2 value
+	ADD32 value digit value
+next:
+	JR_GT8 idx 126 done
+	ADD8 idx 1 idx
+	JR loop
+
+done:
+	AND32 value 255 value
+	MOVE32_F value result	
 }

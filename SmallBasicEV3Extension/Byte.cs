@@ -71,7 +71,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Bitwise OR operation. 
+        /// Bitwise XOR operation. 
         /// </summary>
         /// <param name="a">First operand</param>
         /// <param name="b">Second operand</param>
@@ -159,7 +159,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="value">The string holding a byte in hexadecimal form (for example: "4F")</param>
         /// <returns>The byte as number</returns>
-        public static Primitive FromHex(Primitive value)
+        public static Primitive H(Primitive value)
         {
             String s= (value==null)?"0":value.ToString();
             int i = 0;
@@ -177,7 +177,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="value">The string holding a byte in binary form (for example: "01001111")</param>
         /// <returns>The byte as number</returns>
-        public static Primitive FromBinary(Primitive value)
+        public static Primitive B(Primitive value)
         {
             String s = (value == null) ? "0" : value.ToString();
             int i = 0;
