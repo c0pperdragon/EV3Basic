@@ -454,5 +454,108 @@ namespace EV3BasicCompiler
         }
     }
 
+    class FunctionExpression : Expression
+    {
+        FunctionDefinition fd;
+        protected Expression[] parameters;
 
+        public FunctionExpression(FunctionDefinition fd, List<Expression> parlist)
+        : base(fd.getReturnType())
+        {
+            this.fd = fd;
+            this.parameters = parlist.ToArray();
+        }
+
+        override public void Generate(Compiler compiler, TextWriter target, String outputvar)
+        {
+            // if necessary (possible recursive call), store all locals (including temporaries)
+            FunctionDefinition cf = compiler.getCurrentFunction();
+            bool dosave = compiler.functionCouldCall(fd,cf);
+            if (dosave)
+            {
+                foreach (String n in cf.getCurrentLocalVariables(ExpressionType.Number))
+                {   
+                    target.WriteLine("    CALL ARRAYSTORE_FLOAT NUMBERSTACKSIZE "+n+" NUMBERSTACKHANDLE");
+                    target.WriteLine("    ADDF NUMBERSTACKSIZE 1.0 NUMBERSTACKSIZE");
+                    compiler.memorize_reference("ARRAYSTORE_FLOAT");
+                }
+                foreach (String n in cf.getCurrentLocalVariables(ExpressionType.Text))
+                {   
+                    target.WriteLine("    CALL ARRAYSTORE_STRING STRINGSTACKSIZE "+n+" STRINGSTACKHANDLE");
+                    target.WriteLine("    ADDF STRINGSTACKSIZE 1.0 STRINGSTACKSIZE");
+                    compiler.memorize_reference("ARRAYSTORE_STRING");
+                }
+            }
+
+            // compute call parameters in temporary variables
+            String[] tmpvar = new String[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                tmpvar[i] = compiler.reserveVariable(parameters[i].type);
+                parameters[i].Generate(compiler, target, tmpvar[i]);
+            }
+            // set up target call parameters and the defaults for all non-provided local variables
+            for (int i = 0; i < fd.getParameterNumber(); i++)
+            {
+                String pv = fd.getParameterVariable(i);
+                if (fd.getParameterType(i) == ExpressionType.Number)
+                {
+                    target.WriteLine("    MOVEF_F " + (i<tmpvar.Length ? tmpvar[i] : fd.getParameterDefaultLiteral(i)) + " " +pv);
+                }
+                else if (fd.getParameterType(i) == ExpressionType.Text)
+                {
+                    target.WriteLine("    STRINGS DUPLICATE " + (i<tmpvar.Length ? tmpvar[i] : fd.getParameterDefaultLiteral(i)) + " " + pv);
+                }
+            }
+            // release temporary variables
+            for (int i = parameters.Length - 1; i >= 0; i--)
+            {
+                compiler.releaseVariable(parameters[i].type);
+            }
+
+            // perform the call
+            String subid = fd.startsub;
+            String returnlabel = "CALLSUB" + (compiler.GetLabelNumber());
+            target.WriteLine("    WRITE32 ENDSUB_" + subid + ":" + returnlabel + " STACKPOINTER RETURNSTACK");
+            target.WriteLine("    ADD8 STACKPOINTER 1 STACKPOINTER");
+            target.WriteLine("    JR SUB_" + subid);
+            target.WriteLine(returnlabel + ":");
+
+            // read back the stored values (when it is a possible recursive call)
+            if (dosave)
+            {
+                List<String> vlist = cf.getCurrentLocalVariables(ExpressionType.Number);
+                vlist.Reverse();
+                foreach (String n in vlist)
+                {   
+                    target.WriteLine("    SUBF NUMBERSTACKSIZE 1.0 NUMBERSTACKSIZE");
+                    target.WriteLine("    CALL ARRAYGET_FLOAT NUMBERSTACKSIZE "+n+" NUMBERSTACKHANDLE");
+                    compiler.memorize_reference("ARRAYGET_FLOAT");
+                }
+                vlist = cf.getCurrentLocalVariables(ExpressionType.Text);
+                vlist.Reverse();
+                foreach (String n in vlist)
+                {   
+                    target.WriteLine("    SUBF STRINGSTACKSIZE 1.0 STRINGSTACKSIZE");
+                    target.WriteLine("    CALL ARRAYGET_STRING STRINGSTACKSIZE "+n+" STRINGSTACKHANDLE");
+                    compiler.memorize_reference("ARRAYGET_STRING");
+                }
+            }
+
+            // read out the result value if required
+            if (outputvar!=null)
+            {
+                switch (fd.getReturnType())
+                {   
+                    case ExpressionType.Number:
+                        target.WriteLine("    MOVEF_F " + fd.getReturnVariable() + " " + outputvar);
+                        break;
+                    case ExpressionType.Text:
+                        target.WriteLine("    STRINGS DUPLICATE " + fd.getReturnVariable() + " " + outputvar);
+                        break;
+                }
+            }
+
+        }
+    }
 }

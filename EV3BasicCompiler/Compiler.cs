@@ -42,15 +42,22 @@ namespace EV3BasicCompiler
 
         // data used during one compilation run
         Scanner s;
+        Dictionary<String, List<String>> subcallstructure;
+        Dictionary<String, List<String>> functioncallstructure;
+        Dictionary<String, FunctionDefinition> functiondefinitions;
+        Dictionary<String, FunctionDefinition> functionofsub;
+        Dictionary<String, ExpressionType> returntypeofsub;
+
+        String currentsub;
+        FunctionDefinition currentfunction;
         int labelcount;
         Dictionary<String,ExpressionType> variables; 
-        Dictionary<ExpressionType, int> reservedtemporaries;
-        Dictionary<ExpressionType, int> maxreservedtemporaries;
         HashSet<LibraryEntry> references;
         List<String> threadnames;
 
         bool noboundscheck;
         bool nodivisioncheck;
+
 
         public Compiler()
         {
@@ -59,8 +66,6 @@ namespace EV3BasicCompiler
             runtimeinit = "";
             variables = new Dictionary<String, ExpressionType>();
             references = new HashSet<LibraryEntry>();
-            reservedtemporaries = new Dictionary<ExpressionType, int>();
-            maxreservedtemporaries = new Dictionary<ExpressionType, int>();
             threadnames = new List<String>();
 
             readLibrary();
@@ -150,15 +155,93 @@ namespace EV3BasicCompiler
         public void Compile(Stream source, Stream targetstream, List<String> errorlist)
         {
             // start reading input file in tokenized form
-            s = new Scanner(source); 
+            s = new Scanner(source);
+
+            // ---- First parser pass to extract function definitions and the call structure
+            s.GetSym();
+            subcallstructure = new Dictionary<String, List<String>>();
+            subcallstructure[""] = new List<String>();
+            subcallstructure[""].Add("");
+            functioncallstructure = new Dictionary<String, List<String>>();
+            functionofsub = new Dictionary<String, FunctionDefinition>();
+            returntypeofsub = new Dictionary<String, ExpressionType>();
+            functiondefinitions = new Dictionary<String, FunctionDefinition>();
+            functiondefinitions[""] = FunctionDefinition.make("", "", "");
+            Boolean hasAnyRecursion = false;
+            try
+            {
+                while (s.NextType != SymType.EOF)
+                {
+                    if (s.NextIsKEYWORD("SUB"))
+                    {
+                        extractfinfo_sub();
+                    }
+                    else
+                    {
+                        extractfinfo_statement("");
+                    }
+                }
+                foreach (KeyValuePair<String, FunctionDefinition> entry in functiondefinitions)
+                {
+                    FunctionDefinition fd = entry.Value;
+                    set_all_functionofsub(fd, fd.startsub);
+                    if (returntypeofsub.ContainsKey(fd.startsub))
+                    {
+                        fd.setReturnType(returntypeofsub[fd.startsub]);
+                    }
+                }
+                foreach (KeyValuePair<String, List<String>> entry in subcallstructure)
+                {
+                    String subname = entry.Key;
+                    if (!functionofsub.ContainsKey(subname))
+                    {
+                        set_all_functionofsub(functiondefinitions[""], subname);
+                    }
+                }
+                foreach (KeyValuePair<string, FunctionDefinition> entry in functiondefinitions)
+                {
+                    hasAnyRecursion = hasAnyRecursion || functionCouldCall(entry.Value, entry.Value);
+                }
+            }
+            catch (CompileException e)
+            {
+                errorlist.Add(e.Message);
+                return;
+            }
+            /*
+                        Console.WriteLine("SUBs calling SUBs");
+                        foreach (KeyValuePair<string, List<String>> entry in subcallstructure)
+                        {
+                            Console.WriteLine(entry.Key + " -> " + String.Join(",", entry.Value.ToArray()));
+                        }
+                        Console.WriteLine("SUBs calling fucctions");
+                        foreach (KeyValuePair<string, List<String>> entry in functioncallstructure)
+                        {
+                            Console.WriteLine(entry.Key + " -> " + String.Join(",", entry.Value.ToArray()));
+                        }
+                        Console.WriteLine("Function contexts for all SUBs");
+                        foreach (KeyValuePair<string, FunctionDefinition> entry in functionofsub)
+                        {
+                            Console.WriteLine(entry.Key + " -> \""+entry.Value.fname+"\"");
+                        }
+                        Console.WriteLine("Function definitions");
+                        foreach (KeyValuePair<string, FunctionDefinition> entry in functiondefinitions)
+                        {
+                            Console.WriteLine(entry.Value.ToString() +" Recursive:"+isFunctionRecursive(entry.Value));
+                        }
+                        errorlist.Add("");
+             */
+
+            // ---- Main parser pass
+            s.StartFromBegin();
             s.GetSym();
 
-            // initialize sybmol tables and other dynamic stuff
+            // initialize symbol tables and other dynamic stuff
+            this.currentfunction = functiondefinitions[""];
+            this.currentsub = "";
             this.labelcount = 0;
             this.variables.Clear();
             this.references.Clear();
-            this.reservedtemporaries.Clear();
-            this.maxreservedtemporaries.Clear();
             this.threadnames.Clear();
             this.noboundscheck = false;
             this.nodivisioncheck = false;
@@ -182,7 +265,7 @@ namespace EV3BasicCompiler
                     }
                 }
             }
-            catch (Exception e)
+            catch (CompileException e)
             {
                 errorlist.Add(e.Message);
                 return;
@@ -272,7 +355,7 @@ namespace EV3BasicCompiler
             target.WriteLine("subcall PROGRAM_MAIN");
             foreach (String n in threadnames)
             {
-                target.WriteLine("subcall PROGRAM_"+n);
+                target.WriteLine("subcall PROGRAM_" + n);
             }
             target.WriteLine("{");
             // the call parameter that decides, which subroutine to start
@@ -281,21 +364,39 @@ namespace EV3BasicCompiler
             target.WriteLine("    DATA32 INDEX");
             target.WriteLine("    ARRAY8 STACKPOINTER 4");  // waste 4 bytes, but keep alignment
             // storage for temporary float variables
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Number) && i < maxreservedtemporaries[ExpressionType.Number]; i++)
+            foreach (FunctionDefinition f in functiondefinitions.Values)
             {
-                target.WriteLine("    DATAF F" + i);
+                foreach (String n in f.getAllLocalVariables(ExpressionType.Number))
+                {
+                    target.WriteLine("    DATAF " + n);
+                }
             }
             // storage for the return stack
             target.WriteLine("    ARRAY32 RETURNSTACK2 128");   // addressing the stack is done with an 8bit int.
             target.WriteLine("    ARRAY32 RETURNSTACK 128");    // when it wrapps over from 127 to -128, the second 
-            target.WriteLine();                                 // part of the stack will be used (256 entries total)
             // storage for temporary string variables
-            for (int i = 0; maxreservedtemporaries.ContainsKey(ExpressionType.Text) && i < maxreservedtemporaries[ExpressionType.Text]; i++)
+            foreach (FunctionDefinition f in functiondefinitions.Values)
             {
-                target.WriteLine("    DATAS S" + i + " 252");
+                foreach (String n in f.getAllLocalVariables(ExpressionType.Text))
+                {
+                    target.WriteLine("    DATAS " + n + " 252");
+                }
             }
-
-            // initialize the stack pointer
+            // handles for the temporary variable stack when recursion is needed
+            if (hasAnyRecursion)
+            {
+                target.WriteLine("    DATA16 NUMBERSTACKHANDLE");
+                target.WriteLine("    DATAF NUMBERSTACKSIZE");
+                target.WriteLine("    DATA16 STRINGSTACKHANDLE");
+                target.WriteLine("    DATAF STRINGSTACKSIZE");
+                target.WriteLine("    CALL ARRAYCREATE_FLOAT NUMBERSTACKHANDLE");
+                target.WriteLine("    MOVEF_F 0.0 NUMBERSTACKSIZE");
+                target.WriteLine("    CALL ARRAYCREATE_STRING STRINGSTACKHANDLE");
+                target.WriteLine("    MOVEF_F 0.0 STRINGSTACKSIZE");
+                memorize_reference("ARRAYCREATE_FLOAT");
+                memorize_reference("ARRAYCREATE_STRING");
+            }
+            // initialize the return stack pointer
             target.WriteLine("    MOVE8_8 0 STACKPOINTER");
 
             // add dispatch table to call proper sub-program first, if this is requested
@@ -315,6 +416,11 @@ namespace EV3BasicCompiler
             // create the code for the main program 
             target.Write(mainprogram.ToString());
             target.WriteLine("ENDTHREAD:");
+            if (hasAnyRecursion)
+            {
+                target.WriteLine("    ARRAY DELETE NUMBERSTACKHANDLE");
+                target.WriteLine("    ARRAY DELETE STRINGSTACKHANDLE");
+            }
             target.WriteLine("    RETURN");
             // create code for all sub programs
             target.Write(subroutines);
@@ -379,32 +485,12 @@ namespace EV3BasicCompiler
 
         public String reserveVariable(ExpressionType type)
         {
-            if (!reservedtemporaries.ContainsKey(type))
-            {
-                reservedtemporaries[type] = 0;
-                maxreservedtemporaries[type] = 0;
-            }
-            int n = reservedtemporaries[type] + 1;
-            reservedtemporaries[type] = n;
-            maxreservedtemporaries[type] = Math.Max(n, maxreservedtemporaries[type]);
-            switch (type)
-            {
-                case ExpressionType.Number: 
-                    return "F" + (n - 1);
-                case ExpressionType.Text: 
-                    return "S" + (n - 1);
-                default:
-                    s.ThrowParseError("Return value that is an array must be directly stored in a variable");
-                    return "";
-//                case ExpressionType.NumberArray: 
-//                    return "A" + (n - 1);
-//                case ExpressionType.TextArray: 
-//                    return "X" + (n - 1);
-          }
+            return currentfunction.reserveVariable(type);
         }
+
         public void releaseVariable(ExpressionType type)
         {
-            reservedtemporaries[type]--;
+            currentfunction.releaseVariable(type);
         }
 
         public int GetLabelNumber()
@@ -436,17 +522,13 @@ namespace EV3BasicCompiler
         private void compile_sub(TextWriter target)
         {
             parse_keyword("SUB");
-
-            if (s.NextType != SymType.ID)
-            {
-                s.ThrowExpectedSymbol(SymType.ID, null);
-            }
-            String subname = s.NextContent;
-            s.GetSym();
-
+            currentsub = parse_id();
             parse_eol();
 
-            target.WriteLine("SUB_" + subname + ":");
+            FunctionDefinition prev = currentfunction;
+            currentfunction = functionofsub[currentsub];
+
+            target.WriteLine("SUB_" + currentsub + ":");
 
             while (!s.NextIsKEYWORD("ENDSUB"))
             {
@@ -455,10 +537,14 @@ namespace EV3BasicCompiler
             parse_keyword("ENDSUB");
             parse_eol();
 
+            target.WriteLine("RETSUB_" + currentsub + ":");
             target.WriteLine("    SUB8 STACKPOINTER 1 STACKPOINTER");
             target.WriteLine("    READ32 RETURNSTACK STACKPOINTER INDEX");
             target.WriteLine("    JR_DYNAMIC INDEX");
-            target.WriteLine("ENDSUB_" + subname + ":");
+            target.WriteLine("ENDSUB_" + currentsub + ":");
+
+            currentfunction = prev;
+            currentsub = "";
         }
 
 
@@ -835,10 +921,6 @@ namespace EV3BasicCompiler
                 // have hardcoded property set for thread start
                 if (objectname.Equals("THREAD") && elementname.Equals("RUN"))
                 {
-                    if (s.NextType!=SymType.ID)
-                    {
-                        s.ThrowParseError("Need subprogram name here to start a thread");
-                    }
                     String id = parse_id();
                     int l = GetLabelNumber();
                     target.WriteLine("    DATA32 tmp" + l);
@@ -850,6 +932,11 @@ namespace EV3BasicCompiler
                     {   threadnames.Add(id);
                     }
                 }
+                // ignore the F.START property here (was parsed in first pass)
+                else if (objectname.Equals("F") && elementname.Equals("START"))
+                {
+                    parse_id();
+                }
                 else
                 {
                     s.ThrowParseError("Unknown property to set:  " + objectname + "." + elementname);
@@ -860,39 +947,121 @@ namespace EV3BasicCompiler
             // procedure call
             else
             {
+                List<Expression> list = new List<Expression>();
                 parse_special("(");
 
-                String functionname = objectname + "." + elementname;
+                String cmdname = objectname + "." + elementname;
 
-                LibraryEntry libentry = (LibraryEntry)library[functionname];
-                if (libentry == null)
+                // ignore the F.FUNCTION call here (was handled in first pass)
+                if (cmdname.Equals("F.FUNCTION"))
                 {
-                    s.ThrowParseError("Undefined function: " + functionname);
+                    while (!s.NextIsSPECIAL(")")) s.GetSym();
+                    parse_special(")");
+                    return;
                 }
 
+                // special handling for the F.SET operation
+                if (cmdname.Equals("F.SET"))
+                {
+                    String vname = parse_string();
+                    parse_optional_special(",");
+                    int vidx = currentfunction.findParameter(vname);
+                    if (vidx<0)
+                    {
+                        s.ThrowParseError("Undefined local variable: "+vname);
+                    }
+                    ExpressionType t = currentfunction.getParameterType(vidx);
+                    Expression e = parse_typed_expression_with_parameterconversion(t);
+                    parse_optional_special(",");
+                    parse_special(")");
+                    e.Generate(this, target, currentfunction.getParameterVariable(vidx));
+                    return;
+                }
+                // special handling of the F.RETURN command
+                else if (cmdname.Equals("F.RETURN") || cmdname.Equals("F.RETURNNUMBER") || cmdname.Equals("F.RETURNTEXT"))
+                {
+                    ExpressionType rt = ExpressionType.Void;
+                    if (cmdname.EndsWith("NUMBER")) rt = ExpressionType.Number;
+                    else if (cmdname.EndsWith("TEXT")) rt = ExpressionType.Text;
 
-                List<Expression> list = new List<Expression>();
+                    FunctionDefinition fd = functionofsub[currentsub];
+                    if (fd.fname.Length < 1) 
+                    {   s.ThrowParseError("Can only use RETURN from inside function");
+                    }
+                    if (!fd.startsub.Equals(currentsub))
+                    {   s.ThrowParseError("Can only use RETURN in primary SUB of a function");
+                    }
+
+                    if (rt!=ExpressionType.Void)
+                    {
+                        if (fd.getReturnType()!=rt)
+                        {
+                            s.ThrowParseError("Return command must be of same type as function definiton");
+                        }
+                        Expression e = parse_typed_expression_with_parameterconversion(rt);
+                        parse_optional_special(",");
+                        e.Generate(this, target, currentfunction.getReturnVariable());
+                    }
+                    parse_special(")");
+                    target.WriteLine("    JR RETSUB_" + currentsub);
+                    return;
+                }
+
+                // special handling of any F.CALL command without return values
+                if (cmdname.StartsWith("F.CALL"))
+                {
+                    String fname = parse_string();
+                    if (!functiondefinitions.ContainsKey(fname))
+                    {
+                        s.ThrowParseError("Undefined function: "+fname);
+                    }
+                    parse_optional_special(",");
+                    FunctionDefinition fd = functiondefinitions[fname];
+
+                    while (!s.NextIsSPECIAL(")"))
+                    {
+                        if (list.Count >= fd.getParameterNumber())
+                        {
+                            s.ThrowParseError("Too many arguments for function: " + fname);
+                        }
+                        ExpressionType t = fd.getParameterType(list.Count);
+                        Expression e = parse_typed_expression_with_parameterconversion(t);
+                        list.Add(e);
+                        parse_optional_special(",");
+                    }
+                    parse_special(")");
+
+                    (new FunctionExpression(fd, list)).Generate(this, target, null);
+                    return;
+                }
+
+                LibraryEntry libentry = (LibraryEntry)library[cmdname];
+                if (libentry == null)
+                {
+                    s.ThrowParseError("Undefined command: " + cmdname);
+                }
+
                 while (list.Count < libentry.paramTypes.Length)
                 {
                     Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
                     list.Add(e);
-                    if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
-                    {
-                        parse_special(",");
-                    }
+                    parse_optional_special(",");
                 }
                 parse_special(")");
 
-                Expression ex = new CallExpression(ExpressionType.Void, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
+                Expression ex = new CallExpression(ExpressionType.Void, libentry.inline ? libentry.programCode : ("CALL " + cmdname), list);
                 if (libentry.returnType == ExpressionType.Void)
                 {
                     ex.Generate(this, target, null);
                 }
                 else
                 {
-                    String retvar = reserveVariable(libentry.returnType);
+                    String retvar = currentfunction.reserveVariable(libentry.returnType);
+                    if (retvar==null)
+                    {   s.ThrowParseError("Return value that is an array must be directly stored in a variable");
+                    };
                     ex.Generate(this, target, retvar);
-                    releaseVariable(libentry.returnType);
+                    currentfunction.releaseVariable(libentry.returnType);
                 }
             }
         }
@@ -909,7 +1078,7 @@ namespace EV3BasicCompiler
             }
             else if (e.type != type)
             {
-                s.ThrowParseError("Can not use this type as a call parameter");
+                s.ThrowParseError("Can not use this expression type here: "+e.type+". Expected: "+type);
             }
             return e;
         }
@@ -1267,8 +1436,7 @@ namespace EV3BasicCompiler
             }
             else if (s.NextType == SymType.ID)
             {
-                String var_or_object = s.NextContent;  // must be a variable name or an object (depends on the precence of a '.' afterwards)
-                s.GetSym();
+                String var_or_object = parse_id();  // must be a variable name or an object (depends on the precence of a '.' afterwards)
 
                 if (s.NextIsSPECIAL("."))
                 {
@@ -1335,23 +1503,65 @@ namespace EV3BasicCompiler
 
         private Expression parse_function_call_or_property()
         {
+            List<Expression> list = new List<Expression>();     // parameter list
             String objectname = parse_id();
             parse_special(".");
             String elementname = parse_id();
 
-            String functionname = objectname + "." + elementname;
+            String cmdname = objectname + "." + elementname;
 
-            LibraryEntry libentry = (LibraryEntry)library[functionname];
+            // special handling of the F.GET command
+            if (cmdname.Equals("F.GET"))
+            {
+                parse_special("(");
+                String name = parse_string();
+                parse_optional_special(",");
+                parse_special(")");
+                int vidx = currentfunction.findParameter(name);
+                if (vidx<0)
+                {
+                    s.ThrowParseError("Undefined local variable: " + name);
+                }
+                ExpressionType t = currentfunction.getParameterType(vidx);
+                return new AtomicExpression(t,currentfunction.getParameterVariable(vidx));
+            }
+
+            // special handling of any F.CALL command as expression
+            if (cmdname.StartsWith("F.CALL"))
+            {
+                    parse_special("(");
+                    String fname = parse_string().ToUpperInvariant();
+                    if (!functiondefinitions.ContainsKey(fname))
+                    {
+                        s.ThrowParseError("Undefined function: " + fname);
+                    }
+                    FunctionDefinition fd = functiondefinitions[fname];
+
+                    parse_optional_special(",");
+                    while (!s.NextIsSPECIAL(")"))
+                    {
+                        if (list.Count >= fd.getParameterNumber())
+                        {
+                            s.ThrowParseError("Too many arguments for function: " + fname);
+                        }
+                        list.Add(parse_typed_expression_with_parameterconversion(fd.getParameterType(list.Count)));
+                        parse_optional_special(",");
+                    }
+                    parse_special(")");
+
+                    return new FunctionExpression(fd, list);
+            }
+
+            LibraryEntry libentry = (LibraryEntry)library[cmdname];
             if (libentry == null)
             {
-                s.ThrowParseError("Undefined function or property: " + functionname);
+                s.ThrowParseError("Undefined command or property: " + cmdname);
             }
             if (libentry.returnType==ExpressionType.Void)
             {
-                s.ThrowParseError("Can not use function that returns nothing in an expression");
+                s.ThrowParseError("Can not use command that returns nothing in an expression");
             }
 
-            List<Expression> list = new List<Expression>();     // parameter list
             if (s.NextIsSPECIAL("("))
             {   // a function call
                 parse_special("(");
@@ -1360,28 +1570,24 @@ namespace EV3BasicCompiler
                 {
                     Expression e = parse_typed_expression_with_parameterconversion(libentry.paramTypes[list.Count]);
                     list.Add(e);
-
-                    if (s.NextIsSPECIAL(","))     // skip optional ',' after each parameter
-                    {
-                        s.GetSym();
-                    }
+                    parse_optional_special(",");
                 }
                 parse_special(")");
 
                 if (list.Count < libentry.paramTypes.Length)
                 {
-                    s.ThrowParseError("Too few arguments to " + functionname);
+                    s.ThrowParseError("Too few arguments to " + cmdname);
                 }
             }
             else
             {   // a property reference
                 if (libentry.paramTypes.Length != 0)
                 {
-                    s.ThrowParseError("Can not reference " + functionname+" as a property");
+                    s.ThrowParseError("Can not reference " + cmdname+" as a property");
                 }
             }
 
-            return new CallExpression(libentry.returnType, libentry.inline ? libentry.programCode : ("CALL " + functionname), list);
+            return new CallExpression(libentry.returnType, libentry.inline ? libentry.programCode : ("CALL " + cmdname), list);
         }
 
         private String parse_id()
@@ -1393,6 +1599,14 @@ namespace EV3BasicCompiler
             String id = s.NextContent;
             s.GetSym();
             return id;
+        }
+        private void parse_id(String expected)
+        {
+            String id = parse_id();
+            if (!id.Equals(expected))
+            {
+                s.ThrowExpectedSymbol(SymType.ID, expected);
+            }
         }
 
         private void parse_keyword(String k)
@@ -1411,6 +1625,25 @@ namespace EV3BasicCompiler
                 s.ThrowExpectedSymbol(SymType.SPECIAL, k);
             }
             s.GetSym();
+        }
+
+        private void parse_optional_special(String x)
+        {
+            if (s.NextIsSPECIAL(x))
+            {
+                parse_special(x);
+            }
+        }
+
+        private String parse_string()
+        {
+            if (s.NextType != SymType.STRING)
+            {
+                s.ThrowExpectedSymbol(SymType.STRING, null);
+            }
+            String st = s.NextContent;
+            s.GetSym();
+            return st;
         }
 
         private void parse_eol()
@@ -1445,7 +1678,397 @@ namespace EV3BasicCompiler
             }
             return s;
         }
+
+        // preprocessing of the source file to just extract the sub relations and the function definitions
+        private void extractfinfo_sub()
+        {
+            parse_keyword("SUB");
+            String subname = parse_id();
+
+            subcallstructure[subname] = new List<String>();
+            subcallstructure[subname].Add(subname);
+
+            parse_eol();
+            while (!s.NextIsKEYWORD("ENDSUB"))
+            {
+                extractfinfo_statement(subname);
+            }
+            parse_keyword("ENDSUB");
+            parse_eol();
+
+        }
+        private void extractfinfo_statement(String currentsub)
+        {
+            if (s.NextType == SymType.PRAGMA || s.NextType == SymType.EOL)
+            {
+                s.GetSym();
+            }
+            else if (s.NextIsKEYWORD("IF"))
+            {
+                parse_keyword("IF");
+                extractfinfo_expression(currentsub);
+                parse_keyword("THEN");
+                parse_eol();
+                for (; ;)
+                {
+                    if (s.NextIsKEYWORD("ELSEIF"))
+                    {
+                        parse_keyword("ELSEIF");
+                        extractfinfo_expression(currentsub);
+                        parse_keyword("THEN");
+                        parse_eol();
+                    }
+                    else if (s.NextIsKEYWORD("ELSE"))
+                    {
+                        parse_keyword("ELSE");
+                        parse_eol();
+                        while (!(s.NextIsKEYWORD("ENDIF")))
+                        {
+                            extractfinfo_statement(currentsub);
+                        }
+                        break;
+                    }
+                    else if (s.NextIsKEYWORD("ENDIF"))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        extractfinfo_statement(currentsub);
+                    }
+                }
+                parse_keyword("ENDIF");
+                parse_eol();
+            }
+            else if (s.NextIsKEYWORD("WHILE"))
+            {
+                parse_keyword("WHILE");
+                extractfinfo_expression(currentsub);
+                parse_eol();
+                while (!s.NextIsKEYWORD("ENDWHILE"))
+                {
+                    extractfinfo_statement(currentsub);
+                }
+                parse_keyword("ENDWHILE");
+                parse_eol();
+            }
+            else if (s.NextIsKEYWORD("FOR"))
+            {
+                parse_keyword("FOR");
+                parse_id();
+                parse_special("=");
+                extractfinfo_expression(currentsub);
+                parse_keyword("TO");
+                extractfinfo_expression(currentsub);
+                if (s.NextIsKEYWORD("STEP"))
+                {
+                    parse_keyword("STEP");
+                    extractfinfo_expression(currentsub);
+                }
+                parse_eol();
+                while (!s.NextIsKEYWORD("ENDFOR"))
+                {
+                    extractfinfo_statement(currentsub);
+                }
+                parse_keyword("ENDFOR");
+                parse_eol();
+            }
+            else if (s.NextIsKEYWORD("GOTO"))
+            {
+                parse_keyword("GOTO");
+                if (s.NextType != SymType.ID)
+                {
+                    s.ThrowExpectedSymbol(SymType.ID, null);
+                }
+                s.GetSym();
+                parse_eol();
+            }
+            else
+            {   // some atomic statement
+
+                // get symbol for look-ahead
+                if (s.NextType != SymType.ID)
+                {
+                    s.ThrowExpectedSymbol(SymType.ID, null);
+                }
+                String id = s.NextContent;
+                s.GetSym();
+
+                if (s.NextIsSPECIAL("="))
+                {   // variable assignment
+                    parse_special("=");
+                    extractfinfo_expression(currentsub);
+                }
+                else if (s.NextIsSPECIAL("["))
+                {   // array assignment
+                    parse_special("[");
+                    extractfinfo_expression(currentsub);
+                    parse_special("]");
+                    parse_special("=");
+                    extractfinfo_expression(currentsub);
+                }
+                else if (s.NextIsSPECIAL("."))
+                {   // property set or library call
+                    parse_special(".");
+                    String elementname = parse_id();
+                    if (s.NextIsSPECIAL("="))
+                    {
+                        parse_special("=");
+
+                        // special handling of function decleration
+                        if (id.Equals("F") && elementname.Equals("START"))
+                        {
+                            String subname = parse_id();
+                            parse_eol();
+                            parse_id("F");
+                            parse_special(".");
+                            parse_id("FUNCTION");
+                            parse_special("(");
+                            String fname = parse_string().ToUpperInvariant();
+                            parse_optional_special(",");
+                            String pardcl = parse_string().ToUpperInvariant();
+                            parse_optional_special(",");
+
+                            parse_special(")");
+                            if (functiondefinitions.ContainsKey(fname))
+                            {
+                                s.ThrowParseError("Double function definition: " + fname);
+                            }
+                            functiondefinitions[fname] = FunctionDefinition.make(fname,subname, pardcl);
+                        }
+                        else
+                        {
+                            extractfinfo_expression(currentsub);
+                        }
+                    }
+                    else
+                    {
+                        parse_special("(");
+                        // check the various F.RETURN commands to determine the return type
+                        if (id.Equals("F") && elementname.StartsWith("RETURN"))
+                        {
+                            ExpressionType rt = ExpressionType.Void;
+                            if (elementname.Equals("RETURNNUMBER"))
+                            { rt = ExpressionType.Number; }
+                            else if (elementname.Equals("RETURNTEXT"))
+                            { rt = ExpressionType.Text; }
+                            if (returntypeofsub.ContainsKey(currentsub) && returntypeofsub[currentsub] != rt)
+                            {
+                                s.ThrowParseError("Mismatching returns in: " + currentsub);
+                            }
+                            returntypeofsub[currentsub] = rt;
+                        }
+                        else if (id.Equals("F") && elementname.StartsWith("CALL"))
+                        {
+                            String fn = parse_string().ToUpperInvariant();
+                            parse_optional_special(",");
+                            if (!functioncallstructure.ContainsKey(currentsub))
+                            {
+                                functioncallstructure[currentsub] = new List<String>();
+                            }
+                            if (!functioncallstructure[currentsub].Contains(fn))
+                            {
+                                functioncallstructure[currentsub].Add(fn);
+                            }
+                        }
+                        while (!s.NextIsSPECIAL(")"))
+                        {
+                            extractfinfo_expression(currentsub);
+                            parse_optional_special(",");
+                        }
+                        parse_special(")");
+                    }
+                }
+                else if (s.NextIsSPECIAL("("))
+                {   // subroutine call             
+                    parse_special("(");
+                    parse_special(")");
+
+                    // memorize relation between the two subroutines
+                    if (!subcallstructure.ContainsKey(currentsub))
+                    {
+                        subcallstructure[currentsub] = new List<String>();
+                    }
+                    if (!subcallstructure[currentsub].Contains(id))
+                    {
+                        subcallstructure[currentsub].Add(id);
+                    }
+                }
+                else if (s.NextIsSPECIAL(":"))
+                {   // jump label
+                    parse_special(":");
+                }
+                else
+                {
+                    s.ThrowUnexpectedSymbol();
+                }
+
+                parse_eol();
+            }
+        }
+        private void extractfinfo_expression(String currentsub)
+        {
+            for (; ; )
+            {
+                extractfinfo_unary_minus_expression(currentsub);
+
+                if (s.NextIsKEYWORD("OR") || s.NextIsKEYWORD("AND")
+                ||  s.NextIsSPECIAL("=") || s.NextIsSPECIAL("<>") || s.NextIsSPECIAL("<") || s.NextIsSPECIAL(">") 
+                ||  s.NextIsSPECIAL("<=") || s.NextIsSPECIAL(">=")
+                || s.NextIsSPECIAL("+") || s.NextIsSPECIAL("-") || s.NextIsSPECIAL("*") || s.NextIsSPECIAL("/")  )
+                {
+                    s.GetSym();
+                }
+                else
+                {
+                    break; 
+                }
+            }
+        }
+
+        private void extractfinfo_unary_minus_expression(String currentsub)
+        {
+            while(s.NextIsSPECIAL("-"))
+            {
+                parse_special("-");
+            }
+            extractfinfo_atomic_expression(currentsub);
+        }
+        private void extractfinfo_atomic_expression(String currentsub)
+        {
+            if (s.NextIsSPECIAL("("))
+            {
+                parse_special("(");
+                extractfinfo_expression(currentsub);
+                parse_special(")");
+            }
+            else if (s.NextType == SymType.STRING || s.NextType == SymType.NUMBER)
+            {
+                s.GetSym();
+            }
+            else if (s.NextType == SymType.ID)
+            {
+                String var_or_object = parse_id();  // must be a variable name or an object (depends on the precence of a '.' afterwards)
+
+                if (s.NextIsSPECIAL("."))
+                {   // this is an object property or object function
+                    parse_special(".");
+                    String f_or_property = parse_id();
+                    if (s.NextIsSPECIAL("("))
+                    {   // a function call
+                        parse_special("(");
+
+                        // handle the F.Call command
+                        if (var_or_object.Equals("F") && f_or_property.ToUpperInvariant().StartsWith("CALL"))
+                        {
+                            String id = parse_string().ToUpperInvariant();
+                            parse_optional_special(",");
+                            // memorize function call relation
+                            if (!functioncallstructure.ContainsKey(currentsub))
+                            {
+                                functioncallstructure[currentsub] = new List<String>();
+                            }
+                            if (!functioncallstructure[currentsub].Contains(id))
+                            {
+                                functioncallstructure[currentsub].Add(id);
+                            }
+                        }
+
+                        // consume rest of function parameters
+                        while (!s.NextIsSPECIAL(")"))
+                        {
+                            extractfinfo_expression(currentsub);
+                            parse_optional_special(",");
+                        }
+                        parse_special(")");
+                    }
+                    else
+                    {   // a property reference
+                    }
+                }
+                else if (s.NextIsSPECIAL("["))
+                {   // is array reference
+                    parse_special("[");
+                    extractfinfo_expression(currentsub);
+                    parse_special("]");
+                }
+                else
+                {   // is variable use
+                }
+            }
+            else
+            {
+                s.ThrowUnexpectedSymbol();
+            }
+        }
+
+        private void set_all_functionofsub(FunctionDefinition fd, String sub)
+        {
+            if (functionofsub.ContainsKey(sub))
+            {
+                if (functionofsub[sub] != fd)
+                {
+                    s.ThrowParseError("Subroutine called from outside function context: "+sub);
+                }
+            }
+            else
+            {
+                functionofsub[sub] = fd;
+                foreach (String callee in subcallstructure[sub])
+                {
+                    set_all_functionofsub(fd, callee);
+                }
+            }
+        }
+
+
+        private List<FunctionDefinition> determineDirectCallees(FunctionDefinition fd)
+        {
+            List<FunctionDefinition> callees = new List<FunctionDefinition>();
+            foreach (KeyValuePair<String, FunctionDefinition> entry in functionofsub)
+            {   
+                if (entry.Value==fd && functioncallstructure.ContainsKey(entry.Key))
+                {
+                    foreach (String fn in functioncallstructure[entry.Key])
+                    {
+                        if (functiondefinitions.ContainsKey(fn))
+                        {
+                            FunctionDefinition c = functiondefinitions[fn];
+                            if (!callees.Contains(c))
+                            {
+                                callees.Add(c);
+                            }
+                        }
+                    }
+                }
+            }
+            return callees;
+        }
+
+        public bool functionCouldCall(FunctionDefinition f1, FunctionDefinition f2)
+        {
+            List<FunctionDefinition> allcallees = determineDirectCallees(f1);
+            for (int i = 0; i < allcallees.Count; i++ )
+            {
+                if (allcallees[i] == f2)
+                {
+                    return true;
+                }
+                foreach (FunctionDefinition c in determineDirectCallees(allcallees[i]))
+                {
+                    if (!allcallees.Contains(c))
+                    {
+                        allcallees.Add(c);
+                    }
+                }
+            }
+            return false;
+        }
+
+        public FunctionDefinition getCurrentFunction()
+        {
+            return currentfunction;
+        }
+
     }
-
-
 }

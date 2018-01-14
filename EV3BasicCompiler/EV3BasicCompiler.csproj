@@ -38,7 +38,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompileException.cs" />
     <Compile Include="Compiler.cs" />
+    <Compile Include="FunctionDefinition.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="LibraryEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

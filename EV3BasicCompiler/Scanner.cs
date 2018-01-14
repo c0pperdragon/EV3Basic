@@ -28,11 +28,10 @@ namespace EV3BasicCompiler
 
     public class Scanner
     {
-        private StreamReader reader;
-
         SymType nexttype;
         String nextcontent;
 
+        private List<String> lines;
         private String line;
         private int linenumber;
         private int columnnumber;
@@ -42,12 +41,23 @@ namespace EV3BasicCompiler
 
         public Scanner (Stream source)
         {
-            reader = new StreamReader(source, System.Text.Encoding.UTF8);
+            StreamReader reader = new StreamReader(source, System.Text.Encoding.UTF8);
+            lines = new List<String>();
+            do
+            {
+                lines.Add(reader.ReadLine());
+            } while (lines.Last() != null);
+
+            StartFromBegin();
+        }
+
+        public void StartFromBegin()
+        {
             nexttype = SymType.EOF;
             nextcontent = "";
-            line = reader.ReadLine();
             linenumber = 0;
             columnnumber = 0;
+            line = lines[0];
 
             pushbackbuffer_type = new Stack<SymType>();
             pushbackbuffer_content = new Stack<String>();
@@ -74,7 +84,7 @@ namespace EV3BasicCompiler
 
         public void ThrowParseError(String message)
         {
-            throw new Exception(message + " at: " + (linenumber + 1) + ":" + (columnnumber + 1));
+            throw new CompileException(message + " at: " + (linenumber + 1) + ":" + (columnnumber + 1));
         }
         public void ThrowUnexpectedSymbol()
         {
@@ -113,8 +123,8 @@ namespace EV3BasicCompiler
                 {
                     nexttype = SymType.EOL;
                     nextcontent = "";
-                    line = reader.ReadLine();
                     linenumber++;
+                    line = lines[linenumber];
                     columnnumber = 0;
                     return;
                 }
@@ -122,8 +132,8 @@ namespace EV3BasicCompiler
                 {
                     nexttype = SymType.PRAGMA;
                     nextcontent = line.Substring(8).Trim();
-                    line = reader.ReadLine();
                     linenumber++;
+                    line = lines[linenumber];
                     columnnumber = 0;
                     return;
                 }

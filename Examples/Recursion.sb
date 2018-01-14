@@ -1,0 +1,13 @@
+' Simple function call demonstration with recursion, computing fibonacci numbers
+F.Start = FIBO
+F.Function("FIBO", "N:0")
+Sub FIBO
+    If F.Get("N")<2 Then
+        F.ReturnNumber(1)
+    Else
+        F.ReturnNumber(F.Call1("FIBO",F.Get("N")-2) + F.Call1("FIBO", F.Get("N")-1))
+    Endif
+EndSub
+
+Assert.Equal(F.Call1("FIBO", 6), 13, "incorrect result")
+Program.Delay(10000)

@@ -17,9 +17,9 @@ STACK[11] = ""
 ' Access to the global objects needs to be guarded with a Mutex
 MUTEX = Thread.CreateMutex()
 
-' Atomic modifictiaon of global data (accesses global variables for intermedate storage while holding lock)
+' Atomic modification of global data (accesses global variables for intermediate storage while holding lock)
 F.Start = MOVE
-F.Function("MOVE", "FROM:0 TO:0", "0")
+F.Function("MOVE", "FROM:0 TO:0")
 Sub MOVE
   Thread.Lock(MUTEX)
 
@@ -48,7 +48,7 @@ EndSub
 
 ' Recursive algorithm
 F.Start = HANOI
-F.Function("HANOI", "SPEED:0 FROM:0 MIDDLE:0 TO:0 DISKS:1", "0") 
+F.Function("HANOI", "SPEED:0 FROM:0 MIDDLE:0 TO:0 DISKS:1") 
 Sub HANOI
   If F.Get("DISKS")<2 Then
     F.Call2("MOVE", F.Get("FROM"), F.Get("TO"))
@@ -65,7 +65,7 @@ Thread.Run = THREAD1
 Thread.Run = THREAD2
 Thread.Run = THREAD3
 Thread.Run = THREAD4
-Program.Delay(1000000) ' prevent program from termination
+Program.Delay(1000000) ' prevent program from automatic termination
 
 Sub THREAD1
   F.Call5("HANOI", 1000, 0,1,2, 8)
@@ -79,5 +79,4 @@ EndSub
 Sub THREAD4
   F.Call5("HANOI", 1750, 9,10,11, 8)
 EndSub
-
 

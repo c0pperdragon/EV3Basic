@@ -57,11 +57,10 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="name">The name for the function (needs to be a string literal)</param>
         /// <param name="parameterdefinitions">A string that holds a sequence of parameter names and default values</param>
-        /// <param name="defaultreturn">The default to be used as return value (when the function does not itself assign  a value)</param>
-        public static void Function(Primitive name, Primitive parameterdefinitions, Primitive defaultreturn)
+        public static void Function(Primitive name, Primitive parameterdefinitions)
         {
-            String n = (name == null) ? "" : name.ToString();
-            String pd = (parameterdefinitions == null) ? "" : parameterdefinitions.ToString();
+            String n = (name == null) ? "" : name.ToString().ToUpperInvariant();
+            String pd = (parameterdefinitions == null) ? "" : parameterdefinitions.ToString().ToUpperInvariant();
             if (n.Length <= 0)
             {
                 TextWindow.WriteLine("Can not define function with empty name");
@@ -93,8 +92,7 @@ namespace SmallBasicEV3Extension
                 
                 functions[n] = new FunctionDefinition(start, 
                     parameternames, 
-                    defaults,
-                    defaultreturn==null ? new Primitive(""): defaultreturn);
+                    defaults);
 
                 start = null;  // do not use same start subroutine twice
             }
@@ -108,34 +106,62 @@ namespace SmallBasicEV3Extension
         /// <param name="value">The value to store into the local variable</param>
         public static void Set(Primitive variablename, Primitive value)
         {
-            String vn = (variablename == null) ? "" : variablename.ToString();
-            if (vn.Length<1)
-            {
-                TextWindow.WriteLine("Can not set local variable with empty name");
-                return;
-            }
-
+            String vn = (variablename == null) ? "" : variablename.ToString().ToUpperInvariant();
             lock (functions)
             {
                 List<StackFrame> stack = GetCurrentStack();
                 StackFrame sf = stack[stack.Count - 1];
-                sf.Set(vn, value);
+                if (sf.variables.ContainsKey(vn))
+                {
+                    sf.variables[vn] = value;
+                }
+                else
+                {
+                    TextWindow.WriteLine("Can not set undefined local variable: "+vn);
+                }
             }
         }
 
         /// <summary>
-        /// Set the return value for the current function call. This value will be passed out of the F.Call command after
-        /// this function returns.
+        /// Causes the current function call to terminate immediately and delivers the value as number back to the caller.
         /// </summary>
-        /// <param name="value">The return value</param>
-        public static void Return(Primitive value)
+        /// <param name="value">The return value (is interpreted as number)</param>
+        public static void ReturnNumber(Primitive value)
+        {
+            double number = value;
+            Return(new Primitive(number));
+        }
+
+        /// <summary>
+        /// Causes the current function call to terminate immediately and delivers the value as text back to the caller.
+        /// </summary>
+        /// <param name="value">The return value (is interpreted as text)</param>
+        public static void ReturnText(Primitive value)
+        {
+            String text = value != null ? value.ToString() : "";
+            Return(new Primitive(text));
+        }
+
+        /// <summary>
+        /// Causes the current function call to terminate immediately.
+        /// </summary>
+        public static void Return()
+        {
+            Return(new Primitive(""));
+        }
+
+        private static void Return(Primitive value)
         {
             lock (functions)
             {
                 List<StackFrame> stack = GetCurrentStack();
-                StackFrame sf = stack[stack.Count - 1];
-                sf.Set("", value);
+                if (stack.Count<2)
+                {
+                    TextWindow.WriteLine("Can not use 'Return' outside of function context");
+                    return;
+                }
             }
+            throw new ReturnValue(value);
         }
 
         /// <summary>
@@ -145,18 +171,20 @@ namespace SmallBasicEV3Extension
         /// <returns>The value stored in the variable</returns>
         public static Primitive Get(Primitive variablename)
         {
-            String vn = (variablename == null) ? "" : variablename.ToString();
-            if (vn.Length < 1)
-            {
-                TextWindow.WriteLine("Can not get local variable with empty name");
-                return new Primitive("");
-            }
-
+            String vn = (variablename == null) ? "" : variablename.ToString().ToUpperInvariant();
             lock (functions)
             {
                 List<StackFrame> stack = GetCurrentStack();
                 StackFrame sf = stack[stack.Count - 1];
-                return sf.Get(vn);
+                if (sf.variables.ContainsKey(vn))
+                {
+                    return sf.variables[vn];
+                }
+                else
+                {
+                    TextWindow.WriteLine("Can not get undefined local variable: " + vn);
+                    return new Primitive("");
+                }
             }
         }
 
@@ -331,7 +359,7 @@ namespace SmallBasicEV3Extension
 
         private static Primitive Call(Primitive functionname, params Primitive[] args)
         {
-            String fn = functionname==null ? "" : functionname.ToString();
+            String fn = functionname==null ? "" : functionname.ToString().ToUpperInvariant();
             if (fn.Length < 1)
             {
                 TextWindow.WriteLine("Can not call function with empty name");
@@ -340,7 +368,7 @@ namespace SmallBasicEV3Extension
 
             FunctionDefinition fd;
             List<StackFrame> stack;
-            Primitive ret;
+            Primitive ret = null;
 
             lock (functions)
             {
@@ -352,21 +380,27 @@ namespace SmallBasicEV3Extension
 
                 fd = functions[fn];
                 stack = GetCurrentStack();
-                stack.Add(new StackFrame(fd.parameternames, fd.defaults, fd.defaultreturn, args));
+                stack.Add(new StackFrame(fd.parameternames, fd.defaults, args));
             }
 
-            fd.start.Invoke();
+            try
+            {
+                fd.start.Invoke();
+            }
+            catch (ReturnValue rv)
+            {
+                ret = rv.value;
+            }
 
             lock (functions)
             {
-                ret = stack[stack.Count - 1].Get("");
                 if (stack.Count > 1)
                 {
                     stack.RemoveAt(stack.Count - 1);
                 }
             }
 
-            return ret;
+            return ret==null ? new Primitive("") : ret;
         }
 
         private static List<StackFrame> GetCurrentStack()
@@ -379,7 +413,7 @@ namespace SmallBasicEV3Extension
             else
             {
                 List<StackFrame> s = new List<StackFrame>();
-                s.Add(new StackFrame(null, null, null, null));
+                s.Add(new StackFrame(null, null, null));
                 stacks[threadname] = s;
                 return s;
             }
@@ -391,43 +425,39 @@ namespace SmallBasicEV3Extension
         internal readonly SmallBasicCallback start;
         internal readonly String[] parameternames;
         internal readonly Primitive[] defaults;
-        internal readonly Primitive defaultreturn;
 
-        public FunctionDefinition(SmallBasicCallback start, String[] parameternames, Primitive[] defaults, Primitive defaultreturn)
+        public FunctionDefinition(SmallBasicCallback start, String[] parameternames, Primitive[] defaults)
         {
             this.start = start;
             this.parameternames = parameternames;
             this.defaults = defaults;
-            this.defaultreturn = defaultreturn;
         }
     }
 
     class StackFrame
     {
-        Dictionary<String, Primitive> variables;
+        internal readonly Dictionary<String, Primitive> variables;
 
-        public StackFrame(String[] names, Primitive[] defaults, Primitive defaultreturn, Primitive[] args)
+        public StackFrame(String[] names, Primitive[] defaults, Primitive[] args)
         {
             variables = new Dictionary<String,Primitive>();
-            if (defaultreturn!=null) Set("", defaultreturn);
             for (int i = 0; names!=null && i < names.Length && defaults!=null && i < defaults.Length; i++)
             {
-                Set(names[i], i < args.Length ? args[i] : defaults[i]);
+                variables[names[i]] =  (i < args.Length && args[i]!=null) ? args[i] : defaults[i];
             }
-        }
-
-        public void Set(String name, Primitive value)
-        {
-            if (value!=null) variables[name] = value;
-        }
-
-        public Primitive Get(String name)
-        {
-            if (variables.ContainsKey(name))
-            {
-                return variables[name];
-            }
-            return new Primitive("");
         }
     }
+
+    class ReturnValue: System.Exception
+    {
+        internal readonly Primitive value;
+
+        internal ReturnValue(Primitive value)
+        {
+            this.value = value;
+        }
+    }
+
+
+
 }

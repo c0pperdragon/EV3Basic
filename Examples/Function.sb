@@ -1,61 +1,71 @@
-' Solve the classic towers of hanoi problem (heavily recursive). 
-' Return: String containing all moves as pairs of pile names
-F.Start = HANOI
-F.Function("HANOI", "FROM:? TO:? TMP:? DISKS:1", "")
-Sub HANOI
-  If F.Get("DISKS") <2 then
-    F.Return(F.Get("FROM") + F.Get("TO")+ ",")
-  Else
-    F.Set("V1", F.Call4("HANOI", F.Get("FROM"), F.Get("TMP"), F.Get("TO"), F.Get("DISKS")-1))
-    F.Set("V2", F.Call2("HANOI", F.Get("FROM"), F.Get("TO")))
-    F.Set("V3", F.Call4("HANOI", F.Get("TMP"), F.Get("TO"), F.Get("FROM"), F.Get("DISKS")-1))
-    F.Return(F.Get("V1")+F.Get("V2")+F.Get("V3"))
-  EndIf
+' Simple function call demonstration without recursion but with
+' numerical call parameters and return value.
+F.Start = SUM6
+F.Function("SUM6", "A:0 B:0 C:0 D:0 E:0 F:0")
+Sub SUM6
+  F.ReturnNumber(F.Call2("SUM", F.Call3("SUM3", F.Get("A"), F.Get("B"), F.Get("C")), F.Call3("SUM3", F.Get("D"), F.Get("E"), F.Get("F"))))
 EndSub
 
-' Demonstrate more exotic functions features: Default parameters, default return value, 
-' function consisting of multiple subprograms
+F.Start = SUM3
+F.Function("SUM3", "A:0 B:0 C:0")
+Sub SUM3
+  F.ReturnNumber(F.Call2("SUM", F.Get("A"), F.Call2("SUM", F.Get("B"), F.Get("C"))))
+EndSub
+
+F.Start = SUM
+F.Function("SUM", "A:0 B:0")
+Sub SUM
+  F.ReturnNumber(F.Get("A")+F.Get("B"))
+EndSub
+
+
+' Demonstrate more exotic functions features: Default parameters,  
+' function consisting of multiple subprograms, local variables
 F.Start = LOWEST
-F.Function("LOWEST", "A:1 B:2 C:3", "LAST") 
+F.Function("LOWEST", "A:1 B:2 C:3   ISLOWER:False") 
 Sub LOWEST
   If F.Get("A") < F.Get("B") Then
-    LOWEST_A_LESSTHAN_B()
+    TEST_A_LOWER_C()
+    If F.Get("ISLOWER") Then    
+      F.ReturnText("FIRST")
+    Endif
   Else
-    LOWEST_A_GREATERTHAN_B()
+    TEST_B_LOWER_C()
+    If F.Get("ISLOWER") Then    
+      F.ReturnText("MIDDLE")
+    Endif
   EndIf
+  F.ReturnText("LAST")
 EndSub
-Sub LOWEST_A_LESSTHAN_B 
+Sub TEST_A_LOWER_C 
   If F.Get("A") < F.Get("C") Then
-    F.Return("FIRST")
+    F.Set("ISLOWER", "True")
   EndIf  
 EndSub
-Sub LOWEST_A_GREATERTHAN_B 
+Sub TEST_B_LOWER_C 
   If F.Get("B") < F.Get("C") Then
-    F.Return("MIDDLE")
+    F.Set("ISLOWER", "True")
   EndIf  
 EndSub
 
 
 ' Main function (calls other test functions, but is not recursive itself)
 F.Start = MAIN
-F.Function("MAIN", "","")
+F.Function("MAIN", "L")
 Sub MAIN
   ' normal use of global variable
-  MOVES = F.Call4("HANOI", "A", "B", "C", 5)
-  Assert.Equal(MOVES,"AB,AC,BC,AB,CA,CB,AB,AC,BC,BA,CA,BC,AB,AC,BC,AB,CA,CB,AB,CA,BC,BA,CA,CB,AB,AC,BC,AB,CA,CB,AB,", "")
+  TOTAL = F.Call6("SUM6", 6, 3, 1, 4, 2, 5)
+  Assert.Equal(TOTAL,21, "SUM6")
   
   '  use of local variable 
   F.Set("L", F.Call3("LOWEST", 4,7,9))
-  Assert.Equal(F.Get("L"), "FIRST", "")
-  Assert.Equal(F.Call1("LOWEST", 5), "MIDDLE", "")
-  Assert.Equal(F.Call2("LOWEST", 5,7), "LAST", "")
+  Assert.Equal(F.Get("L"), "FIRST", "1")
+  Assert.Equal(F.Call1("LOWEST", 5), "MIDDLE", "2")
+  Assert.Equal(F.Call2("LOWEST", 5,7), "LAST", "3")
   
   ' TextWindow.WriteLine("main done")
 EndSub 
 
 ' fire up the MAIN itself
 F.Call0("MAIN")
-
-' use local variables in top level
-F.Set("X", "some") 
-Assert.Equal(F.Get("X"), "some", "")
+Program.Delay(10000)
