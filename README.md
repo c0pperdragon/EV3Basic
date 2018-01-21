@@ -40,3 +40,10 @@ Most programs will compile to the EV3 without much problems as long as you do no
 ## Contact
 
 For questions, comments, bug reports and feature requests please contact: reinhard.grafl (at) aon.at
+
+## Donations
+
+EV3Basic is free to use, but if you want to give back something, money is welcome. 
+But instead of sending me anything directly (I have no payment account or anything set up for this), 
+please donate to the Wikimedia Foundation (https://donate.wikimedia.org) in my stead and drop me a note.
+
