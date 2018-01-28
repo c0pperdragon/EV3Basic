@@ -18,6 +18,25 @@ empty:
     ARRAY RESIZE a 0
 }
 
+subcall VECTOR.DATA       // FSA
+{
+	IN_F size
+	IN_S d 252
+	IN_16 a
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+	ARRAY RESIZE a size32
+	ARRAY FILL a 0.0
+
+
+
+	RETURN
+empty:
+    ARRAY RESIZE a 0
+}
+
 subcall VECTOR.ADD        // FAAA
 {
 	IN_F size
@@ -290,5 +309,4 @@ notemporary:
 outputempty:
 	ARRAY RESIZE C 0
 }
-
 

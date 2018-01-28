@@ -1379,6 +1379,7 @@ R=Sensor.CommunicateI2C(1,44,3,4,W)
 </pre>
 This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
 Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
+</P>
 <H3 class="subchapter">I2C Registers</H3>
 <p>
 The concept of registers is basically not part of the I2C protocol, but this concept is used
@@ -1436,6 +1437,91 @@ during execution. When this value finds is way into the documentation, a slave a
 be written 160 there. It is sometimes quite hard to figure out what the real address is. In doubt you need to 
 write a test program to try if a slave address is valid.
 </P>
+
+
+<H1 class="chapter">Appendix - Advanced logic operations</H1>
+<H3 class="subchapter">Motivation</H3>
+<P>
+In Small Basic (and indeed in any dialect of Basic, I have encountered) the use of comparators and of the 
+logic operators AND and OR is limited to the context of If and While. But sometimes it is necessary 
+to keep the outcome of some comparisions for future use. For this you have to write something like
+</P>
+<pre>
+If X<10 OR X>50 Then
+   A = "True"
+Else
+   A = "False"
+EndIf
+</pre>
+<P>
+But knowing other programming languages you would probably very much prefer to write this in a single line
+like
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<P>
+which is not possible in Small Basic. 
+</P>
+<P>
+But using the Byte.ToLogic command, there is a funky way to indeed do the same thing also in one line. 
+Please read on.
+</P>
+<H3 class="subchapter">Comparators outside If and While</H3>
+<P>
+When reading the specification for the Byte.ToLogic commands carefully you can see that it will 
+return "True" for positive input values and "False" for 0 or negative. 
+So consider the following construct.
+</P>
+<pre>
+A = Byte.ToLogic(X-Y)
+</pre>
+<P>
+This will actually set A to "True" whenever X is greater than Y just like a non-existent 
+greater-than comparision expression would. Similiarly the construct 
+</P>
+<pre>
+A = Byte.ToLogic(Math.Abs(X-Y))
+</pre>
+<P>
+is equivalent to a non-equal operator. Using this idea you can create all possible comparision
+expressions of Small Basic (some are quite simple to write, others are more complicated)
+<pre>
+  X > Y              Byte.ToLogic(X-Y)
+  X < Y              Byte.ToLogic(Y-X)
+  X >= Y             Byte.ToLogic(1+Math.Floor(X-Y))
+  Y <= X             Byte.ToLogic(1+Math.Floor(Y-X))
+  X <> Y             Byte.ToLogic(Math.Abs(X-Y))
+  X = Y              Byte.ToLogic(1-Math.Ceiling(Math.Abs(X-Y)))
+</pre>
+<H3 class="subchapter">Putting comparators together</H3>
+<P>
+To allow a logic combination of comparators (just like the motivating example), you can
+actually use the Math.Max and Math.Min commands to do proper AND and OR of the comparator outcomes.
+Consider the following example:
+</P>
+<pre>
+A = Byte.ToLogic(Math.Max(10-X,X-50))
+</pre>
+<P>
+The first parameter of the Max will be greater than zero whenever X is lower than 10. 
+The second parameter of the Max will be greater than zero whenver X is higher that 50.
+The outcome of the Max command will be greater than zero whenever one of its parameters is greater than zero.
+By turning this "greater-than-zero" property into an explicit logic value of "True" or "False" by 
+use of the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<P> 
+all done in one single line.
+Here is a summary of logic operators (including NOT for good measure):
+</P>
+<pre>
+  A AND B                Math.Min(A,B)
+  A OR B                 Math.Max(A,B)
+  NOT A                  (1-Math.Ceiling(A))
+</pre>
 
 
 </BODY>

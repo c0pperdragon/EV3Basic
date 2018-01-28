@@ -1,19 +1,19 @@
 ' Simple function call demonstration without recursion but with
 ' numerical call parameters and return value.
 F.Start = SUM6
-F.Function("SUM6", "A:0 B:0 C:0 D:0 E:0 F:0")
+F.Function("SUM6", "A B C D E F")
 Sub SUM6
   F.ReturnNumber(F.Call2("SUM", F.Call3("SUM3", F.Get("A"), F.Get("B"), F.Get("C")), F.Call3("SUM3", F.Get("D"), F.Get("E"), F.Get("F"))))
 EndSub
 
 F.Start = SUM3
-F.Function("SUM3", "A:0 B:0 C:0")
+F.Function("SUM3", "A B C")
 Sub SUM3
   F.ReturnNumber(F.Call2("SUM", F.Get("A"), F.Call2("SUM", F.Get("B"), F.Get("C"))))
 EndSub
 
 F.Start = SUM
-F.Function("SUM", "A:0 B:0")
+F.Function("SUM", "A B")
 Sub SUM
   F.ReturnNumber(F.Get("A")+F.Get("B"))
 EndSub
@@ -51,7 +51,7 @@ EndSub
 
 ' Main function (calls other test functions, but is not recursive itself)
 F.Start = MAIN
-F.Function("MAIN", "L")
+F.Function("MAIN", "L:")
 Sub MAIN
   ' normal use of global variable
   TOTAL = F.Call6("SUM6", 6, 3, 1, 4, 2, 5)

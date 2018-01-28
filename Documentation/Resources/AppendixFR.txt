@@ -182,4 +182,4 @@ La traduction de l'anglais en français du présent document et du fichier XML
 qui contient les textes pour le système 'Intellisense' a été assurée par Nigel 
 Ward, Catherine Colardelle et Frédéric Maria en juillet 2015. Merci, Frédéric!
 <br><br><br>
-</p>
+</p>

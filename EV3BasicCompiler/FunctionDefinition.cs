@@ -234,7 +234,7 @@ namespace EV3BasicCompiler
                 }
                 else
                 {
-                    defaultvalues[i] = "";
+                    defaultvalues[i] = new double[]{0.0};
                 }
             }
             

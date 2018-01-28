@@ -1,6 +1,6 @@
 ' Simple function call demonstration with recursion, computing fibonacci numbers
 F.Start = FIBO
-F.Function("FIBO", "N:0")
+F.Function("FIBO", "N")
 Sub FIBO
     If F.Get("N")<2 Then
         F.ReturnNumber(1)

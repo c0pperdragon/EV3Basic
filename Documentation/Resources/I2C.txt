@@ -41,6 +41,7 @@ R=Sensor.CommunicateI2C(1,44,3,4,W)
 </pre>
 This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
 Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
+</P>
 <H3 class="subchapter">I2C Registers</H3>
 <p>
 The concept of registers is basically not part of the I2C protocol, but this concept is used

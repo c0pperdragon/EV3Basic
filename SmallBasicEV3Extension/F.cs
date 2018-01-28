@@ -24,8 +24,10 @@ using Microsoft.SmallBasic.Library;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// A framework to create functions with parameters and local variables in Small Basic.
+    /// A framework to create functions with parameters and local variables in Small Basic. 
+    /// This enables programs to call user-defined library functions in a form similar to what is possible with the built-in commands, including nicer parameter passing and return values. 
     /// Functions can be defined by use of the F.Function command and can be later called with one of the F.Call - commands.
+    /// See the provided example "Function.sb" for a better introduction.
     /// </summary>
     [SmallBasicType]
     public static class F
@@ -52,11 +54,11 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Define a named function with call parameters and a return value. 
-        /// Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.
+        /// Define a named function an its local variables/parameters (with default values). Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.
+        /// The local variables are also used for parameter passing when using a Call command: For any call with n parameters, these parameters will be assigned to the n local variables. The rest of the local variables will be set to their defined initial value.
         /// </summary>
         /// <param name="name">The name for the function (needs to be a string literal)</param>
-        /// <param name="parameterdefinitions">A string that holds a sequence of parameter names and default values</param>
+        /// <param name="parameterdefinitions">A string that holds a sequence of local variable names and initial values. This looks like for example "A B:5 T:hello"</param>
         public static void Function(Primitive name, Primitive parameterdefinitions)
         {
             String n = (name == null) ? "" : name.ToString().ToUpperInvariant();
@@ -86,7 +88,7 @@ namespace SmallBasicEV3Extension
                     }
                     else
                     {
-                        defaults[i] = new Primitive("");
+                        defaults[i] = new Primitive("0");
                     }
                 }
                 
@@ -102,7 +104,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a named local variable to a specified value.
         /// </summary>
-        /// <param name="variablename">The name of the local variable</param>
+        /// <param name="variablename">The name of the local variable (case insenstive)</param>
         /// <param name="value">The value to store into the local variable</param>
         public static void Set(Primitive variablename, Primitive value)
         {
@@ -124,6 +126,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Causes the current function call to terminate immediately and delivers the value as number back to the caller.
+        /// In "brick mode" it is only allowed to use this command in the topmost sub of a function.
         /// </summary>
         /// <param name="value">The return value (is interpreted as number)</param>
         public static void ReturnNumber(Primitive value)
@@ -134,6 +137,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Causes the current function call to terminate immediately and delivers the value as text back to the caller.
+        /// In "brick mode" it is only allowed to use this command in the topmost sub of a function.
         /// </summary>
         /// <param name="value">The return value (is interpreted as text)</param>
         public static void ReturnText(Primitive value)
@@ -144,6 +148,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Causes the current function call to terminate immediately.
+        /// In "brick mode" it is only allowed to use this command in the topmost sub of a function.
         /// </summary>
         public static void Return()
         {
@@ -167,7 +172,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Retrieve the value of a named local variable.
         /// </summary>
-        /// <param name="variablename">The name of the local variable</param>
+        /// <param name="variablename">The name of the local variable (case insenstive)</param>
         /// <returns>The value stored in the variable</returns>
         public static Primitive Get(Primitive variablename)
         {
@@ -190,150 +195,150 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Do a function call without passing parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call0(Primitive name)
         {   return Call(name); 
         }
         /// <summary>
         /// Do a function call with 1 parameter.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call1(Primitive name, Primitive p1)
         {
             return Call(name, p1);
         }
         /// <summary>
         /// Do a function call with 2 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call2(Primitive name, Primitive p1, Primitive p2)
         {
             return Call(name, p1, p2);
         }
         /// <summary>
         /// Do a function call with 3 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call3(Primitive name, Primitive p1, Primitive p2, Primitive p3)
         {
             return Call(name, p1, p2, p3);
         }
         /// <summary>
         /// Do a function call with 4 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call4(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4)
         {
             return Call(name, p1, p2, p3, p4);
         }
         /// <summary>
         /// Do a function call with 5 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call5(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5)
         {
             return Call(name, p1, p2, p3, p4, p5);
         }
         /// <summary>
         /// Do a function call with 6 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call6(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6)
         {
             return Call(name, p1, p2, p3, p4, p5, p6);
         }
         /// <summary>
         /// Do a function call with 7 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call7(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7);
         }
         /// <summary>
         /// Do a function call with 8 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call8(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8);
         }
         /// <summary>
         /// Do a function call with 9 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call9(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9);
         }
         /// <summary>
         /// Do a function call with 10 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call10(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
         }
         /// <summary>
         /// Do a function call with 11 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call11(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
         }
         /// <summary>
         /// Do a function call with 12 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call12(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12);
         }
         /// <summary>
         /// Do a function call with 13 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call13(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13);
         }
         /// <summary>
         /// Do a function call with 14 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call14(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);
         }
         /// <summary>
         /// Do a function call with 15 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call15(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15);
         }
         /// <summary>
         /// Do a function call with 16 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call16(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16);
         }
         /// <summary>
         /// Do a function call with 17 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call17(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17);
         }
         /// <summary>
         /// Do a function call with 18 parameters.
-        /// <param name="name">The name of the function</param>
+        /// <param name="name">The name of the function (case insensitive)</param>
         /// </summary>
         public static Primitive Call18(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18)
         {
@@ -341,7 +346,7 @@ namespace SmallBasicEV3Extension
         }
         /// <summary>
         /// Do a function call with 19 parameters.
-        /// <param name="name">The name of the function</param>
+        /// <param name="name">The name of the function (case insensitive)</param>
         /// </summary>
         public static Primitive Call19(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18, Primitive p19)
         {
@@ -349,8 +354,8 @@ namespace SmallBasicEV3Extension
         }
         /// <summary>
         /// Do a function call with 20 parameters.
-        /// <param name="name">The name of the function</param>
         /// </summary>
+        /// <param name="name">The name of the function (case insensitive)</param>
         public static Primitive Call20(Primitive name, Primitive p1, Primitive p2, Primitive p3, Primitive p4, Primitive p5, Primitive p6, Primitive p7, Primitive p8, Primitive p9, Primitive p10, Primitive p11, Primitive p12, Primitive p13, Primitive p14, Primitive p15, Primitive p16, Primitive p17, Primitive p18, Primitive p19, Primitive p20)
         {
             return Call(name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20);

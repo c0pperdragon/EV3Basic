@@ -19,7 +19,7 @@ MUTEX = Thread.CreateMutex()
 
 ' Atomic modification of global data (accesses global variables for intermediate storage while holding lock)
 F.Start = MOVE
-F.Function("MOVE", "FROM:0 TO:0")
+F.Function("MOVE", "FROM TO")
 Sub MOVE
   Thread.Lock(MUTEX)
 
@@ -48,7 +48,7 @@ EndSub
 
 ' Recursive algorithm
 F.Start = HANOI
-F.Function("HANOI", "SPEED:0 FROM:0 MIDDLE:0 TO:0 DISKS:1") 
+F.Function("HANOI", "SPEED FROM MIDDLE TO DISKS:1") 
 Sub HANOI
   If F.Get("DISKS")<2 Then
     F.Call2("MOVE", F.Get("FROM"), F.Get("TO"))

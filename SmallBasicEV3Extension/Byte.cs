@@ -24,11 +24,9 @@ using Microsoft.SmallBasic.Library;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// Manipulate individual bis of an 8-bit numerical quantity.
-    /// This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a "bytes").
-    /// To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.
-    /// The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead.
-    /// For further information see https://en.wikipedia.org/wiki/Bitwise_operation .
+    /// Manipulate individual bits of an 8-bit numerical quantity.
+    /// This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a "bytes"). To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.
+    /// The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead. For further information see https://en.wikipedia.org/wiki/Bitwise_operation .
     /// </summary>
     [SmallBasicType]
     public static class Byte
@@ -155,6 +153,21 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
+        /// Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".
+        /// This value can then be used for the condition in If or While or other any other purpose.
+        /// Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".
+        /// This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the apendix for advanced logic operations.
+        /// </summary>
+        /// <param name="value">The numeric value to be converted into its corresponding logic value</param>
+        /// <returns>Either "True" or "False"</returns>
+        public static Primitive ToLogic(Primitive value)
+        {
+            double v = value;
+            if (v > 0) return new Primitive("True");
+            else       return new Primitive("False");
+        }
+
+        /// <summary>
         /// Convert a string that contains a hexadecimal value into a number.
         /// </summary>
         /// <param name="value">The string holding a byte in hexadecimal form (for example: "4F")</param>
@@ -186,6 +199,17 @@ namespace SmallBasicEV3Extension
                 if (c >= '0' && c <= '1') i = i * 2 + (c-'0');
             }
             return new Primitive(i & 0xff);
+        }
+
+        /// <summary>
+        /// Convert a string that contains a logic value into a numerical 0 or 1.
+        /// </summary>
+        /// <param name="value">The string holding a logic value. All case-insensitive variants of "True" ("TRUE","TrUe", "truE", etc.) are considered the same. Everything else is treated as "False".</param>
+        /// <returns>0 or 1</returns>
+        public static Primitive L(Primitive value)
+        {
+            int v = (value == null ? "" : value.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            return new Primitive(v);
         }
 
     }

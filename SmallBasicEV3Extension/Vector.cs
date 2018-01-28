@@ -52,6 +52,29 @@ namespace SmallBasicEV3Extension
             return A2P(a);
         }
 
+        /// <summary>
+        /// Set up a vector of a given size and initialize the elements with data drawn from a string. For this, the string will be split apart on blank spaces and every part is treated as a decimal number.
+        /// For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.
+        /// </summary>
+        /// <param name="size">Size of the resulting vector</param>
+        /// <param name="data">Data in string form to be filled into the array. When the string contains too less elements, the vector is padded with 0 to reach the specified number of elements</param>
+        /// <returns>The created vector</returns>
+        public static Primitive Data(Primitive size, Primitive data)
+        {
+            int _size = size;
+            String _data = data;
+
+            double[] a = new double[_size < 0 ? 0 : _size];
+            string[] parts = _data.Split(new string[]{" "} , StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < a.Length && i<parts.Length; i++)
+            {
+                string text = parts[i];
+                double.TryParse(text == null ? "" : text.ToString(), out a[i]);
+            }
+            return A2P(a);
+        }
+
+
 
         /// <summary>
         /// Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)

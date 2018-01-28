@@ -156,6 +156,18 @@ subcall BYTE.TOBINARY     // FS
 	STRINGS NUMBER_FORMATTED x '%08X' 9 result
 }
 
+subcall BYTE.TOLOGIC     // FS
+{
+	IN_F value
+    OUT_S result 10
+
+	JR_GTF value 0.0 delivertrue
+	STRINGS DUPLICATE 'False' result
+	RETURN
+delivertrue:
+	STRINGS DUPLICATE 'True' result
+}
+
 subcall BYTE.H     // SF
 {
 	IN_S a 252
@@ -229,4 +241,18 @@ next:
 done:
 	AND32 value 255 value
 	MOVE32_F value result	
+}
+
+subcall BYTE.L     // SF
+{
+	IN_S a 252
+    OUT_F result 
+
+	AND8888_32 a -538976289 a        // AND 0xdfdfdfdf performs an upcase for 4 letters
+    STRINGS COMPARE a 'TRUE' a	
+	JR_NEQ8 a 0 istrue	
+	MOVE8_F 0 result
+	RETURN
+istrue:
+	MOVE8_F 1 result
 }

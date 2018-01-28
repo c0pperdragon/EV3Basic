@@ -245,23 +245,20 @@ Note that the brick does not automatically connect to the WiFi router when start
 activate the connection after each power-up.
 </P>
 
-<H1 class="chapter">Motor object since v1.0</H1>
+<H1 class="chapter">Motor object overview</H1>
 <P>
-For version 1.0, I made a re-design of the Motor object, so programs written for v0.9 or 
-earlier need some adjustments to work with v1.0.
-One of the main changes is that there are no "Motor.Speed" or "Motor.Power" commands anymore. You 
-have to specify the speed or power directly at the "Motor.Start" command. Also the other motor control commands
-have been restructured into a functional matrix:
+The commands to control the motors can be organized into a function matrix, with the "Steer"-variants available since EV3Basic 1.2.5: 
 </P>
 <TABLE>
 <TR><TD></TD><TD>Move x degrees while waiting</TD><TD>Start to run indefinitely</TD><TD>Start to move x degrees</TD></TR>
 <TR><TD>Regulate speed</TD><TD>Motor.Move</TD><TD>Motor.Start</TD><TD>Motor.Schedule</TD></TR>
 <TR><TD>Choose power</TD><TD>Motor.MovePower</TD><TD>Motor.StartPower</TD><TD>Motor.SchedulePower</TD></TR>
+<TR><TD>Steering</TD><TD>Motor.MoveSteer</TD><TD>Motor.StartSteer</TD><TD>Motor.ScheduleSteer</TD></TR>
 <TR><TD>Synchronize</TD><TD>Motor.MoveSync</TD><TD>Motor.StartSync</TD><TD>Motor.ScheduleSync</TD></TR>
 </TABLE>
 <P>
 For most purposes the variants with speed regulation of a single motor will be the right choice. So these commands have
-shorter names (no "Power" or "Sync" suffix) when compared to their unregulated or synchronized counterparts. 
+shorter names (no "Power", "Steer" or "Sync" suffix) when compared to their unregulated or synchronized counterparts. 
 </P>
 <P>
 When you have to change power or speed of an already running motor, just re-issue a start command with the appropriate
