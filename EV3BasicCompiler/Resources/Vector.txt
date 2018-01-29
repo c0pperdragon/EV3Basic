@@ -30,8 +30,47 @@ subcall VECTOR.DATA       // FSA
 	ARRAY RESIZE a size32
 	ARRAY FILL a 0.0
 
+	DATAS d0 127        // 8bit-addressable data range
+	DATAS d1 129
+	DATA32 filled
+	DATAF value
+	DATA8 readidx
+	DATA8 writeidx
+	DATA8 c
 
+	STRINGS DUPLICATE d d0
 
+	MOVE32_32 0 filled
+	MOVE8_8 -127 readidx
+
+skipspaces:
+	READ8 d1 readidx c
+	ADD8 readidx 1 readidx
+	JR_EQ8 c 0 done
+	JR_EQ8 c 32 skipspaces
+	
+	MOVE8_8 -127 writeidx
+copypart:
+	WRITE8 c writeidx d1
+	ADD8 writeidx 1 writeidx
+	READ8 d1 readidx c
+	ADD8 readidx 1 readidx
+	JR_EQ8 c 0 lastnumber
+	JR_NEQ8 c 32 copypart
+
+	WRITE8 0 writeidx d1
+	STRINGS STRING_TO_VALUE d0 value
+	ARRAY_WRITE a filled value
+
+	ADD32 filled 1 filled
+	JR_LT32 filled size32 skipspaces
+	RETURN
+
+lastnumber:
+	WRITE8 0 writeidx d1
+	STRINGS STRING_TO_VALUE d0 value
+	ARRAY_WRITE a filled value
+done:
 	RETURN
 empty:
     ARRAY RESIZE a 0

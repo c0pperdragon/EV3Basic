@@ -4,9 +4,7 @@
 LCD.Clear()
 LCD.Text(1, 0,0, 1,"Vector operations")
 
-A = Vector.Init(5, 0)    ' create vector with 5 elements 0
-A[0] = 13                ' add some data
-A[1] = -8                ' add some data
+A = Vector.Data(5, " 13 -8 ") ' create vector with 5 elements, two given
 A[4] = 4                 ' add some data 
 LCD.Text(1, 0,24,0,  "A: ")
 For i=0 To 4
@@ -56,7 +54,7 @@ For I=0 To N-1
 EndFor
 
 ' Define a 2 rows, 3 column matrix in one line:
-B = Vector.Data(2*3, "3 -1 4 3 2 -2")
+B = Vector.Data(2*3, "3 -1 4 3 2 -2 unused trailing 0 0 4")
 For H=0 To K-1
   For J=0 To M-1
     LCD.Text(1, 80+30*J,20+12*H, 1, B[M*H+J])  
