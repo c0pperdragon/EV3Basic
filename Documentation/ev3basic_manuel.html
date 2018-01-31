@@ -528,7 +528,7 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Supprimer l'état cliqué de tous les boutons. L'appel suivant à GetClicks n'indiquera que les boutons qui ont été cliqué après le flush.</P>
 <H3 class="operation">Buttons.GetClicks ()</H3>
 <P class="operationsummary">Indique quels boutons ont été cliqués depuis le dernier appel à GetClicks et renvoie un texte contenant leurs lettres. L'état 'cliqué' des boutons est ensuite retiré. Un son est aussi émis par la brique quand un clic a été détecté.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un texte contenant les lettres des boutons cliqués (peut être vide).</P>
 <H3 class="operation">Buttons.Wait ()</H3>
 <P class="operationsummary">Attendre qu'au moins un bouton soit cliqué. Si l'un des boutons était déjà cliqué avant d'appeler cette fonction, elle retourne immédiatement.</P>
@@ -550,7 +550,7 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Exécuter une commande du système par le shell de commande du système Linux de l'EV3. Tous les threads de la machine virtuelle sont interrompus jusqu'à ce que la commande du système soit terminée.</P>
 <H4 class="parameter">ligne de commande</H4>
 <P class="parametersummary">La commande du système.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'état de sortie de la commande.</P>
 <H2 class="object">EV3File</H2>
 <P class="objectsummary">Accéder au système de fichier de la brique EV3 pour lire ou écrire des données.<BR>Les noms de fichier peuvent être donnés en absolu (commençant par '/') pour accéder à un fichier dans le système, ou par rapport au dossier 'prjs'.</P>
@@ -562,37 +562,37 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Fonction utilitaire pour convertir un texte en un nombre.</P>
 <H4 class="parameter">texte</H4>
 <P class="parametersummary">Un texte qui contient un nombre en représentation décimale (avec éventuellement des décimales).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le nombre</P>
 <H3 class="operation">EV3File.OpenAppend (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier pour ajouter des données. Si le fichier n'existe pas, il sera créé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à créer/étendre.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle').</P>
 <H3 class="operation">EV3File.OpenRead (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier pour lire les données. Si le fichier n'existe pas, 0 est renvoyé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à lire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle') ou 0 si le fichier n'existe pas.</P>
 <H3 class="operation">EV3File.OpenWrite (nom du fichier)</H3>
 <P class="operationsummary">Ouvrir un fichier en écriture. Lorsque le fichier existe déjà, il sera écrasé.</P>
 <H4 class="parameter">nom du fichier</H4>
 <P class="parametersummary">Nom du fichier à créer/écraser.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un numéro qui identifie ce fichier ouvert (aussi appelé 'file handle').</P>
 <H3 class="operation">EV3File.ReadByte (handle)</H3>
 <P class="operationsummary">Lire un octet de données à partir du fichier.</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open ...).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'octet suivant du fichier.</P>
 <H3 class="operation">EV3File.ReadLine (handle)</H3>
 <P class="operationsummary">Lire une ligne de texte à partir du fichier. La ligne sera décodée en utilisant l'encodage ISO-8859-1 et doit se terminer par un caractère 'saut de ligne' (code 10).</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open ...).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le texte de la ligne actuelle dans le fichier.</P>
 <H3 class="operation">EV3File.ReadNumberArray (handle, taille)</H3>
 <P class="operationsummary">Lire tout un tableau de nombres en binaire à partir du fichier. Les chiffres sont codés selon la norme 'IEEE representation en virgule flotante simple précision'.</P>
@@ -600,7 +600,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenue à partir d'un appel Open ...).</P>
 <H4 class="parameter">taille</H4>
 <P class="parametersummary">Nombre de valeurs à lire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un tableau de taille 'éléments' qui contient les valeurs.</P>
 <H3 class="operation">EV3File.TableLookup (nom du fichier, octets par ligne, ligne, colonne)</H3>
 <P class="operationsummary">Fonction utilitaire pour lire des octets à partir de fichiers de données potentiellement énormes et qui sont trop gros pour être transféré en mémoire en entier.<BR>Comme le fichier pourrait être tellement grand que la précision numérique des nombres normaux ne suffirait pas, un adressage par ligne et colonne est possible.</P>
@@ -612,7 +612,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">A quelle ligne accéder (commencer avec 0).</P>
 <H4 class="parameter">colonne</H4>
 <P class="parametersummary">A quelle colonne accéder (commencer avec 0).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'octet à l'endroit désigné.</P>
 <H3 class="operation">EV3File.WriteByte (handle, data)</H3>
 <P class="operationsummary">Écrire un seul octet de données dans le fichier.</P>
@@ -748,19 +748,19 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Créer une boîte aux lettres dans la brique locale qui peut recevoir des messages d'autres briques.<BR>Les messages entrants peuvent être stockés et récupérés seulement après la création de la boîte.<BR>Le nombre de boîtes aux lettres qui peuvent être créés est limité à 30.</P>
 <H4 class="parameter">nom boite</H4>
 <P class="parametersummary">Nom de la boîte aux lettres qui doit être créée.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'identifiant numérique de la boîte aux lettres. Il est utilisé pour récupérer les messages de la boîte.</P>
 <H3 class="operation">Mailbox.IsAvailable (id)</H3>
 <P class="operationsummary">Vérifier s'il y a un message dans la boîte aux lettres spécifiée.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">L'identifiant de la boîte aux lettres locale.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">"True" s'il y a un message en attente, sinon "False".</P>
 <H3 class="operation">Mailbox.Receive (id)</H3>
 <P class="operationsummary">Recevoir le dernier message d'une boîte aux lettres locale. Lorsqu'aucun message n'est présent, la commande bloquera jusqu'à ce qu'un message arrive.<BR>Le message sera alors consommé et le prochain appel à Receive() attendra le prochain message.<BR>Pour éviter le blocage, vous pouvez vérifier avec IsAvailable() s'il y a un message dans la boîte.<BR>Quand il n'existe aucune boîte aux lettres avec le nom, la commande retournera "" immédiatement.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Identifiant de la boîte aux lettres locale.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le message en tant que texte. Actuellement, seuls les messages textuels sont pris en charge.</P>
 <H3 class="operation">Mailbox.Send (nom brique, nom boite, message)</H3>
 <P class="operationsummary">Envoyer un message à une boîte aux lettres d'une autre brique.</P>
@@ -778,67 +778,67 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Obtient la valeur absolue d'un nombre donné. Par exemple, -32,233 retournera 32,233.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut la valeur absolue.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La valeur absolue d'un nombre donné.</P>
 <H3 class="operation">Math.ArcCos (cosValue)</H3>
 <P class="operationsummary">Obtient l'angle en radians donné par la valeur du cosinus.</P>
 <H4 class="parameter">cosValue</H4>
 <P class="parametersummary">La valeur du cosinus dont l'angle est nécessaire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle (en radians) pour la valeur du cosinus donnée.</P>
 <H3 class="operation">Math.ArcSin (sinValue)</H3>
 <P class="operationsummary">Obtient l'angle en radians donné par la valeur du sinus.</P>
 <H4 class="parameter">sinValue</H4>
 <P class="parametersummary">La valeur du sinus dont l'angle est nécessaire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle (en radians) pour une valeur de sinus donnée.</P>
 <H3 class="operation">Math.ArcTan (tanValue)</H3>
 <P class="operationsummary">Obtient l'angle en radians donné par la valeur de la tangente.</P>
 <H4 class="parameter">tanValue</H4>
 <P class="parametersummary">La valeur de la tangente dont l'angle est nécessaire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle (en radians) pour la valeur de la tangente donnée.</P>
 <H3 class="operation">Math.Ceiling (number)</H3>
 <P class="operationsummary">Obtient l'entier qui est plus grand ou égal au nombre décimal spécifié. Par exemple, 32,233 retourne 33.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut la valeur entière immédiatement supérieure.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La valeur entière immédiatement supérieure.</P>
 <H3 class="operation">Math.Cos (angle)</H3>
 <P class="operationsummary">Obtient le cosinus d'un angle donné en radians.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">L'angle dont on veut le cosinus (en radians).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le cosinus d'un angle donné.</P>
 <H3 class="operation">Math.Floor (number)</H3>
 <P class="operationsummary">Obtient l'entier qui est plus petit ou égal au nombre décimal spécifié. Par exemple, 32,233 retourne 32.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut la valeur entière immédiatement inférieure.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La valeur entière immédiatement inférieure.</P>
 <H3 class="operation">Math.GetDegrees (angle)</H3>
 <P class="operationsummary">Convertit un angle donné en radians en degrés.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">L'angle en radians.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle converti en degrés.</P>
 <H3 class="operation">Math.GetRadians (angle)</H3>
 <P class="operationsummary">Convertit un angle donné en degrés en radians.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">L'angle en degré.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle converti en radians.</P>
 <H3 class="operation">Math.GetRandomNumber (maxNumber)</H3>
 <P class="operationsummary">Obtient un nombre aléatoire entre 1 et une valeur maximale (incluse).</P>
 <H4 class="parameter">maxNumber</H4>
 <P class="parametersummary">Le nombre maximum de la valeur aléatoire demandée.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un nombre aléatoire inférieur ou égal à la valeur maximale spécifiée.</P>
 <H3 class="operation">Math.Log (number)</H3>
 <P class="operationsummary">Obtient la valeur du logarithme (de base 10) du nombre donné.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut le logarithme</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le logarithme du nombre donné</P>
 <H3 class="operation">Math.Max (number1, number2)</H3>
 <P class="operationsummary">Compare deux nombres et retourne le plus grand des deux.</P>
@@ -846,7 +846,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le premier des deux nombres à comparer.</P>
 <H4 class="parameter">number2</H4>
 <P class="parametersummary">Le second des deux nombres à comparer.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La plus grande valeur entre deux nombres.</P>
 <H3 class="operation">Math.Min (number1, number2)</H3>
 <P class="operationsummary">Compare deux nombres et retourne le plus petit des deux.</P>
@@ -854,13 +854,13 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le premier des deux nombres à comparer.</P>
 <H4 class="parameter">number2</H4>
 <P class="parametersummary">Le second des deux nombres à comparer.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La plus petite valeur entre deux nombres.</P>
 <H3 class="operation">Math.NaturalLog (number)</H3>
 <P class="operationsummary">Obtient la valeur du logarithme naturel (ou logarithme népérien) du nombre donné.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut le logarithme naturel.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le logarithme naturel du nombre donné.</P>
 <H3 class="operation">Math.Power (baseNumber, exponent)</H3>
 <P class="operationsummary">Elève le baseNumber à la puissance spécifiée.</P>
@@ -868,7 +868,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le nombre élevé à la puissance.</P>
 <H4 class="parameter">exponent</H4>
 <P class="parametersummary">La puissance à laquelle élever le nombre de base.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le baseNumber élevé à l'exposant spécifié.</P>
 <H3 class="operation">Math.Remainder (dividend, divisor)</H3>
 <P class="operationsummary">Divise le premier nombre par le second et renvoie le reste.</P>
@@ -876,31 +876,31 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le numérateur.</P>
 <H4 class="parameter">divisor</H4>
 <P class="parametersummary">Le dénominateur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le reste de la division.</P>
 <H3 class="operation">Math.Round (number)</H3>
 <P class="operationsummary">Arrondi un nombre à la valeur entière la plus proche. Par exemple 32,233 est arrondi à 32,0 tandis que 32,566 est arrondi à 33.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre à arrondir.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'arrondi d'un nombre donné.</P>
 <H3 class="operation">Math.Sin (angle)</H3>
 <P class="operationsummary">Obtient le sinus d'un angle donné en radians.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">L'angle dont on veut le sinus (en radians)</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le sinus d'un angle donné</P>
 <H3 class="operation">Math.SquareRoot (number)</H3>
 <P class="operationsummary">Obtient la racine carrée d'un nombre donné.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Le nombre dont on veut la racine carrée.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La racine carrée d'un nombre donné.</P>
 <H3 class="operation">Math.Tan (angle)</H3>
 <P class="operationsummary">Obtient la tangente d'un angle donné en radians.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">L'angle dont on veut la tangente (en radians).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La tangente d'un angle donné.</P>
 <H2 class="object">Motor</H2>
 <P class="objectsummary">Contrôler les moteurs connectés à la brique.<BR>Pour chaque fonction de Motor, vous devez spécifier un ou plusieurs ports moteur qui devraient être actionnés (par exemple, "A", "BC", "ABD").<BR>Lorsque des briques supplémentaires sont chaînés à la brique maîtresse, adresser le bon port en ajoutant le nombre de couche à la spécification (par exemple, "3BC", "2A"). Dans ce cas, on peut adresser les moteurs d'une seule brique avec une seule commande.<BR>Vitesse ou puissance: Quand on demande qu'un moteur soit entraîné avec une certaine VITESSE (Speed), la puissance électrique sera ajustée en permanence de façon à maintenir le moteur à cette vitesse indépendamment de la force d'entraînement nécessaire (tant que suffisamment de puissance reste disponible). Quand on demande qu'un moteur soit entraîné avec une certaine PUISSANCE (Power), le moteur sera alimenté avec une puissance électrique constante et la vitesse réelle dépendra ensuite de la résistance qu'il rencontre.</P>
@@ -908,13 +908,13 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Interroger l'angle de rotation actuel d'un seul moteur.<BR>Aussi longtemps que le compteur n'est pas remis à zéro il mesurera avec précision tous les mouvements d'un moteur, même si le moteur est entraîné par une force extérieure lorsqu'il ne fonctionne pas activement.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Le nom du port à moteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'angle de rotation actuel du moteur en degrés.</P>
 <H3 class="operation">Motor.GetSpeed (port)</H3>
 <P class="operationsummary">Interroger la vitesse actuelle d'un seul moteur.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Le nom du port moteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Vitesse actuelle dans la gamme -100 à 100.</P>
 <H3 class="operation">Motor.Invert (ports)</H3>
 <P class="operationsummary">Inverser la polarité (direction) d'un ou de plusieurs moteurs. Cela affectera toutes les commandes ultérieures qui font tourner ces moteurs. De même, les lecteurs de tachymétrie et de vitesse délivreront des valeurs inversées. Cette commande permet de changer facilement la façon dont un moteur est intégré dans un robot sans altérer le reste du programme. Il vous suffit d'ajouter une seule commande Motor.Invert() au tout début du programme. Notez qu'intentionnellement il n'y a aucun moyen de désactiver l'inversion plus tard.</P>
@@ -924,7 +924,7 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Vérifier si un ou plusieurs moteurs sont actuellement en train de tourner.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Le nom du ou des ports moteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">"True" si au moins l'un des moteurs est en cours d'exécution, sinon "False".</P>
 <H3 class="operation">Motor.Move (ports, vitesse, degrés, frein)</H3>
 <P class="operationsummary">Faire tourner un ou plusieurs moteurs à la vitesse indiquée et de l'angle spécifié (en degrés).<BR>Cette commande bloquera l'exécution du programme jusqu'à ce que le moteur ait atteint sa destination.<BR>Lorsque vous avez besoin de contrôler plus précisément le mouvement (avec une accélération ou une décélération douce), pensez plutôt à utiliser la commande Motor.Schedule.</P>
@@ -1080,7 +1080,7 @@ mais je ne l'ai pas documenté ici.
 <P class="operationsummary">Retourne l'argument spécifié passé à ce programme.</P>
 <H4 class="parameter">index</H4>
 <P class="parametersummary">Index de l'argument.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'argument de ligne de commande à l'index spécifié.</P>
 <H2 class="object">Sensor</H2>
 <P class="objectsummary">Interroger les capteurs qui sont connectés à la brique.<BR>Pour spécifier le capteur, utiliser le numéro de port qui est imprimé en dessous de la prise de la brique (par exemple 1).<BR>Pour accéder à d'autres capteurs de briques qui sont connectés en chaîne, utiliser des numéros suivants (5-8 pour accéder à des capteurs connectés à la première brique chainée, 9-12 pour les capteurs connectés à la suivante et ainsi de suite).</P>
@@ -1096,31 +1096,31 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Nombre d'octets à demander de l'esclave (maximum 32, minimum 1).</P>
 <H4 class="parameter">tableau à envoyer</H4>
 <P class="parametersummary">Tableau qui contient les octets des données à envoyer (en commençant à 0).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un tableau qui contient le nombre demandé de valeurs. L'indice commence à 0.</P>
 <H3 class="operation">Sensor.GetMode (port)</H3>
 <P class="operationsummary">Obtenir le mode de fonctionnement actuel d'un capteur.<BR>De nombreux capteurs peuvent fonctionner dans des modes sensiblement différents. Par exemple, le capteur de couleur peut détecter soit la lumière ambiante soit la lumière réfléchie soit la couleur). Lorsque le capteur est branché, il sera normalement en mode 0, mais le mode peut ensuite être modifié par le programme.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le mode de fonctionnement actuel (0 est toujours le mode par défaut)</P>
 <H3 class="operation">Sensor.GetName (port)</H3>
 <P class="operationsummary">Obtenir le nom d'un capteur qui est actuellement connecté.<BR>Cette fonction est principalement destinée à un diagnostique parce que normalement on sait quel capteur est branché sur quel port.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Texte descriptif (par exemple, "TOUCH").</P>
 <H3 class="operation">Sensor.GetType (port)</H3>
 <P class="operationsummary">Obtenir l'identifiant numérique du type d'un capteur qui est actuellement connecté.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">L'identifiant du type de capteur (par exemple, 16 pour un capteur tactile).</P>
 <H3 class="operation">Sensor.IsBusy (port)</H3>
 <P class="operationsummary">Vérifier si un capteur est actuellement en train de changer de mode ou en cours d'initialisation. Après une commutation de mode, un capteur peut prendre un certain temps avant d'être prêt.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">"True" si le capteur est actuellement occupé.</P>
 <H3 class="operation">Sensor.ReadI2CRegister (port, adresse, numéro_de_registre)</H3>
 <P class="operationsummary">Cette commande adresse un périphérique sur le bus I2C et essaie de recevoir la valeur d'un seul registre d'un esclave I2C connecté. Notez que cette commande ne fonctionne pas avec des briques connectées en cascade (daisychain).</P>
@@ -1130,7 +1130,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">L'adresse (0 - 127) de l'esclave I2C sur le bus I2C.</P>
 <H4 class="parameter">numéro_de_registre</H4>
 <P class="parametersummary">Le numéro du registre dans l'esclave duquel on veut lire les données.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le contenu du registre</P>
 <H3 class="operation">Sensor.ReadI2CRegisters (port, adresse, numéro_de_registre, readbytes)</H3>
 <P class="operationsummary">Cette commande adresse un périphérique sur le bus I2C et essaie de recevoir les valeurs de plusieurs registres d'un esclave I2C connecté. Notez que cette commande ne fonctionne pas avec des briques connectées en cascade (daisychain).</P>
@@ -1142,13 +1142,13 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le numéro du registre dans l'esclave duquel on veut lire les données.</P>
 <H4 class="parameter">readbytes</H4>
 <P class="parametersummary">Le nombre de registres à lire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un tableau contenant le nombre de valeurs demandé. L'index commence à 0.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Lire la valeur actuelle du capteur et appliquer une échelle adéquate pour obtenir une valeur en pourcentage.<BR>La plupart des capteurs peuvent traduire la valeur actuelle en une valeur unique significative exprimée en pourcentage comme l'intensité lumineuse ou l'état du capteur tactile.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Numéro du port capteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La valeur en pourcentage. Par exemple, le capteur tactile donne 100 pour enfoncé et 0 pour non-enfoncé.</P>
 <H3 class="operation">Sensor.ReadRaw (port, taille)</H3>
 <P class="operationsummary">Lire la valeur du capteur actuel quand le résultat de ReadPercent() n'est pas assez précis.<BR>Certains modes de capteurs livrent des valeurs qui ne peuvent être traduites en pourcentage (par exemple un indice de couleur) ou plusieurs valeurs à la fois (par exemple les différentes intensités des lumières rouges, vertes et bleues qui constituent les valeurs RVB).</P>
@@ -1156,7 +1156,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="parameter">taille</H4>
 <P class="parametersummary">Taille demandée du tableau des valeurs.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un tableau qui contient le nombre requis de valeurs. L'indice commence à 0. La valeur 0 est attribuée aux éléments qui n'ont pas reçu de données.</P>
 <H3 class="operation">Sensor.ReadRawValue (port, indice)</H3>
 <P class="operationsummary">Similaire à ReadRaw(), mais retourne une seule valeur à la place d'un tableau de valeurs.</P>
@@ -1164,7 +1164,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Numéro du port capteur.</P>
 <H4 class="parameter">indice</H4>
 <P class="parametersummary">Indice de la valeur qui devrait être repris à partir du tableau des valeurs (en commençant par l'indice 0).</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un élément du tableau des valeurs premières généré par le capteur.</P>
 <H3 class="operation">Sensor.SendUARTData (port, octets à écrire, tableau à envoyer)</H3>
 <P class="operationsummary">Envoie des données à des appareils qui sont attachés à l'UART (transmetteur-récepteur asynchrone universel ou port série) de l'un des ports capteur. Cela peut être utile pour envoyer des commandes personnalisées à des capteurs / actionneurs qui ont été faits sur mesure.</P>
@@ -1210,7 +1210,7 @@ mais je ne l'ai pas documenté ici.
 <P class="objectsummary">Utiliser le haut-parleur intégré dans la brique pour jouer des tonalités ou des fichiers audio.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>
 <P class="operationsummary">Vérifier si le haut-parleur est toujours occupé à jouer un son précédent.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">"True", s'il y a encore un son en train d'être joué, "False" autrement.</P>
 <H3 class="operation">Speaker.Note (volume, note, durée)</H3>
 <P class="operationsummary">Commencer à jouer une tonalité simple définie par sa représentation textuelle.</P>
@@ -1246,19 +1246,19 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Premier bloc de texte à être concaténé.</P>
 <H4 class="parameter">text2</H4>
 <P class="parametersummary">Deuxième bloc de texte à être concaténé.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La concaténation des deux textes spécifiés.</P>
 <H3 class="operation">Text.ConvertToLowerCase (text)</H3>
 <P class="operationsummary">Convertit le texte en minuscule.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Le texte à convertir en minuscules.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le texte converti en minuscules.</P>
 <H3 class="operation">Text.ConvertToUpperCase (text)</H3>
 <P class="operationsummary">Convertit le texte en majuscule.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Le texte à convertir en majuscules.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le texte converti en majuscules.</P>
 <H3 class="operation">Text.EndsWith (text, subText)</H3>
 <P class="operationsummary">Indique si un texte donné se termine par un sous-ensemble de texte spécifié.</P>
@@ -1266,19 +1266,19 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le texte dans lequel la recherche est effectuée.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Le sous-texte à rechercher.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">True si le sous-texte est trouvé à la fin du texte spécifié.</P>
 <H3 class="operation">Text.GetCharacter (characterCode)</H3>
 <P class="operationsummary">A partir du code de caractère Unicode, obtient le caractère utilisable dans un texte.</P>
 <H4 class="parameter">characterCode</H4>
 <P class="parametersummary">Le code du caractère Unicode.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un caractère Unicode qui correspond au code spécifié.</P>
 <H3 class="operation">Text.GetCharacterCode (character)</H3>
 <P class="operationsummary">Obtient le code du caractère Unicode.</P>
 <H4 class="parameter">character</H4>
 <P class="parametersummary">Le caractère dont le code est demandé.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un code Unicode qui correspond au caractère spécifié.</P>
 <H3 class="operation">Text.GetIndexOf (text, subText)</H3>
 <P class="operationsummary">Trouve la position d'un texte dans un texte spécifié.</P>
@@ -1286,13 +1286,13 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le texte dans lequel rechercher.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Le texte à rechercher.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La position d'un texte dans un texte spécifié. Si le texte n'apparaît pas, retourne 0.</P>
 <H3 class="operation">Text.GetLength (text)</H3>
 <P class="operationsummary">Obtient la longueur du texte donné.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Le texte dont la longueur est nécessaire.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">La longueur du texte donné.</P>
 <H3 class="operation">Text.GetSubText (text, start, length)</H3>
 <P class="operationsummary">Obtient une partie d'un texte donné.</P>
@@ -1302,7 +1302,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Spécifie d'où partir.</P>
 <H4 class="parameter">length</H4>
 <P class="parametersummary">Spécifie la longueur du sous-texte.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le sous-texte demandé</P>
 <H3 class="operation">Text.GetSubTextToEnd (text, start)</H3>
 <P class="operationsummary">Obtient une partie d'un texte depuis une position donnée jusqu'à la fin du texte.</P>
@@ -1310,7 +1310,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Texte dans lequel est effectué la recherche.</P>
 <H4 class="parameter">start</H4>
 <P class="parametersummary">Spécifie d'où partir.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le sous-texte demandé.</P>
 <H3 class="operation">Text.IsSubText (text, subText)</H3>
 <P class="operationsummary">Indique si un texte est un sous-ensemble d'un texte plus grand.</P>
@@ -1318,7 +1318,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Texte dans lequel est effectué la recherche.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Le sous-texte à rechercher.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">True si le sous-texte a été trouvé dans le texte.</P>
 <H3 class="operation">Text.StartsWith (text, subText)</H3>
 <P class="operationsummary">Indique si un texte donné commence bien par un sous-texte spécifié.</P>
@@ -1326,7 +1326,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le texte dans lequel la recherche est effectuée.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">La partie de texte à rechercher.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">True si la partie de texte recherché est trouvée au début du texte donné.</P>
 <H2 class="object">Thread</H2>
 <P class="objectsummary">Cet objet prend en charge l'utilisation de threads dans un programme.<BR>Un thread est un bloc de code du programme qui peut fonctionner indépendamment et en même temps que d'autres parties du programme. Par exemple, vous pouvez créer un thread qui commande les moteurs pendant qu'un autre thread surveille des capteurs ou des entrées utilisateur.<BR>De manière générale, le multithreading est un sujet assez complexe. Pour bien le comprendre, une étude complémentaire est recommandée.</P>
@@ -1334,7 +1334,7 @@ mais je ne l'ai pas documenté ici.
 <P class="propertysummary">Avec cette propriété, de nouveaux threads sont créés. Il suffit simplement d'affecter un sous-programme à cette propriété et le sous-programme démarrera comme un thread indépendant (par exemple, Thread.Run = MYSUB).<BR>N'importe quel sous-programme peut être utilisé pour créer un thread indépendant, mais un même sous-programme ne peut être démarré que par un seul thread. Une seconde utilisation de Thread.Run, pendant que le même sous-programme est toujours en cours d'exécution, ne fera qu'ajouter l'appel à une file d'attente. Cette file d'attente sera traitée après que l'exécution précédant sera terminée. Aucune exécution du sous-programme ne sera perdue dans ce cas, mais vraisemblablement repoussée à plus tard.<BR>A noter que, même en présence de threads en cours d'exécution, tout le programme s'arrête dès que le programme principal s'arrête.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
 <P class="operationsummary">Créer un mutex. Un mutex (de l'anglais : Mutual exclusion, Exclusion mutuelle) peut être utilisé pour la synchronisation des threads.<BR>Seulement la création des mutex est prise en charge, mais pas la suppression. La meilleure pratique consiste à créer tous les mutex nécessaires au démarrage du programme et de garder leurs numéros dans des variables globales.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un nombre spécifiant le nouveau mutex. L'utiliser pour les appels à 'Lock()' (verrouiller) et à 'Unlock()' (déverrouiller).</P>
 <H3 class="operation">Thread.Lock (mutex)</H3>
 <P class="operationsummary">Tente de verrouiller le mutex donné de façon exclusive pour qu'aucun autre thread ne puisse le verrouiller.<BR>Quand un autre thread détient déjà un verrou sur le mutex, le thread actuel va attendre que le verrou soit libéré puis acquérir le verrou lui-même (une fois que la fonction revient, le mutex a été verrouillé avec succès).<BR>Ce mécanisme de verrouillage est normalement utilisé pour protéger des structures de données ou d'autres ressources afin qu'elles ne soient pas accédées par deux threads en même temps. Chaque appel à Lock() doit être couplé avec un appel ultérieur à Unlock().</P>
@@ -1356,7 +1356,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Premier vecteur.</P>
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Deuxième vecteur.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un vecteur de la taille donnée qui contient les valeurs additionnées.</P>
 <H3 class="operation">Vector.Init (taille, valeur)</H3>
 <P class="operationsummary">Créer un vecteur d'une taille donnée dont tous les éléments sont affectés la même valeur.</P>
@@ -1364,7 +1364,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">La taille du vecteur.</P>
 <H4 class="parameter">valeur</H4>
 <P class="parametersummary">La valeur à utiliser pour tous les éléments.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Le vecteur créé.</P>
 <H3 class="operation">Vector.Multiply (lignes, colonnes, k, A, B)</H3>
 <P class="operationsummary">Opération de multiplication de deux matrices.<BR>Les vecteurs d'entrée sont traités comme des matrices à deux dimensions, de largeur et de hauteur donnée. Les lignes individuelles de la matrice sont stockées dans les vecteurs directement les unes après les autres.<BR>Pour en savoir plus à propos de cette opération mathématique voir https://fr.wikipedia.org/wiki/Produit_matriciel.</P>
@@ -1378,7 +1378,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Une matrice de taille k * lignes.</P>
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Une matrice de taille k * colonnes.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Une matrice qui contient le résultat de la multiplication.</P>
 <H3 class="operation">Vector.Sort (taille, A)</H3>
 <P class="operationsummary">Trier les éléments d'un vecteur dans l'ordre croissant.</P>
@@ -1386,7 +1386,7 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Nombre d'éléments à trier.</P>
 <H4 class="parameter">A</H4>
 <P class="parametersummary">Le tableau qui contient les éléments.</P>
-<H4 class="returns">résultats</H4>
+<H4 class="returns">Résultats</H4>
 <P class="returnssummary">Un nouveau vecteur avec les éléments dans l'ordre correct.</P>
 
 <H1 class="chapter">Annexe: Les Capteurs</H1>
@@ -1573,194 +1573,6 @@ qui contient les textes pour le système 'Intellisense' a été assurée par Nig
 Ward, Catherine Colardelle et Frédéric Maria en juillet 2015. Merci, Frédéric!
 <br><br><br>
 </p>
-
-<H1 class="chapter">Appendix - I2C Tutorial</H1>
-<H3 class="subchapter">Why accessing I2C directly?</H3>
-<P>
-Normally interfacing to sensors from the EV3 brick is done using the easy-to-use Sensor.Read... commands. 
-But some third-party devices are not compatible with the default sensor protocol and require extra programming. 
-The vendors of such devices normally provide some programming blocks for the original graphics programming 
-environment that handle all the details of the communication. 
-</P>
-<P>
-For EV3Basic there is probably no such support available, but normally there is some documentation specifying 
-the low-level communication protocol. Having this information, the Sensor.CommunicateI2C can be used to implement
-any such protocol.
-</P>
-<H3 class="subchapter">Introduction to I2C</H3>
-<P>
-I2C is a communication facility that allows a single master to access multiple slaves on a common bus
-for reading and writing data. In the case of the EV3 each sensor port with its attached sensor device(s)
-can form such a bus. 
-</P>
-<P>
-The communication is done by the master sending a bunch of data bytes to a slave or by requesting
-a bunch of data bytes. The slaves themselves can not initiate any data transfer. Because there can be multiple 
-slaves connected to the bus, the master needs to make clear to which slave it wants to talk. This is done by 
-sending a slave address (a number from 0 to 127) before communication. The designer of the system must 
-make sure that no two slaves on a bus have the same address to avoid conflict.
-</P>
-<P>
-The I2C protocol itself does only provide a means for communication, the meaning of the data is
-totally depending on the devices in question. 
-</P>
-<H3 class="subchapter">CommunicateI2C</H3>
-<P>
-This command of EV3Basic is the only way to access the I2C functionality directly in a raw form.
-It combines the operation of sending an arbitrary number of bytes and receiving some bytes back. 
-Example:
-<pre>
-W[0]=60
-W[1]=70
-W[2]=80
-R=Sensor.CommunicateI2C(1,44,3,4,W)
-</pre>
-This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
-Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
-</P>
-<H3 class="subchapter">I2C Registers</H3>
-<p>
-The concept of registers is basically not part of the I2C protocol, but this concept is used
-so widely, that it is now a kind of standard way to do communication with many devices.
-On devices that use registers, all data transfer is done by the master writing 
-into the slaves registers or reading data from the registers. A register is basically just 
-a storage location that can hold one byte of data and is accessed via its register number
-(or register 'address' - but using this name will probably lead to confusion because the slaves
-themselves already have an I2C-address).
-</p>
-<p>
-For the sake of simplicity, imagine a device that has 256 registers, with register numbers from 0 to 255 
-that can be written to or read from (in fact you can buy a single chip that does exactly that - 
-it is a 256 byte I2C RAM). The master can write into these registers by sending a data packet that 
-contains the register number in the first byte and the content that should be written there and 
-into the following registers in the subsequent bytes.
-</p>
-<P>
-Reading data from registers is done in two steps. First a data packet containing just the 
-register number is sent to the slave (like a normal write operation with zero data bytes). Then the 
-required number of bytes are requested from the slave (which will have memorized the previously 
-sent register number).
-</p>
-<p>
-Example:  Receive registers 4 - 8 from the slave with address 55 on port 2.
-<pre>
-W[0] = 4
-R = Sensor.CommunicateI2C (2, 55, 1, 5, W)
-</pre>
-</p>
-<p>
-Example: Write into register 99 and 100 of the slave with address 97 on port 1.
-In this case, one byte is unnecessarily received back from the slave because due to a bug/strange behaviour 
-of the EV3 firmware is not possible to have a write operation without a read.
-<pre>
-W[0] = 99
-W[1] = 8
-W[2] = 8
-R = Sensor.CommunicateI2C (1, 97, 3, 1, W)
-</pre>
-</p>
-
-<H3 class="subchapter">Sources of confusion</H3>
-<P>
-Slave address vs. Register address.<br>
-Many device documents refer to the slave address and the register number both just as 'address'. 
-Make sure to understand the difference and what the documentation really means in each case.
-</P>
-<P>
-Slave address is pre-multiplied by 2<br>
-The inner working of the protocol combines the 7 bits of the slave address (values from 0 to 127) with
-a single bit that specifies the direction (read or write) to give 8 bits that need to be transmitted from master to slave.
-Sometimes the developers of a device just write this combined value into the program to save a few processor cycles
-during execution. When this value finds is way into the documentation, a slave address of for example 80 will 
-be written 160 there. It is sometimes quite hard to figure out what the real address is. In doubt you need to 
-write a test program to try if a slave address is valid.
-</P>
-
-
-<H1 class="chapter">Appendix - Advanced logic operations</H1>
-<H3 class="subchapter">Motivation</H3>
-<P>
-In Small Basic (and indeed in any dialect of Basic, I have encountered) the use of comparators and of the 
-logic operators AND and OR is limited to the context of If and While. But sometimes it is necessary 
-to keep the outcome of some comparisions for future use. For this you have to write something like
-</P>
-<pre>
-If X<10 OR X>50 Then
-   A = "True"
-Else
-   A = "False"
-EndIf
-</pre>
-<P>
-But knowing other programming languages you would probably very much prefer to write this in a single line
-like
-</P>
-<pre>
-A = X<10 OR X>50
-</pre>
-<P>
-which is not possible in Small Basic. 
-</P>
-<P>
-But using the Byte.ToLogic command, there is a funky way to indeed do the same thing also in one line. 
-Please read on.
-</P>
-<H3 class="subchapter">Comparators outside If and While</H3>
-<P>
-When reading the specification for the Byte.ToLogic commands carefully you can see that it will 
-return "True" for positive input values and "False" for 0 or negative. 
-So consider the following construct.
-</P>
-<pre>
-A = Byte.ToLogic(X-Y)
-</pre>
-<P>
-This will actually set A to "True" whenever X is greater than Y just like a non-existent 
-greater-than comparision expression would. Similiarly the construct 
-</P>
-<pre>
-A = Byte.ToLogic(Math.Abs(X-Y))
-</pre>
-<P>
-is equivalent to a non-equal operator. Using this idea you can create all possible comparision
-expressions of Small Basic (some are quite simple to write, others are more complicated)
-<pre>
-  X > Y              Byte.ToLogic(X-Y)
-  X < Y              Byte.ToLogic(Y-X)
-  X >= Y             Byte.ToLogic(1+Math.Floor(X-Y))
-  Y <= X             Byte.ToLogic(1+Math.Floor(Y-X))
-  X <> Y             Byte.ToLogic(Math.Abs(X-Y))
-  X = Y              Byte.ToLogic(1-Math.Ceiling(Math.Abs(X-Y)))
-</pre>
-<H3 class="subchapter">Putting comparators together</H3>
-<P>
-To allow a logic combination of comparators (just like the motivating example), you can
-actually use the Math.Max and Math.Min commands to do proper AND and OR of the comparator outcomes.
-Consider the following example:
-</P>
-<pre>
-A = Byte.ToLogic(Math.Max(10-X,X-50))
-</pre>
-<P>
-The first parameter of the Max will be greater than zero whenever X is lower than 10. 
-The second parameter of the Max will be greater than zero whenver X is higher that 50.
-The outcome of the Max command will be greater than zero whenever one of its parameters is greater than zero.
-By turning this "greater-than-zero" property into an explicit logic value of "True" or "False" by 
-use of the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
-</P>
-<pre>
-A = X<10 OR X>50
-</pre>
-<P> 
-all done in one single line.
-Here is a summary of logic operators (including NOT for good measure):
-</P>
-<pre>
-  A AND B                Math.Min(A,B)
-  A OR B                 Math.Max(A,B)
-  NOT A                  (1-Math.Ceiling(A))
-</pre>
-
 
 </BODY>
 </HTML>

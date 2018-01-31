@@ -110,10 +110,10 @@ But they all have one thing in common: They are awfully complicated to set up an
 <P>
 To fill the gap between 'easy to use but limited' and 'powerful but complicated', I have invented EV3Basic. It is targeted mainly at users that want to go beyond
 the limitations of graphical programming, but who are no IT-professionals themselves. 
-EV3-Basic is quite easy to learn and still offers all the functionality you need to create awesome programs. Learning to program on the way is probably an added benefit.
+EV3Basic is quite easy to learn and still offers all the functionality you need to create awesome programs. Learning to program on the way is probably an added benefit.
 </P>
 <P>
-EV3-Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
+EV3Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
 but also for all interested persons new to this topic. "Small Basic" is intentionally designed for ease of use, and for my EV3-extension I tried to do the same.
 I would be very happy if this language could indeed be of some use to help people learn programming and use the EV3 brick more creatively.
 </P>
@@ -125,14 +125,14 @@ reinhard.grafl@aon.at
 
 <H1 class="chapter">Getting Started</H1>
 <P>
-First thing you need is a PC running Microsoft Windows (any version up from Windows XP) and the current version of
+First thing you need is a PC running Microsoft Windows (any version up from Windows Vista) and the current version of
 <a href="http://smallbasic.com">Microsoft Small Basic</a> which can be downloaded for free. If you are completely new to programming, 
 you probably need to learn the principles first. This does not take too long and is quite fun in itself. There are some very good tutorials
 on the Small Basic website to help you with this.
 </P>
 <P>
 Next step is to download and install the EV3-extension for Small Basic to actually be able to control the EV3 brick with your program. 
-From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download and install the file "EV3BasicInstaller.msi".
+From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3Basic</a>, download and install the file "EV3BasicInstaller.msi".
 This should install the extension right into the installation directory of Small Basic. If you have previously chosen a non-standard location for Small Basic, 
 use this same location here.
 At the next start of Small Basic (restart it if it was still running), you have access to various objects to control different aspects of the brick
@@ -146,13 +146,13 @@ Now create your very first EV3-program by writing
 </pre>
 <P>
 into the program window. 
-Then connect the EV3 brick with your computer using the USB cable, start it up, and when it is running, 
+Then connect the EV3 brick to your computer using the USB cable, start it up, and when it is running, 
 press the big blue "Run" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
 </P>
 <P>
 When writing your own programs, the Intellisense - system of Small Basic will show you the possible library functions and usage
 documentation which contains the same information that is also available in this document in the chapter "Library Documentation".
-Many more examples for the EV3 programming are also available on the releases page (probably named 'examples.zip'). 
+Many more examples for programming the EV3 are also available on the releases page (probably named 'examples.zip'). 
 </P>
 <P>
 Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independent robot that 
@@ -269,7 +269,7 @@ To make things easier, an automatic conversion from number to text is done if a 
 <H3 class="subchapter">Arrays</H3>
 <P>
 In Small Basic, arrays work like a dictionary and can use any text as an index. 
-EV3-Basic can't do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
+EV3Basic can't do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
  (A[4.5] is the same as A[4], A[-4] will always deliver 0 or "")
 There is no support for multi-dimensional arrays. 
 While arrays can be passed to library functions and out again, no temporary arrays are created to receive the result. For all functions that return an array,
@@ -286,7 +286,7 @@ The same holds for all elements of text arrays.
 <H1 class="chapter">Bluetooth Support</H1>
 <P>
 Connecting the EV3 to your PC directly with an USB cable is the most easy and reliable
-way to use it with EV3-Basic. Nevertheless, having to use the cable can be quite cumbersome
+way to use it with EV3Basic. Nevertheless, having to use the cable can be quite cumbersome
 in many circumstances, especially when developing mobile robots.
 </P>
 <P>
@@ -295,7 +295,7 @@ you can configure the EV3 to communicate with the PC wirelessly. If not already 
 to "pair" the EV3 with your PC to allow communication. To do so, first activate the bluetooth
 features on the EV3: In the settings menu, activate the "Visibility" and "Bluetooth" options.
 Then on the PC, open the system dialog "Bluetooth Devices". There you can search for the device 
-and start to establish a connection to EV3. The process may be a bit lengthy and requires to
+and start to establish a connection to the EV3. The process may be a bit lengthy and requires to
  confirm the action on the
 EV3 as well as on the PC, and you will even have to enter the correct coupling code in some place 
 (should be "1234"). 
@@ -307,7 +307,7 @@ be named "COM1", "COM3" or the like. You can check which name was actually assig
 at the properties page of the EV3 bluetooth device. 
 </P>
 <P>
-To use the newly established connection with EV3-Basic, just start your program from
+To use the newly established connection with EV3Basic, just start your program from
 Small Basic or just start the EV3-Explorer. When no EV3 can be found directly connected via USB, 
 but there are possible "Serial Ports" available, the PC will prompt you to select one of
 these ports. When this is indeed the port for the EV3, the connection will work.
@@ -348,7 +348,7 @@ activate the connection after each power-up.
 
 <H1 class="chapter">Motor object overview</H1>
 <P>
-The commands to control the motors can be organized into a function matrix, with the "Steer"-variants available since EV3Basic 1.2.5: 
+The commands to control the motors can be organized into a functional matrix, with the "Steer"-variants available since EV3Basic 1.2.5: 
 </P>
 <TABLE>
 <TR><TD></TD><TD>Move x degrees while waiting</TD><TD>Start to run indefinitely</TD><TD>Start to move x degrees</TD></TR>
@@ -382,7 +382,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.Failed (message)</H3>
 <P class="operationsummary">Write a failure message to the display. This function should only be called if something has already failed in the program.</P>
 <H4 class="parameter">message</H4>
@@ -394,7 +394,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.GreaterEqual (a, b, message)</H3>
 <P class="operationsummary">Make sure that the first number is greater than or equal to the second.</P>
 <H4 class="parameter">a</H4>
@@ -402,7 +402,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.Less (a, b, message)</H3>
 <P class="operationsummary">Make sure that the first number is less than the second.</P>
 <H4 class="parameter">a</H4>
@@ -410,7 +410,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.LessEqual (a, b, message)</H3>
 <P class="operationsummary">Make sure that the first number is less than or equal to the second.</P>
 <H4 class="parameter">a</H4>
@@ -418,7 +418,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.Near (a, b, message)</H3>
 <P class="operationsummary">Make sure that the two numbers are nearly identical. This can be used for fractional numbers with many decimal places where the computation could give slightly different results because of rounding issues.</P>
 <H4 class="parameter">a</H4>
@@ -426,7 +426,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H3 class="operation">Assert.NotEqual (a, b, message)</H3>
 <P class="operationsummary">Make sure that two values are not equal. For this test, even "True" and "tRue" are not considered equal.</P>
 <H4 class="parameter">a</H4>
@@ -434,21 +434,21 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">b</H4>
 <P class="parametersummary">Second value</P>
 <H4 class="parameter">message</H4>
-<P class="parametersummary">Message that will be displayed if the assertion fails.</P>
+<P class="parametersummary">Message that will be displayed if the assertion fails</P>
 <H2 class="object">Buttons</H2>
-<P class="objectsummary">Reads the states and clicks of the buttons on the brick.<BR>The buttons are specified with the following letters:<BR>U   up<BR>D   down<BR>L   left<BR>R   right<BR>E   enter</P>
+<P class="objectsummary">Reads the states and clicks of the buttons on the EV3 brick.<BR>The buttons are specified with the following letters:<BR>U   up<BR>D   down<BR>L   left<BR>R   right<BR>E   center</P>
 <H3 class="property">Buttons.Current - Property</H3>
 <P class="propertysummary">The buttons that are currently pressed. <BR>This property contains a text with the key letters of all keys being pressed at the moment.</P>
 <H3 class="operation">Buttons.Flush ()</H3>
 <P class="operationsummary">Remove any clicked-state of all buttons. Subsequent calls to GetClicks will only deliver the buttons that were clicked after the flush.</P>
 <H3 class="operation">Buttons.GetClicks ()</H3>
-<P class="operationsummary">Checks which buttons were clicked since the last call to GetClicks and returns a text containing their letters. <BR>The 'clicked' state of the buttons is then removed. Also a sound is emitted from the brick when a click was detected.</P>
+<P class="operationsummary">Check which buttons were clicked since the last call to GetClicks and returns a text containing their letters. <BR>The 'clicked' state of the buttons is then removed. Also a sound is emitted from the brick when a click was detected.</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">A text containing the letters of the clicked buttons (can be empty)</P>
 <H3 class="operation">Buttons.Wait ()</H3>
 <P class="operationsummary">Wait until at least one button is clicked. If a buttons was already clicked before calling this function, it returns immediately.</P>
 <H2 class="object">Byte</H2>
-<P class="objectsummary">Manipulate individual bis of an 8-bit numerical quantity.<BR>This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a "bytes"). To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.<BR>The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead. For further information see https://en.wikipedia.org/wiki/Bitwise_operation .</P>
+<P class="objectsummary">Manipulate individual bits of an 8-bit numerical quantity.<BR>This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a. "bytes"). To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.<BR>The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead. For further information see https://en.wikipedia.org/wiki/Bitwise_operation .</P>
 <H3 class="operation">Byte.AND_ (a, b)</H3>
 <P class="operationsummary">Bitwise AND operation.</P>
 <H4 class="parameter">a</H4>
@@ -526,7 +526,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">A string holding 2 hexadecimal digits</P>
 <H3 class="operation">Byte.ToLogic (value)</H3>
-<P class="operationsummary">Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".<BR>This value can then be used for the condition in If or While or other any other purpose.<BR>Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".<BR>This specific behaviour allows some weird and wonderful things to be done with this operation. Refer the apendix for advanced logic operations.</P>
+<P class="operationsummary">Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".<BR>This value can then be used for the condition in If or While or any other purpose.<BR>Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".<BR>This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the apendix for advanced logic operations.</P>
 <H4 class="parameter">value</H4>
 <P class="parametersummary">The numeric value to be converted into its corresponding logic value</P>
 <H4 class="returns">Returns</H4>
@@ -556,9 +556,9 @@ When developing programs that only need to run on the PC, you can also use every
 <H3 class="operation">EV3.SystemCall (commandline)</H3>
 <P class="operationsummary">Execute one system command by the command shell of the EV3 linux system. All threads of the virtual machine are halted until the system command is finished.</P>
 <H4 class="parameter">commandline</H4>
-<P class="parametersummary">The system command.</P>
+<P class="parametersummary">The system command</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">Exit status of the command.</P>
+<P class="returnssummary">Exit status of the command</P>
 <H2 class="object">EV3File</H2>
 <P class="objectsummary">Access the file system on the EV3 brick to read or write data.<BR>File names can be given either absolute (with a leading '/') to reach any file in the system, or relative to the 'prjs' folder.</P>
 <H3 class="operation">EV3File.Close (handle)</H3>
@@ -574,33 +574,33 @@ When developing programs that only need to run on the PC, you can also use every
 <H3 class="operation">EV3File.OpenAppend (filename)</H3>
 <P class="operationsummary">Open a file for adding data. When the file does not exist, it will be created.</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Name of the file to create/extend.</P>
+<P class="parametersummary">Name of the file to create/extend</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">A number that identifies this open file (a.k.a. file handle).</P>
+<P class="returnssummary">A number that identifies this open file (a.k.a. file handle)</P>
 <H3 class="operation">EV3File.OpenRead (filename)</H3>
 <P class="operationsummary">Open a file for reading data. When the file does not exist, a 0 is returned.</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Name of the file to read from.</P>
+<P class="parametersummary">Name of the file to read from</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">A number that identifies this open file (a.k.a. file handle) or 0 if file does not exist.</P>
+<P class="returnssummary">A number that identifies this open file (a.k.a. file handle) or 0 if file does not exist</P>
 <H3 class="operation">EV3File.OpenWrite (filename)</H3>
 <P class="operationsummary">Open a file for writing. When the file already exists, it will be overwritten.</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Name of the file to create/overwrite.</P>
+<P class="parametersummary">Name of the file to create/overwrite</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">A number that identifies this open file (a.k.a. file handle).</P>
+<P class="returnssummary">A number that identifies this open file (a.k.a. file handle)</P>
 <H3 class="operation">EV3File.ReadByte (handle)</H3>
 <P class="operationsummary">Read one byte of data from the file.</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">The next byte from the file.</P>
+<P class="returnssummary">The next byte from the file</P>
 <H3 class="operation">EV3File.ReadLine (handle)</H3>
 <P class="operationsummary">Read one line of text from the file. The line will be decoded using the ISO-8859-1 encoding and must be terminated with a newline-character (code 10).</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">The text from the current line in the file.</P>
+<P class="returnssummary">The text from the current line in the file</P>
 <H3 class="operation">EV3File.ReadNumberArray (handle, size)</H3>
 <P class="operationsummary">Read a whole array of numbers in binary form from the file. The numbers are encoded in IEEE single precision floating point representation.</P>
 <H4 class="parameter">handle</H4>
@@ -608,17 +608,17 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">size</H4>
 <P class="parametersummary">Number of values to read</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">An array of size elements holding the values.</P>
+<P class="returnssummary">An array of size elements holding the values</P>
 <H3 class="operation">EV3File.TableLookup (filename, bytes_per_row, row, column)</H3>
 <P class="operationsummary">Utility function to read bytes from potentially huge data files that are too big to be transfered to memory as a whole.<BR>Because the file could be so big that the numerical precision of the normal numbers is not enough, a row/column addressing is possible.</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">The name of the file.</P>
+<P class="parametersummary">The name of the file</P>
 <H4 class="parameter">bytes_per_row</H4>
 <P class="parametersummary">When the file has a row/column structure, this is the number of bytes in one row. Use 1 if not applicable.</P>
 <H4 class="parameter">row</H4>
-<P class="parametersummary">Which row to access (start with 0).</P>
+<P class="parametersummary">Which row to access (start with 0)</P>
 <H4 class="parameter">column</H4>
-<P class="parametersummary">Which column to access (start with 0).</P>
+<P class="parametersummary">Which column to access (start with 0)</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The byte on the denoted position</P>
 <H3 class="operation">EV3File.WriteByte (handle, data)</H3>
@@ -626,103 +626,449 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="parameter">data</H4>
-<P class="parametersummary">One byte to write (value of 0 - 255).</P>
+<P class="parametersummary">One byte to write (value of 0 - 255)</P>
 <H3 class="operation">EV3File.WriteLine (handle, text)</H3>
 <P class="operationsummary">Write one line of text to the file. The line will be encoded with ISO-8859-1 encoding and will be terminated with a newline-character (code 10).</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">The file handle (previously obtained from an Open... call)</P>
 <H4 class="parameter">text</H4>
-<P class="parametersummary">The text to write to the file.</P>
+<P class="parametersummary">The text to write to the file</P>
 <H2 class="object">F</H2>
 <P class="objectsummary">A framework to create functions with parameters and local variables in Small Basic. <BR>This enables programs to call user-defined library functions in a form similar to what is possible with the built-in commands, including nicer parameter passing and return values. <BR>Functions can be defined by use of the F.Function command and can be later called with one of the F.Call - commands.<BR>See the provided example "Function.sb" for a better introduction.</P>
 <H3 class="property">F.Start - Property</H3>
-<P class="propertysummary">This property must be set to a subprogram before a subsequent F.Function operation is done to actually define the function.</P>
+<P class="propertysummary">This property must be set to a subprogram before a subsequent F.Function operation is done which actually defines the function.</P>
 <H3 class="operation">F.Call0 (name)</H3>
 <P class="operationsummary">Do a function call without passing parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call1 (name)</H3>
+<H3 class="operation">F.Call1 (name, p1)</H3>
 <P class="operationsummary">Do a function call with 1 parameter.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call10 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H3 class="operation">F.Call10 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)</H3>
 <P class="operationsummary">Do a function call with 10 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call11 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H3 class="operation">F.Call11 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</H3>
 <P class="operationsummary">Do a function call with 11 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call12 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H3 class="operation">F.Call12 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</H3>
 <P class="operationsummary">Do a function call with 12 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call13 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H3 class="operation">F.Call13 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13)</H3>
 <P class="operationsummary">Do a function call with 13 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call14 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H3 class="operation">F.Call14 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)</H3>
 <P class="operationsummary">Do a function call with 14 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call15 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H3 class="operation">F.Call15 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15)</H3>
 <P class="operationsummary">Do a function call with 15 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call16 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Parameter 15</P>
+<H3 class="operation">F.Call16 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16)</H3>
 <P class="operationsummary">Do a function call with 16 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call17 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Parameter 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Parameter 16</P>
+<H3 class="operation">F.Call17 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)</H3>
 <P class="operationsummary">Do a function call with 17 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Parameter 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Parameter 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Parameter 17</P>
 <H3 class="operation">F.Call18 ()</H3>
-<P class="operationsummary">Do a function call with 18 parameters.<BR>The name of the function (case insensitive)</P>
+<P class="operationsummary">Do a function call with 18 parameters.<BR>The name of the function (case insensitive)Parameter 1Parameter 2Parameter 3Parameter 4Parameter 5Parameter 6Parameter 7Parameter 8Parameter 9Parameter 10Parameter 11Parameter 12Parameter 13Parameter 14Parameter 15Parameter 16Parameter 17Parameter 18</P>
 <H3 class="operation">F.Call19 ()</H3>
-<P class="operationsummary">Do a function call with 19 parameters.<BR>The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call2 (name)</H3>
+<P class="operationsummary">Do a function call with 19 parameters.<BR>The name of the function (case insensitive)Parameter 1Parameter 2Parameter 3Parameter 4Parameter 5Parameter 6Parameter 7Parameter 8Parameter 9Parameter 10Parameter 11Parameter 12Parameter 13Parameter 14Parameter 15Parameter 16Parameter 17Parameter 18Parameter 19</P>
+<H3 class="operation">F.Call2 (name, p1, p2)</H3>
 <P class="operationsummary">Do a function call with 2 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call20 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H3 class="operation">F.Call20 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20)</H3>
 <P class="operationsummary">Do a function call with 20 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call3 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Parameter 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Parameter 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Parameter 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Parameter 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Parameter 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Parameter 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Parameter 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Parameter 18</P>
+<H4 class="parameter">p19</H4>
+<P class="parametersummary">Parameter 19</P>
+<H4 class="parameter">p20</H4>
+<P class="parametersummary">Parameter 20</P>
+<H3 class="operation">F.Call3 (name, p1, p2, p3)</H3>
 <P class="operationsummary">Do a function call with 3 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call4 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H3 class="operation">F.Call4 (name, p1, p2, p3, p4)</H3>
 <P class="operationsummary">Do a function call with 4 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call5 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H3 class="operation">F.Call5 (name, p1, p2, p3, p4, p5)</H3>
 <P class="operationsummary">Do a function call with 5 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call6 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H3 class="operation">F.Call6 (name, p1, p2, p3, p4, p5, p6)</H3>
 <P class="operationsummary">Do a function call with 6 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call7 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H3 class="operation">F.Call7 (name, p1, p2, p3, p4, p5, p6, p7)</H3>
 <P class="operationsummary">Do a function call with 7 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call8 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H3 class="operation">F.Call8 (name, p1, p2, p3, p4, p5, p6, p7, p8)</H3>
 <P class="operationsummary">Do a function call with 8 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
-<H3 class="operation">F.Call9 (name)</H3>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H3 class="operation">F.Call9 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9)</H3>
 <P class="operationsummary">Do a function call with 9 parameters.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name of the function (case insensitive)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Parameter 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Parameter 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Parameter 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Parameter 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Parameter 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Parameter 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Parameter 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Parameter 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Parameter 9</P>
 <H3 class="operation">F.Function (name, parameterdefinitions)</H3>
-<P class="operationsummary">Define a named function an its local variables/parameters (with default values). Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.<BR>The local variables are also used for parameter passing when using a Call command: For any call with n parameters, these parameters will be assigned to the n local variables. The rest of the local variables will be set to their defined initial value.</P>
+<P class="operationsummary">Define a named function and its local variables/parameters with default values. Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.<BR>The local variables are also used for parameter passing when using a Call command: For any call with n parameters, these parameters will be assigned to the first n local variables. The rest of the local variables will be set to their defined initial value.</P>
 <H4 class="parameter">name</H4>
 <P class="parametersummary">The name for the function (needs to be a string literal)</P>
 <H4 class="parameter">parameterdefinitions</H4>
-<P class="parametersummary">A string that holds a sequence of local variable names and initial values. This looks like for example "A:0 B:5 T:hello"</P>
+<P class="parametersummary">A string that holds a sequence of local variable names and initial values. This looks like for example "A B:5 T:hello". When do default is specified, 0 will be used.</P>
 <H3 class="operation">F.Get (variablename)</H3>
 <P class="operationsummary">Retrieve the value of a named local variable.</P>
 <H4 class="parameter">variablename</H4>
@@ -734,7 +1080,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H3 class="operation">F.ReturnNumber (value)</H3>
 <P class="operationsummary">Causes the current function call to terminate immediately and delivers the value as number back to the caller.<BR>In "brick mode" it is only allowed to use this command in the topmost sub of a function.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The return value (is interpreted as number)</P>
+<P class="parametersummary">The return value (must be a number)</P>
 <H3 class="operation">F.ReturnText (value)</H3>
 <P class="operationsummary">Causes the current function call to terminate immediately and delivers the value as text back to the caller.<BR>In "brick mode" it is only allowed to use this command in the topmost sub of a function.</P>
 <H4 class="parameter">value</H4>
@@ -746,7 +1092,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">value</H4>
 <P class="parametersummary">The value to store into the local variable</P>
 <H2 class="object">LCD</H2>
-<P class="objectsummary">Control the LCD display on the brick.<BR>The EV3 has a black-and-white display with 178x128 pixels. All pixels are addressed with X,Y coordinates where X=0 is the left edge and Y=0 is the top edge.</P>
+<P class="objectsummary">Control the LCD display on the EV3 brick.<BR>The EV3 has a black-and-white display with 178x128 pixels. All pixels are addressed with X,Y coordinates where X=0 is the left edge and Y=0 is the top edge.</P>
 <H3 class="operation">LCD.BmpFile (color, x, y, filename)</H3>
 <P class="operationsummary">Draw a bitmap file in a given color to the display. Only files in .rgf format are supported.</P>
 <H4 class="parameter">color</H4>
@@ -860,11 +1206,11 @@ When developing programs that only need to run on the PC, you can also use every
 <H2 class="object">Mailbox</H2>
 <P class="objectsummary">Communication facility to send messages via Bluetooth from brick to brick</P>
 <H3 class="operation">Mailbox.Connect (brickname)</H3>
-<P class="operationsummary">Tries to establish a Bluetooth connection to another brick if it is not already connected.<BR>Only after a connection has been made (either by this command or manually from the on-brick menu), can messages be exchanged in both directions.</P>
+<P class="operationsummary">Tries to establish a Bluetooth connection to another brick if it is not already connected.<BR>Only after a connection has been made (either by this command or manually from the on-brick menu), messages can be exchanged in both directions.</P>
 <H4 class="parameter">brickname</H4>
 <P class="parametersummary">Name of the remote brick.</P>
 <H3 class="operation">Mailbox.Create (boxname)</H3>
-<P class="operationsummary">Create a mailbox on the local brick that can receive messages from other bricks. <BR>Only after creation of the box can incoming messages be stored for retrieval.<BR>There is a total limit of 30 mailboxes that can be created.</P>
+<P class="operationsummary">Create a mailbox on the local brick that can receive messages from other bricks. <BR>Only after creation of the box incoming messages can be stored for retrieval.<BR>There is a total limit of 30 mailboxes that can be created.</P>
 <H4 class="parameter">boxname</H4>
 <P class="parametersummary">Name of the message box to be created.</P>
 <H4 class="returns">Returns</H4>
@@ -874,9 +1220,9 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Identifier of the local mailbox</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">"True" if there is a message waiting. "False" otherwise.</P>
+<P class="returnssummary">"True" if there is a message waiting, "False" otherwise</P>
 <H3 class="operation">Mailbox.Receive (id)</H3>
-<P class="operationsummary">Receive the latest message from a local mailbox. When no message is present, the command will block until some message arrives.<BR>The message will then be consumed and the next call to Receive will wait for the next message.<BR>To avoid blocking, you can check with IsAvailable() whether there is a message in the box.<BR>When no message box with the name exists, the command will return "" immediately.</P>
+<P class="operationsummary">Receive the latest message from a local mailbox. When no message is present, the command will block until some message arrives.<BR>The message will then be consumed and the next call to Receive will wait for the next message.<BR>To avoid blocking, you can check with IsAvailable() whether there is a message in the box. When no message box with the name exists, the command will return "" immediately.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Identifier of the local mailbox</P>
 <H4 class="returns">Returns</H4>
@@ -1022,13 +1368,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The tangent of the given angle.</P>
 <H2 class="object">Motor</H2>
-<P class="objectsummary">Control the Motors connected to the Brick.<BR>For every Motor function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").<BR>When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. <BR>Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will be provided with just this much electrical power and the actual speed will then depend on the resistance it meets.</P>
+<P class="objectsummary">Control the Motors connected to the EV3 Brick.<BR>For every Motor function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").<BR>When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. <BR>Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will be provided with just this much electrical power and the actual speed will then depend on the resistance it meets.</P>
 <H3 class="operation">Motor.GetCount (port)</H3>
 <P class="operationsummary">Query the current rotation count of a single motor. <BR>As long as the counter is not reset it will accurately measure all movements of a motor, even if the motor is driven by some external force while not actively running.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Motor port name</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">The current rotation count in degrees.</P>
+<P class="returnssummary">The current rotation count in degrees</P>
 <H3 class="operation">Motor.GetSpeed (port)</H3>
 <P class="operationsummary">Query the current speed of a single motor.</P>
 <H4 class="parameter">port</H4>
@@ -1036,7 +1382,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">Current speed in range -100 to 100</P>
 <H3 class="operation">Motor.Invert (ports)</H3>
-<P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no <BR>way to disable the inversion later on.</P>
+<P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no way to disable the inversion later on.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
@@ -1070,9 +1416,9 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</P>
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">The angle of the faster motor to rotate</P>
 <H4 class="parameter">brake</H4>
@@ -1126,59 +1472,59 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</P>
 <H4 class="parameter">degrees</H4>
-<P class="parametersummary">The angle through which the faster motor should rotate.</P>
+<P class="parametersummary">The angle through which the faster motor should rotate</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motors should switch on the brake after movement.</P>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
 <H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
 <P class="operationsummary">Move 2 motors synchronously a defined number of degrees. <BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move is for the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
 <H4 class="parameter">speed1</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter</P>
 <H4 class="parameter">speed2</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter</P>
 <H4 class="parameter">degrees</H4>
-<P class="parametersummary">The angle through which the faster motor should rotate.</P>
+<P class="parametersummary">The angle through which the faster motor should rotate</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motors should switch on the brake after movement.</P>
+<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
 <H3 class="operation">Motor.Start (ports, speed)</H3>
 <P class="operationsummary">Start one or more motors with the requested speed or set an already running motor to this speed.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward).</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward)</P>
 <H3 class="operation">Motor.StartPower (ports, power)</H3>
 <P class="operationsummary">Start one or more motors with the requested power or set an already running motor to this power.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">power</H4>
-<P class="parametersummary">Power value from -100 (full reverse) to 100 (full forward).</P>
+<P class="parametersummary">Power value from -100 (full reverse) to 100 (full forward)</P>
 <H3 class="operation">Motor.StartSteer (ports, speed, turn)</H3>
 <P class="operationsummary">Set two motors to run with a specified speed and relative ratio. <BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Name of two motor ports (for example "AB" or "CD").</P>
+<P class="parametersummary">Name of two motor ports (for example "AB" or "CD")</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</P>
 <H3 class="operation">Motor.StartSync (ports, speed1, speed2)</H3>
 <P class="operationsummary">Set two motors to run synchronized at their chosen speed levels. <BR>The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Name of two motor ports (for example "AB" or "CD").</P>
+<P class="parametersummary">Name of two motor ports (for example "AB" or "CD")</P>
 <H4 class="parameter">speed1</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter</P>
 <H4 class="parameter">speed2</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</P>
+<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter</P>
 <H3 class="operation">Motor.Stop (ports, brake)</H3>
 <P class="operationsummary">Stop one or multiple motors. This will also cancel any scheduled movement for this motor.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Motor port name(s)</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motor should use the brake.</P>
+<P class="parametersummary">"True", if the motor should use the brake</P>
 <H3 class="operation">Motor.Wait (ports)</H3>
 <P class="operationsummary">Wait until the specified motor(s) has finished a "Schedule..." or "Move..." operation.<BR>Using this method is normally better than calling IsBusy() in a tight loop.</P>
 <H4 class="parameter">ports</H4>
@@ -1210,13 +1556,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">address</H4>
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">writebytes</H4>
-<P class="parametersummary">Number of bytes to write to the slave (maximum 31).</P>
+<P class="parametersummary">Number of bytes to write to the slave (maximum 31)</P>
 <H4 class="parameter">readbytes</H4>
-<P class="parametersummary">Number of bytes to request from the slave (maximum 32, minimum 1).</P>
+<P class="parametersummary">Number of bytes to request from the slave (maximum 32, minimum 1)</P>
 <H4 class="parameter">writedata</H4>
-<P class="parametersummary">Array holding the data bytes to be sent (starting at 0).</P>
+<P class="parametersummary">Array holding the data bytes to be sent (starting at 0)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
+<P class="returnssummary">An array holding the requested number of values. Index starts at 0</P>
 <H3 class="operation">Sensor.GetMode (port)</H3>
 <P class="operationsummary">Get current operation mode of a sensor. <BR>Many sensors can work in substantially different modes. For example, the color sensor can detect ambient light, reflected light or color. When the sensor is plugged in it will normally start with mode 0, but that can be changed later by the program.</P>
 <H4 class="parameter">port</H4>
@@ -1248,7 +1594,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">address</H4>
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of register in the slave to read data from.</P>
+<P class="parametersummary">Number of register in the slave to read data from</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The content of the register</P>
 <H3 class="operation">Sensor.ReadI2CRegisters (port, address, registernumber, readbytes)</H3>
@@ -1258,11 +1604,11 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">address</H4>
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the first register in the slave to read data from.</P>
+<P class="parametersummary">Number of the first register in the slave to read data from</P>
 <H4 class="parameter">readbytes</H4>
-<P class="parametersummary">How many register to read (maximum 32).</P>
+<P class="parametersummary">How many register to read (maximum 32)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
+<P class="returnssummary">An array holding the requested number of values. Index starts at 0</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Read the current sensor value and apply some sensible percentage scaling.<BR>Most sensors can translate the current reading to a meaningful single percentage value like light intensity or button press state.</P>
 <H4 class="parameter">port</H4>
@@ -1282,17 +1628,17 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">index</H4>
-<P class="parametersummary">Index of the value that should be picked from the result array (starting with index 0).</P>
+<P class="parametersummary">Index of the value that should be picked from the result array (starting with index 0)</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">One element of a raw sensor reading.</P>
+<P class="returnssummary">One element of a raw sensor reading</P>
 <H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
-<P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the <BR>sensor ports. This can be useful to send custom commands to custom made sensors/actuators.</P>
+<P class="operationsummary">Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the sensor ports. <BR>This can be useful to send custom commands to custom made sensors/actuators.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Number of the sensor port</P>
 <H4 class="parameter">writebytes</H4>
-<P class="parametersummary">Number of bytes to write to the device (maximum 32).</P>
+<P class="parametersummary">Number of bytes to write to the device (maximum 32)</P>
 <H4 class="parameter">writedata</H4>
-<P class="parametersummary">Array holding the data bytes to be sent (starting at 0).</P>
+<P class="parametersummary">Array holding the data bytes to be sent (starting at 0)</P>
 <H3 class="operation">Sensor.SetMode (port, mode)</H3>
 <P class="operationsummary">Switches the mode of a sensor. <BR>Many sensors can work in different modes giving quite different readings. The meaning of each mode number depends on the specific sensor type. For further info, see the sensor list in the appendix.<BR>Note that a sensor will stay in the selected mode even after the program stops and another (or the same) program is started. To avoid confusion, best practice is to always set the mode of all used sensors at program start. <BR>This command blocks execution until mode switching is finished and first sensor data is available.</P>
 <H4 class="parameter">port</H4>
@@ -1310,7 +1656,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">address</H4>
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the register in the slave to write data to.</P>
+<P class="parametersummary">Number of the register in the slave to write data to</P>
 <H4 class="parameter">value</H4>
 <P class="parametersummary">Value to write into the register.</P>
 <H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writebytes, writedata)</H3>
@@ -1320,17 +1666,17 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">address</H4>
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the first register in the slave to write data to.</P>
+<P class="parametersummary">Number of the first register in the slave to write data to</P>
 <H4 class="parameter">writebytes</H4>
-<P class="parametersummary">How many bytes to write into the registers (maximum 30).</P>
+<P class="parametersummary">How many bytes to write into the registers (maximum 30)</P>
 <H4 class="parameter">writedata</H4>
-<P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
+<P class="parametersummary">Array holding the data bytes to be written (starting at 0)</P>
 <H2 class="object">Speaker</H2>
 <P class="objectsummary">Use the brick's built-in speaker to play tones or sound files.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>
 <P class="operationsummary">Check whether the speaker is still busy playing a previous sound.</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">"True", if there is a sound still playing, "False" otherwise.</P>
+<P class="returnssummary">"True", if there is a sound still playing, "False" otherwise</P>
 <H3 class="operation">Speaker.Note (volume, note, duration)</H3>
 <P class="operationsummary">Start playing a simple tone defined by its text representation.</P>
 <H4 class="parameter">volume</H4>
@@ -1450,7 +1796,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H2 class="object">Thread</H2>
 <P class="objectsummary">This object supports the use of threads in a program. <BR>A thread is a piece of program code that can run independently and at the same time as other parts of the program. For example, you could create a thread that controls the motors, while a different thread can watch sensors or user input.<BR>Generally speaking, multithreading is quite a complex topic. To really understand it, some extra study is recommended.</P>
 <H3 class="property">Thread.Run - Property</H3>
-<P class="propertysummary">With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). <BR>Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second<BR>use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.<BR>Note that even in the presence of running threads, the whole program stops as soon as the main program runs to its end.</P>
+<P class="propertysummary">With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). <BR>Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.<BR>Note that even in the presence of running threads, the whole program stops as soon as the main program runs to its end.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
 <P class="operationsummary">Create a mutex (short for "mutual exclusion" handler) that can be used for thread synchronization. <BR>Only creation of mutexes is supported, but not deletion. Best practice is to create all needed mutexes at program start and keep their numbers in global variables.</P>
 <H4 class="returns">Returns</H4>
@@ -1468,7 +1814,7 @@ When developing programs that only need to run on the PC, you can also use every
 <H2 class="object">Vector</H2>
 <P class="objectsummary">This object allows direct manipulation of larger quantities of numbers. <BR>These are called vectors and will be stored using arrays with consecutive indices (starting at 0).<BR>When arrays with different content are given to the operations, every missing array <BR>element with be treated as being 0.</P>
 <H3 class="operation">Vector.Add (size, A, B)</H3>
-<P class="operationsummary">Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)</P>
+<P class="operationsummary">Add two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)</P>
 <H4 class="parameter">size</H4>
 <P class="parametersummary">That many numbers are taken for computation</P>
 <H4 class="parameter">A</H4>
@@ -1476,13 +1822,13 @@ When developing programs that only need to run on the PC, you can also use every
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Second vector</P>
 <H4 class="returns">Returns</H4>
-<P class="returnssummary">A vector of the given size what contains sum values.</P>
+<P class="returnssummary">A vector of the given size what contains sum values</P>
 <H3 class="operation">Vector.Data (size, data)</H3>
 <P class="operationsummary">Set up a vector of a given size and initialize the elements with data drawn from a string. For this, the string will be split apart on blank spaces and every part is treated as a decimal number.<BR>For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.</P>
 <H4 class="parameter">size</H4>
 <P class="parametersummary">Size of the resulting vector</P>
 <H4 class="parameter">data</H4>
-<P class="parametersummary">Data in string form to be filled into the array. When the string contains too less elements, the vector is padded with 0 to reach the specified number of elements</P>
+<P class="parametersummary">Data in string form to be filled into the array. When the string contains too few elements, the vector is padded with 0 to reach the specified number of elements</P>
 <H4 class="returns">Returns</H4>
 <P class="returnssummary">The created vector</P>
 <H3 class="operation">Vector.Init (size, value)</H3>
@@ -1567,8 +1913,8 @@ environment that handle all the details of the communication.
 </P>
 <P>
 For EV3Basic there is probably no such support available, but normally there is some documentation specifying 
-the low-level communication protocol. Having this information, the Sensor.CommunicateI2C can be used to implement
-any such protocol.
+the low-level communication protocol. Having this information, the Sensor.CommunicateI2C or one of the other
+I2C related commands can be used to implement any such protocol.
 </P>
 <H3 class="subchapter">Introduction to I2C</H3>
 <P>
@@ -1592,12 +1938,14 @@ totally depending on the devices in question.
 This command of EV3Basic is the only way to access the I2C functionality directly in a raw form.
 It combines the operation of sending an arbitrary number of bytes and receiving some bytes back. 
 Example:
+</P>
 <pre>
 W[0]=60
 W[1]=70
 W[2]=80
 R=Sensor.CommunicateI2C(1,44,3,4,W)
 </pre>
+<P>
 This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
 Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
 </P>
@@ -1611,38 +1959,10 @@ a storage location that can hold one byte of data and is accessed via its regist
 (or register 'address' - but using this name will probably lead to confusion because the slaves
 themselves already have an I2C-address).
 </p>
-<p>
-For the sake of simplicity, imagine a device that has 256 registers, with register numbers from 0 to 255 
-that can be written to or read from (in fact you can buy a single chip that does exactly that - 
-it is a 256 byte I2C RAM). The master can write into these registers by sending a data packet that 
-contains the register number in the first byte and the content that should be written there and 
-into the following registers in the subsequent bytes.
-</p>
 <P>
-Reading data from registers is done in two steps. First a data packet containing just the 
-register number is sent to the slave (like a normal write operation with zero data bytes). Then the 
-required number of bytes are requested from the slave (which will have memorized the previously 
-sent register number).
-</p>
-<p>
-Example:  Receive registers 4 - 8 from the slave with address 55 on port 2.
-<pre>
-W[0] = 4
-R = Sensor.CommunicateI2C (2, 55, 1, 5, W)
-</pre>
-</p>
-<p>
-Example: Write into register 99 and 100 of the slave with address 97 on port 1.
-In this case, one byte is unnecessarily received back from the slave because due to a bug/strange behaviour 
-of the EV3 firmware is not possible to have a write operation without a read.
-<pre>
-W[0] = 99
-W[1] = 8
-W[2] = 8
-R = Sensor.CommunicateI2C (1, 97, 3, 1, W)
-</pre>
-</p>
-
+Since version 1.2.5, EV3Basic directly provides support for reading/writing 
+from/to registers of I2C devices that follow the register standard.
+</P>
 <H3 class="subchapter">Sources of confusion</H3>
 <P>
 Slave address vs. Register address.<br>
@@ -1656,16 +1976,15 @@ a single bit that specifies the direction (read or write) to give 8 bits that ne
 Sometimes the developers of a device just write this combined value into the program to save a few processor cycles
 during execution. When this value finds is way into the documentation, a slave address of for example 80 will 
 be written 160 there. It is sometimes quite hard to figure out what the real address is. In doubt you need to 
-write a test program to try if a slave address is valid.
+write a test program to check if a slave address is valid.
 </P>
-
 
 <H1 class="chapter">Appendix - Advanced logic operations</H1>
 <H3 class="subchapter">Motivation</H3>
 <P>
 In Small Basic (and indeed in any dialect of Basic, I have encountered) the use of comparators and of the 
 logic operators AND and OR is limited to the context of If and While. But sometimes it is necessary 
-to keep the outcome of some comparisions for future use. For this you have to write something like
+to keep the outcome of a comparision for future use. For this you have to write something like
 </P>
 <pre>
 If X<10 OR X>50 Then
@@ -1728,8 +2047,8 @@ A = Byte.ToLogic(Math.Max(10-X,X-50))
 The first parameter of the Max will be greater than zero whenever X is lower than 10. 
 The second parameter of the Max will be greater than zero whenver X is higher that 50.
 The outcome of the Max command will be greater than zero whenever one of its parameters is greater than zero.
-By turning this "greater-than-zero" property into an explicit logic value of "True" or "False" by 
-use of the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
+By turning this "greater-than-zero" property into an explicit logic value of "True" or "False"  
+with the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
 </P>
 <pre>
 A = X<10 OR X>50

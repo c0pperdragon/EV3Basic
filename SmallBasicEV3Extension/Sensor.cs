@@ -295,8 +295,8 @@ namespace SmallBasicEV3Extension
         /// Similar to ReadRaw, but returns only a single raw value instead of an array of raw values.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <param name="index">Index of the value that should be picked from the result array (starting with index 0).</param>
-        /// <returns>One element of a raw sensor reading.</returns>
+        /// <param name="index">Index of the value that should be picked from the result array (starting with index 0)</param>
+        /// <returns>One element of a raw sensor reading</returns>
         public static Primitive ReadRawValue(Primitive port, Primitive index)
         {
             int layer;
@@ -341,10 +341,10 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="writebytes">Number of bytes to write to the slave (maximum 31).</param>
-        /// <param name="readbytes">Number of bytes to request from the slave (maximum 32, minimum 1).</param>
-        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0).</param>
-        /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
+        /// <param name="writebytes">Number of bytes to write to the slave (maximum 31)</param>
+        /// <param name="readbytes">Number of bytes to request from the slave (maximum 32, minimum 1)</param>
+        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0)</param>
+        /// <returns>An array holding the requested number of values. Index starts at 0</returns>
         public static Primitive CommunicateI2C(Primitive port, Primitive address, Primitive writebytes, Primitive readbytes, Primitive writedata)
         {
             int layer;
@@ -410,7 +410,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of register in the slave to read data from.</param>
+        /// <param name="registernumber">Number of register in the slave to read data from</param>
         /// <returns>The content of the register</returns>
         public static Primitive ReadI2CRegister(Primitive port, Primitive address, Primitive registernumber)
         {
@@ -449,9 +449,9 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of the first register in the slave to read data from.</param>
-        /// <param name="readbytes">How many register to read (maximum 32).</param>
-        /// <returns>An array holding the requested number of values. Index starts at 0.</returns>
+        /// <param name="registernumber">Number of the first register in the slave to read data from</param>
+        /// <param name="readbytes">How many register to read (maximum 32)</param>
+        /// <returns>An array holding the requested number of values. Index starts at 0</returns>
         public static Primitive ReadI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive readbytes)
         {
             int layer;
@@ -503,7 +503,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of the register in the slave to write data to.</param>
+        /// <param name="registernumber">Number of the register in the slave to write data to</param>
         /// <param name="value">Value to write into the register.</param>
         public static void WriteI2CRegister(Primitive port, Primitive address, Primitive registernumber, Primitive value)
         {
@@ -544,9 +544,9 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
         /// <param name="address">Address (0 - 127) of the I2C slave on the I2C bus</param>
-        /// <param name="registernumber">Number of the first register in the slave to write data to.</param>
-        /// <param name="writebytes">How many bytes to write into the registers (maximum 30).</param>
-        /// <param name="writedata">Array holding the data bytes to be written (starting at 0).</param>
+        /// <param name="registernumber">Number of the first register in the slave to write data to</param>
+        /// <param name="writebytes">How many bytes to write into the registers (maximum 30)</param>
+        /// <param name="writedata">Array holding the data bytes to be written (starting at 0)</param>
         public static void WriteI2CRegisters(Primitive port, Primitive address, Primitive registernumber, Primitive writebytes, Primitive writedata)
         {
             int layer;
@@ -595,12 +595,12 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the 
-        /// sensor ports. This can be useful to send custom commands to custom made sensors/actuators.
+        /// Sends data to devices which are attached to the UART (universal asynchronous receiver transmitter) of one of the sensor ports. 
+        /// This can be useful to send custom commands to custom made sensors/actuators.
         /// </summary>
         /// <param name="port">Number of the sensor port</param>
-        /// <param name="writebytes">Number of bytes to write to the device (maximum 32).</param>
-        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0).</param>
+        /// <param name="writebytes">Number of bytes to write to the device (maximum 32)</param>
+        /// <param name="writedata">Array holding the data bytes to be sent (starting at 0)</param>
         public static void SendUARTData(Primitive port, Primitive writebytes, Primitive writedata)
         {
             int layer;

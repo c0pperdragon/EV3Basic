@@ -42,8 +42,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// With this property, new threads are created. Just assign a subprogram to this and the subprogram will start running as an independent thread (for example, Thread.Run = MYSUB). 
-        /// Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second
-        /// use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.
+        /// Any subprogram can be used to create an independent thread, but you can start the same subprogram only as one thread. A second use of Thread.Run, while the specified subprogram is still running, will just add the call to a queue that is processed after the previous run was finished. No runs will be lost in this case, but probably scheduled for a later time.
         /// Note that even in the presence of running threads, the whole program stops as soon as the main program runs to its end.
         /// </summary>
         public static event SmallBasicCallback Run 

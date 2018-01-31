@@ -38,8 +38,6 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.Manual,
                      Documentation.Properties.Resources.Appendix,
-                     Documentation.Properties.Resources.I2C,
-                     Documentation.Properties.Resources.Logic,
                      "Returns",
                      "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual.html"
@@ -50,9 +48,7 @@ namespace Documentation
                      "EV3Basic Benutzerhandbuch",
                      Documentation.Properties.Resources.ManualDE,
                      Documentation.Properties.Resources.Appendix,
-                     Documentation.Properties.Resources.I2C,
-                     Documentation.Properties.Resources.Logic,
-                    "Rückgabewert",
+                     "Rückgabewert",
                      "Eigenschaft",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_handbuch.html"
                      );
@@ -61,9 +57,7 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualFR,
                      Documentation.Properties.Resources.AppendixFR,
-                     Documentation.Properties.Resources.I2C,
-                     Documentation.Properties.Resources.Logic,
-                     "résultats",
+                     "Résultats",
                      "Propriété",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manuel.html"
                      );
@@ -72,8 +66,6 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualES,
                      Documentation.Properties.Resources.Appendix,
-                     Documentation.Properties.Resources.I2C,
-                     Documentation.Properties.Resources.Logic,
                      "Returns",
                      "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_es.html"
@@ -84,8 +76,6 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualRU,
                      Documentation.Properties.Resources.Appendix,
-                     Documentation.Properties.Resources.I2C,
-                     Documentation.Properties.Resources.Logic,
                      "Returns",
                      "Property",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_ru.html"
@@ -93,7 +83,7 @@ namespace Documentation
         }
 
 
-        internal static void generate(String xml1, String xml2, String title, String part1, String part2, String part3, String part4, String returnstext, String propertytext, String outfilename)
+        internal static void generate(String xml1, String xml2, String title, String part1, String part2, String returnstext, String propertytext, String outfilename)
         {
             objects = new Dictionary<String,EV3Object>();
 
@@ -189,8 +179,6 @@ namespace Documentation
             }
 
             target.WriteLine(part2);
-            target.WriteLine(part3);
-            target.WriteLine(part4);
 
             target.WriteLine("</BODY>");
             target.WriteLine("</HTML>");

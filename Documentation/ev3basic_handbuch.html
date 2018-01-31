@@ -1346,8 +1346,8 @@ environment that handle all the details of the communication.
 </P>
 <P>
 For EV3Basic there is probably no such support available, but normally there is some documentation specifying 
-the low-level communication protocol. Having this information, the Sensor.CommunicateI2C can be used to implement
-any such protocol.
+the low-level communication protocol. Having this information, the Sensor.CommunicateI2C or one of the other
+I2C related commands can be used to implement any such protocol.
 </P>
 <H3 class="subchapter">Introduction to I2C</H3>
 <P>
@@ -1371,12 +1371,14 @@ totally depending on the devices in question.
 This command of EV3Basic is the only way to access the I2C functionality directly in a raw form.
 It combines the operation of sending an arbitrary number of bytes and receiving some bytes back. 
 Example:
+</P>
 <pre>
 W[0]=60
 W[1]=70
 W[2]=80
 R=Sensor.CommunicateI2C(1,44,3,4,W)
 </pre>
+<P>
 This will first send the bytes 60,70,80 to the slave with address 44 that is connected to sensor port 1.
 Then it will fetch 4 bytes from the same slave. The received bytes are stored in the array R.
 </P>
@@ -1390,38 +1392,10 @@ a storage location that can hold one byte of data and is accessed via its regist
 (or register 'address' - but using this name will probably lead to confusion because the slaves
 themselves already have an I2C-address).
 </p>
-<p>
-For the sake of simplicity, imagine a device that has 256 registers, with register numbers from 0 to 255 
-that can be written to or read from (in fact you can buy a single chip that does exactly that - 
-it is a 256 byte I2C RAM). The master can write into these registers by sending a data packet that 
-contains the register number in the first byte and the content that should be written there and 
-into the following registers in the subsequent bytes.
-</p>
 <P>
-Reading data from registers is done in two steps. First a data packet containing just the 
-register number is sent to the slave (like a normal write operation with zero data bytes). Then the 
-required number of bytes are requested from the slave (which will have memorized the previously 
-sent register number).
-</p>
-<p>
-Example:  Receive registers 4 - 8 from the slave with address 55 on port 2.
-<pre>
-W[0] = 4
-R = Sensor.CommunicateI2C (2, 55, 1, 5, W)
-</pre>
-</p>
-<p>
-Example: Write into register 99 and 100 of the slave with address 97 on port 1.
-In this case, one byte is unnecessarily received back from the slave because due to a bug/strange behaviour 
-of the EV3 firmware is not possible to have a write operation without a read.
-<pre>
-W[0] = 99
-W[1] = 8
-W[2] = 8
-R = Sensor.CommunicateI2C (1, 97, 3, 1, W)
-</pre>
-</p>
-
+Since version 1.2.5, EV3Basic directly provides support for reading/writing 
+from/to registers of I2C devices that follow the register standard.
+</P>
 <H3 class="subchapter">Sources of confusion</H3>
 <P>
 Slave address vs. Register address.<br>
@@ -1435,16 +1409,15 @@ a single bit that specifies the direction (read or write) to give 8 bits that ne
 Sometimes the developers of a device just write this combined value into the program to save a few processor cycles
 during execution. When this value finds is way into the documentation, a slave address of for example 80 will 
 be written 160 there. It is sometimes quite hard to figure out what the real address is. In doubt you need to 
-write a test program to try if a slave address is valid.
+write a test program to check if a slave address is valid.
 </P>
-
 
 <H1 class="chapter">Appendix - Advanced logic operations</H1>
 <H3 class="subchapter">Motivation</H3>
 <P>
 In Small Basic (and indeed in any dialect of Basic, I have encountered) the use of comparators and of the 
 logic operators AND and OR is limited to the context of If and While. But sometimes it is necessary 
-to keep the outcome of some comparisions for future use. For this you have to write something like
+to keep the outcome of a comparision for future use. For this you have to write something like
 </P>
 <pre>
 If X<10 OR X>50 Then
@@ -1507,8 +1480,8 @@ A = Byte.ToLogic(Math.Max(10-X,X-50))
 The first parameter of the Max will be greater than zero whenever X is lower than 10. 
 The second parameter of the Max will be greater than zero whenver X is higher that 50.
 The outcome of the Max command will be greater than zero whenever one of its parameters is greater than zero.
-By turning this "greater-than-zero" property into an explicit logic value of "True" or "False" by 
-use of the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
+By turning this "greater-than-zero" property into an explicit logic value of "True" or "False"  
+with the Byte.ToLogic command, this is now totally equivalent to the non-existing construct:
 </P>
 <pre>
 A = X<10 OR X>50

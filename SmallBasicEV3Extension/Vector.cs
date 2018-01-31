@@ -57,7 +57,7 @@ namespace SmallBasicEV3Extension
         /// For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.
         /// </summary>
         /// <param name="size">Size of the resulting vector</param>
-        /// <param name="data">Data in string form to be filled into the array. When the string contains too less elements, the vector is padded with 0 to reach the specified number of elements</param>
+        /// <param name="data">Data in string form to be filled into the array. When the string contains too few elements, the vector is padded with 0 to reach the specified number of elements</param>
         /// <returns>The created vector</returns>
         public static Primitive Data(Primitive size, Primitive data)
         {
@@ -77,12 +77,12 @@ namespace SmallBasicEV3Extension
 
 
         /// <summary>
-        /// Adds two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)
+        /// Add two vectors by adding the individual elements (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)
         /// </summary>
         /// <param name="size">That many numbers are taken for computation</param>
         /// <param name="A">First vector</param>
         /// <param name="B">Second vector</param>
-        /// <returns>A vector of the given size what contains sum values.</returns>
+        /// <returns>A vector of the given size what contains sum values</returns>
         public static Primitive Add(Primitive size, Primitive A, Primitive B)
         {
             double[] a = P2A(A,size);

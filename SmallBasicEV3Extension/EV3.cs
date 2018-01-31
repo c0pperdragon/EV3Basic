@@ -110,8 +110,8 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Execute one system command by the command shell of the EV3 linux system. All threads of the virtual machine are halted until the system command is finished.
         /// </summary>
-        /// <param name="commandline">The system command.</param>
-        /// <returns>Exit status of the command.</returns>
+        /// <param name="commandline">The system command</param>
+        /// <returns>Exit status of the command</returns>
         public static Primitive SystemCall (Primitive commandline)
         {
             String cmd = (commandline == null ? "" : commandline.ToString());

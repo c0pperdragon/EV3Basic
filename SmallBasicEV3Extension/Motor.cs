@@ -27,7 +27,7 @@ namespace SmallBasicEV3Extension
 {
 
     /// <summary>
-    /// Control the Motors connected to the Brick.
+    /// Control the Motors connected to the EV3 Brick.
     /// For every Motor function you need to specify one or more motor ports that should be affected (for example, "A", "BC", "ABD").
     /// When additional bricks are daisy-chained to the master brick, address the correct port by adding the layer number to the specifier (for example, "3BC", "2A"). In this case only the motors of one brick can be accessed with a single command. 
     /// Speed vs. Power: When requesting to drive a motor with a certain speed, the electrical power will be permanently adjusted to keep the motor on this speed regardless of the necessary driving force (as long as enough power can be provided). When requesting a certain power instead, the motor will be provided with just this much electrical power and the actual speed will then depend on the resistance it meets.
@@ -47,7 +47,7 @@ namespace SmallBasicEV3Extension
         /// Stop one or multiple motors. This will also cancel any scheduled movement for this motor.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="brake">"True", if the motor should use the brake.</param>
+        /// <param name="brake">"True", if the motor should use the brake</param>
         public static void Stop(Primitive ports, Primitive brake)
         {
             int layer;
@@ -70,7 +70,7 @@ namespace SmallBasicEV3Extension
         /// Start one or more motors with the requested speed or set an already running motor to this speed.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward).</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward)</param>
         public static void Start(Primitive ports, Primitive speed)
         {
             int layer;
@@ -97,7 +97,7 @@ namespace SmallBasicEV3Extension
         /// Start one or more motors with the requested power or set an already running motor to this power.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
-        /// <param name="power">Power value from -100 (full reverse) to 100 (full forward).</param>
+        /// <param name="power">Power value from -100 (full reverse) to 100 (full forward)</param>
         public static void StartPower(Primitive ports, Primitive power)
         {
             int layer;
@@ -173,9 +173,9 @@ namespace SmallBasicEV3Extension
         /// The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The motors will keep running until stopped by another command.
         /// </summary>
-        /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
-        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
+        /// <param name="ports">Name of two motor ports (for example "AB" or "CD")</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</param>
         public static void StartSteer(Primitive ports, Primitive speed, Primitive turn)
         {
             startsteer(ports, fclamp(speed, -100, 100), 2*fclamp(turn, -100, 100));
@@ -186,9 +186,9 @@ namespace SmallBasicEV3Extension
         /// The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.
         /// The motors will keep running until stopped by another command.
         /// </summary>
-        /// <param name="ports">Name of two motor ports (for example "AB" or "CD").</param>
-        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
-        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
+        /// <param name="ports">Name of two motor ports (for example "AB" or "CD")</param>
+        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter</param>
+        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter</param>
         public static void StartSync(Primitive ports, Primitive speed1, Primitive speed2)
         {
             double spd1 = fclamp(speed1, -100, 100);
@@ -410,10 +410,10 @@ namespace SmallBasicEV3Extension
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
-        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
-        /// <param name="degrees">The angle through which the faster motor should rotate.</param>
-        /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</param>
+        /// <param name="degrees">The angle through which the faster motor should rotate</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
         public static void ScheduleSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
         {
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
@@ -427,10 +427,10 @@ namespace SmallBasicEV3Extension
         /// This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
-        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter.</param>
-        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter.</param>
-        /// <param name="degrees">The angle through which the faster motor should rotate.</param>
-        /// <param name="brake">"True", if the motors should switch on the brake after movement.</param>
+        /// <param name="speed1">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the lower port letter</param>
+        /// <param name="speed2">Speed value from -100 (full reverse) to 100 (full forward) of the motor with the higher port letter</param>
+        /// <param name="degrees">The angle through which the faster motor should rotate</param>
+        /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
         public static void ScheduleSync(Primitive ports, Primitive speed1, Primitive speed2, Primitive degrees, Primitive brake)
         {
             int brk = (brake == null ? "" : brake.ToString()).Equals("true", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
@@ -485,7 +485,7 @@ namespace SmallBasicEV3Extension
         /// As long as the counter is not reset it will accurately measure all movements of a motor, even if the motor is driven by some external force while not actively running.
         /// </summary>
         /// <param name="port">Motor port name</param>
-        /// <returns>The current rotation count in degrees.</returns>
+        /// <returns>The current rotation count in degrees</returns>
         public static Primitive GetCount (Primitive port)
         {
             int layer, no;
@@ -556,8 +556,8 @@ namespace SmallBasicEV3Extension
         /// The angle to move is for the motor with the higher speed.
         /// </summary>
         /// <param name="ports">Names of 2 motor ports (for example "AB" or "CD"</param>
-        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</param>
-        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</param>
+        /// <param name="speed">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor</param>
+        /// <param name="turn">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot)</param>
         /// <param name="degrees">The angle of the faster motor to rotate</param>
         /// <param name="brake">"True", if the motors should switch on the brake after movement</param>
         public static void MoveSteer(Primitive ports, Primitive speed, Primitive turn, Primitive degrees, Primitive brake)
@@ -615,11 +615,9 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors
-        /// and also the tacho and speed readings will deliver inverted values.
+        /// Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors and also the tacho and speed readings will deliver inverted values.
         /// This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.
-        /// You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no 
-        /// way to disable the inversion later on.
+        /// You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no way to disable the inversion later on.
         /// </summary>
         /// <param name="ports">Motor port name(s)</param>
         public static void Invert(Primitive ports)

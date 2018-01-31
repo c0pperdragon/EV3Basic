@@ -26,7 +26,7 @@ namespace SmallBasicEV3Extension
 {
 
     /// <summary>
-    /// Control the LCD display on the brick.
+    /// Control the LCD display on the EV3 brick.
     /// The EV3 has a black-and-white display with 178x128 pixels. All pixels are addressed with X,Y coordinates where X=0 is the left edge and Y=0 is the top edge.
     /// </summary>
     [SmallBasicType]

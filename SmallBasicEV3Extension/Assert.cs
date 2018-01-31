@@ -46,7 +46,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void Equal(Primitive a, Primitive b, Primitive message)
         {
             String sa = a==null ? "" : a.ToString();
@@ -71,7 +71,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void NotEqual(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();
@@ -87,7 +87,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void Less(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();
@@ -114,7 +114,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void Greater(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();
@@ -141,7 +141,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void LessEqual(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();
@@ -168,7 +168,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void GreaterEqual(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();
@@ -195,7 +195,7 @@ namespace SmallBasicEV3Extension
         /// </summary>
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
-        /// <param name="message">Message that will be displayed if the assertion fails.</param>
+        /// <param name="message">Message that will be displayed if the assertion fails</param>
         public static void Near(Primitive a, Primitive b, Primitive message)
         {
             String sa = a == null ? "" : a.ToString();

@@ -9,10 +9,10 @@ But they all have one thing in common: They are awfully complicated to set up an
 <P>
 To fill the gap between 'easy to use but limited' and 'powerful but complicated', I have invented EV3Basic. It is targeted mainly at users that want to go beyond
 the limitations of graphical programming, but who are no IT-professionals themselves. 
-EV3-Basic is quite easy to learn and still offers all the functionality you need to create awesome programs. Learning to program on the way is probably an added benefit.
+EV3Basic is quite easy to learn and still offers all the functionality you need to create awesome programs. Learning to program on the way is probably an added benefit.
 </P>
 <P>
-EV3-Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
+EV3Basic is based on the programming language "Small Basic" which was developed by Microsoft to provide an entrance into programming especially for children, 
 but also for all interested persons new to this topic. "Small Basic" is intentionally designed for ease of use, and for my EV3-extension I tried to do the same.
 I would be very happy if this language could indeed be of some use to help people learn programming and use the EV3 brick more creatively.
 </P>
@@ -24,14 +24,14 @@ reinhard.grafl@aon.at
 
 <H1 class="chapter">Getting Started</H1>
 <P>
-First thing you need is a PC running Microsoft Windows (any version up from Windows XP) and the current version of
+First thing you need is a PC running Microsoft Windows (any version up from Windows Vista) and the current version of
 <a href="http://smallbasic.com">Microsoft Small Basic</a> which can be downloaded for free. If you are completely new to programming, 
 you probably need to learn the principles first. This does not take too long and is quite fun in itself. There are some very good tutorials
 on the Small Basic website to help you with this.
 </P>
 <P>
 Next step is to download and install the EV3-extension for Small Basic to actually be able to control the EV3 brick with your program. 
-From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3-Basic</a>, download and install the file "EV3BasicInstaller.msi".
+From the <a href="https://github.com/c0pperdragon/EV3Basic/releases">newest release of EV3Basic</a>, download and install the file "EV3BasicInstaller.msi".
 This should install the extension right into the installation directory of Small Basic. If you have previously chosen a non-standard location for Small Basic, 
 use this same location here.
 At the next start of Small Basic (restart it if it was still running), you have access to various objects to control different aspects of the brick
@@ -45,13 +45,13 @@ Now create your very first EV3-program by writing
 </pre>
 <P>
 into the program window. 
-Then connect the EV3 brick with your computer using the USB cable, start it up, and when it is running, 
+Then connect the EV3 brick to your computer using the USB cable, start it up, and when it is running, 
 press the big blue "Run" button of Small Basic. This will compile and start the program that remote-controls the brick from the PC.
 </P>
 <P>
 When writing your own programs, the Intellisense - system of Small Basic will show you the possible library functions and usage
 documentation which contains the same information that is also available in this document in the chapter "Library Documentation".
-Many more examples for the EV3 programming are also available on the releases page (probably named 'examples.zip'). 
+Many more examples for programming the EV3 are also available on the releases page (probably named 'examples.zip'). 
 </P>
 <P>
 Remote controlling the brick with a program on the PC is a cool thing, but for many uses you will need an independent robot that 
@@ -168,7 +168,7 @@ To make things easier, an automatic conversion from number to text is done if a 
 <H3 class="subchapter">Arrays</H3>
 <P>
 In Small Basic, arrays work like a dictionary and can use any text as an index. 
-EV3-Basic can't do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
+EV3Basic can't do that. Only numbers are allowed as index and only non-negative numbers without decimal places work as expected
  (A[4.5] is the same as A[4], A[-4] will always deliver 0 or "")
 There is no support for multi-dimensional arrays. 
 While arrays can be passed to library functions and out again, no temporary arrays are created to receive the result. For all functions that return an array,
@@ -185,7 +185,7 @@ The same holds for all elements of text arrays.
 <H1 class="chapter">Bluetooth Support</H1>
 <P>
 Connecting the EV3 to your PC directly with an USB cable is the most easy and reliable
-way to use it with EV3-Basic. Nevertheless, having to use the cable can be quite cumbersome
+way to use it with EV3Basic. Nevertheless, having to use the cable can be quite cumbersome
 in many circumstances, especially when developing mobile robots.
 </P>
 <P>
@@ -194,7 +194,7 @@ you can configure the EV3 to communicate with the PC wirelessly. If not already 
 to "pair" the EV3 with your PC to allow communication. To do so, first activate the bluetooth
 features on the EV3: In the settings menu, activate the "Visibility" and "Bluetooth" options.
 Then on the PC, open the system dialog "Bluetooth Devices". There you can search for the device 
-and start to establish a connection to EV3. The process may be a bit lengthy and requires to
+and start to establish a connection to the EV3. The process may be a bit lengthy and requires to
  confirm the action on the
 EV3 as well as on the PC, and you will even have to enter the correct coupling code in some place 
 (should be "1234"). 
@@ -206,7 +206,7 @@ be named "COM1", "COM3" or the like. You can check which name was actually assig
 at the properties page of the EV3 bluetooth device. 
 </P>
 <P>
-To use the newly established connection with EV3-Basic, just start your program from
+To use the newly established connection with EV3Basic, just start your program from
 Small Basic or just start the EV3-Explorer. When no EV3 can be found directly connected via USB, 
 but there are possible "Serial Ports" available, the PC will prompt you to select one of
 these ports. When this is indeed the port for the EV3, the connection will work.
@@ -247,7 +247,7 @@ activate the connection after each power-up.
 
 <H1 class="chapter">Motor object overview</H1>
 <P>
-The commands to control the motors can be organized into a function matrix, with the "Steer"-variants available since EV3Basic 1.2.5: 
+The commands to control the motors can be organized into a functional matrix, with the "Steer"-variants available since EV3Basic 1.2.5: 
 </P>
 <TABLE>
 <TR><TD></TD><TD>Move x degrees while waiting</TD><TD>Start to run indefinitely</TD><TD>Start to move x degrees</TD></TR>

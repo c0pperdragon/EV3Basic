@@ -25,13 +25,13 @@ using EV3Communication;
 namespace SmallBasicEV3Extension
 {
     /// <summary>
-    /// Reads the states and clicks of the buttons on the brick.
+    /// Reads the states and clicks of the buttons on the EV3 brick.
     /// The buttons are specified with the following letters:
     ///  U   up
     ///  D   down
     ///  L   left
     ///  R   right
-    ///  E   enter
+    ///  E   center
     /// </summary>
     [SmallBasicType]
     public static class Buttons
@@ -72,7 +72,7 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Checks which buttons were clicked since the last call to GetClicks and returns a text containing their letters. 
+        /// Check which buttons were clicked since the last call to GetClicks and returns a text containing their letters. 
         /// The 'clicked' state of the buttons is then removed. Also a sound is emitted from the brick when a click was detected.
         /// </summary>
         /// <returns>A text containing the letters of the clicked buttons (can be empty)</returns>

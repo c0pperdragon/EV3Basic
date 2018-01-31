@@ -1,5 +1,46 @@
-LCD.Clear()
+' Small program to demonstate the use of threads
+' The program will blink the device LED while at the
+' same time increasing 4 seperate tick counters in a
+' different speed. '
+' Writing the values of the counters to
+' the display is done with one central Sub which gets 
+' called from the various ticker threads.
+' To avoid mangling up the display, this Sub uses at
+' mutex to protect the critical section.
+
+' Set up tick counters
+ticks = Vector.Init(4,0)  
+
+' Create the mutex construct for future use
+mutex = Thread.CreateMutex()  
+
+' Subroutine to update the screen. Because it will be 
+' called in different threads these could conflict.
+' To make sure only one thread can access the screen at 
+' the same time, the critical section must be protected
+' by using a mutex.
+Sub SHOW
+  ' Enter the critical section
+  Thread.Lock(mutex)
+  
+  LCD.StopUpdate()
+  LCD.Clear()
+  For i=0 to 3 
+    LCD.Text(1, 20,10+25*i, 2,"Tick"+ticks[i])    
+  Endfor
+  LCD.Update()
+  
+  ' Leave the critical section
+  Thread.Unlock(mutex)
+EndSub
+  
+  
+' Fire up all threads for concurrent runs
 Thread.Run = BLINKER
+Thread.Run = TICK0
+Thread.Run = TICK1
+Thread.Run = TICK2
+TICK3()  ' use main thread for one of the tickers
 
 Sub BLINKER
   While "true"
@@ -10,9 +51,34 @@ Sub BLINKER
   EndWhile
 EndSub
 
-For y=0 to 120 Step 10
-  LCD.Text(1,0,y,1,"Tick")
-  Program.Delay(400)
-endfor
+Sub TICK0
+  While "true"
+    ticks[0] = ticks[0]+1
+    SHOW()
+    Program.Delay(750)
+  EndWhile  
+EndSub
   
+Sub TICK1
+  While "true"
+    ticks[1] = ticks[1]+1
+    SHOW()
+    Program.Delay(1000)
+  EndWhile  
+EndSub
+
+Sub TICK2
+  While "true"
+    ticks[2] = ticks[2]+1
+    SHOW()
+    Program.Delay(1200)
+  EndWhile  
+EndSub
   
+Sub TICK3
+  While "true"
+    ticks[3] = ticks[3]+1
+    SHOW()
+    Program.Delay(1500)
+  EndWhile  
+EndSub

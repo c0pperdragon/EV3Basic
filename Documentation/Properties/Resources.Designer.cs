@@ -97,44 +97,6 @@ namespace Documentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;Appendix - I2C Tutorial&lt;/H1&gt;
-        ///&lt;H3 class=&quot;subchapter&quot;&gt;Why accessing I2C directly?&lt;/H3&gt;
-        ///&lt;P&gt;
-        ///Normally interfacing to sensors from the EV3 brick is done using the easy-to-use Sensor.Read... commands. 
-        ///But some third-party devices are not compatible with the default sensor protocol and require extra programming. 
-        ///The vendors of such devices normally provide some programming blocks for the original graphics programming 
-        ///environment that handle all the details of the communication. 
-        ///&lt;/P&gt;        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string I2C {
-            get {
-                return ResourceManager.GetString("I2C", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;Appendix - Advanced logic operators&lt;/H1&gt;
-        ///&lt;H3 class=&quot;subchapter&quot;&gt;Motivation&lt;/H3&gt;
-        ///&lt;P&gt;
-        ///In Small Basic (and indeed in any dialect of Basic, I have encountered) the use of comparators or the 
-        ///logic operators AND and OR is limited to the context of If and While. But sometimes it would be nice to have 
-        ///a way to keep the outcome of some comparisions for future use. For this you have to write something like
-        ///&lt;pre&gt;
-        ///If X&lt;10 OR X&gt;50 Then
-        ///   A = &quot;True&quot;
-        ///Else
-        ///   A = &quot;False&quot;
-        ///EndIf
-        ///&lt;/pre&gt;
-        ///But [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Logic {
-            get {
-                return ResourceManager.GetString("Logic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;H1 class=&quot;chapter&quot;&gt;EV3Basic&lt;/H1&gt;
         ///&lt;P&gt;
         ///Programming a robot to do your bidding is great fun. The easiest way to program the Lego EV3 brick for simple tasks is to use the 

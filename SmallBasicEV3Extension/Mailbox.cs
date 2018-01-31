@@ -36,7 +36,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Create a mailbox on the local brick that can receive messages from other bricks. 
-        /// Only after creation of the box can incoming messages be stored for retrieval.
+        /// Only after creation of the box incoming messages can be stored for retrieval.
         /// There is a total limit of 30 mailboxes that can be created.
         /// </summary>
         /// <param name="boxname">Name of the message box to be created.</param>
@@ -100,7 +100,7 @@ namespace SmallBasicEV3Extension
         /// Checks if there is a message in the specified mailbox.
         /// </summary>
         /// <param name="id">Identifier of the local mailbox</param>
-        /// <returns>"True" if there is a message waiting. "False" otherwise.</returns>
+        /// <returns>"True" if there is a message waiting, "False" otherwise</returns>
         public static Primitive IsAvailable(Primitive id)
         {
             int no = id;
@@ -124,8 +124,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Receive the latest message from a local mailbox. When no message is present, the command will block until some message arrives.
         /// The message will then be consumed and the next call to Receive will wait for the next message.
-        /// To avoid blocking, you can check with IsAvailable() whether there is a message in the box.
-        /// When no message box with the name exists, the command will return "" immediately.
+        /// To avoid blocking, you can check with IsAvailable() whether there is a message in the box. When no message box with the name exists, the command will return "" immediately.
         /// </summary>
         /// <param name="id">Identifier of the local mailbox</param>
         /// <returns>The message as a Text. Currently only text messages are supported.</returns>
@@ -176,7 +175,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Tries to establish a Bluetooth connection to another brick if it is not already connected.
-        /// Only after a connection has been made (either by this command or manually from the on-brick menu), can messages be exchanged in both directions.
+        /// Only after a connection has been made (either by this command or manually from the on-brick menu), messages can be exchanged in both directions.
         /// </summary>
         /// <param name="brickname">Name of the remote brick.</param>
         public static void Connect(Primitive brickname)
