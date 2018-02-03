@@ -168,21 +168,21 @@
 <P class="parametersummary">Сообщение, которое будет выведено, если утверждение ошибочно</P>
 <H2 class="object">Buttons</H2>
 <P class="objectsummary">Прочитать состояния и нажатия (включая щелчки) кнопок на блоке EV3.<BR>Кнопки обозначаются с использованием следующих символов:<BR>U   Вверх<BR>D   Вниз<BR>L   Влево<BR>R   Вправо<BR>E   Центр</P>
-<H3 class="property">Buttons.Current - Property</H3>
+<H3 class="property">Buttons.Current - Свойство</H3>
 <P class="propertysummary">Кнопки, которые в данный момент нажаты.<BR>Содержит текст с символами, соответствующим всем кнопкам, нажатым в данный момент.</P>
 <H3 class="operation">Buttons.Flush ()</H3>
 <P class="operationsummary">Очистить состояние нажатых кнопок. Последующие вызовы GetClicks покажет только те кнопки, которые были нажаты после очистки.</P>
 <H3 class="operation">Buttons.GetClicks ()</H3>
 <P class="operationsummary">Проверяет, какие кнопки были нажаты с момент последнего вызова GetClicks и возвращает текст, содержащий соответствующие им символы. <BR>Состояние кнопок при этом очищается. Также издает звук, когда зафиксировано нажатие кнопок.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текст, содержащий символы нажатых кнопок (может быть пустым, если ничего не нажато)</P>
 <H3 class="operation">Buttons.Wait ()</H3>
 <P class="operationsummary">Ждать, пока одна из кнопок на блоке не будет нажата.</P>
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Полезные функции блока EV3.</P>
-<H3 class="property">EV3.BatteryLevel - Property</H3>
+<H3 class="property">EV3.BatteryLevel - Свойство</H3>
 <P class="propertysummary">Возвращает текущий заряд батарей, от 0 до 100.</P>
-<H3 class="property">EV3.Time - Property</H3>
+<H3 class="property">EV3.Time - Свойство</H3>
 <P class="propertysummary">Время в миллисекундах, прошедшее с момента запуска программы.</P>
 <H3 class="operation">EV3.QueueNextCommand ()</H3>
 <P class="operationsummary">Повышение производительности при работе в режиме "ПК". Не посылать следующую команду на блок сразу же, а подождать, поставив ее в очередь. В режиме запуска программы на блоке не имеет смысла.</P>
@@ -196,7 +196,7 @@
 <P class="operationsummary">Запустить одну системную команду в операционной системе EV3 Linux. Выполняемая программа будет ждать, пока запущенная в операционной системе программа не завершит работу.</P>
 <H4 class="parameter">commandline</H4>
 <P class="parametersummary">Системная команда.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Статус завершения запущенной команды</P>
 <H2 class="object">EV3File</H2>
 <P class="objectsummary">Доступ к файловой системе блока EV3 для чтения или записи данных.<BR>К именам файлов домет быть добавлен абсолютный путь начиная с '/' для доступа к любому файлу в файловой системе или относительный, начиная с папки prjs.</P>
@@ -208,37 +208,37 @@
 <P class="operationsummary">Конвертация текста в число.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Текст, содержащий числа, может содержать также дробную часть числа</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Число</P>
 <H3 class="operation">EV3File.OpenAppend (filename)</H3>
 <P class="operationsummary">Открывает файл для добавления в него данных. Если файл не существует, он будет создан.</P>
 <H4 class="parameter">filename</H4>
 <P class="parametersummary">Имя файла для создания/добавления данных</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Номер, идентифицирующий данный открытый файл (file handle)</P>
 <H3 class="operation">EV3File.OpenRead (filename)</H3>
 <P class="operationsummary">Открывает файл для чтения. Если файл не существует, возвращает 0.</P>
 <H4 class="parameter">filename</H4>
 <P class="parametersummary">Имя файла для чтения</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Номер, идентифицирующий данный открытый файл (file handle) или 0, если файл не существует</P>
 <H3 class="operation">EV3File.OpenWrite (filename)</H3>
 <P class="operationsummary">Открывает файл для записи. если файл уже существует, он будет перезаписан.</P>
 <H4 class="parameter">filename</H4>
 <P class="parametersummary">Имя файла для записи/перезаписи</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Номер, идентифицирующий данный открытый файл (file handle)</P>
 <H3 class="operation">EV3File.ReadByte (handle)</H3>
 <P class="operationsummary">Прочитать один байт из файла.</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Идентификатор файла (file handle), полученный в момент открытия файла</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Следующий по счету байт из файла</P>
 <H3 class="operation">EV3File.ReadLine (handle)</H3>
 <P class="operationsummary">Прочитать текстовую строку из файла. Строка будет прочитана в кодировке ISO-8859-1 и должна оканчиваться символом перевода строки (код 10).</P>
 <H4 class="parameter">handle</H4>
 <P class="parametersummary">Идентификатор файла (file handle), полученный в момент открытия файла</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текстовая строка, прочитанная из текущей строки файла</P>
 <H3 class="operation">EV3File.ReadNumberArray (handle, size)</H3>
 <P class="operationsummary">Читает массив чисел из бинарного файла. Числа будут раскодированы с использованием кодировки IEEE как тип Float с одинарной точностью</P>
@@ -246,7 +246,7 @@
 <P class="parametersummary">Идентификатор файла (file handle), полученный в момент открытия файла</P>
 <H4 class="parameter">size</H4>
 <P class="parametersummary">Размер массива, который будет прочитан</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Массив чисел указанного размера</P>
 <H3 class="operation">EV3File.TableLookup (filename, bytes_per_row, row, column)</H3>
 <P class="operationsummary">Функция предназначена для чтения байт из потенциально огромных файлов, которые слишком велики, чтобы быть переданы в память в целом.<BR>Поскольку файл может быть настолько большой, что численной адресации будет недостаточно, вводятся параметры строка/столбец</P>
@@ -258,7 +258,7 @@
 <P class="parametersummary">Какую строку читать (начиная с 0)</P>
 <H4 class="parameter">column</H4>
 <P class="parametersummary">Какую строку читать (начиная с 0)</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Байт из указанной позиции</P>
 <H3 class="operation">EV3File.WriteByte (handle, data)</H3>
 <P class="operationsummary">Записывает один байт данных в файл.</P>
@@ -394,19 +394,19 @@
 <P class="operationsummary">Создать почтовый ящик с указанным именем, который будет принимать входящие сообщения, адресованные этому блоку EV3 в данный ящик.<BR>Только после создания ящика входящие сообщения будут сохраняться. Максимальное количество создаваемых ящиков - 30.</P>
 <H4 class="parameter">boxname</H4>
 <P class="parametersummary">Имя почтового ящика для создания</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Цифровой идентификатор почтового ящика. Необходим для получения сообщения из ящика</P>
 <H3 class="operation">Mailbox.IsAvailable (id)</H3>
 <P class="operationsummary">Проверка наличия нового сообщения в указанном локальном почтовом ящике.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Цифровой идентификатор почтового ящика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True" если сообщение пришло. "False" в противном случае</P>
 <H3 class="operation">Mailbox.Receive (id)</H3>
 <P class="operationsummary">Получить последнее сообщение из указанного локального почтового ящика. Если ящик пуст, программа будет ожидать до тех пор, пока не появится новое сообщение в ящике.<BR>После прочтения сообщение будет удалено и следующий вызов Receive будет ожидать нового сообщения в ящике. Чтобы избежать блокировки в его ожидании, используйте IsAvailable().<BR>Если почтовый ящик с таким именем не существует, команда возвратит пустой текст.</P>
 <H4 class="parameter">id</H4>
 <P class="parametersummary">Цифровой идентификатор почтового ящика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Сообщение в виде текста. Пока поддерживаются только текстовые сообщения</P>
 <H3 class="operation">Mailbox.Send (brickname, boxname, message)</H3>
 <P class="operationsummary">Отправить сообщение на другой блок EV3 в указанный почтовый ящик.</P>
@@ -418,73 +418,73 @@
 <P class="parametersummary">Сообщение в виде текста. Пока поддерживаются только текстовые сообщения</P>
 <H2 class="object">Math</H2>
 <P class="objectsummary">Класс Math предоставляет множество полезных методов для математических операций.</P>
-<H3 class="property">Math.Pi - Property</H3>
+<H3 class="property">Math.Pi - Свойство</H3>
 <P class="propertysummary">Получает значение Пи.</P>
 <H3 class="operation">Math.Abs (number)</H3>
 <P class="operationsummary">Возвращает абсолютное значение для заданного числа.  Например, для -32.233 метод вернет 32.233.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число, абсолютное значение которого надо получить.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Абсолютное значение заданного числа.</P>
 <H3 class="operation">Math.ArcCos (cosValue)</H3>
 <P class="operationsummary">Возвращает значение угла в радианах, соответствующее указанному значению косинуса.</P>
 <H4 class="parameter">cosValue</H4>
 <P class="parametersummary">Значение косинуса, для которого надо получить угол.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Угол (в радианах) для заданного значения косинуса.</P>
 <H3 class="operation">Math.ArcSin (sinValue)</H3>
 <P class="operationsummary">Возвращает значение угла в радианах, соответствующее указанному значению синуса.</P>
 <H4 class="parameter">sinValue</H4>
 <P class="parametersummary">Значение синуса, для которого надо получить угол.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Угол (в радианах) для заданного значения синуса.</P>
 <H3 class="operation">Math.ArcTan (tanValue)</H3>
 <P class="operationsummary">Получает угол в радианах для заданного значения тангенса.</P>
 <H4 class="parameter">tanValue</H4>
 <P class="parametersummary">Значения тангенса, для которого надо получить угол.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Угол (в радианах) для заданного значения тангенса.</P>
 <H3 class="operation">Math.Ceiling (number)</H3>
 <P class="operationsummary">Округляет заданное десятичное значение до большего или равного целого числа. Например, для 32,233 метод вернет 33.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число, которое надо округлить в большую сторону.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Число, округленное в большую сторону.</P>
 <H3 class="operation">Math.Cos (angle)</H3>
 <P class="operationsummary">Получает значение косинуса для заданного в радианах угла.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">Значение угла (в радианах), чей косинус требуется вычислить.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение косинуса данного угла.</P>
 <H3 class="operation">Math.Floor (number)</H3>
 <P class="operationsummary">Округляет заданное десятичное значение до меньшего или равного целого числа.  Например, для 32,233 метод вернет 32.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число, которое надо округлить в меньшую сторону.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Число, округленное в меньшую сторону.</P>
 <H3 class="operation">Math.GetDegrees (angle)</H3>
 <P class="operationsummary">Конвертирует заданный угол из радиан в градусы.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">Значение угла в радианах.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение угла, переведенное в градусы.</P>
 <H3 class="operation">Math.GetRadians (angle)</H3>
 <P class="operationsummary">Конвертирует заданный угол из градусов в радианы.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">Значение угла в градусах.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение угла, переведенное в радианы.</P>
 <H3 class="operation">Math.GetRandomNumber (maxNumber)</H3>
 <P class="operationsummary">Возвращает случайное число в диапазоне между 1 и числом, заданным в параметре maxNumber (включительно).</P>
 <H4 class="parameter">maxNumber</H4>
 <P class="parametersummary">Максимальное значение для диапазона случайных чисел.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Случайное число, которое меньше или равно указанному максимальному значению.</P>
 <H3 class="operation">Math.Log (number)</H3>
 <P class="operationsummary">Получает десятичный логарифм для заданного числа.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число для вычисления десятичного логарифма.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Десятичный логарифм для указанного числа.</P>
 <H3 class="operation">Math.Max (number1, number2)</H3>
 <P class="operationsummary">Сравнивает два значение и возвращает большее из них.</P>
@@ -492,7 +492,7 @@
 <P class="parametersummary">Первое из сравниваемых чисел.</P>
 <H4 class="parameter">number2</H4>
 <P class="parametersummary">Второе из сравниваемых чисел.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Наибольшее значение из двух заданных чисел.</P>
 <H3 class="operation">Math.Min (number1, number2)</H3>
 <P class="operationsummary">Сравнивает два значение и возвращает меньшее из них.</P>
@@ -500,13 +500,13 @@
 <P class="parametersummary">Первое из сравниваемых чисел.</P>
 <H4 class="parameter">number2</H4>
 <P class="parametersummary">Второе из сравниваемых чисел.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Наименьшее значение из двух заданных чисел.</P>
 <H3 class="operation">Math.NaturalLog (number)</H3>
 <P class="operationsummary">Получает натуральный логарифм для заданного числа.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число, для которого надо вычислить натуральный логарифм.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение натурального логарифма для заданного числа.</P>
 <H3 class="operation">Math.Power (baseNumber, exponent)</H3>
 <P class="operationsummary">Возводит число в указанную степень.</P>
@@ -514,7 +514,7 @@
 <P class="parametersummary">Число для возведения в степень.</P>
 <H4 class="parameter">exponent</H4>
 <P class="parametersummary">Степень, в которую надо возвести число.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Число, возведенное в указанную степень.</P>
 <H3 class="operation">Math.Remainder (dividend, divisor)</H3>
 <P class="operationsummary">Делит первое число на второе и возвращает остаток.</P>
@@ -522,31 +522,31 @@
 <P class="parametersummary">Делимое.</P>
 <H4 class="parameter">divisor</H4>
 <P class="parametersummary">Делитель.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Остаток от деления.</P>
 <H3 class="operation">Math.Round (number)</H3>
 <P class="operationsummary">Округляет заданное десятичное значение до ближайшего целого числа.  Например, 32.233 будет округлено до 32.0, а 32.566 до 33.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число для округления.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Округленное значение заданного числа.</P>
 <H3 class="operation">Math.Sin (angle)</H3>
 <P class="operationsummary">Получает значение синуса для заданного в радианах угла.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">Угол для вычисления синуса (в радианах).</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Синус для заданного угла.</P>
 <H3 class="operation">Math.SquareRoot (number)</H3>
 <P class="operationsummary">Получает квадратный корень для заданного числа.</P>
 <H4 class="parameter">number</H4>
 <P class="parametersummary">Число, квадратный корень которого надо вычислить.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Квадратный корень для заданного числа.</P>
 <H3 class="operation">Math.Tan (angle)</H3>
 <P class="operationsummary">Получает значение тангенса для заданного в радианах угла.</P>
 <H4 class="parameter">angle</H4>
 <P class="parametersummary">Значение угла (в радианах), чей тангенс требуется вычислить.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение тангенса данного угла.</P>
 <H2 class="object">Motor</H2>
 <P class="objectsummary">Управление моторами, подключенными к блоку EV3. Для функции Motor необходимо указать один или несколько портов, к которым подключены моторы, например "A", "BC", "ABD".<BR>Для блоков, подключенных к главному блоку по USB порты указываются так: 3BC", "2A". В этом режиме только двигатели одного блока доступны в одной команде.<BR>Скорость и Мощность - разные понятия. При вызове команды для вращения мотора с постоянной скоротью, электрическая мощность, подаваемая на него будет автоматически регулироваться, чтобы поддерживать заданную скорость.<BR>При вызове команды для вращения мотора с постоянной мощностью, его скорость будет зависеть от сопротивления, которое он испытывает во время работы.</P>
@@ -554,13 +554,13 @@
 <P class="operationsummary">Запросить данные счетчика оборота с указанного мотора.<BR>Счетчик оборотов работает даже если мотор вращается не по командам блока EV3, а путем приложения внешней силы.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Порт мотора</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текущее значение счетчика оборотов мотора в градусах</P>
 <H3 class="operation">Motor.GetSpeed (port)</H3>
 <P class="operationsummary">Запросить текущую скорость мотора</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Порт мотора</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текущая скорость в диапазоне от -100 до 100</P>
 <H3 class="operation">Motor.Invert (ports)</H3>
 <P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no<BR>way to disable the inversion later on.</P>
@@ -570,7 +570,7 @@
 <P class="operationsummary">Проверить один или несколько моторов на занятость.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порты моторов</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True" если хотя бы один из моторов запущен, "False" в противном случае.</P>
 <H3 class="operation">Motor.Move (ports, speed, degrees, brake)</H3>
 <P class="operationsummary">Поворачивает один или несколько моторов с заданной скоростью на указанный угол (в градусах).<BR>Программа не будет переходить к выполнению следующих команд до тех пор, пока моторы не повернутся на требуемый угол.<BR>Если тебе нужно больше возможностей по управлению моторами, например плавный старт и замедление, используй команду Motor.Schedule</P>
@@ -712,9 +712,9 @@
 <P class="parametersummary">Порты моторов</P>
 <H2 class="object">Program</H2>
 <P class="objectsummary">Класс Program предоставляет вспомогательные методы для контроля выполнения программы.</P>
-<H3 class="property">Program.ArgumentCount - Property</H3>
+<H3 class="property">Program.ArgumentCount - Свойство</H3>
 <P class="propertysummary">Получает количество аргументов командной строки, переданных программе.</P>
-<H3 class="property">Program.Directory - Property</H3>
+<H3 class="property">Program.Directory - Свойство</H3>
 <P class="propertysummary">Получает папку для запущенной программы.</P>
 <H3 class="operation">Program.Delay (milliSeconds)</H3>
 <P class="operationsummary">Задерживает выполнение программы на указанное число миллисекунд.</P>
@@ -726,7 +726,7 @@
 <P class="operationsummary">Возвращает указанный аргумент из тех, что были переданы в текущую программу.</P>
 <H4 class="parameter">index</H4>
 <P class="parametersummary">Индекс (порядковый номер) аргумента.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Аргумент командной строки, расположенный по указанному индексу.</P>
 <H2 class="object">Sensor</H2>
 <P class="objectsummary">Работа с датчиками, подключенными к блоку EV3. <BR>Чтобы указать локальный датчик, используется номер порта 1..4, для указания номеров портов на первом в цепочке подключенных по USB блоках используйте 5..8, на третьем - 9..12</P>
@@ -742,31 +742,31 @@
 <P class="parametersummary">Количество байт для приема с I2C-устройства (максимум 32, минимум 1).</P>
 <H4 class="parameter">writedata</H4>
 <P class="parametersummary">массив, содержащий байты для отправки (индекс первого элемента - 0)</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Массив, содержащий запрошенное количество принятых байт с I2C-устройства (индекс первого элемента - 0)</P>
 <H3 class="operation">Sensor.GetMode (port)</H3>
 <P class="operationsummary">Запросить текущий режим работы датчика, подключенного к указанному порту.<BR>Многие датчики умеют работать в различных режимах. Например цветосветовой датчик умеет работать с режиме измерение отраженного света, в режиме измерения внешней освещенности, в режиме измерения цвета.<BR>При подключении датчика он как правило работает в режиме 0, затем режим можно изменить в программе.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текущий режим работы датчика (0 для режима по умолчанию)</P>
 <H3 class="operation">Sensor.GetName (port)</H3>
 <P class="operationsummary">Запросить имя и текущий режим работы датчика, подключенного к указанному порту.<BR>Эта команда предназначена прежде всего для диагностики, т.к. ты как правило знаешь, куда и какие датчики подключил</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текст описания (например "TOUCH")</P>
 <H3 class="operation">Sensor.GetType (port)</H3>
 <P class="operationsummary">Запросить цифровой идентификатор датчика, подключенного к указанному порту.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Цифровой идентификатор датчика (например 16 для датчика нажатия)</P>
 <H3 class="operation">Sensor.IsBusy (port)</H3>
 <P class="operationsummary">Проверить, не занят ли датчик в данный момент сменой режима или инициализацией. Во время переключения датчик некоторое время не доступен (занят).</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True" если датчик занят (не доступен)</P>
 <H3 class="operation">Sensor.ReadI2CRegister (port, address, registernumber)</H3>
 <P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
@@ -776,7 +776,7 @@
 <P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
 <H4 class="parameter">registernumber</H4>
 <P class="parametersummary">Number of register in the slave to read data from.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">The content of the register</P>
 <H3 class="operation">Sensor.ReadI2CRegisters (port, address, registernumber, readbytes)</H3>
 <P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
@@ -788,13 +788,13 @@
 <P class="parametersummary">Number of the first register in the slave to read data from.</P>
 <H4 class="parameter">readbytes</H4>
 <P class="parametersummary">How many register to read (maximum 32).</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Прочитать текущее показание датчика с отображением его в процентах (0..100).<BR>Большинство датчиков могут перевести свои показания в проценты, например у датчика нажатия 0 - не нажат, 100 - нажат.</P>
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текущее показание датчика (Пример для датчика освещенности 0 - очень темно, 100 - очень светло)</P>
 <H3 class="operation">Sensor.ReadRaw (port, values)</H3>
 <P class="operationsummary">Прочитать текущее показание датчика в "сыром" режиме, без перевода в проценты.<BR>В некоторых режимах показания датчика не могут быть переведены в проценты, например цвета, в этом случае используется команда чтения ReadRaw.</P>
@@ -802,7 +802,7 @@
 <P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">values</H4>
 <P class="parametersummary">Размер возвращаемого массива с показаниями</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Массив с показаниями датчика с требуемым числом элементов. Массив начинается с 0 элемента. Элементы, в которых данные не получены, будут равны 0</P>
 <H3 class="operation">Sensor.ReadRawValue (port, index)</H3>
 <P class="operationsummary">Похожа на ReadRaw, но возвращает только одно "сырое" показание с датчика, а не массив показаний.<BR>Например для работы с цветосветовым датчиком в режиме определения цвета используйте функцию ReadRawValue(порт, 0).</P>
@@ -810,7 +810,7 @@
 <P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">index</H4>
 <P class="parametersummary">Индекс элемента массива с показаниями, начиная с 0</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Один элемент массива с показаниями</P>
 <H3 class="operation">Sensor.SendUARTData (port, writebytes, writedata)</H3>
 <P class="operationsummary">Посылает данные по протоколу UART устройству, подключенному к порту датчика.<BR>Функция полезна для общения с самодельными датчиками и исполнительными устройствами.</P>
@@ -856,7 +856,7 @@
 <P class="objectsummary">Использование динамика на блоке EV3 для воспроизведения тонов, нот или звуковых файлов.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>
 <P class="operationsummary">Проверить, занят ли динамик воспроизведением тона/ноты/звука</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True", если звук в данный момент проигрывается, "False" в противном случае.</P>
 <H3 class="operation">Speaker.Note (volume, note, duration)</H3>
 <P class="operationsummary">Воспроизвести ноту указанной высоты и длительности.</P>
@@ -892,19 +892,19 @@
 <P class="parametersummary">Первая часть текста для добавления.</P>
 <H4 class="parameter">text2</H4>
 <P class="parametersummary">Вторая часть текста для добавления.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Полученный текст, содержащий обе указанные части.</P>
 <H3 class="operation">Text.ConvertToLowerCase (text)</H3>
 <P class="operationsummary">Конвертирует все символы указанного текста в нижний регистр.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Текст для преобразования в нижний регистр.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текст, преобразованный в нижний регистр.</P>
 <H3 class="operation">Text.ConvertToUpperCase (text)</H3>
 <P class="operationsummary">Конвертирует все символы указанного текста в верхний регистр.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Текст для преобразования в верхний регистр.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текст, преобразованный в верхний регистр.</P>
 <H3 class="operation">Text.EndsWith (text, subText)</H3>
 <P class="operationsummary">Проверяет, заканчивается ли заданный текст указанным текстом.</P>
@@ -912,19 +912,19 @@
 <P class="parametersummary">Текст, в котором надо осуществить поиск.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Подстрока для поиска.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Возвращает значение "True", если подстрока найдена в конце заданного текста.</P>
 <H3 class="operation">Text.GetCharacter (characterCode)</H3>
 <P class="operationsummary">Получает символ по его коду Юникод. В дальнейшем символ может быть использован в простом тексте.</P>
 <H4 class="parameter">characterCode</H4>
 <P class="parametersummary">Код в стандарте Юникод для нужного символа.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Символ, который соответствует заданному коду в стандарте Юникод.</P>
 <H3 class="operation">Text.GetCharacterCode (character)</H3>
 <P class="operationsummary">Получает код в стандарте Юникод  для указанного символа.</P>
 <H4 class="parameter">character</H4>
 <P class="parametersummary">Символ, для которого надо получить код в стандарте Юникод.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Код в стандарте Юникод для указанного символа.</P>
 <H3 class="operation">Text.GetIndexOf (text, subText)</H3>
 <P class="operationsummary">Находит позицию в тексте, с которой начинается указанная подстрока.</P>
@@ -932,13 +932,13 @@
 <P class="parametersummary">Текст, в котором осуществляется поиск.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Текст, который надо найти.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Позиция в тексте, с которой начинается указанная подстрока. Если подстрока не найдена, возвращается значение 0.</P>
 <H3 class="operation">Text.GetLength (text)</H3>
 <P class="operationsummary">Получает длину указанного текста.</P>
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Текст, длину которого надо вычислить.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Размер указанного текста.</P>
 <H3 class="operation">Text.GetSubText (text, start, length)</H3>
 <P class="operationsummary">Получает часть указанного текста.</P>
@@ -948,7 +948,7 @@
 <P class="parametersummary">Указывает начальную позицию.</P>
 <H4 class="parameter">length</H4>
 <P class="parametersummary">Задает длину подстроки.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Запрошенная часть текста.</P>
 <H3 class="operation">Text.GetSubTextToEnd (text, start)</H3>
 <P class="operationsummary">Считывает подстроку из заданного текста, начиная с указанной позиции.</P>
@@ -956,7 +956,7 @@
 <P class="parametersummary">Текст, из которого надо извлечь подстроку.</P>
 <H4 class="parameter">start</H4>
 <P class="parametersummary">Указывает начальную позицию.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Запрошенная подстрока.</P>
 <H3 class="operation">Text.IsSubText (text, subText)</H3>
 <P class="operationsummary">Проверяет, является ли указанный текст частью большего текста.</P>
@@ -964,7 +964,7 @@
 <P class="parametersummary">Текста, в котором будет искаться подстрока.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Подстрока для поиска.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Возвращает значение "True", если подстрока найдена в заданном тексте.</P>
 <H3 class="operation">Text.StartsWith (text, subText)</H3>
 <P class="operationsummary">Проверяет, начинается ли заданный текст определенным текстом.</P>
@@ -972,15 +972,15 @@
 <P class="parametersummary">Размер текста для осуществления поиска.</P>
 <H4 class="parameter">subText</H4>
 <P class="parametersummary">Подстрока для поиска.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Возвращает значение "True", если подстрока найдена в начале заданного текста.</P>
 <H2 class="object">Thread</H2>
 <P class="objectsummary">Этот объект предназначен для организации потоков в программе. Поток представляет собой фрагмент программного кода, который может работать независимо и параллельно основной программе.<BR>Например ты можешь создать поток, который будет управлять двигателями в то время как основная программа будет опрашивать датчики или ожидать действий пользователя.<BR>Вообще говоря, многопоточность - сложная штука, не для начинающих. В ней стоит разобраться дополнительно.</P>
-<H3 class="property">Thread.Run - Property</H3>
+<H3 class="property">Thread.Run - Свойство</H3>
 <P class="propertysummary">Создать новый поток. Просто назначьте подпрограмму и она начнет выполняться в качестве независимого потока (пример Thread.Run = MYSUB).<BR>Любая подпрограмма может быть преобразована в независимы поток, однако одна подпрограмма может быть преобразована в поток только однократно, два потока из нее сделать не удастся.<BR>При использовании Thread.Run в то время, как подпрограмма уже работает, вызов потока поставится в очередь до тех пор, пока она не завершит свою работу. Это обеспечит корректную работу, но запуск потока вероятно может произойти позже запланированного.<BR>Все запущенные потоки остановятся, как только основная программа завершит свою работу.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
 <P class="operationsummary">Создать мьютекс (сокр. от "mutual exclusion") - взаимное исключение, который может быть использован для синхронизации потоков.<BR>Мьютекс может быть только создан, но не удален. Лучше всего создать все необходимые мьютексы при старте программы и держать их номера в глобальных переменных.</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Идентификатор мьютекса. Будет использоваться в дальнейшем для блокировки и разблокировки</P>
 <H3 class="operation">Thread.Lock (mutex)</H3>
 <P class="operationsummary">Попытаться блокировать указанный мьютекс. Установка блокировки не позволит никакому другому потоку установить блокировку на него.</P>
@@ -1002,7 +1002,7 @@
 <P class="parametersummary">Первый вектор</P>
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Второй вектор</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Вектор, содержащий результат сложения</P>
 <H3 class="operation">Vector.Init (size, value)</H3>
 <P class="operationsummary">Создать вектор заданного размера с указанным количеством элементов, содержащих одинаковое число.</P>
@@ -1010,7 +1010,7 @@
 <P class="parametersummary">Размер вектора</P>
 <H4 class="parameter">value</H4>
 <P class="parametersummary">Значение, для всех элементов</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Созданный вектор</P>
 <H3 class="operation">Vector.Multiply (rows, columns, k, A, B)</H3>
 <P class="operationsummary">Операция умножения матриц.<BR>Входные вектора рассматриваются как двумерные матрицы заданной ширины и высоты. Отдельные строки матрицы хранятся в векторе непосредственно одна за другой.<BR>Чтобы узнать больше об этой математической операции, см. http://en.wikipedia.org/wiki/Matrix_multiplication</P>
@@ -1024,7 +1024,7 @@
 <P class="parametersummary">Матрица А размера строк * k</P>
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Матрица В размера k * столбцов</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Матрица, содержащая результаты умножения</P>
 <H3 class="operation">Vector.Sort (size, A)</H3>
 <P class="operationsummary">Сортировать элементы вектора в порядке возрастания.</P>
@@ -1032,7 +1032,7 @@
 <P class="parametersummary">Количество элементов для сортировки</P>
 <H4 class="parameter">A</H4>
 <P class="parametersummary">Массив, содержащий элементы для сортировки</P>
-<H4 class="returns">Returns</H4>
+<H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Вектор, содержащий элементы в порядке возрастания значений</P>
 
 <H1 class="chapter">Appendix - Sensors</H1>

@@ -53,11 +53,11 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
-        /// Set up a vector of a given size and initialize the elements with data drawn from a string. For this, the string will be split apart on blank spaces and every part is treated as a decimal number.
+        /// Set up a vector of a given size and initialize the elements with data drawn from a text. For this, the text will be split apart on blank spaces and every part is treated as a decimal number.
         /// For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.
         /// </summary>
         /// <param name="size">Size of the resulting vector</param>
-        /// <param name="data">Data in string form to be filled into the array. When the string contains too few elements, the vector is padded with 0 to reach the specified number of elements</param>
+        /// <param name="data">Data in text form to be filled into the array. When the text contains too few elements, the vector is padded with 0 to reach the specified number of elements</param>
         /// <returns>The created vector</returns>
         public static Primitive Data(Primitive size, Primitive data)
         {

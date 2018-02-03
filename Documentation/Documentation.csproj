@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ManualRU.txt" />
+    <Content Include="SmallBasicEV3Extension.pl.XML" />
     <Content Include="SmallBasicEV3Extension.ru.XML">
       <SubType>Designer</SubType>
     </Content>

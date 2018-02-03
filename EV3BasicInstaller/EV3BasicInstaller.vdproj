@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_44FD582F74784CAF95344C8120303608"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4B499904014A4985995C360A753B51A8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -315,6 +321,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44FD582F74784CAF95344C8120303608"
+            {
+            "SourcePath" = "8:..\\Documentation\\SmallBasicEV3Extension.pl.XML"
+            "TargetName" = "8:SmallBasicEV3Extension.pl.XML"
+            "Tag" = "8:"
+            "Folder" = "8:_8922B4A91F84484B95970D74C027B648"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4B499904014A4985995C360A753B51A8"
@@ -640,7 +666,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EV3Basic 1.2.5"
         "ProductCode" = "8:{3A95553D-B104-4714-B572-87E3D602A499}"
-        "PackageCode" = "8:{8309E178-0902-49A4-BDBB-3D1476320754}"
+        "PackageCode" = "8:{7389D604-5D5E-4C4C-9840-DBB6B74DBD75}"
         "UpgradeCode" = "8:{3EAEFA4E-8024-4136-8981-0634E86DC49C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

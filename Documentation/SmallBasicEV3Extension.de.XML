@@ -107,7 +107,114 @@
             Diese Eigenschaft enthält die Buchstaben für alle Tasten, die jetzt gerade in diesem Moment niedergedrückt sind.
             </summary>
         </member>
-        <member name="T:SmallBasicEV3Extension.EV3File">
+      <member name="T:SmallBasicEV3Extension.Byte">
+        <summary>
+          Manipuliert die einzelnen Bits einer 8 Bit langen Zahl.
+          Dieses Objekt behandelt Zahlen von Small Basic als ob sie in 8 Bit langen Bytes gespeichert wären. Dazu werden die Parameter bei jeder Operation zuerst in echte Byte-Zahlen ungewandelt. Dann wird die Operation ausgeführt, und das Ergebnis wieder in eine Small Basic Zahl zurück verwandelt.
+          Die üblichen Bit-Operationen werden unterstützt: AND, OR, NOT, XOR, verschiedene Bitschiebe- und Datenumwandlungs-Operationen. Achtung: Die Bezeichner AND und OR sind reservierte Wort in Small Basic, deshalb heißen diese Befehle hier AND_ und OR_. Für weiterführende Informationen siehe https://de.wikipedia.org/wiki/Bitweiser_Operator.
+        </summary>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.NOT(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise Negation.
+        </summary>
+        <param name="value">Zahl die negiert werden soll</param>
+        <returns>Die Zahl die herauskommt, wenn jedes einzelne Bit der Eingabezahl invertiert wird</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.AND_(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise AND-Operation.
+        </summary>
+        <param name="a">Erster Operand</param>
+        <param name="b">Zweiter Operand</param>
+        <returns>Die Zahl, die herauskommt, wenn jedes Bit von a mit dem entsprechenden Bit von b mit der AND-Operation verknüft wird</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.OR_(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise OR-Operation.
+        </summary>
+        <param name="a">Erster Operand</param>
+        <param name="b">Zweiter Operand</param>
+        <returns>Die Zahl, die herauskommt, wenn jedes Bit von a mit dem entsprechenden Bit von b mit der OR-Operation verknüft wird</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.XOR(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise XOR-Operation.
+        </summary>
+        <param name="a">Erster Operand</param>
+        <param name="b">Zweiter Operand</param>
+        <returns>Die Zahl, die herauskommt, wenn jedes Bit von a mit dem entsprechenden Bit von b mit der XOR-Operation verknüft wird</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.BIT(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Extrahiert ein einzelnes Bit von einem Byte.
+        </summary>
+        <param name="value">Das Byte, von dem ein Bit ausgewählt werden soll</param>
+        <param name="index">Position des Bits im Byte (0 - 7)</param>
+        <returns>Das Bit von der gewählten Position das entweder 0 oder 1 sein muss</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.SHL(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise Verschiebeoperation nach links.
+        </summary>
+        <param name="value">Das Byte dessen Bits verschoben werden</param>
+        <param name="distance">Um wie viele Positionen die Bits verschoben werden</param>
+        <returns>Die Zahl, die man erhält, wenn alle Bits der Eingabezahl um die gewählte Anzahl von Stellen in Richtung der höherwertigen Stellen verschoben werden</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.SHR(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Bitweise Verschiebeoperation nach rechts.
+        </summary>
+        <param name="value">Das Byte dessen Bits verschoben werden</param>
+        <param name="distance">Um wie viele Positionen die Bits verschoben werden</param>
+        <returns>Die Zahl, die man erhält, wenn alle Bits der Eingabezahl um die gewählte Anzahl von Stellen in Richtung der niederwertigen Stellen verschoben werden</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.ToHex(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt ein 8-bit Byte in die 2-stellige Hexadezimaldarstellung um.
+        </summary>
+        <param name="value">Das Byte, das umgewandelt werden soll</param>
+        <returns>Ein Text mit 2 hexadezimalen Ziffern</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.ToBinary(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt ein 8-bit Byte in die 8-stellige Binärdarstellung um.
+        </summary>
+        <param name="value">Das Byte, das umgewandelt werden soll</param>
+        <returns>Ein Text mit 8 binären Ziffern</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.ToLogic(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt eine Zahl (kann ein 8-bit Byte oder jede andere Zahl sein) in den Logik-Wert "True" or "False" um.
+          Dieser Wert kann dann als Verzweigungsbedingung in einem If, While oder für andere Zwecke verwendet werden.
+          Das genaue Verhalten der Operation is so definiert: Für jeden Eingabewert größer als 0, wird "True" als 
+          Ergebnis geliefert. Und für 0 oder alle negative Zahlen wird "False" geliefert.
+        </summary>
+        <param name="value">Die Zahl, die in einen entsprechenden Logik-Wert verwandelt werden soll</param>
+        <returns>Entweder "True" oder "False"</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.H(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt einen Text, der eine hexadezimale Zahl enthält, in die entsprechende Zahl.
+        </summary>
+        <param name="value">Ein Text mit einem Byte in hexadezimaler Form (zum Beispiel: "4F")</param>
+        <returns>Das Ergebnis als Zahl</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.B(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt einen Text, der eine binäre Zahl enthält, in die entsprechende Zahl.
+        </summary>
+        <param name="value">Ein Text mit einem Byte in binärer Form (zum Beispiel: "10001011")</param>
+        <returns>Das Ergebnis als Zahl</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.Byte.L(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Wandelt einen Text, der einen Logik-Wert enthält, in die entsprechende Zahl.
+        </summary>
+        <param name="value">Ein Text mit einem Logik-Wert. Alle Varianten von "True" ("TRUE","TrUe", "truE", etc.) werden zu 1 gewandelt. Alles andere zu 0.</param>
+        <returns>0 or 1</returns>
+      </member>
+      <member name="T:SmallBasicEV3Extension.EV3File">
             <summary>
             EV3File dient zum Ansprechen des Dateisystems auf dem Brick, um Daten zu lesen und zu schreiben.
             Dateinamen können entweder absolut (mit führendem '/') oder relativ zum 'prjs'-Verzeichnis sein.
@@ -194,7 +301,418 @@
             <param name="column">Welche Spalte soll genommen werden (start bei 0)?</param>
             <returns>Das Byte an der gewünschten Stelle.</returns>
         </member>
-        <member name="T:SmallBasicEV3Extension.LCD">
+      <member name="T:SmallBasicEV3Extension.F">
+        <summary>
+          Ein Mechanismus um in Small Basic Funktionen mit Aufrufparametern und lokalen Variablen zu definieren.
+          Das ermöglicht es, in Programmen selbst definierte Bibliotheksfunktionen so ähnlich wie die eingebauten Befehle aufzurufen, inklusive kompakter Parameterübergabe und Rückgabewerten.
+          Funktionen werden zuerst mit Hilfe des F.Function-Befehles definiert und können später mit einer der F.Call-Befehle gestartet werden.
+          Siehe das Beispiel "Function.sb" für weitere Informationen.
+        </summary>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Function(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Definiert eine Funktion mit einem Namen und deren lokalen Variablen bzw. Aufrufparametern. Vor diesem Befehlt muss aber zuerst die F.Start-Eigenschaft auf den Namen des Sub-Programms gesetzt werden, das als Startpunkt für die Funktion dient.
+          Die lokalen Variablen dienen auch zur Übergabe von Parametern im F.Call - Befehl: Die ersten n Parameter werden als Startwerte für die ersten n lokalen Variablen verwenden. Der Rest der lokalen Variablen werden entsprechend der Definition initialisiert.
+        </summary>
+        <param name="name">Der Name der Funktion (muss ein konstanter Text sein)</param>
+        <param name="parameterdefinitions">Ein Text mit den Namen und Initialwerten der lokalen Variablen. Das könnte zum Beispiel so aussehen. "A B:5 T:hello". Wenn kein Initialwert für eine Variable gewählt wird, dann wird 0 verwendet.</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Set(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Setzt eine lokale Variable auf den angegebenen Wert.
+        </summary>
+        <param name="variablename">Der Name der lokalen Variable (Klein- und Großschreibung ist egal)</param>
+        <param name="value">Der Wert, der in die Variable gespeichert werden soll</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.ReturnNumber(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Beendet den aktuellen Funktionsaufruf und liefert den angegebenen Wert an den Aufrufer zurück.
+          Im "brick mode" ist dieser Befehl nur im ersten Sub einer Funktion erlaubt.
+        </summary>
+        <param name="value">Der Rückgabewert (muss eine Zahl sein)</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.ReturnText(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Beendet den aktuellen Funktionsaufruf und liefert den angegebenen Wert an den Aufrufer zurück.
+          Im "brick mode" ist dieser Befehl nur im ersten Sub einer Funktion erlaubt.
+        </summary>
+        <param name="value">Der Rückgabewert (wird als Text interpretiert)</param>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Return">
+        <summary>
+          Beendet den aktuellen Funktionsaufruf.
+          Im "brick mode" ist dieser Befehl nur im ersten Sub einer Funktion erlaubt.
+        </summary>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Get(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Holt den Wert einer lokalen Variable.
+        </summary>
+        <param name="variablename">Der Name der lokalen Variable (Klein- und Großschreibung ist egal)</param>
+        <returns>Der Wert, der in der Variablen steht</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call0(Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf ohne Parameter.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <returns>Der Rückgabewert der Funktion</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call1(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 1 Parameter.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <returns>Der Rückgabewert der Funktion</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call2(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 2 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <returns>Der Rückgabewert der Funktion</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call3(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 3 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <returns>Der Rückgabewert der Funktion</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call4(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 4 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <returns>Der Rückgabewert der Funktion</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call5(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 5 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call6(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 6 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call7(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 7 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call8(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 8 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call9(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 9 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call10(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 10 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call11(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 11 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call12(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 12 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call13(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 13 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call14(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 14 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <param name="p14">Parameter 14</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call15(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 15 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <param name="p14">Parameter 14</param>
+        <param name="p15">Parameter 15</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call16(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 16 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <param name="p14">Parameter 14</param>
+        <param name="p15">Parameter 15</param>
+        <param name="p16">Parameter 16</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call17(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 17 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <param name="p14">Parameter 14</param>
+        <param name="p15">Parameter 15</param>
+        <param name="p16">Parameter 16</param>
+        <param name="p17">Parameter 17</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call18(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 18 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+          <param name="p2">Parameter 2</param>
+          <param name="p3">Parameter 3</param>
+          <param name="p4">Parameter 4</param>
+          <param name="p5">Parameter 5</param>
+          <param name="p6">Parameter 6</param>
+          <param name="p7">Parameter 7</param>
+          <param name="p8">Parameter 8</param>
+          <param name="p9">Parameter 9</param>
+          <param name="p10">Parameter 10</param>
+          <param name="p11">Parameter 11</param>
+          <param name="p12">Parameter 12</param>
+          <param name="p13">Parameter 13</param>
+          <param name="p14">Parameter 14</param>
+          <param name="p15">Parameter 15</param>
+          <param name="p16">Parameter 16</param>
+          <param name="p17">Parameter 17</param>
+          <param name="p18">Parameter 18</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call19(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 19 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+          <param name="p2">Parameter 2</param>
+          <param name="p3">Parameter 3</param>
+          <param name="p4">Parameter 4</param>
+          <param name="p5">Parameter 5</param>
+          <param name="p6">Parameter 6</param>
+          <param name="p7">Parameter 7</param>
+          <param name="p8">Parameter 8</param>
+          <param name="p9">Parameter 9</param>
+          <param name="p10">Parameter 10</param>
+          <param name="p11">Parameter 11</param>
+          <param name="p12">Parameter 12</param>
+          <param name="p13">Parameter 13</param>
+          <param name="p14">Parameter 14</param>
+          <param name="p15">Parameter 15</param>
+          <param name="p16">Parameter 16</param>
+          <param name="p17">Parameter 17</param>
+          <param name="p18">Parameter 18</param>
+          <param name="p19">Parameter 19</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="M:SmallBasicEV3Extension.F.Call20(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <summary>
+          Funktionsaufruf mit 20 Parametern.
+        </summary>
+        <param name="name">Name der Funktion (Klein- und Großschreibung ist egal)</param>
+        <param name="p1">Parameter 1</param>
+        <param name="p2">Parameter 2</param>
+        <param name="p3">Parameter 3</param>
+        <param name="p4">Parameter 4</param>
+        <param name="p5">Parameter 5</param>
+        <param name="p6">Parameter 6</param>
+        <param name="p7">Parameter 7</param>
+        <param name="p8">Parameter 8</param>
+        <param name="p9">Parameter 9</param>
+        <param name="p10">Parameter 10</param>
+        <param name="p11">Parameter 11</param>
+        <param name="p12">Parameter 12</param>
+        <param name="p13">Parameter 13</param>
+        <param name="p14">Parameter 14</param>
+        <param name="p15">Parameter 15</param>
+        <param name="p16">Parameter 16</param>
+        <param name="p17">Parameter 17</param>
+        <param name="p18">Parameter 18</param>
+        <param name="p19">Parameter 19</param>
+        <param name="p20">Parameter 20</param>
+        <returns>The value returned by the function</returns>
+      </member>
+      <member name="E:SmallBasicEV3Extension.F.Start">
+        <summary>
+          Diese Eigenschaft muss auf den Namen eines Sub-Programes gesetzt werden, bevor eine Funktion mit F.Function definiert werden kann.       </summary>
+      </member>
+      <member name="T:SmallBasicEV3Extension.LCD">
             <summary>
             Steuert die LCD-Anzeige am Brick.
             Der EV3 hat eine schwarz-weiße Anzeige mit 178x128 Pixel. Alle Pixel werden mit X,Y-Koordinaten angesprochen, wobei X=0 der linke Rand und Y=0 der obere Rand ist.
@@ -828,7 +1346,16 @@
             <param name="value">Der Wert für alle Elemente</param>
             <returns>Den neu erzeugten Vektor</returns>
         </member>
-        <member name="M:SmallBasicEV3Extension.Vector.Add(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+        <member name="M:SmallBasicEV3Extension.Vector.Data(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+          <summary>
+          Initialisiert einen Vektor mit angegebener Länge und den Startwerten wie sie in dem übergebenen Text definiert sind. Dafür wird der Text an den Leerzeichen geteilt und jeder Teil wird als Dezimalzahl interpretiert.
+          Zum Beispiel: V = Vector.Data(4,"47 11 8 15") ergibt ein Array mit den 4 Werten 47 11 8 15.
+         </summary>
+         <param name="size">Länge des erzeugten Vektors</param>
+         <param name="data">Zahlen in Text-Form, die in das Array gefüllt werden sollen. Wenn zu wenige Zahlen vorhanden sind, wird der Rest mit 0 aufgefüllt.</param>
+         <returns>The created vector</returns>
+       </member>
+      <member name="M:SmallBasicEV3Extension.Vector.Add(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Addiert zwei Vektoren elementweise (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)
             </summary>

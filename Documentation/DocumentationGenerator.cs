@@ -48,7 +48,7 @@ namespace Documentation
                      "EV3Basic Benutzerhandbuch",
                      Documentation.Properties.Resources.ManualDE,
                      Documentation.Properties.Resources.Appendix,
-                     "Rückgabewert",
+                     "Gibt zurück",
                      "Eigenschaft",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_handbuch.html"
                      );
@@ -57,7 +57,7 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualFR,
                      Documentation.Properties.Resources.AppendixFR,
-                     "Résultats",
+                     "Retourne",
                      "Propriété",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manuel.html"
                      );
@@ -66,8 +66,8 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualES,
                      Documentation.Properties.Resources.Appendix,
-                     "Returns",
-                     "Property",
+                     "Devuelve",
+                     "Propiedad",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_es.html"
                      );
 
@@ -76,8 +76,8 @@ namespace Documentation
                      "EV3Basic Developer Manual",
                      Documentation.Properties.Resources.ManualRU,
                      Documentation.Properties.Resources.Appendix,
-                     "Returns",
-                     "Property",
+                     "Возвращает",
+                     "Свойство",
                      "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Documentation/ev3basic_manual_ru.html"
                      );
         }

@@ -37,13 +37,19 @@ The main window is divided in two parts. The left one shows the file system of t
 To transfer (and optionally compile) files, select one file in the right window and click one of the "Compile" or "Download" buttons.
 Most programs will compile to the EV3 without much problems as long as you do not use unsupported functions. But there are subtle differences for some language constructs which will cause compilation to fail with an error.
 
+## Contribute
+
+If you want to contribute to this project, there are certain tasks where I would need help: 
+
+* More testing of the Small Basic extension and the compiler
+* Proofreading the documentation in various languages
+* New translations: See the 'Translations' issue thread for more details on this.
+
+If you absolutely insist, you may also donate money to my paypal account that is linked 
+to my email address (see below).
+
 ## Contact
 
-For questions, comments, bug reports and feature requests please contact: reinhard.grafl (at) aon.at
-
-## Donations
-
-EV3Basic is free to use, but if you want to give back something, money is welcome. 
-But instead of sending me anything directly (I have no payment account or anything set up for this), 
-please donate to the Wikimedia Foundation (https://donate.wikimedia.org) in my stead and drop me a note.
+For questions, comments, bug reports and feature requests please contact: reinhard.grafl (at) aon.at  
+or just open a new issue in the github issues section.
 

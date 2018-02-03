@@ -28,7 +28,7 @@ reinhard.grafl@aon.at
 
 <H1 class="chapter">Erste Schritte</H1>
 <P>
-Was man zuerst braucht, ist ein PC mit Microsoft Windows (jede Version seit Windows XP) und die aktuelle Version von
+Was man zuerst braucht, ist ein PC mit Microsoft Windows (jede Version seit Windows Vista) und die aktuelle Version von
 <a href="http://smallbasic.com">Microsoft Small Basic</a> die man sich gratis runterladen kann. Für komplette Programmier-Neulinge empfehle 
 ich die Tutorials auf Small Basic - Webseite um die grundlegenden Prinzipien zu erlernen. Das dauert nicht all zu lange und macht für sich
 alleine auch schon Spaß. 
