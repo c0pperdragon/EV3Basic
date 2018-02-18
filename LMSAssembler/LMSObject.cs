@@ -116,7 +116,7 @@ namespace LMSAssembler
             else
             {
                 program.WriteByte((byte) (local?0xc3:0xe3));
-                DataWriter.Write16(program, index);
+                DataWriter.Write32(program, index);
             }
         }
         public void AddStringLiteral(String s)

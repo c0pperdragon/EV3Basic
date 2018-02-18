@@ -1685,6 +1685,8 @@ namespace EV3BasicCompiler
             parse_keyword("SUB");
             String subname = parse_id();
 
+            if (subcallstructure.ContainsKey(subname)) s.ThrowParseError("Redefined Sub " + subname);
+
             subcallstructure[subname] = new List<String>();
             subcallstructure[subname].Add(subname);
 
