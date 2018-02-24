@@ -532,6 +532,98 @@ mais je ne l'ai pas documenté ici.
 <P class="returnssummary">Un texte contenant les lettres des boutons cliqués (peut être vide).</P>
 <H3 class="operation">Buttons.Wait ()</H3>
 <P class="operationsummary">Attendre qu'au moins un bouton soit cliqué. Si l'un des boutons était déjà cliqué avant d'appeler cette fonction, elle retourne immédiatement.</P>
+<H2 class="object">Byte</H2>
+<P class="objectsummary">Manipuler des bits individuels d'une quantité numérique de 8 bits.<BR>Cette bibliothèque vous permet de traiter les nombres Small Basic comme s'ils étaient organisés en valeurs entières de 8 bits ( « octets » ou « bytes »). Pour ce faire, les valeurs des paramètres sont toujours converties en octets simples, puis l'opération demandée est effectuée, puis le résultat est reconverti en un nombre Small Basic.<BR>Les opérations habituelles sur les bits sont prises en charge: AND, OR, NOT, XOR, diverses opérations de décalage et de conversion de données. Notez que les identifiants AND et OR sont des mots réservés de Small Basic et que donc ces opérations sont nommées AND_ et OR_ à la place. Pour plus d'informations, voir https://fr.wikipedia.org/wiki/Opération_bit_à_bit .</P>
+<H3 class="operation">Byte.AND_ (a, b)</H3>
+<P class="operationsummary">Opération AND au niveau du bit.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Premier opérande</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Deuxième opérande</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre que vous obtenez lors de la fusion des deux octets d'entrée a et b en effectuant une opération binaire AND sur leurs bits individuels</P>
+<H3 class="operation">Byte.B (value)</H3>
+<P class="operationsummary">Convertir une chaîne contenant une valeur binaire en un nombre.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La chaîne contenant un octet sous forme binaire (par exemple: "01001111")</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">L'octet en tant que nombre</P>
+<H3 class="operation">Byte.BIT (value, index)</H3>
+<P class="operationsummary">Extraire un seul bit d'un octet.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Le numéro d'octet d'où extraire le bit</P>
+<H4 class="parameter">index</H4>
+<P class="parametersummary">Position du bit à l'intérieur du byte</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le bit sur la position spécifiée qui est 0 ou 1</P>
+<H3 class="operation">Byte.H (value)</H3>
+<P class="operationsummary">Convertir une chaîne qui contient une valeur hexadécimale en un nombre.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La chaîne contenant un octet sous forme hexadécimale (par exemple: "4F")</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">L'octet en tant que nombre</P>
+<H3 class="operation">Byte.L (value)</H3>
+<P class="operationsummary">Convertir une chaîne qui contient une valeur logique en 0 ou 1 numérique.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La chaîne contenant une valeur logique. Toutes les variantes insensibles à la casse de "True" ("TRUE", "TrUe", "truE", etc.) sont considérées comme identiques. Tout le reste est traité comme "False".</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">0 ou 1</P>
+<H3 class="operation">Byte.NOT (value)</H3>
+<P class="operationsummary">Négation bitwise.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Numéro à inverser</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre que vous obtenez lorsque chaque bit de l'octet d'entrée est inversé individuellement</P>
+<H3 class="operation">Byte.OR_ (a, b)</H3>
+<P class="operationsummary">Opération OR au niveau du bit.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Premier opérande</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Deuxième opérande</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre que vous obtenez lors de la fusion des deux octets d'entrée a et b en effectuant une opération binaire OR sur leurs bits individuels</P>
+<H3 class="operation">Byte.SHL (value, distance)</H3>
+<P class="operationsummary">Effectuez une opération de décalage bit à bit vers la gauche.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">L'octet dont les bits seront décalés</P>
+<H4 class="parameter">distance</H4>
+<P class="parametersummary">Par combien de positions pour déplacer les bits</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre obtenu après avoir déplacé chaque bit de la valeur d'entrée vers les positions les plus significatives</P>
+<H3 class="operation">Byte.SHR (value, distance)</H3>
+<P class="operationsummary">Effectuez une opération de décalage bit à bit vers la droite.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">L'octet dont les bits seront décalés</P>
+<H4 class="parameter">distance</H4>
+<P class="parametersummary">Par combien de positions pour déplacer les bits</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre obtenu après avoir déplacé chaque bit de la valeur d'entrée vers les positions moins significatives</P>
+<H3 class="operation">Byte.ToBinary (value)</H3>
+<P class="operationsummary">Convertit un octet de 8 bits en sa représentation de chaîne binaire à 8 chiffres.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">L'octet à convertir en chaîne</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Une chaîne contenant 8 chiffres binaires</P>
+<H3 class="operation">Byte.ToHex (value)</H3>
+<P class="operationsummary">Convertit un octet de 8 bits en sa représentation hexadécimale à 2 chiffres.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">L'octet à convertir en chaîne</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Une chaîne contenant 2 chiffres hexadécimaux</P>
+<H3 class="operation">Byte.ToLogic (value)</H3>
+<P class="operationsummary">Convertir un nombre (peut être un octet de 8 bits ou tout autre nombre) en une valeur logique de "True" ou "False".<BR>Cette valeur peut ensuite être utilisée pour la condition dans If ou While ou dans tout autre but.<BR>Notez que toute valeur d'entrée supérieure à 0 donne un "True" alors qu'une valeur d'entrée de 0 ou toute valeur négative donne "False".<BR>Ce comportement spécifique permet de faire des choses étranges et merveilleuses avec cette commande. Reportez-vous à l'annexe pour les opérations logiques avancées.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La valeur numérique à convertir en sa valeur logique correspondante</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Soit "True" ou "False"</P>
+<H3 class="operation">Byte.XOR (a, b)</H3>
+<P class="operationsummary">Opération XOR au niveau du bit.</P>
+<H4 class="parameter">a</H4>
+<P class="parametersummary">Premier opérande</P>
+<H4 class="parameter">b</H4>
+<P class="parametersummary">Deuxième opérande</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">Le nombre que vous obtenez lors de la fusion des deux octets d'entrée a et b en effectuant une opération binaire XOR sur leurs bits individuels</P>
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Des petites fonctions utilitaires qui concernent la brique EV3 dans son ensemble.</P>
 <H3 class="property">EV3.BatteryLevel - Propriété</H3>
@@ -626,6 +718,584 @@ mais je ne l'ai pas documenté ici.
 <P class="parametersummary">Le 'handle' du fichier (précédemment obtenu à partir d'un appel Open...)</P>
 <H4 class="parameter">texte</H4>
 <P class="parametersummary">Le texte à écrire dans le fichier.</P>
+<H2 class="object">F</H2>
+<P class="objectsummary">Une structure pour créer des fonctions avec des paramètres et des variables locales dans Small Basic.<BR>Cela permet aux programmes d'appeler des fonctions de bibliothèque définies par l'utilisateur sous une forme similaire à ce qui est possible avec les commandes intégrées, y compris des valeurs de passage et de retour plus agréables.<BR>Les fonctions peuvent être définies à l'aide de la commande F.Function et peuvent être appelées ultérieurement avec l'une des commandes F.Call.<BR>Voir l'exemple fourni "Function.sb" pour une meilleure introduction.</P>
+<H3 class="property">F.Start - Propriété</H3>
+<P class="propertysummary">Cette propriété doit être définie sur un sous-programme avant qu'une opération F.Function ne soit effectuée et qu'elle définisse réellement la fonction.</P>
+<H3 class="operation">F.Call0 (name)</H3>
+<P class="operationsummary">Faire un appel de fonction sans passer de paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call1 (name, p1)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 1 paramètre.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call10 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 10 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call11 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 11 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call12 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 12 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call13 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 13 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call14 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 14 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call15 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 15 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call16 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 16 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Paramètre 16</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call17 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 17 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Paramètre 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Paramètre 17</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call18 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 18 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Paramètre 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Paramètre 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Paramètre 18</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call19 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19)</H3>
+<P class="operationsummary">Do a function call with 19 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Paramètre 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Paramètre 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Paramètre 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Paramètre 18</P>
+<H4 class="parameter">p19</H4>
+<P class="parametersummary">Paramètre 19</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call2 (name, p1, p2)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 2 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call20 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 20 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Paramètre 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Paramètre 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Paramètre 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Paramètre 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Parameter 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Paramètre 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Paramètre 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Paramètre 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Paramètre 18</P>
+<H4 class="parameter">p19</H4>
+<P class="parametersummary">Paramètre 19</P>
+<H4 class="parameter">p20</H4>
+<P class="parametersummary">Paramètre 20</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call3 (name, p1, p2, p3)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 3 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call4 (name, p1, p2, p3, p4)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 4 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call5 (name, p1, p2, p3, p4, p5)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 5 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call6 (name, p1, p2, p3, p4, p5, p6)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 6 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call7 (name, p1, p2, p3, p4, p5, p6, p7)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 7 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call8 (name, p1, p2, p3, p4, p5, p6, p7, p8)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 8 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Call9 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9)</H3>
+<P class="operationsummary">Faire un appel de fonction avec 9 paramètres.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (insensible à la casse)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Paramètre 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Paramètre 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Paramètre 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Paramètre 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Paramètre 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Paramètre 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Paramètre 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Paramètre 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Paramètre 9</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur renvoyée par la fonction</P>
+<H3 class="operation">F.Function (name, Paramètredefinitions)</H3>
+<P class="operationsummary">Définir une fonction nommée et ses variables / paramètres locaux avec des valeurs par défaut. Avant d'exécuter cette commande, la propriété Start doit être définie sur un sous-programme qui sera alors le point de départ de la fonction.<BR>Les variables locales sont également utilisées pour le passage de paramètres lors de l'utilisation de la commande Call : Pour tout appel avec n paramètres, ces paramètres seront affectés aux n premières variables locales. Le reste des variables locales sera défini sur leur valeur initiale définie.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Le nom de la fonction (doit être une chaîne littérale)</P>
+<H4 class="parameter">Paramètredefinitions</H4>
+<P class="parametersummary">Une chaîne qui contient une séquence de noms de variables locales et de valeurs initiales. Cela ressemble par exemple à "A B: 5 T: bonjour". Quand aucune valeur par défaut n'est spécifiée, 0 sera utilisé.</P>
+<H3 class="operation">F.Get (variablename)</H3>
+<P class="operationsummary">Récupère la valeur d'une variable locale nommée.</P>
+<H4 class="parameter">variablename</H4>
+<P class="parametersummary">Le nom de la variable locale (insensible à la casse)</P>
+<H4 class="returns">Retourne</H4>
+<P class="returnssummary">La valeur stockée dans la variable</P>
+<H3 class="operation">F.Return ()</H3>
+<P class="operationsummary">Provoque la fin immédiate de l'appel de la fonction en cours.<BR>En "mode brique", il est seulement permis d'utiliser cette commande dans le sous-sommet le plus haut d'une fonction.</P>
+<H3 class="operation">F.ReturnNumber (value)</H3>
+<P class="operationsummary">Provoque la fin immédiate de l'appel de la fonction en cours et renvoie la valeur en tant que numéro à l'appelant.<BR>En "mode brique", il est seulement permis d'utiliser cette commande dans le sous-sommet le plus haut d'une fonction.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La valeur de retour (doit être un nombre)</P>
+<H3 class="operation">F.ReturnText (value)</H3>
+<P class="operationsummary">Provoque l'arrêt immédiat de l'appel de la fonction en cours et renvoie la valeur sous forme de texte à l'appelant.<BR>En "mode brique", il est seulement permis d'utiliser cette commande dans le « sub »  le plus haut d'une fonction.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La valeur de retour (est interprétée comme du texte)</P>
+<H3 class="operation">F.Set (variablename, value)</H3>
+<P class="operationsummary">Définir une variable locale nommée à une valeur spécifiée.</P>
+<H4 class="parameter">variablename</H4>
+<P class="parametersummary">Le nom de la variable locale (insensible à la casse)</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">La valeur à stocker dans la variable locale</P>
 <H2 class="object">LCD</H2>
 <P class="objectsummary">Contrôler l'écran LCD de la brique.<BR>La brique EV3 possède un écran de 178 pixels de largeur par 128 de hauteur. Tous les pixels sont adressés avec des coordonnées X, Y, où X = 0 correspond au bord gauche et Y = 0 correspond au bord supérieur.</P>
 <H3 class="operation">LCD.BmpFile (couleur, x, y, nom du fichier)</H3>
@@ -1413,7 +2083,7 @@ et le capteur IR (récepteur distant) peut détecter les signaux de tous les can
 C = en haut à droite, D = en bas à droite, E = balise activée):
 </P>
 <TABLE>
-<TR></TR>
+<TR><TD></TD><TD></TD></TR>
 <TR><TD>A</TD><TD>1</TD></TR>
 <TR><TD>B</TD><TD>2</TD></TR>
 <TR><TD>C</TD><TD>3</TD></TR>
@@ -1565,6 +2235,121 @@ Small Basic utilisent les radians. Sachez que 1 radian = 57,3 ° environ.</P>
 		<td>distance en <strong>cm</strong>></td>
 	</tr>
 </table>
+
+<H1 class="chapter">Annexe - Didacticiel I2C</H1>
+<H3 class="subchapter">Pourquoi accéder directement à I2C?</H3>
+<P>
+Normalement, l'interfaçage avec les capteurs de la brique EV3 est effectué à l'aide des commandes Sensor.Read ... faciles à utiliser. Mais certains périphériques tiers ne sont pas compatibles avec le protocole de capteur par défaut et nécessitent une programmation supplémentaire. Les fournisseurs de tels dispositifs fournissent normalement des blocs de programmation pour l'environnement de programmation graphique original qui gère tous les détails de la communication.
+</P>
+<P>
+Pour EV3Basic, il n'y a probablement pas de support disponible, mais normalement il existe une documentation spécifiant le protocole de communication de bas niveau. Ayant cette information, le Sensor.CommunicateI2C ou l'une des autres commandes liées à I2C peuvent être utilisées pour implémenter un tel protocole.
+</P>
+<H3 class="subchapter">Introduction à I2C</H3>
+<P>
+I2C est une installation de communication qui permet à un seul « maître » d'accéder à plusieurs « esclaves » sur un bus commun pour lire et écrire des données. Dans le cas de l'EV3, chaque port de capteur avec son (ses) dispositif(s) capteur(s) peut former un tel bus.
+</P>
+<P>
+La communication est effectuée par le maître qui envoie un paquet d'octets de données à un esclave ou qui demande un paquet d'octets de données. Les esclaves eux-mêmes ne peuvent initier aucun transfert de données. Comme il peut y avoir plusieurs esclaves connectés au bus, le maître doit indiquer à quel esclave il veut parler. Ceci est fait en envoyant une adresse d'esclave (un nombre de 0 à 127) avant la communication. Le concepteur du système doit s'assurer que deux esclaves sur un bus n'ont pas la même adresse pour éviter les conflits.
+</P>
+<P>
+Le protocole I2C lui-même ne fournit qu'un moyen de communication, la signification des données dépend totalement des appareils en question.
+</P>
+<H3 class="subchapter">CommunicateI2C</H3>
+<P>
+Cette commande d’EV3 Basic est le seul moyen d'accéder directement à la fonctionnalité I2C sous forme brute. Il combine l'opération d'envoi d'un nombre arbitraire d'octets et la réception d’octets. Exemple:
+</P>
+<pre>
+W [0] = 60
+W [1] = 70
+W [2] = 80
+R = Sensor.CommunicateI2C (1,44,3,4, W)
+</pre>
+<P>
+Cela enverra d'abord les octets 60, 70, 80 à l'esclave avec l'adresse 44 qui est connectée au port de capteur 1. Ensuite, il cherchera 4 octets à partir du même esclave. Les octets reçus sont stockés dans le tableau R.
+</P>
+<H3 class="subchapter">Registres I2C</H3>
+<P>
+Le concept de registres ne fait essentiellement pas partie du protocole I2C, mais ce concept est si largement utilisé qu'il est maintenant un moyen standard de communiquer avec de nombreux périphériques. Sur les appareils qui utilisent des registres, tout transfert de données est effectué par le maître qui écrit dans les registres des esclaves ou qui lit les données des registres. Un registre est essentiellement un emplacement de stockage pouvant contenir un octet de données et accessible via son numéro de registre (ou «adresse» de registre - mais utiliser ce nom mènera probablement à la confusion car les esclaves ont déjà une adresse I2C). Depuis la version 1.2.5, EV3Basic supporte directement la lecture / l'écriture de / vers des registres de périphériques I2C suivant la norme de registre.
+<P>
+<H3 class="subchapter">Sources de confusion</H3>
+<P>
+Adresse de l’esclave vs. adresse de registre. <BR>
+De nombreux documents de périphériques se réfèrent à l'adresse de l’esclave et au numéro de registre comme 'adresse'. Assurez-vous de bien comprendre la différence et ce que la documentation signifie réellement dans chaque cas.
+</P>
+<P>
+L'adresse de l’esclave est pré-multipliée par 2<BR>
+Le fonctionnement interne du protocole combine les 7 bits de l'adresse de l’esclave (valeurs de 0 à 127) avec un seul bit qui spécifie la direction (lecture ou écriture) pour donner 8 bits qui doivent être transmis de maître à esclave. Parfois, les développeurs d'un périphérique écrivent simplement cette valeur combinée dans le programme pour économiser quelques cycles de processeur pendant l'exécution. Lorsque cette valeur se retrouve dans la documentation, une adresse d’esclave de par exemple 80 sera écrite 160 là. Il est parfois difficile de déterminer quelle est la véritable adresse. En cas de doute, vous devez écrire un programme de test pour vérifier si une adresse esclave est valide.
+</P>
+
+<H1 class="chapter">Annexe - Opérations logiques avancées</H1>
+<H3 class="subchapter">Motivation</H3>
+<P>
+Dans Small Basic (et dans tous les dialectes de Basic que j'ai rencontrés) l'utilisation de comparateurs et des opérateurs logiques AND et OR est limité au contexte de If et de While. Mais parfois, il est nécessaire de conserver le résultat d'une comparaison pour une utilisation future. Pour cela, vous devez écrire quelque chose comme
+</P>
+<pre>
+If X<10 OR X>50 Then
+   A = "True"
+Else
+   A = "False"
+EndIf
+</pre>
+<P>
+But connaissant d'autres langages de programmation, vous préfèreriez probablement écrire ceci en une seule ligne comme
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<p>
+ce qui n'est pas possible dans Small Basic.
+</p>
+<p>
+Mais en utilisant la commande Byte.ToLogic, il y a une façon géniale de faire la même chose même en une ligne. S'il vous plaît lire sur.
+</p>
+<H3 class="subchapter">Comparateurs en dehors de If et de While</H3>
+<P>
+Lors de la lecture de la spécification pour les commandes Byte.ToLogic attentivement, vous pouvez voir qu'il retournera "True" pour les valeurs d'entrée positives et "False" pour 0 ou négatif. Considérons donc la construction suivante: 
+</P>
+<pre>
+A = Byte.ToLogic(X-Y)
+</pre>
+<P>
+Cela mettra en effet A à "True" quand X est plus grand que Y, tout comme une expression de comparaison supérieure à inexistante. De la même façon, la construction
+</P>
+<pre>
+A = Byte.ToLogic (Math.Abs(X-Y))
+</pre>
+<P>
+est équivalente à un opérateur « non égal ». En utilisant cette idée vous pouvez créer toutes les expressions de comparaison possibles de Small Basic (certaines sont assez simples à écrire, d'autres sont plus compliquées)
+</P>
+<pre>
+  X > Y              Byte.ToLogic(X-Y)
+  X < Y              Byte.ToLogic(Y-X)
+  X >= Y             Byte.ToLogic(1+Math.Floor(X-Y))
+  Y <= X             Byte.ToLogic(1+Math.Floor(Y-X))
+  X &lt;&gt; Y             Byte.ToLogic(Math.Abs(X-Y))
+  X = Y              Byte.ToLogic(1-Math.Ceiling(Math.Abs(X-Y)))
+</pre>  
+<H3 class="subchapter">Mettre les comparateurs ensemble</H3>
+<P>
+Pour permettre une combinaison logique de comparateurs (tout comme l'exemple de motivation), vous pouvez réellement utiliser les commandes Math.Max ??et Math.Min pour faire correctement ET et OU des résultats du comparateur. Considérons l'exemple suivant: 
+</P>
+<pre>
+A = Byte.ToLogic (Math.Max ??(10-X, X-50))
+</pre>
+<P>
+Le premier paramètre du Max sera supérieur à zéro lorsque X est inférieur à 10. Le second paramètre du Max sera supérieur à zéro lorsque X est supérieur à 50. Le résultat de la commande Max sera supérieur à zéro lorsque l'un de ses paramètres est supérieur à zéro. En transformant cette propriété "supérieure à zéro" en une valeur logique explicite de "True" ou "False" avec la commande Byte.ToLogic, ceci est maintenant totalement équivalent à la construction inexistante:
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<P>
+tout fait en une seule ligne. Voici un résumé des opérateurs logiques (y compris NOT pour faire bonne mesure):
+</P>
+<pre>
+  A AND B                Math.Min(A,B)
+  A OR B                 Math.Max(A,B)
+  NOT A                  (1-Math.Ceiling(A))
+</pre>
 
 <p>
 <br><br><br><br><br>

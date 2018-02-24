@@ -23,7 +23,7 @@ et le capteur IR (récepteur distant) peut détecter les signaux de tous les canau
 C = en haut à droite, D = en bas à droite, E = balise activée):
 </P>
 <TABLE>
-<TR></TR>
+<TR><TD></TD><TD></TD></TR>
 <TR><TD>A</TD><TD>1</TD></TR>
 <TR><TD>B</TD><TD>2</TD></TR>
 <TR><TD>C</TD><TD>3</TD></TR>
@@ -175,6 +175,121 @@ Small Basic utilisent les radians. Sachez que 1 radian = 57,3 ° environ.</P>
 		<td>distance en <strong>cm</strong>></td>
 	</tr>
 </table>
+
+<H1 class="chapter">Annexe - Didacticiel I2C</H1>
+<H3 class="subchapter">Pourquoi accéder directement à I2C?</H3>
+<P>
+Normalement, l'interfaçage avec les capteurs de la brique EV3 est effectué à l'aide des commandes Sensor.Read ... faciles à utiliser. Mais certains périphériques tiers ne sont pas compatibles avec le protocole de capteur par défaut et nécessitent une programmation supplémentaire. Les fournisseurs de tels dispositifs fournissent normalement des blocs de programmation pour l'environnement de programmation graphique original qui gère tous les détails de la communication.
+</P>
+<P>
+Pour EV3Basic, il n'y a probablement pas de support disponible, mais normalement il existe une documentation spécifiant le protocole de communication de bas niveau. Ayant cette information, le Sensor.CommunicateI2C ou l'une des autres commandes liées à I2C peuvent être utilisées pour implémenter un tel protocole.
+</P>
+<H3 class="subchapter">Introduction à I2C</H3>
+<P>
+I2C est une installation de communication qui permet à un seul « maître » d'accéder à plusieurs « esclaves » sur un bus commun pour lire et écrire des données. Dans le cas de l'EV3, chaque port de capteur avec son (ses) dispositif(s) capteur(s) peut former un tel bus.
+</P>
+<P>
+La communication est effectuée par le maître qui envoie un paquet d'octets de données à un esclave ou qui demande un paquet d'octets de données. Les esclaves eux-mêmes ne peuvent initier aucun transfert de données. Comme il peut y avoir plusieurs esclaves connectés au bus, le maître doit indiquer à quel esclave il veut parler. Ceci est fait en envoyant une adresse d'esclave (un nombre de 0 à 127) avant la communication. Le concepteur du système doit s'assurer que deux esclaves sur un bus n'ont pas la même adresse pour éviter les conflits.
+</P>
+<P>
+Le protocole I2C lui-même ne fournit qu'un moyen de communication, la signification des données dépend totalement des appareils en question.
+</P>
+<H3 class="subchapter">CommunicateI2C</H3>
+<P>
+Cette commande d’EV3 Basic est le seul moyen d'accéder directement à la fonctionnalité I2C sous forme brute. Il combine l'opération d'envoi d'un nombre arbitraire d'octets et la réception d’octets. Exemple:
+</P>
+<pre>
+W [0] = 60
+W [1] = 70
+W [2] = 80
+R = Sensor.CommunicateI2C (1,44,3,4, W)
+</pre>
+<P>
+Cela enverra d'abord les octets 60, 70, 80 à l'esclave avec l'adresse 44 qui est connectée au port de capteur 1. Ensuite, il cherchera 4 octets à partir du même esclave. Les octets reçus sont stockés dans le tableau R.
+</P>
+<H3 class="subchapter">Registres I2C</H3>
+<P>
+Le concept de registres ne fait essentiellement pas partie du protocole I2C, mais ce concept est si largement utilisé qu'il est maintenant un moyen standard de communiquer avec de nombreux périphériques. Sur les appareils qui utilisent des registres, tout transfert de données est effectué par le maître qui écrit dans les registres des esclaves ou qui lit les données des registres. Un registre est essentiellement un emplacement de stockage pouvant contenir un octet de données et accessible via son numéro de registre (ou «adresse» de registre - mais utiliser ce nom mènera probablement à la confusion car les esclaves ont déjà une adresse I2C). Depuis la version 1.2.5, EV3Basic supporte directement la lecture / l'écriture de / vers des registres de périphériques I2C suivant la norme de registre.
+<P>
+<H3 class="subchapter">Sources de confusion</H3>
+<P>
+Adresse de l’esclave vs. adresse de registre. <BR>
+De nombreux documents de périphériques se réfèrent à l'adresse de l’esclave et au numéro de registre comme 'adresse'. Assurez-vous de bien comprendre la différence et ce que la documentation signifie réellement dans chaque cas.
+</P>
+<P>
+L'adresse de l’esclave est pré-multipliée par 2<BR>
+Le fonctionnement interne du protocole combine les 7 bits de l'adresse de l’esclave (valeurs de 0 à 127) avec un seul bit qui spécifie la direction (lecture ou écriture) pour donner 8 bits qui doivent être transmis de maître à esclave. Parfois, les développeurs d'un périphérique écrivent simplement cette valeur combinée dans le programme pour économiser quelques cycles de processeur pendant l'exécution. Lorsque cette valeur se retrouve dans la documentation, une adresse d’esclave de par exemple 80 sera écrite 160 là. Il est parfois difficile de déterminer quelle est la véritable adresse. En cas de doute, vous devez écrire un programme de test pour vérifier si une adresse esclave est valide.
+</P>
+
+<H1 class="chapter">Annexe - Opérations logiques avancées</H1>
+<H3 class="subchapter">Motivation</H3>
+<P>
+Dans Small Basic (et dans tous les dialectes de Basic que j'ai rencontrés) l'utilisation de comparateurs et des opérateurs logiques AND et OR est limité au contexte de If et de While. Mais parfois, il est nécessaire de conserver le résultat d'une comparaison pour une utilisation future. Pour cela, vous devez écrire quelque chose comme
+</P>
+<pre>
+If X<10 OR X>50 Then
+   A = "True"
+Else
+   A = "False"
+EndIf
+</pre>
+<P>
+But connaissant d'autres langages de programmation, vous préfèreriez probablement écrire ceci en une seule ligne comme
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<p>
+ce qui n'est pas possible dans Small Basic.
+</p>
+<p>
+Mais en utilisant la commande Byte.ToLogic, il y a une façon géniale de faire la même chose même en une ligne. S'il vous plaît lire sur.
+</p>
+<H3 class="subchapter">Comparateurs en dehors de If et de While</H3>
+<P>
+Lors de la lecture de la spécification pour les commandes Byte.ToLogic attentivement, vous pouvez voir qu'il retournera "True" pour les valeurs d'entrée positives et "False" pour 0 ou négatif. Considérons donc la construction suivante: 
+</P>
+<pre>
+A = Byte.ToLogic(X-Y)
+</pre>
+<P>
+Cela mettra en effet A à "True" quand X est plus grand que Y, tout comme une expression de comparaison supérieure à inexistante. De la même façon, la construction
+</P>
+<pre>
+A = Byte.ToLogic (Math.Abs(X-Y))
+</pre>
+<P>
+est équivalente à un opérateur « non égal ». En utilisant cette idée vous pouvez créer toutes les expressions de comparaison possibles de Small Basic (certaines sont assez simples à écrire, d'autres sont plus compliquées)
+</P>
+<pre>
+  X > Y              Byte.ToLogic(X-Y)
+  X < Y              Byte.ToLogic(Y-X)
+  X >= Y             Byte.ToLogic(1+Math.Floor(X-Y))
+  Y <= X             Byte.ToLogic(1+Math.Floor(Y-X))
+  X &lt;&gt; Y             Byte.ToLogic(Math.Abs(X-Y))
+  X = Y              Byte.ToLogic(1-Math.Ceiling(Math.Abs(X-Y)))
+</pre>  
+<H3 class="subchapter">Mettre les comparateurs ensemble</H3>
+<P>
+Pour permettre une combinaison logique de comparateurs (tout comme l'exemple de motivation), vous pouvez réellement utiliser les commandes Math.Max ??et Math.Min pour faire correctement ET et OU des résultats du comparateur. Considérons l'exemple suivant: 
+</P>
+<pre>
+A = Byte.ToLogic (Math.Max ??(10-X, X-50))
+</pre>
+<P>
+Le premier paramètre du Max sera supérieur à zéro lorsque X est inférieur à 10. Le second paramètre du Max sera supérieur à zéro lorsque X est supérieur à 50. Le résultat de la commande Max sera supérieur à zéro lorsque l'un de ses paramètres est supérieur à zéro. En transformant cette propriété "supérieure à zéro" en une valeur logique explicite de "True" ou "False" avec la commande Byte.ToLogic, ceci est maintenant totalement équivalent à la construction inexistante:
+</P>
+<pre>
+A = X<10 OR X>50
+</pre>
+<P>
+tout fait en une seule ligne. Voici un résumé des opérateurs logiques (y compris NOT pour faire bonne mesure):
+</P>
+<pre>
+  A AND B                Math.Min(A,B)
+  A OR B                 Math.Max(A,B)
+  NOT A                  (1-Math.Ceiling(A))
+</pre>
 
 <p>
 <br><br><br><br><br>

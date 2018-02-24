@@ -156,7 +156,7 @@ namespace SmallBasicEV3Extension
         /// Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".
         /// This value can then be used for the condition in If or While or any other purpose.
         /// Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".
-        /// This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the apendix for advanced logic operations.
+        /// This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the appendix for advanced logic operations.
         /// </summary>
         /// <param name="value">The numeric value to be converted into its corresponding logic value</param>
         /// <returns>Either "True" or "False"</returns>

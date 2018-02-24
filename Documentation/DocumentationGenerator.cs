@@ -142,7 +142,7 @@ namespace Documentation
             {
                 var o = objects[opkey];
                 target.WriteLine("<H2 class=\"object\">"+opkey+"</H2>");
-                target.WriteLine("<P class=\"objectsummary\">"+o.summary.Replace("\n","<BR>")+"</P>");
+                target.WriteLine("<P class=\"objectsummary\">" + o.summary.Replace("\n", "<BR>").Replace("<>", "&lt;&gt;") + "</P>");
 
                 // write properties
                 var plist = o.properties.Keys.ToList();
@@ -151,7 +151,7 @@ namespace Documentation
                 {
                     String p = o.properties[pkey];
                     target.WriteLine("<H3 class=\"property\">" + opkey+"."+pkey + " - "+propertytext+"</H3>");
-                    target.WriteLine("<P class=\"propertysummary\">" + p.Replace("\n","<BR>") + "</P>");
+                    target.WriteLine("<P class=\"propertysummary\">" + p.Replace("\n", "<BR>").Replace("<>", "&lt;&gt;") + "</P>");
                 }
                 // write functions
                 var flist = o.functions.Keys.ToList();
@@ -160,20 +160,20 @@ namespace Documentation
                 {
                     EV3Function f = o.functions[fkey];
                     target.WriteLine("<H3 class=\"operation\">"+opkey+"."+fkey+" "+f.GetParameterList()+"</H3>");
-                    target.WriteLine("<P class=\"operationsummary\">"+f.summary.Replace("\n","<BR>")+"</P>");
+                    target.WriteLine("<P class=\"operationsummary\">"+f.summary.Replace("\n","<BR>").Replace("<>","&lt;&gt;")+"</P>");
 
                     // write function parameters
                     foreach (var pp in f.parameters)
                     {
                         String p = pp.Value;
                         target.WriteLine("<H4 class=\"parameter\">"+pp.Key+"</H4>");
-                        target.WriteLine("<P class=\"parametersummary\">"+p+"</P>");
+                        target.WriteLine("<P class=\"parametersummary\">" + p.Replace("<>", "&lt;&gt;") + "</P>");
                     }
                     // write return value 
                     if (f.returnvalue != null)
                     {
                         target.WriteLine("<H4 class=\"returns\">"+returnstext+"</H4>");
-                        target.WriteLine("<P class=\"returnssummary\">" + f.returnvalue + "</P>");
+                        target.WriteLine("<P class=\"returnssummary\">" + f.returnvalue.Replace("<>", "&lt;&gt;") + "</P>");
                     }
                 }
             }

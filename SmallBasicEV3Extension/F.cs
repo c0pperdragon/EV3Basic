@@ -104,7 +104,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Set a named local variable to a specified value.
         /// </summary>
-        /// <param name="variablename">The name of the local variable (case insenstive)</param>
+        /// <param name="variablename">The name of the local variable (case insensitive)</param>
         /// <param name="value">The value to store into the local variable</param>
         public static void Set(Primitive variablename, Primitive value)
         {
@@ -172,7 +172,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Retrieve the value of a named local variable.
         /// </summary>
-        /// <param name="variablename">The name of the local variable (case insenstive)</param>
+        /// <param name="variablename">The name of the local variable (case insensitive)</param>
         /// <returns>The value stored in the variable</returns>
         public static Primitive Get(Primitive variablename)
         {
