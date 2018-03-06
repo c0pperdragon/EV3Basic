@@ -34,8 +34,9 @@ namespace Test
         }
 
         static void TestCompile()
-        {    
-            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/Concurrency.sb";
+        {
+//            String f = "C:/Users/Reinhard/Documents/GitHub/EV3Basic/Examples/Concurrency.sb";
+            String f = "C:/Users/Reinhard/Desktop/Gripper_Rolf.sb";
             FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read);
             FileStream ofs = new FileStream("c:/temp/compiledbasic.lms", FileMode.Create, FileAccess.Write);
 

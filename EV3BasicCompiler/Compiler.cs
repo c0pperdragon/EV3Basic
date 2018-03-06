@@ -2016,9 +2016,12 @@ namespace EV3BasicCompiler
             else
             {
                 functionofsub[sub] = fd;
-                foreach (String callee in subcallstructure[sub])
+                if (subcallstructure.ContainsKey(sub))
                 {
-                    set_all_functionofsub(fd, callee);
+                    foreach (String callee in subcallstructure[sub])
+                    {
+                        set_all_functionofsub(fd, callee);
+                    }
                 }
             }
         }

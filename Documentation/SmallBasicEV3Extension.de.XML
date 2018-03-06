@@ -1362,13 +1362,13 @@
             <param name="size">Anzahl der Elemente von jedem Vektor für die Berechnung</param>
             <param name="A">Erster Vektor</param>
             <param name="B">Zweiter Vektor</param>
-            <returns>A Vektor der angegebenen Größe, der alle Summen enhält.</returns>
+            <returns>Ein Vektor der angegebenen Größe, der alle Summen enhält.</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.Vector.Sort(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>
-            Sortiert die Element eines Vektors in aufsteigender Reihenfolge.
+            Sortiert die Elemente eines Vektors in aufsteigender Reihenfolge.
             </summary>
-            <param name="size">Anzahl der Elements</param>
+            <param name="size">Anzahl der Elemente</param>
             <param name="A">Der zu sortierende Vektor</param>
             <returns>Ein neuer Vektor mit den sortierten Elementen</returns>
         </member>
