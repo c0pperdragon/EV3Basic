@@ -19,14 +19,14 @@ MUTEX = Thread.CreateMutex()
 
 ' Atomic modification of global data (accesses global variables for intermediate storage while holding lock)
 F.Start = MOVE
-F.Function("MOVE", "FROM TO")
+F.Function("MOVe", "FRom to:0")
 Sub MOVE
   Thread.Lock(MUTEX)
 
   ' transfer last letter 
   F = STACK[F.Get("FROM")]
-  T = STACK[F.Get("TO")]
-  STACK[F.Get("FROM")] = Text.GetSubText(F, 1, Text.GetLength(F)-1) 
+  T = STACK[F.Get("To")]
+  STACK[F.Get("FrOM")] = Text.GetSubText(F, 1, Text.GetLength(F)-1) 
   STACK[F.Get("TO")] = Text.Append(T, Text.GetSubText(F,Text.GetLength(F),1))
   
   ' paint situation to screen

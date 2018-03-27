@@ -222,7 +222,7 @@ namespace EV3BasicCompiler
                 if (colon>0)
                 {
                     String v = parlist[i].Substring(colon+1);
-                    parlist[i]= parlist[i].Substring(0,colon);
+                    parlist[i]= parlist[i].Substring(0,colon).ToUpperInvariant();
                     if (double.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out val))
                     {
                         defaultvalues[i] = new double[]{val};
@@ -234,7 +234,8 @@ namespace EV3BasicCompiler
                 }
                 else
                 {
-                    defaultvalues[i] = new double[]{0.0};
+                    parlist[i] = parlist[i].ToUpperInvariant();
+                    defaultvalues[i] = new double[] { 0.0 };
                 }
             }
             

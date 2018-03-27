@@ -62,7 +62,7 @@ namespace SmallBasicEV3Extension
         public static void Function(Primitive name, Primitive parameterdefinitions)
         {
             String n = (name == null) ? "" : name.ToString().ToUpperInvariant();
-            String pd = (parameterdefinitions == null) ? "" : parameterdefinitions.ToString().ToUpperInvariant();
+            String pd = (parameterdefinitions == null) ? "" : parameterdefinitions.ToString();
             if (n.Length <= 0)
             {
                 TextWindow.WriteLine("Can not define function with empty name");
@@ -84,11 +84,12 @@ namespace SmallBasicEV3Extension
                     if (colonidx > 0)
                     {
                         defaults[i] = new Primitive(parameternames[i].Substring(colonidx + 1));
-                        parameternames[i] = parameternames[i].Substring(0, colonidx);
+                        parameternames[i] = parameternames[i].Substring(0, colonidx).ToUpperInvariant();
                     }
                     else
                     {
                         defaults[i] = new Primitive("0");
+                        parameternames[i] = parameternames[i].ToUpperInvariant();
                     }
                 }
                 

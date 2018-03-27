@@ -963,7 +963,7 @@ namespace EV3BasicCompiler
                 // special handling for the F.SET operation
                 if (cmdname.Equals("F.SET"))
                 {
-                    String vname = parse_string();
+                    String vname = parse_string().ToUpperInvariant();
                     parse_optional_special(",");
                     int vidx = currentfunction.findParameter(vname);
                     if (vidx<0)
@@ -1010,7 +1010,7 @@ namespace EV3BasicCompiler
                 // special handling of any F.CALL command without return values
                 if (cmdname.StartsWith("F.CALL"))
                 {
-                    String fname = parse_string();
+                    String fname = parse_string().ToUpperInvariant();
                     if (!functiondefinitions.ContainsKey(fname))
                     {
                         s.ThrowParseError("Undefined function: "+fname);
@@ -1514,7 +1514,7 @@ namespace EV3BasicCompiler
             if (cmdname.Equals("F.GET"))
             {
                 parse_special("(");
-                String name = parse_string();
+                String name = parse_string().ToUpperInvariant();
                 parse_optional_special(",");
                 parse_special(")");
                 int vidx = currentfunction.findParameter(name);
@@ -1828,7 +1828,7 @@ namespace EV3BasicCompiler
                             parse_special("(");
                             String fname = parse_string().ToUpperInvariant();
                             parse_optional_special(",");
-                            String pardcl = parse_string().ToUpperInvariant();
+                            String pardcl = parse_string();
                             parse_optional_special(",");
 
                             parse_special(")");
