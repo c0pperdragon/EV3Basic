@@ -186,6 +186,16 @@
             <param name="value">Bajt do przekształcenia na łańcuch znaków</param>
             <returns>Łańcuch znaków zawierający 8 cyfr binarnych</returns>
         </member>
+        <member name="M:SmallBasicEV3Extension.Byte.ToLogic(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".
+            This value can then be used for the condition in If or While or any other purpose.
+            Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".
+            This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the appendix for advanced logic operations.
+            </summary>
+            <param name="value">The numeric value to be converted into its corresponding logic value</param>
+            <returns>Either "True" or "False"</returns>
+        </member>
         <member name="M:SmallBasicEV3Extension.Byte.H(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Zamień napis zawierający wartość szesnastkową na liczbę.
@@ -199,6 +209,13 @@
             </summary>
             <param name="value">Napis zawierający bajt w postaci binarnej (na przykład: "01001111")</param>
             <returns>Bajt jako liczba</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Byte.L(Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Convert a string that contains a logic value into a numerical 0 or 1.
+            </summary>
+            <param name="value">The string holding a logic value. All case-insensitive variants of "True" ("TRUE","TrUe", "truE", etc.) are considered the same. Everything else is treated as "False".</param>
+            <returns>0 or 1</returns>
         </member>
         <member name="T:SmallBasicEV3Extension.EV3File">
             <summary>
@@ -1116,6 +1133,15 @@
             <param name="size">rozmiar wektora</param>
             <param name="value">Wartość początkowa każdego z elementów wektora</param>
             <returns>Stworzony wektor</returns>
+        </member>
+        <member name="M:SmallBasicEV3Extension.Vector.Data(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Set up a vector of a given size and initialize the elements with data drawn from a text. For this, the text will be split apart on blank spaces and every part is treated as a decimal number.
+            For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.
+            </summary>
+            <param name="size">Size of the resulting vector</param>
+            <param name="data">Data in text form to be filled into the array. When the text contains too few elements, the vector is padded with 0 to reach the specified number of elements</param>
+            <returns>The created vector</returns>
         </member>
         <member name="M:SmallBasicEV3Extension.Vector.Add(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
             <summary>

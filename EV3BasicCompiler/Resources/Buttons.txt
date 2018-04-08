@@ -3,32 +3,197 @@
 subcall BUTTONS.CURRENT    // S
 {
 	OUT_S result 8
-
 	DATA8 ispressed
 	
-	STRINGS DUPLICATE '' result	
-	
-	UI_BUTTON PRESSED 1 ispressed
-	JR_EQ8 ispressed 0 not_up
-	STRINGS ADD result 'U' result
-not_up:
-	UI_BUTTON PRESSED 2 ispressed
-	JR_EQ8 ispressed 0 not_enter
-	STRINGS ADD result 'E' result
-not_enter:
-	UI_BUTTON PRESSED 3 ispressed
-	JR_EQ8 ispressed 0 not_down
-	STRINGS ADD result 'D' result
-not_down:	
-	UI_BUTTON PRESSED 4 ispressed
-	JR_EQ8 ispressed 0 not_right
-	STRINGS ADD result 'R' result
-not_right:
-	UI_BUTTON PRESSED 5 ispressed
-	JR_EQ8 ispressed 0 not_left
-	STRINGS ADD result 'L' result
-not_left:
+// BIG CASE TREE TO GET ALL POSSIBILITIES
 
+	UI_BUTTON PRESSED 1 ispressed
+	JR_NEQ8 ispressed 0 is_1____
+is_X____:
+	UI_BUTTON PRESSED 2 ispressed
+	JR_NEQ8 ispressed 0 is_X2___
+is_XX___:
+	UI_BUTTON PRESSED 3 ispressed
+	JR_NEQ8 ispressed 0 is_XX3__
+is_XXX__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_XXX4_
+is_XXXX_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_XXXX5
+is_XXXXX:
+	STRINGS DUPLICATE '' result
+	RETURN
+is_XXXX5:
+	STRINGS DUPLICATE 'L' result
+	RETURN
+is_XXX4_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_XXX45
+is_XXX4X:
+	STRINGS DUPLICATE 'R' result
+	RETURN
+is_XXX45:
+	STRINGS DUPLICATE 'RL' result
+	RETURN
+is_XX3__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_XX34_
+is_XX3X_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_XX3X5
+is_XX3XX:
+	STRINGS DUPLICATE 'D' result
+	RETURN
+is_XX3X5:
+	STRINGS DUPLICATE 'DL' result
+	RETURN
+is_XX34_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_XX345
+is_XX34X:
+	STRINGS DUPLICATE 'DR' result
+	RETURN
+is_XX345:
+	STRINGS DUPLICATE 'DRL' result
+	RETURN
+is_X2___:
+	UI_BUTTON PRESSED 3 ispressed
+	JR_NEQ8 ispressed 0 is_X23__
+is_X2X__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_X2X4_
+is_X2XX_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_X2XX5
+is_X2XXX:
+	STRINGS DUPLICATE 'E' result
+	RETURN
+is_X2XX5:
+	STRINGS DUPLICATE 'EL' result
+	RETURN
+is_X2X4_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_X2X45
+is_X2X4X:
+	STRINGS DUPLICATE 'ER' result
+	RETURN
+is_X2X45:
+	STRINGS DUPLICATE 'ERL' result
+	RETURN
+is_X23__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_X234_
+is_X23X_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_X23X5
+is_X23XX:
+	STRINGS DUPLICATE 'ED' result
+	RETURN
+is_X23X5:
+	STRINGS DUPLICATE 'EDL' result
+	RETURN
+is_X234_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_X2345
+is_X234X:
+	STRINGS DUPLICATE 'EDR' result
+	RETURN
+is_X2345:
+	STRINGS DUPLICATE 'EDRL' result
+	RETURN
+is_1____:
+	UI_BUTTON PRESSED 2 ispressed
+	JR_NEQ8 ispressed 0 is_12___
+is_1X___:
+	UI_BUTTON PRESSED 3 ispressed
+	JR_NEQ8 ispressed 0 is_1X3__
+is_1XX__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_1XX4_
+is_1XXX_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_1XXX5
+is_1XXXX:
+	STRINGS DUPLICATE 'U' result
+	RETURN
+is_1XXX5:
+	STRINGS DUPLICATE 'UL' result
+	RETURN
+is_1XX4_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_1XX45
+is_1XX4X:
+	STRINGS DUPLICATE 'UR' result
+	RETURN
+is_1XX45:
+	STRINGS DUPLICATE 'URL' result
+	RETURN
+is_1X3__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_1X34_
+is_1X3X_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_1X3X5
+is_1X3XX:
+	STRINGS DUPLICATE 'UD' result
+	RETURN
+is_1X3X5:
+	STRINGS DUPLICATE 'UDL' result
+	RETURN
+is_1X34_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_1X345
+is_1X34X:
+	STRINGS DUPLICATE 'UDR' result
+	RETURN
+is_1X345:
+	STRINGS DUPLICATE 'UDRL' result
+	RETURN
+is_12___:
+	UI_BUTTON PRESSED 3 ispressed
+	JR_NEQ8 ispressed 0 is_123__
+is_12X__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_12X4_
+is_12XX_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_12XX5
+is_12XXX:
+	STRINGS DUPLICATE 'UE' result
+	RETURN
+is_12XX5:
+	STRINGS DUPLICATE 'UEL' result
+	RETURN
+is_12X4_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_12X45
+is_12X4X:
+	STRINGS DUPLICATE 'UER' result
+	RETURN
+is_12X45:
+	STRINGS DUPLICATE 'UERL' result
+	RETURN
+is_123__:
+	UI_BUTTON PRESSED 4 ispressed
+	JR_NEQ8 ispressed 0 is_1234_
+is_123X_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_123X5
+is_123XX:
+	STRINGS DUPLICATE 'UED' result
+	RETURN
+is_123X5:
+	STRINGS DUPLICATE 'UEDL' result
+	RETURN
+is_1234_:
+	UI_BUTTON PRESSED 5 ispressed
+	JR_NEQ8 ispressed 0 is_12345
+is_1234X:
+	STRINGS DUPLICATE 'UEDR' result
+	RETURN
+is_12345:
+	STRINGS DUPLICATE 'UEDRL' result
 	RETURN
 }
 
