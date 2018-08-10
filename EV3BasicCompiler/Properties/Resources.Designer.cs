@@ -66,7 +66,6 @@ namespace EV3BasicCompiler.Properties {
         ///subcall ASSERT.FAILED     // SV         TEXT.GETSUBTEXT TEXT.GETSUBTEXTTOEND
         ///{
         ///	IN_S message 252
-        ///	DATA32 timer
         ///	
         ///	UI_DRAW CLEAN
         ///	UI_DRAW SELECT_FONT 1
@@ -78,11 +77,12 @@ namespace EV3BasicCompiler.Properties {
         ///linesloop:
         ///	DATA16 len	
         ///	STRINGS GET_SIZE message len
-        ///	JR_LTEQ16 len 20 lastline
+        ///	JR_LTEQ16 len 22 lastline
         ///	
-        ///	DATAS oneline 32
-        ///	CALL TEXT.GETSUBTEXT message 1.0 20.0 oneline
-        ///	UI_DRAW TEXT 1 0 y on [rest of string was truncated]&quot;;.
+        ///	DATAS oneline 252
+        ///	CALL TEXT.GETSUBTEXT message 1.0 22.0 oneline
+        ///	UI_DRAW TEXT 1 0 y oneline
+        ///	ADD16  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Assert {
             get {
@@ -96,22 +96,21 @@ namespace EV3BasicCompiler.Properties {
         ///subcall BUTTONS.CURRENT    // S
         ///{
         ///	OUT_S result 8
-        ///
         ///	DATA8 ispressed
         ///	
-        ///	STRINGS DUPLICATE &apos;&apos; result	
-        ///	
+        ///// BIG CASE TREE TO GET ALL POSSIBILITIES
+        ///
         ///	UI_BUTTON PRESSED 1 ispressed
-        ///	JR_EQ8 ispressed 0 not_up
-        ///	STRINGS ADD result &apos;U&apos; result
-        ///not_up:
+        ///	JR_NEQ8 ispressed 0 is_1____
+        ///is_X____:
         ///	UI_BUTTON PRESSED 2 ispressed
-        ///	JR_EQ8 ispressed 0 not_enter
-        ///	STRINGS ADD result &apos;E&apos; result
-        ///not_enter:
+        ///	JR_NEQ8 ispressed 0 is_X2___
+        ///is_XX___:
         ///	UI_BUTTON PRESSED 3 ispressed
-        ///	JR_EQ8 ispressed 0 not_down
-        ///	STRINGS ADD  [rest of string was truncated]&quot;;.
+        ///	JR_NEQ8 ispressed 0 is_XX3__
+        ///is_XXX__:
+        ///	UI_BUTTON PRESSED 4 ispressed
+        ///	JR_NEQ8 ispressed 0 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Buttons {
             get {
@@ -579,19 +578,17 @@ namespace EV3BasicCompiler.Properties {
         ///    ARRAY RESIZE a 0
         ///}
         ///
-        ///subcall VECTOR.ADD        // FAAA
+        ///subcall VECTOR.DATA       // FSA
         ///{
         ///	IN_F size
+        ///	IN_S d 252
         ///	IN_16 a
-        ///	IN_16 b
-        ///	IN_16 c
         ///
-        ///	DATA32 sizea
-        ///	DATA32 sizeb
-        ///	ARRAY SIZE a sizea
-        ///	ARRAY SIZE b sizeb
-        ///
-        ///	DATA32  [rest of string was truncated]&quot;;.
+        ///	DATA32 size32
+        ///	MOVEF_32 size size32
+        ///	JR_LTEQ32 size32 0 empty
+        ///	ARRAY RESIZE a size32
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Vector {
             get {

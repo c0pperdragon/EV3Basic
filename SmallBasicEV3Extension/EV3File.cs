@@ -124,7 +124,13 @@ namespace SmallBasicEV3Extension
                     return new Primitive(0);
                 }
 
-                byte[] content = EV3RemoteControler.ReadEV3File(f);
+                byte[] content = null;
+                try
+                {
+                    content = EV3RemoteControler.ReadEV3File(f);
+                }
+                catch (Exception) { }
+
                 if (content == null)
                 {
                     return new Primitive(0);

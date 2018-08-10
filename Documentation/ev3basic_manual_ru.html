@@ -167,7 +167,7 @@
 <H4 class="parameter">message</H4>
 <P class="parametersummary">Сообщение, которое будет выведено, если утверждение ошибочно</P>
 <H2 class="object">Buttons</H2>
-<P class="objectsummary">Прочитать состояния и нажатия (включая щелчки) кнопок на блоке EV3.<BR>Кнопки обозначаются с использованием следующих символов:<BR>U   Вверх<BR>D   Вниз<BR>L   Влево<BR>R   Вправо<BR>E   Центр</P>
+<P class="objectsummary">Прочитать состояния и нажатия (включая щелчки) кнопок на блоке EV3.<BR>Кнопки обозначаются с использованием следующих символов:<BR>U   Вверх<BR>E   Центр<BR>D   Вниз<BR>R   Вправо<BR>L   Влево</P>
 <H3 class="property">Buttons.Current - Свойство</H3>
 <P class="propertysummary">Кнопки, которые в данный момент нажаты.<BR>Содержит текст с символами, соответствующим всем кнопкам, нажатым в данный момент.</P>
 <H3 class="operation">Buttons.Flush ()</H3>
@@ -177,99 +177,99 @@
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текст, содержащий символы нажатых кнопок (может быть пустым, если ничего не нажато)</P>
 <H3 class="operation">Buttons.Wait ()</H3>
-<P class="operationsummary">Ждать, пока одна из кнопок на блоке не будет нажата.</P>
+<P class="operationsummary">Ждать, пока одна из кнопок на блоке будет нажата.</P>
 <H2 class="object">Byte</H2>
-<P class="objectsummary">Manipulate individual bits of an 8-bit numerical quantity.<BR>This library lets you treat Small Basic numbers as if they were organized as 8-bit integer values (a.k.a. "bytes"). To do so, the parameter values are always converted to plain bytes, then the requested operation is performed and then the result is converted back to a Small Basic number.<BR>The usual bit operations are supported: AND, OR, NOT, XOR, various shifts and data conversion operations. Note that the identifiers AND and OR are reserved words of Small Basic and so these operations are named AND_ and OR_ instead. For further information see https://en.wikipedia.org/wiki/Bitwise_operation .</P>
+<P class="objectsummary">Манипуляция отдельными битами 8-битовых чисел.<BR>Эта библиотека позволяет обрабатывать числа SmallBasic, так как если бы они были организованы в виде 8-битных целочисленных значений («байты»). Для этого значения параметра всегда преобразуются в простые байты, затем выполняется запрошенная операция, а затем результат преобразуется обратно в SmallBasic-число.<BR>Поддерживаются обычные битовые операции: AND, OR, NOT, XOR, разные сдвиги и операции преобразования данных. Обратите внимание, что идентификаторы AND и OR являются зарезервированными словами SmallBasic, поэтому эти операции называются AND_ и OR_. Для получения дополнительной информации см. https://ru.wikipedia.org/wiki/Битовые_операции .</P>
 <H3 class="operation">Byte.AND_ (a, b)</H3>
-<P class="operationsummary">Bitwise AND operation.</P>
+<P class="operationsummary">Побитовое «И»</P>
 <H4 class="parameter">a</H4>
-<P class="parametersummary">First operand</P>
+<P class="parametersummary">Первый операнд</P>
 <H4 class="parameter">b</H4>
-<P class="parametersummary">Second operand</P>
+<P class="parametersummary">Второй операнд</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary AND operation on their individual bits</P>
+<P class="returnssummary">Число, получаемое, когда между каждыми битами входных чисел выполняется логическое «И»</P>
 <H3 class="operation">Byte.B (value)</H3>
-<P class="operationsummary">Convert a string that contains a binary value into a number.</P>
+<P class="operationsummary">Преобразование строки, содержащей двоичное число в обычное число.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The string holding a byte in binary form (for example: "01001111")</P>
+<P class="parametersummary">Строка, содержащая байт в виде двоичного числа (Например: "01001111")</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The byte as number</P>
+<P class="returnssummary">Байт в виде числа</P>
 <H3 class="operation">Byte.BIT (value, index)</H3>
-<P class="operationsummary">Extract a single bit from a byte.</P>
+<P class="operationsummary">Извлекает один бит из байта.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The byte number from where to extract the bit</P>
+<P class="parametersummary">Байтовое число, из которого извлекается бит</P>
 <H4 class="parameter">index</H4>
-<P class="parametersummary">Position of the bit inside the byte</P>
+<P class="parametersummary">Позиция бита внутри байта</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The bit on the specified position which is either 0 or 1</P>
+<P class="returnssummary">Бит в указанной позиции, который равен 0 или 1</P>
 <H3 class="operation">Byte.H (value)</H3>
-<P class="operationsummary">Convert a string that contains a hexadecimal value into a number.</P>
+<P class="operationsummary">Преобразование строки, содержащей шестнадцатеричное число в обычное число.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The string holding a byte in hexadecimal form (for example: "4F")</P>
+<P class="parametersummary">Строка, содержащая байт в виде шестнадцатеричного числа (Например: "4F")</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The byte as number</P>
+<P class="returnssummary">Байт в виде числа</P>
 <H3 class="operation">Byte.L (value)</H3>
-<P class="operationsummary">Convert a string that contains a logic value into a numerical 0 or 1.</P>
+<P class="operationsummary">Преобразование строки, содержащей логическое значение в числовые 0 или 1.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The string holding a logic value. All case-insensitive variants of "True" ("TRUE","TrUe", "truE", etc.) are considered the same. Everything else is treated as "False".</P>
+<P class="parametersummary">Строка, содержащая логическое значение. Все различающиеся к регистру варианты "True" ("TRUE","TrUe", "truE", т.д.) считаются одинаковыми. Все остальные воспринимаются как "False".</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">0 or 1</P>
+<P class="returnssummary">0 или 1</P>
 <H3 class="operation">Byte.NOT (value)</H3>
-<P class="operationsummary">Bitwise negation.</P>
+<P class="operationsummary">Побитовое отрицание.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">Number to negate</P>
+<P class="parametersummary">Число для отрицания</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get when every bit of the input byte is individually inverted</P>
+<P class="returnssummary">Число, получаемое, когда каждый бит входного байта индивидуально инвертируется</P>
 <H3 class="operation">Byte.OR_ (a, b)</H3>
-<P class="operationsummary">Bitwise OR operation.</P>
+<P class="operationsummary">Побитовое «ИЛИ»</P>
 <H4 class="parameter">a</H4>
-<P class="parametersummary">First operand</P>
+<P class="parametersummary">Первый операнд</P>
 <H4 class="parameter">b</H4>
-<P class="parametersummary">Second operand</P>
+<P class="parametersummary">Второй операнд</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary OR operation on their individual bits</P>
+<P class="returnssummary">Число, получаемое, когда между каждыми битами входных чисел выполняется логическое «ИЛИ»</P>
 <H3 class="operation">Byte.SHL (value, distance)</H3>
-<P class="operationsummary">Perform a bitwise shift operation to the left.</P>
+<P class="operationsummary">Побитовый сдвиг влево.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The byte whose bits will be shifted</P>
+<P class="parametersummary">Байт, чьи биты будут сдвинуты</P>
 <H4 class="parameter">distance</H4>
-<P class="parametersummary">By how many positions to shift the bits</P>
+<P class="parametersummary">На сколько позиций будут смещены биты</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get after moving every bit of the input value towards the more significant positions</P>
+<P class="returnssummary">Число, которое вы получаете после перемещения каждого бита входного значения в сторону более значимых позиций</P>
 <H3 class="operation">Byte.SHR (value, distance)</H3>
-<P class="operationsummary">Perform a bitwise shift operation to the right.</P>
+<P class="operationsummary">Побитовый сдвиг вправо.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The byte whose bits will be shifted</P>
+<P class="parametersummary">Байт, чьи биты будут сдвинуты</P>
 <H4 class="parameter">distance</H4>
-<P class="parametersummary">By how many positions to shift the bits</P>
+<P class="parametersummary">На сколько позиций будут смещены биты</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get after moving every bit of the input value towards the less significant positions</P>
+<P class="returnssummary">Число, которое вы получаете после перемещения каждого бита входного значения в сторону менее значимых позиций</P>
 <H3 class="operation">Byte.ToBinary (value)</H3>
-<P class="operationsummary">Convert an 8-bit byte to its 8-digit binary string representation.</P>
+<P class="operationsummary">Преобразование 8-битового байта в строку, содержащую восьмизначное двоичное число.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The byte to convert into a string</P>
+<P class="parametersummary">Байт для преобразования в строку</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">A string holding 8 binary digits</P>
+<P class="returnssummary">Строка, содержащая восьмизначное двоичное число</P>
 <H3 class="operation">Byte.ToHex (value)</H3>
-<P class="operationsummary">Convert an 8-bit byte to its 2-digit hexadecimal string representation.</P>
+<P class="operationsummary">Преобразование 8-битового байта в строку, содержащую двухзначное шестнадцатеричное число.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The byte to convert into a string</P>
+<P class="parametersummary">Байт для преобразования в строку</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">A string holding 2 hexadecimal digits</P>
+<P class="returnssummary">Строка, содержащая двухзначное шестнадцатеричное число</P>
 <H3 class="operation">Byte.ToLogic (value)</H3>
-<P class="operationsummary">Convert a number (can be a 8-bit byte or any other number) to a logic value of either "True" or "False".<BR>This value can then be used for the condition in If or While or any other purpose.<BR>Note that any input value greater than 0 results in a "True" while an input value of 0 or any negative value results in "False".<BR>This specific behaviour allows some weird and wonderful things to be done with this command. Refer to the appendix for advanced logic operations.</P>
+<P class="operationsummary">Преобразует число (может быть 8-битным байтом или любым другим числом) в логическое значение "True" или "False".<BR>Это значение затем можно использовать для условия в If или While или чего либо еще.<BR>Обратите внимание, что любое входное значение больше 0 приводит к "True", а входное значение 0 или любое отрицательное значение приводит к "False".<BR>Такое поведение позволяет создавать некоторые странные и замечательные вещи с помощью этой команды. Подробнее на https://goo.gl/KiZrqS</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The numeric value to be converted into its corresponding logic value</P>
+<P class="parametersummary">Число, которое должно быть преобразовано в соответствующее логическое значение</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">Either "True" or "False"</P>
+<P class="returnssummary">"True" или "False"</P>
 <H3 class="operation">Byte.XOR (a, b)</H3>
-<P class="operationsummary">Bitwise XOR operation.</P>
+<P class="operationsummary">Побитовое исключающее «ИЛИ»</P>
 <H4 class="parameter">a</H4>
-<P class="parametersummary">First operand</P>
+<P class="parametersummary">Первый операнд</P>
 <H4 class="parameter">b</H4>
-<P class="parametersummary">Second operand</P>
+<P class="parametersummary">Второй операнд</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The number you get when merging the two input bytes a and b by doing a binary XOR operation on their individual bits</P>
+<P class="returnssummary">Число, получаемое, когда между каждыми битами входных чисел выполняется исключающее «ИЛИ»</P>
 <H2 class="object">EV3</H2>
 <P class="objectsummary">Полезные функции блока EV3.</P>
 <H3 class="property">EV3.BatteryLevel - Свойство</H3>
@@ -277,7 +277,7 @@
 <H3 class="property">EV3.Time - Свойство</H3>
 <P class="propertysummary">Время в миллисекундах, прошедшее с момента запуска программы.</P>
 <H3 class="operation">EV3.QueueNextCommand ()</H3>
-<P class="operationsummary">Повышение производительности при работе в режиме "ПК". Не посылать следующую команду на блок сразу же, а подождать, поставив ее в очередь. В режиме запуска программы на блоке не имеет смысла.</P>
+<P class="operationsummary">Повышение производительности при работе в режиме «ПК». Не посылать следующую команду на блок сразу же, а подождать, поставив ее в очередь. В режиме запуска программы на блоке не имеет смысла.</P>
 <H3 class="operation">EV3.SetLEDColor (color, effect)</H3>
 <P class="operationsummary">Установить цвет подсветки кнопок блока EV3 и ее эффекты.<BR>Подсветка: OFF - выключена, GREEN - зеленая, RED - красная, ORANGE - оранжевая. Эффекты: NORMAL - гореть постоянно, FLASH - вспыхивать, PULSE - пульсировать.</P>
 <H4 class="parameter">color</H4>
@@ -291,7 +291,7 @@
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Статус завершения запущенной команды</P>
 <H2 class="object">EV3File</H2>
-<P class="objectsummary">Доступ к файловой системе блока EV3 для чтения или записи данных.<BR>К именам файлов домет быть добавлен абсолютный путь начиная с '/' для доступа к любому файлу в файловой системе или относительный, начиная с папки prjs.</P>
+<P class="objectsummary">Доступ к файловой системе блока EV3 для чтения или записи данных.<BR>К именам файлов может быть добавлен абсолютный путь начиная с '/' для доступа к любому файлу в файловой системе или относительный, начиная с папки prjs.</P>
 <H3 class="operation">EV3File.Close (handle)</H3>
 <P class="operationsummary">Закрывает открытый файл.</P>
 <H4 class="parameter">handle</H4>
@@ -299,7 +299,7 @@
 <H3 class="operation">EV3File.ConvertToNumber (text)</H3>
 <P class="operationsummary">Конвертация текста в число.</P>
 <H4 class="parameter">text</H4>
-<P class="parametersummary">Текст, содержащий числа, может содержать также дробную часть числа</P>
+<P class="parametersummary">Текст, содержащий число, может содержать также дробную часть числа</P>
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Число</P>
 <H3 class="operation">EV3File.OpenAppend (filename)</H3>
@@ -347,9 +347,9 @@
 <H4 class="parameter">bytes_per_row</H4>
 <P class="parametersummary">Если файл имеет структуру строк/столбцов, в параметре указывается число байт в строке, иначе указывай 1</P>
 <H4 class="parameter">row</H4>
-<P class="parametersummary">Какую строку читать (начиная с 0)</P>
+<P class="parametersummary">Читаемая строка (начиная с 0)</P>
 <H4 class="parameter">column</H4>
-<P class="parametersummary">Какую строку читать (начиная с 0)</P>
+<P class="parametersummary">Читаемый столбец (начиная с 0)</P>
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Байт из указанной позиции</P>
 <H3 class="operation">EV3File.WriteByte (handle, data)</H3>
@@ -365,505 +365,583 @@
 <H4 class="parameter">text</H4>
 <P class="parametersummary">Текст для записи в файл</P>
 <H2 class="object">F</H2>
-<P class="objectsummary">A framework to create functions with parameters and local variables in Small Basic. <BR>This enables programs to call user-defined library functions in a form similar to what is possible with the built-in commands, including nicer parameter passing and return values. <BR>Functions can be defined by use of the F.Function command and can be later called with one of the F.Call - commands.<BR>See the provided example "Function.sb" for a better introduction.</P>
+<P class="objectsummary">Объект для создания функций с параметрами и локальными переменными в Small Basic.<BR>Позволяет программам вызывать пользовательские функции в форме, подобной той, которая возможна со встроенными командами, включая более удобные параметры передачи и возврата.<BR>Функции могут быть созданы с помощью команды F.Function и могут быть позже вызваны с помощью одной из команд F.Call .<BR>См. пример «Function.sb» для лучшего введения.</P>
 <H3 class="property">F.Start - Свойство</H3>
-<P class="propertysummary">This property must be set to a subprogram before a subsequent F.Function operation is done which actually defines the function.</P>
+<P class="propertysummary">Это свойство должно быть установлено в подпрограмму перед выполнением последующей операции F.Function, которая настраивает функцию.</P>
 <H3 class="operation">F.Call0 (name)</H3>
-<P class="operationsummary">Do a function call without passing parameters.</P>
+<P class="operationsummary">Исполнить вызов функции без параметров.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call1 (name, p1)</H3>
-<P class="operationsummary">Do a function call with 1 parameter.</P>
+<P class="operationsummary">Исполнить вызов функции с 1 параметром.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call10 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)</H3>
-<P class="operationsummary">Do a function call with 10 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 10 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call11 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)</H3>
-<P class="operationsummary">Do a function call with 11 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 11 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call12 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)</H3>
-<P class="operationsummary">Do a function call with 12 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 12 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call13 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13)</H3>
-<P class="operationsummary">Do a function call with 13 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 13 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call14 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14)</H3>
-<P class="operationsummary">Do a function call with 14 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 14 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="parameter">p14</H4>
-<P class="parametersummary">Parameter 14</P>
+<P class="parametersummary">Параметр 14</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call15 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15)</H3>
-<P class="operationsummary">Do a function call with 15 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 15 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="parameter">p14</H4>
-<P class="parametersummary">Parameter 14</P>
+<P class="parametersummary">Параметр 14</P>
 <H4 class="parameter">p15</H4>
-<P class="parametersummary">Parameter 15</P>
+<P class="parametersummary">Параметр 15</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call16 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16)</H3>
-<P class="operationsummary">Do a function call with 16 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 16 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="parameter">p14</H4>
-<P class="parametersummary">Parameter 14</P>
+<P class="parametersummary">Параметр 14</P>
 <H4 class="parameter">p15</H4>
-<P class="parametersummary">Parameter 15</P>
+<P class="parametersummary">Параметр 15</P>
 <H4 class="parameter">p16</H4>
-<P class="parametersummary">Parameter 16</P>
+<P class="parametersummary">Параметр 16</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
 <H3 class="operation">F.Call17 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17)</H3>
-<P class="operationsummary">Do a function call with 17 parameters.</P>
+<P class="operationsummary">Исполнить вызов функции с 17 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="parameter">p14</H4>
-<P class="parametersummary">Parameter 14</P>
+<P class="parametersummary">Параметр 14</P>
 <H4 class="parameter">p15</H4>
-<P class="parametersummary">Parameter 15</P>
+<P class="parametersummary">Параметр 15</P>
 <H4 class="parameter">p16</H4>
-<P class="parametersummary">Parameter 16</P>
+<P class="parametersummary">Параметр 16</P>
 <H4 class="parameter">p17</H4>
-<P class="parametersummary">Parameter 17</P>
+<P class="parametersummary">Параметр 17</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call18 ()</H3>
-<P class="operationsummary">Do a function call with 18 parameters.<BR>The name of the function (case insensitive)Parameter 1Parameter 2Parameter 3Parameter 4Parameter 5Parameter 6Parameter 7Parameter 8Parameter 9Parameter 10Parameter 11Parameter 12Parameter 13Parameter 14Parameter 15Parameter 16Parameter 17Parameter 18</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call19 ()</H3>
-<P class="operationsummary">Do a function call with 19 parameters.<BR>The name of the function (case insensitive)Parameter 1Parameter 2Parameter 3Parameter 4Parameter 5Parameter 6Parameter 7Parameter 8Parameter 9Parameter 10Parameter 11Parameter 12Parameter 13Parameter 14Parameter 15Parameter 16Parameter 17Parameter 18Parameter 19</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call2 (name, p1, p2)</H3>
-<P class="operationsummary">Do a function call with 2 parameters.</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call18 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18)</H3>
+<P class="operationsummary">Исполнить вызов функции с 18 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call20 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20)</H3>
-<P class="operationsummary">Do a function call with 20 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
 <H4 class="parameter">p10</H4>
-<P class="parametersummary">Parameter 10</P>
+<P class="parametersummary">Параметр 10</P>
 <H4 class="parameter">p11</H4>
-<P class="parametersummary">Parameter 11</P>
+<P class="parametersummary">Параметр 11</P>
 <H4 class="parameter">p12</H4>
-<P class="parametersummary">Parameter 12</P>
+<P class="parametersummary">Параметр 12</P>
 <H4 class="parameter">p13</H4>
-<P class="parametersummary">Parameter 13</P>
+<P class="parametersummary">Параметр 13</P>
 <H4 class="parameter">p14</H4>
-<P class="parametersummary">Parameter 14</P>
+<P class="parametersummary">Параметр 14</P>
 <H4 class="parameter">p15</H4>
-<P class="parametersummary">Parameter 15</P>
+<P class="parametersummary">Параметр 15</P>
 <H4 class="parameter">p16</H4>
-<P class="parametersummary">Parameter 16</P>
+<P class="parametersummary">Параметр 16</P>
 <H4 class="parameter">p17</H4>
-<P class="parametersummary">Parameter 17</P>
+<P class="parametersummary">Параметр 17</P>
 <H4 class="parameter">p18</H4>
-<P class="parametersummary">Parameter 18</P>
-<H4 class="parameter">p19</H4>
-<P class="parametersummary">Parameter 19</P>
-<H4 class="parameter">p20</H4>
-<P class="parametersummary">Parameter 20</P>
+<P class="parametersummary">Параметр 18</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call3 (name, p1, p2, p3)</H3>
-<P class="operationsummary">Do a function call with 3 parameters.</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call19 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19)</H3>
+<P class="operationsummary">Исполнить вызов функции с 19 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
 <H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
+<P class="parametersummary">Параметр 1</P>
 <H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call4 (name, p1, p2, p3, p4)</H3>
-<P class="operationsummary">Do a function call with 4 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
+<P class="parametersummary">Параметр 3</P>
 <H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call5 (name, p1, p2, p3, p4, p5)</H3>
-<P class="operationsummary">Do a function call with 5 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
+<P class="parametersummary">Параметр 4</P>
 <H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call6 (name, p1, p2, p3, p4, p5, p6)</H3>
-<P class="operationsummary">Do a function call with 6 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
-<H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
+<P class="parametersummary">Параметр 5</P>
 <H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call7 (name, p1, p2, p3, p4, p5, p6, p7)</H3>
-<P class="operationsummary">Do a function call with 7 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
-<H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
-<H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
+<P class="parametersummary">Параметр 6</P>
 <H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call8 (name, p1, p2, p3, p4, p5, p6, p7, p8)</H3>
-<P class="operationsummary">Do a function call with 8 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
-<H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
-<H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
-<H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
+<P class="parametersummary">Параметр 7</P>
 <H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
-<H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Call9 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9)</H3>
-<P class="operationsummary">Do a function call with 9 parameters.</P>
-<H4 class="parameter">name</H4>
-<P class="parametersummary">The name of the function (case insensitive)</P>
-<H4 class="parameter">p1</H4>
-<P class="parametersummary">Parameter 1</P>
-<H4 class="parameter">p2</H4>
-<P class="parametersummary">Parameter 2</P>
-<H4 class="parameter">p3</H4>
-<P class="parametersummary">Parameter 3</P>
-<H4 class="parameter">p4</H4>
-<P class="parametersummary">Parameter 4</P>
-<H4 class="parameter">p5</H4>
-<P class="parametersummary">Parameter 5</P>
-<H4 class="parameter">p6</H4>
-<P class="parametersummary">Parameter 6</P>
-<H4 class="parameter">p7</H4>
-<P class="parametersummary">Parameter 7</P>
-<H4 class="parameter">p8</H4>
-<P class="parametersummary">Parameter 8</P>
+<P class="parametersummary">Параметр 8</P>
 <H4 class="parameter">p9</H4>
-<P class="parametersummary">Parameter 9</P>
+<P class="parametersummary">Параметр 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Параметр 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Параметр 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Параметр 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Параметр 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Параметр 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Параметр 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Параметр 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Параметр 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Параметр 18</P>
+<H4 class="parameter">p19</H4>
+<P class="parametersummary">Параметр 19</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value returned by the function</P>
-<H3 class="operation">F.Function (name, parameterdefinitions)</H3>
-<P class="operationsummary">Define a named function and its local variables/parameters with default values. Before this command is executed, the Start property needs to be set to a subroutine that will then be the starting point of the function.<BR>The local variables are also used for parameter passing when using a Call command: For any call with n parameters, these parameters will be assigned to the first n local variables. The rest of the local variables will be set to their defined initial value.</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call2 (name, p1, p2)</H3>
+<P class="operationsummary">Исполнить вызов функции с 2 параметрами.</P>
 <H4 class="parameter">name</H4>
-<P class="parametersummary">The name for the function (needs to be a string literal)</P>
-<H4 class="parameter">parameterdefinitions</H4>
-<P class="parametersummary">A string that holds a sequence of local variable names and initial values. This looks like for example "A B:5 T:hello". When no default is specified, 0 will be used.</P>
-<H3 class="operation">F.Get (variablename)</H3>
-<P class="operationsummary">Retrieve the value of a named local variable.</P>
-<H4 class="parameter">variablename</H4>
-<P class="parametersummary">The name of the local variable (case insensitive)</P>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The value stored in the variable</P>
-<H3 class="operation">F.Return ()</H3>
-<P class="operationsummary">Causes the current function call to terminate immediately.<BR>In "brick mode" it is only allowed to use this command in the topmost sub of a function.</P>
-<H3 class="operation">F.ReturnNumber (value)</H3>
-<P class="operationsummary">Causes the current function call to terminate immediately and delivers the value as number back to the caller.<BR>In "brick mode" it is only allowed to use this command in the topmost sub of a function.</P>
-<H4 class="parameter">value</H4>
-<P class="parametersummary">The return value (must be a number)</P>
-<H3 class="operation">F.ReturnText (value)</H3>
-<P class="operationsummary">Causes the current function call to terminate immediately and delivers the value as text back to the caller.<BR>In "brick mode" it is only allowed to use this command in the topmost sub of a function.</P>
-<H4 class="parameter">value</H4>
-<P class="parametersummary">The return value (is interpreted as text)</P>
-<H3 class="operation">F.Set (variablename, value)</H3>
-<P class="operationsummary">Set a named local variable to a specified value.</P>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call20 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20)</H3>
+<P class="operationsummary">Исполнить вызов функции с 20 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Параметр 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Параметр 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Параметр 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Параметр 9</P>
+<H4 class="parameter">p10</H4>
+<P class="parametersummary">Параметр 10</P>
+<H4 class="parameter">p11</H4>
+<P class="parametersummary">Параметр 11</P>
+<H4 class="parameter">p12</H4>
+<P class="parametersummary">Параметр 12</P>
+<H4 class="parameter">p13</H4>
+<P class="parametersummary">Параметр 13</P>
+<H4 class="parameter">p14</H4>
+<P class="parametersummary">Параметр 14</P>
+<H4 class="parameter">p15</H4>
+<P class="parametersummary">Параметр 15</P>
+<H4 class="parameter">p16</H4>
+<P class="parametersummary">Параметр 16</P>
+<H4 class="parameter">p17</H4>
+<P class="parametersummary">Параметр 17</P>
+<H4 class="parameter">p18</H4>
+<P class="parametersummary">Параметр 18</P>
+<H4 class="parameter">p19</H4>
+<P class="parametersummary">Параметр 19</P>
+<H4 class="parameter">p20</H4>
+<P class="parametersummary">Параметр 20</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call3 (name, p1, p2, p3)</H3>
+<P class="operationsummary">Исполнить вызов функции с 3 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call4 (name, p1, p2, p3, p4)</H3>
+<P class="operationsummary">Исполнить вызов функции с 4 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call5 (name, p1, p2, p3, p4, p5)</H3>
+<P class="operationsummary">Исполнить вызов функции с 5 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call6 (name, p1, p2, p3, p4, p5, p6)</H3>
+<P class="operationsummary">Исполнить вызов функции с 6 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Параметр 6</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call7 (name, p1, p2, p3, p4, p5, p6, p7)</H3>
+<P class="operationsummary">Исполнить вызов функции с 7 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Параметр 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Параметр 7</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call8 (name, p1, p2, p3, p4, p5, p6, p7, p8)</H3>
+<P class="operationsummary">Исполнить вызов функции с 8 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Параметр 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Параметр 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Параметр 8</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Call9 (name, p1, p2, p3, p4, p5, p6, p7, p8, p9)</H3>
+<P class="operationsummary">Исполнить вызов функции с 9 параметрами.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя функции (без учета регистра)</P>
+<H4 class="parameter">p1</H4>
+<P class="parametersummary">Параметр 1</P>
+<H4 class="parameter">p2</H4>
+<P class="parametersummary">Параметр 2</P>
+<H4 class="parameter">p3</H4>
+<P class="parametersummary">Параметр 3</P>
+<H4 class="parameter">p4</H4>
+<P class="parametersummary">Параметр 4</P>
+<H4 class="parameter">p5</H4>
+<P class="parametersummary">Параметр 5</P>
+<H4 class="parameter">p6</H4>
+<P class="parametersummary">Параметр 6</P>
+<H4 class="parameter">p7</H4>
+<P class="parametersummary">Параметр 7</P>
+<H4 class="parameter">p8</H4>
+<P class="parametersummary">Параметр 8</P>
+<H4 class="parameter">p9</H4>
+<P class="parametersummary">Параметр 9</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, возвращаемое функцией</P>
+<H3 class="operation">F.Function (name, parameterdefinitions)</H3>
+<P class="operationsummary">Создать именованную функцию и ее локальные переменные (параметры), а так же их значения по умолчанию. Перед выполнением этой команды свойство F.Start должно быть установлено в подпрограмму, которая затем станет отправной точкой для функции.<BR>Локальные переменные также используются для передачи параметров при вызове: для любого вызова с n параметрами эти параметры станут начальными значениями первых n локальных переменных. У остальных локальных переменных останутся значения по умолчанию.</P>
+<H4 class="parameter">name</H4>
+<P class="parametersummary">Имя для функции (должно быть строковым литералом)</P>
+<H4 class="parameter">parameterdefinitions</H4>
+<P class="parametersummary">Строка, содержащая последовательность имен локальных переменных и их начальных значений. Например: "A B:5 T:hello". Если значение по умолчанию не указано, будет использовано 0.</P>
+<H3 class="operation">F.Get (variablename)</H3>
+<P class="operationsummary">Получить значение локальной переменной.</P>
 <H4 class="parameter">variablename</H4>
-<P class="parametersummary">The name of the local variable (case insensitive)</P>
+<P class="parametersummary">Имя локальной переменной (без учета регистра)</P>
+<H4 class="returns">Возвращает</H4>
+<P class="returnssummary">Значение, которое содержит переменная</P>
+<H3 class="operation">F.Return ()</H3>
+<P class="operationsummary">Немедленное завершение вызова текущей функции.<BR>При компиляции на EV3, можно использовать только в изначальной процедуре функции.</P>
+<H3 class="operation">F.ReturnNumber (value)</H3>
+<P class="operationsummary">Немедленное завершение текущего вызова функции и возвращение значения в качестве числа обратно команде вызова.<BR>При компиляции на EV3, можно использовать только в изначальной процедуре функции.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">The value to store into the local variable</P>
+<P class="parametersummary">Возвращаемое значение (должно быть числом)</P>
+<H3 class="operation">F.ReturnText (value)</H3>
+<P class="operationsummary">Немедленное завершение текущего вызова функции и возвращение значения в качестве текста обратно команде вызова.<BR>При компиляции на EV3, можно использовать только в изначальной процедуре функции.</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Возвращаемое значение (интерпретируется как текст)</P>
+<H3 class="operation">F.Set (variablename, value)</H3>
+<P class="operationsummary">Установить в локальную переменную указанное значение.</P>
+<H4 class="parameter">variablename</H4>
+<P class="parametersummary">Имя локальной переменной (без учета регистра)</P>
+<H4 class="parameter">value</H4>
+<P class="parametersummary">Значение, сохраняемое в локальную переменную</P>
 <H2 class="object">LCD</H2>
 <P class="objectsummary">Управление ЖК-экраном на блоке EV3.<BR>EV3 имеет черно-белый дисплей с разрешением 178x128 точек. Координаты отсчитываются от левого верхнего угла экрана, имеющего координаты 0,0</P>
 <H3 class="operation">LCD.BmpFile (color, x, y, filename)</H3>
@@ -875,7 +953,7 @@
 <H4 class="parameter">y</H4>
 <P class="parametersummary">Координата Y верхней стороны изображения</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">имя файла без расширения .rgf. Может содержать относительный путь от папки 'prjs' или абсолютный, начинаясь с '/').</P>
+<P class="parametersummary">Имя файла без расширения .rgf. Может содержать относительный путь от папки 'prjs' или абсолютный, начинаясь с '/').</P>
 <H3 class="operation">LCD.Circle (color, x, y, radius)</H3>
 <P class="operationsummary">Рисует не закрашенный круг указанного размера.</P>
 <H4 class="parameter">color</H4>
@@ -953,7 +1031,7 @@
 <H4 class="parameter">height</H4>
 <P class="parametersummary">Высота прямоугольника</P>
 <H3 class="operation">LCD.StopUpdate ()</H3>
-<P class="operationsummary">Начинать запоминать всю выводимую экран информацию без ее отображения. При следующем вызове Update() все накопленные изменения наконец-то отобразятся.<BR>Вы можете использовать эту функцию, чтобы предотвратить мерцание или для ускорения рисования сложных изображений в ЖК-дисплее.</P>
+<P class="operationsummary">Начинать запоминать всю выводимую экран информацию без ее отображения. При следующем вызове Update() все накопленные изменения отобразятся.<BR>Вы можете использовать эту функцию, чтобы предотвратить мерцание или для ускорения рисования сложных изображений в ЖК-дисплее.</P>
 <H3 class="operation">LCD.Text (color, x, y, font, text)</H3>
 <P class="operationsummary">Напечатать заданный текст или числа на экране.</P>
 <H4 class="parameter">color</H4>
@@ -963,9 +1041,9 @@
 <H4 class="parameter">y</H4>
 <P class="parametersummary">Координата Y начала печати</P>
 <H4 class="parameter">font</H4>
-<P class="parametersummary">Размер шрифта: 0 (маленький), 1 (средний), 2 (большой)</P>
+<P class="parametersummary">Размер шрифта: 0 (маленький), 1 (полужирный), 2 (большой)</P>
 <H4 class="parameter">text</H4>
-<P class="parametersummary">Текст или числа для вывода на дисплей</P>
+<P class="parametersummary">Текст или число для вывода на дисплей</P>
 <H3 class="operation">LCD.Update ()</H3>
 <P class="operationsummary">Вывести на экран все изменения, которые произошли с момента последнего вызова StopUpdate().</P>
 <H3 class="operation">LCD.Write (x, y, text)</H3>
@@ -1141,7 +1219,7 @@
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Значение тангенса данного угла.</P>
 <H2 class="object">Motor</H2>
-<P class="objectsummary">Управление моторами, подключенными к блоку EV3. Для функции Motor необходимо указать один или несколько портов, к которым подключены моторы, например "A", "BC", "ABD".<BR>Для блоков, подключенных к главному блоку по USB порты указываются так: 3BC", "2A". В этом режиме только двигатели одного блока доступны в одной команде.<BR>Скорость и Мощность - разные понятия. При вызове команды для вращения мотора с постоянной скоротью, электрическая мощность, подаваемая на него будет автоматически регулироваться, чтобы поддерживать заданную скорость.<BR>При вызове команды для вращения мотора с постоянной мощностью, его скорость будет зависеть от сопротивления, которое он испытывает во время работы.</P>
+<P class="objectsummary">Управление моторами, подключенными к блоку EV3. Для функции Motor необходимо указать один или несколько портов, к которым подключены моторы, например "A", "BC", "ABD".<BR>Для блоков, подключенных к главному блоку по USB порты указываются так: "3BC", "2A". В этом режиме только двигатели одного блока доступны в одной команде.<BR>Скорость и Мощность - разные понятия. При вызове команды для вращения мотора с постоянной скоротью, электрическая мощность, подаваемая на него будет автоматически регулироваться, чтобы поддерживать заданную скорость.<BR>При вызове команды для вращения мотора с постоянной мощностью, его скорость будет зависеть от сопротивления, которое он испытывает во время работы.</P>
 <H3 class="operation">Motor.GetCount (port)</H3>
 <P class="operationsummary">Запросить данные счетчика оборота с указанного мотора.<BR>Счетчик оборотов работает даже если мотор вращается не по командам блока EV3, а путем приложения внешней силы.</P>
 <H4 class="parameter">port</H4>
@@ -1155,9 +1233,9 @@
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Текущая скорость в диапазоне от -100 до 100</P>
 <H3 class="operation">Motor.Invert (ports)</H3>
-<P class="operationsummary">Invert the polarity (direction) of one or more motors. This will affect all future commands that move this motors<BR>and also the tacho and speed readings will deliver inverted values.<BR>This operation makes it easy to change the way a motor is built into a robot without altering the rest of the program.<BR>You just need to add a single Motor.Invert() command at the very start of the program. Note that there is intentionally no<BR>way to disable the inversion later on.</P>
+<P class="operationsummary">Инвертирует полярность (направление) одного или нескольких двигателей. Это повлияет на все будущие команды, которые управляют этими двигателями, а также инвертируются показания энкодера и скорости.<BR>Эта операция позволяет легко изменить направление вращения двигателя без изменения остальной части программы.<BR>Вам просто нужно добавить одну команду Motor.Invert() в самом начале программы. Обратите внимание, что далее нельзя будет отключить инверсию.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Motor port name(s)</P>
+<P class="parametersummary">Номер порта мотора(ов)</P>
 <H3 class="operation">Motor.IsBusy (ports)</H3>
 <P class="operationsummary">Проверить один или несколько моторов на занятость.</P>
 <H4 class="parameter">ports</H4>
@@ -1173,7 +1251,7 @@
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">Угол поворота</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.MovePower (ports, power, degrees, brake)</H3>
 <P class="operationsummary">Поворачивает один или несколько моторов с заданной мощностью на указанный угол (в градусах).<BR>Программа не будет переходить к выполнению следующих команд до тех пор, пока моторы не повернутся на требуемый угол.<BR>Если тебе нужно больше возможностей по управлению моторами, например плавное наращивание мощности или ее уменьшение, используй команду Motor.SchedulePower</P>
 <H4 class="parameter">ports</H4>
@@ -1183,21 +1261,21 @@
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">Угол поворота</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.MoveSteer (ports, speed, turn, degrees, brake)</H3>
-<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The angle to move is for the motor with the higher speed.</P>
+<P class="operationsummary">Устанивливает два двигателя для работы с заданной скоростью и относительным направлением.<BR>Соотношение определяется параметром «Turn», который определяет направление робота с простым приводом на два колеса (учитывая, что последний двигатель установлен слева).<BR>Двигатели будут синхронизированы, что означает, что если один двигатель испытывает некоторое сопротивление и не может поддерживать свою скорость, другой двигатель также будет замедляться или вообще останавливаться. Это особенно полезно для роботов с двумя независимыми колесами, которые должны идти прямо или совершать определенный поворот.<BR>Угол перемещения для двигателя с более высокой скоростью.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<P class="parametersummary">Имена двух моторов (например, "AB" или "CD").</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<P class="parametersummary">Скорость от -100 (полный вперед) до 100 (полный вперед) более быстрого двигателя.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Коэффициент поворота от -100 (вращение влево на месте) до 100 (вращение вправо на месте).</P>
 <H4 class="parameter">degrees</H4>
-<P class="parametersummary">The angle of the faster motor to rotate</P>
+<P class="parametersummary">Угол, на который должен повернуться более быстрый мотор.</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motors should switch on the brake after movement</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.MoveSync (ports, speed1, speed2, degrees, brake)</H3>
-<P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для колесных роботов - для возможнрости сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.</P>
+<P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для роботов с двумя независимыми колесами - для возможнрости сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Имена двух портов для моторов (например "AB" или "CD")</P>
 <H4 class="parameter">speed1</H4>
@@ -1207,53 +1285,53 @@
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">Угол поворота (мотора с наибольшей скоростью)</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.ResetCount (ports)</H3>
 <P class="operationsummary">Сбросить счетчик оборотов одного или несколько моторов в 0.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порты моторов</P>
 <H3 class="operation">Motor.Schedule (ports, speed, degrees1, degrees2, degrees3, brake)</H3>
-<P class="operationsummary">Запустить один или несколько моторов с указанной скоростью с возможностью плавного старта и плавного замедления.<BR>Скорость может регулироваться в пределах общего угла поворота, в зоне1 двигатель разгоняется до указанной скорости, в зоне 2 поддерживает ее, в зоне 3 - замедляется до полной остановки.<BR>Полный угол, на который повернется мотор - это сумма углов поворота зона1 + зона2 + зона3.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - используй Wait().</P>
+<P class="operationsummary">Запустить один или несколько моторов с указанной скоростью с возможностью плавного старта и плавного замедления.<BR>Скорость может регулироваться в пределах общего угла поворота, в Зоне1 двигатель разгоняется до указанной скорости, в Зоне 2 поддерживает ее, в Зоне 3 - замедляется до полной остановки.<BR>Полный угол, на который повернется мотор - это сумма углов поворота Зона1 + Зона2 + Зона3.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - используй Wait().</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порты моторов</P>
 <H4 class="parameter">speed</H4>
 <P class="parametersummary">Скорость от -100 (полный назад) до 100 (полный вперед)</P>
 <H4 class="parameter">degrees1</H4>
-<P class="parametersummary">зона1: часть общего угла поворота мотора, в пределах которой мотор разгоняется</P>
+<P class="parametersummary">Зона1: угл поворота мотора, в пределах которой он разгоняется</P>
 <H4 class="parameter">degrees2</H4>
-<P class="parametersummary">зона2: часть общего угла поворота мотора, в пределах которой мотор поддерживает указанную скорость</P>
+<P class="parametersummary">Зона2: угл поворота мотора, в пределах которой он поддерживает указанную скорость</P>
 <H4 class="parameter">degrees3</H4>
-<P class="parametersummary">зона3: часть общего угла поворота мотора, в пределах которой мотор плавно замедляется до полной остановки</P>
+<P class="parametersummary">Зона3: угл поворота мотора, в пределах которой он плавно замедляется до полной остановки</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.SchedulePower (ports, power, degrees1, degrees2, degrees3, brake)</H3>
-<P class="operationsummary">Запустить один или несколько моторов с указанной мощностью с возможностью плавного старта и плавного замедления.<BR>Мощность может регулироваться в пределах общего угла поворота, в зоне1 двигатель плавно наращивает мощность до указанной, в зоне 2 поддерживает ее, в зоне 3 - плавно уменьшает подаваемую мощность до полной остановки.<BR>Полный угол, на который повернется мотор - это сумма углов поворота зона1 + зона2 + зона3.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - используй Wait().</P>
+<P class="operationsummary">Запустить один или несколько моторов с указанной мощностью с возможностью плавного старта и плавного замедления.<BR>Мощность может регулироваться в пределах общего угла поворота, в Зоне1 двигатель плавно наращивает мощность до указанной, в зоне 2 поддерживает ее, в зоне 3 - плавно уменьшает подаваемую мощность до полной остановки.<BR>Полный угол, на который повернется мотор - это сумма углов поворота Зона1 + Зона2 + Зона3.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - используй Wait().</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порты моторов</P>
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Мощность от -100 (полный назад) до 100 (полный вперед)</P>
 <H4 class="parameter">degrees1</H4>
-<P class="parametersummary">зона1: часть общего угла поворота мотора, в пределах которой мотор разгоняется</P>
+<P class="parametersummary">Зона1: угл поворота мотора, в пределах которой он разгоняется</P>
 <H4 class="parameter">degrees2</H4>
-<P class="parametersummary">зона2: часть общего угла поворота мотора, в пределах которой мотор поддерживает указанную скорость</P>
+<P class="parametersummary">Зона2: угл поворота мотора, в пределах которой он поддерживает указанную скорость</P>
 <H4 class="parameter">degrees3</H4>
-<P class="parametersummary">зона3: часть общего угла поворота мотора, в пределах которой мотор плавно замедляется до полной остановки</P>
+<P class="parametersummary">Зона3: угл поворота мотора, в пределах которой он плавно замедляется до полной остановки</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.ScheduleSteer (ports, speed, turn, degrees, brake)</H3>
-<P class="operationsummary">Move 2 motors a defined number of degrees with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors are synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The distance to move is for the motor with the higher speed.<BR>This function returns immediately. You can use IsBusy() to detect the end of the movement or call Wait() to wait until movement is finished.</P>
+<P class="operationsummary">Устанивливает два двигателя для работы с заданной скоростью и относительным направлением.<BR>Соотношение определяется параметром «Turn», который определяет направление робота с простым приводом на два колеса (учитывая, что последний двигатель установлен слева).<BR>Двигатели будут синхронизированы, что означает, что если один двигатель испытывает некоторое сопротивление и не может поддерживать свою скорость, другой двигатель также будет замедляться или вообще останавливаться. Это особенно полезно для роботов с двумя независимыми колесами, которые должны идти прямо или совершать определенный поворот.<BR>Угол перемещения для двигателя с более высокой скоростью.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - испольузйте Wait().</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Names of 2 motor ports (for example "AB" or "CD"</P>
+<P class="parametersummary">Имена двух моторов (например, "AB" или "CD").</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) of the faster motor.</P>
+<P class="parametersummary">Скорость от -100 (полный вперед) до 100 (полный вперед) более быстрого двигателя.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Коэффициент поворота от -100 (вращение влево на месте) до 100 (вращение вправо на месте).</P>
 <H4 class="parameter">degrees</H4>
-<P class="parametersummary">The angle through which the faster motor should rotate.</P>
+<P class="parametersummary">Угол, на который должен повернуться более быстрый мотор.</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", if the motors should switch on the brake after movement.</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.ScheduleSync (ports, speed1, speed2, degrees, brake)</H3>
-<P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для колесных роботов - для возможности сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - испольузйте Wait().</P>
+<P class="operationsummary">Поворачивает два мотора синхронно на определенное количество градусов.<BR>Синхронная работа двигателей означает, что когда один двигатель нагружен и что-то препятствует его вращению, второй двигатель пропорционально замедлится или даже вообще остановится.<BR>Это команда особенно полезна для для роботов с двумя независимыми колесами - для возможности сохранить траекторию движения.<BR>Угол, на который будет повернуты моторы относится к мотору с наибольшей скоростью вращения, угол поворота второго мотора будет рассчитан пропорционально его скорости.<BR>Команда передает управление в программу сразу, не ждет, пока мотор повернется. Чтобы отследить окончания отработки команды, используйте IsBusy(). Чтобы дождаться конца, пока мотор закончит отработку команды - испольузйте Wait().</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Имена двух портов для моторов (например "AB" или "CD")</P>
 <H4 class="parameter">speed1</H4>
@@ -1263,7 +1341,7 @@
 <H4 class="parameter">degrees</H4>
 <P class="parametersummary">Угол поворота (мотора с наибольшей скоростью)</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.Start (ports, speed)</H3>
 <P class="operationsummary">Запустить один или несколько моторов с указанной скоростью или изменить скорость уже запущенных моторов на указанную.</P>
 <H4 class="parameter">ports</H4>
@@ -1277,13 +1355,13 @@
 <H4 class="parameter">power</H4>
 <P class="parametersummary">Мощность от -100 (полный назад) до 100 (полный вперед).</P>
 <H3 class="operation">Motor.StartSteer (ports, speed, turn)</H3>
-<P class="operationsummary">Set two motors to run with a specified speed and relative ratio.<BR>This ratio is determined by the 'turn' parameter which basically determines<BR>into which direction a vehicle with a simple two-wheel drive would make its turn (given that the motor with the lower port letter is mounted on the left side).<BR>The two motors will be synchronized which means that when one motor experiences some resistance and cannot keep up its speed, the other motor will also slow down or stop altogether. This is especially useful for vehicles with two independently driven wheels which still need to go straight or make a specified turn.<BR>The motors will keep running until stopped by another command.</P>
+<P class="operationsummary">Устанивливает два двигателя для работы с заданной скоростью и относительным направлением.<BR>Соотношение определяется параметром «Turn», который определяет направление робота с простым приводом на два колеса (учитывая, что последний двигатель установлен слева).<BR>Двигатели будут синхронизированы, что означает, что если один двигатель испытывает некоторое сопротивление и не может поддерживать свою скорость, другой двигатель также будет замедляться или вообще останавливаться. Это особенно полезно для роботов с двумя независимыми колесами, которые должны идти прямо или совершать определенный поворот.<BR>Двигатели будут продолжать работать, пока управление не перехватит другая команда.</P>
 <H4 class="parameter">ports</H4>
-<P class="parametersummary">Name of two motor ports (for example "AB" or "CD").</P>
+<P class="parametersummary">Имена двух моторов (например, "AB" или "CD").</P>
 <H4 class="parameter">speed</H4>
-<P class="parametersummary">Speed value from -100 (full reverse) to 100 (full forward) for the faster motor.</P>
+<P class="parametersummary">Скорость от -100 (полный вперед) до 100 (полный вперед) более быстрого двигателя.</P>
 <H4 class="parameter">turn</H4>
-<P class="parametersummary">Turn ratio from -100 (rotating left on the spot) to 100 (rotating right on the spot).</P>
+<P class="parametersummary">Коэффициент поворота от -100 (вращение влево на месте) до 100 (вращение вправо на месте).</P>
 <H3 class="operation">Motor.StartSync (ports, speed1, speed2)</H3>
 <P class="operationsummary">Синхронно запустить два мотора с указанными скоростями в режиме контроля за их вращением.<BR>Если один мотор будет испытывать нагрузку, которая замедлит его скорость, второй мотор пропорционально замедлится, чтобы сохранить траекторию движения.</P>
 <H4 class="parameter">ports</H4>
@@ -1297,9 +1375,9 @@
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порт(ы) моторов</P>
 <H4 class="parameter">brake</H4>
-<P class="parametersummary">"True", если необходимо удерживать положение после останови моторов</P>
+<P class="parametersummary">"True", если следует затормозить и удерживать положение моторов после завершения движения.</P>
 <H3 class="operation">Motor.Wait (ports)</H3>
-<P class="operationsummary">Подождать, пока моторы не закончат выполнять команды Schedule или Move.<BR>Использование этой команды, как правило, лучше, чем вызов IsBusy() в цикле.</P>
+<P class="operationsummary">Подождать, пока моторы не закончат выполнять команды Schedule, Move, Steer или Stop.<BR>Использование этой команды, как правило, лучше, чем вызов IsBusy() в цикле.</P>
 <H4 class="parameter">ports</H4>
 <P class="parametersummary">Порты моторов</P>
 <H2 class="object">Program</H2>
@@ -1333,7 +1411,7 @@
 <H4 class="parameter">readbytes</H4>
 <P class="parametersummary">Количество байт для приема с I2C-устройства (максимум 32, минимум 1).</P>
 <H4 class="parameter">writedata</H4>
-<P class="parametersummary">массив, содержащий байты для отправки (индекс первого элемента - 0)</P>
+<P class="parametersummary">Массив, содержащий байты для отправки (индекс первого элемента - 0)</P>
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">Массив, содержащий запрошенное количество принятых байт с I2C-устройства (индекс первого элемента - 0)</P>
 <H3 class="operation">Sensor.GetMode (port)</H3>
@@ -1361,27 +1439,27 @@
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True" если датчик занят (не доступен)</P>
 <H3 class="operation">Sensor.ReadI2CRegister (port, address, registernumber)</H3>
-<P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the value of a single register of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<P class="operationsummary">Эта команда обращается к одному устройству на шине I2C и пытается получить значение одного регистра подчиненного устройства I2C.<BR>Обратите внимание, что эта команда не работает в режиме подключения шлейфом.</P>
 <H4 class="parameter">port</H4>
-<P class="parametersummary">Number of the sensor port</P>
+<P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">address</H4>
-<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<P class="parametersummary">Адрес (0 - 127) подчиненного I2C устройства на шине I2C</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of register in the slave to read data from.</P>
+<P class="parametersummary">Номер регистра на подчиненном устройстве для чтения данных.</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The content of the register</P>
+<P class="returnssummary">Данные в регистре.</P>
 <H3 class="operation">Sensor.ReadI2CRegisters (port, address, registernumber, readbytes)</H3>
-<P class="operationsummary">This command addresses one device on the I2C-bus and tries to receive the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<P class="operationsummary">Эта команда обращается к одному устройству на шине I2C и пытается получить значение нескольких регистров подчиненного устройства I2C.<BR>Обратите внимание, что эта команда не работает в режиме подключения шлейфом.</P>
 <H4 class="parameter">port</H4>
-<P class="parametersummary">Number of the sensor port</P>
+<P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">address</H4>
-<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<P class="parametersummary">Адрес (0 - 127) подчиненного I2C устройства на шине I2C</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the first register in the slave to read data from.</P>
+<P class="parametersummary">Номер первого регистра на подчиненном устройстве для чтения данных.</P>
 <H4 class="parameter">readbytes</H4>
-<P class="parametersummary">How many register to read (maximum 32).</P>
+<P class="parametersummary">Количество регистров для чтения (максимум 32).</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">An array holding the requested number of values. Index starts at 0.</P>
+<P class="returnssummary">Массив, содержащий запрошенные значения. Начинается с 0 индекса.</P>
 <H3 class="operation">Sensor.ReadPercent (port)</H3>
 <P class="operationsummary">Прочитать текущее показание датчика с отображением его в процентах (0..100).<BR>Большинство датчиков могут перевести свои показания в проценты, например у датчика нажатия 0 - не нажат, 100 - нажат.</P>
 <H4 class="parameter">port</H4>
@@ -1423,31 +1501,31 @@
 <H4 class="parameter">port</H4>
 <P class="parametersummary">Номер порта датчика</P>
 <H3 class="operation">Sensor.WriteI2CRegister (port, address, registernumber, value)</H3>
-<P class="operationsummary">This command addresses one device on the I2C-bus and tries to write the value of a single register of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<P class="operationsummary">Эта команда обращается к одному устройству на шине I2C и пытается перезаписать значение одного регистра подчиненного устройства I2C.<BR>Обратите внимание, что эта команда не работает в режиме подключения шлейфом.</P>
 <H4 class="parameter">port</H4>
-<P class="parametersummary">Number of the sensor port</P>
+<P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">address</H4>
-<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<P class="parametersummary">Адрес (0 - 127) подчиненного I2C устройства на шине I2C</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the register in the slave to write data to.</P>
+<P class="parametersummary">Регистр на подчиненном устройстве, с которого прочитаются данные.</P>
 <H4 class="parameter">value</H4>
-<P class="parametersummary">Value to write into the register.</P>
+<P class="parametersummary">Значение записанное в регистр.</P>
 <H3 class="operation">Sensor.WriteI2CRegisters (port, address, registernumber, writebytes, writedata)</H3>
-<P class="operationsummary">This command addresses one device on the I2C-bus and tries to write the values of multiple registers of a connected I2C slave.<BR>Note that this command does not work over daisy-chaining.</P>
+<P class="operationsummary">Эта команда обращается к одному устройству на шине I2C и пытается перезаписать значение нескольких регистров подчиненного устройства I2C.<BR>Обратите внимание, что эта команда не работает в режиме подключения шлейфом.</P>
 <H4 class="parameter">port</H4>
-<P class="parametersummary">Number of the sensor port</P>
+<P class="parametersummary">Номер порта датчика</P>
 <H4 class="parameter">address</H4>
-<P class="parametersummary">Address (0 - 127) of the I2C slave on the I2C bus</P>
+<P class="parametersummary">Адрес (0 - 127) подчиненного I2C устройства на шине I2C</P>
 <H4 class="parameter">registernumber</H4>
-<P class="parametersummary">Number of the first register in the slave to write data to.</P>
+<P class="parametersummary">Номер первого регистра на подчиненном устройстве для записи данных.</P>
 <H4 class="parameter">writebytes</H4>
-<P class="parametersummary">How many bytes to write into the registers (maximum 30).</P>
+<P class="parametersummary">Количество регистров для записи (максимум 30).</P>
 <H4 class="parameter">writedata</H4>
-<P class="parametersummary">Array holding the data bytes to be written (starting at 0).</P>
+<P class="parametersummary">Массив, содержащий байты для записи (начинается с 0).</P>
 <H2 class="object">Speaker</H2>
 <P class="objectsummary">Использование динамика на блоке EV3 для воспроизведения тонов, нот или звуковых файлов.</P>
 <H3 class="operation">Speaker.IsBusy ()</H3>
-<P class="operationsummary">Проверить, занят ли динамик воспроизведением тона/ноты/звука</P>
+<P class="operationsummary">Проверить, занят ли динамик воспроизведением тона\ноты\звука</P>
 <H4 class="returns">Возвращает</H4>
 <P class="returnssummary">"True", если звук в данный момент проигрывается, "False" в противном случае.</P>
 <H3 class="operation">Speaker.Note (volume, note, duration)</H3>
@@ -1463,19 +1541,19 @@
 <H4 class="parameter">volume</H4>
 <P class="parametersummary">Громкость 0 - 100</P>
 <H4 class="parameter">filename</H4>
-<P class="parametersummary">Имя звукового файла без расширения .rsf Имя файла может содержать относительный папки 'prjs' путь иил абсолютный, начиная с корня ФС '/'</P>
+<P class="parametersummary">Имя звукового файла без расширения .rsf Имя файла может содержать относительный путь от папки «prjs» путь или абсолютный, начиная с корня ФС '/'</P>
 <H3 class="operation">Speaker.Stop ()</H3>
-<P class="operationsummary">Остановить звучание любого проигрываемого в данный момент тона или звукового файла.</P>
+<P class="operationsummary">Остановить звучание любого проигрываемого в данный момент тона, ноты или звукового файла.</P>
 <H3 class="operation">Speaker.Tone (volume, frequency, duration)</H3>
 <P class="operationsummary">Воспроизвести тон указанной частоты и длительности.</P>
 <H4 class="parameter">volume</H4>
-<P class="parametersummary">Громкость тона 0 - 100</P>
+<P class="parametersummary">Громкость 0 - 100</P>
 <H4 class="parameter">frequency</H4>
 <P class="parametersummary">Частота, Гц в диапазоне 250 - 10000</P>
 <H4 class="parameter">duration</H4>
 <P class="parametersummary">Длительность тона в миллисекундах</P>
 <H3 class="operation">Speaker.Wait ()</H3>
-<P class="operationsummary">Дождаться, пока проигрываемый в данный момент закончит воспроизводиться. Если звук не воспроизводится, команда сразу же передает управлению программе.</P>
+<P class="operationsummary">Дождаться, пока проигрываемый в данный момент звук закончит воспроизводиться. Если звук не воспроизводится, команда сразу же передает управлению программе.</P>
 <H2 class="object">Text</H2>
 <P class="objectsummary">Объект Text обеспечивает работу с текстом.</P>
 <H3 class="operation">Text.Append (text1, text2)</H3>
@@ -1569,7 +1647,7 @@
 <H2 class="object">Thread</H2>
 <P class="objectsummary">Этот объект предназначен для организации потоков в программе. Поток представляет собой фрагмент программного кода, который может работать независимо и параллельно основной программе.<BR>Например ты можешь создать поток, который будет управлять двигателями в то время как основная программа будет опрашивать датчики или ожидать действий пользователя.<BR>Вообще говоря, многопоточность - сложная штука, не для начинающих. В ней стоит разобраться дополнительно.</P>
 <H3 class="property">Thread.Run - Свойство</H3>
-<P class="propertysummary">Создать новый поток. Просто назначьте подпрограмму и она начнет выполняться в качестве независимого потока (пример Thread.Run = MYSUB).<BR>Любая подпрограмма может быть преобразована в независимы поток, однако одна подпрограмма может быть преобразована в поток только однократно, два потока из нее сделать не удастся.<BR>При использовании Thread.Run в то время, как подпрограмма уже работает, вызов потока поставится в очередь до тех пор, пока она не завершит свою работу. Это обеспечит корректную работу, но запуск потока вероятно может произойти позже запланированного.<BR>Все запущенные потоки остановятся, как только основная программа завершит свою работу.</P>
+<P class="propertysummary">Запустить новый поток (параллельную задачу). Просто введите процедуру и она начнет выполняться в качестве независимого потока (пример: Thread.Run = MYSUB).<BR>Любая процедура может быть преобразована в независимы поток, однако одна процедура может быть преобразована в поток только однократно, два потока из нее сделать не удастся.<BR>При использовании Thread.Run в то время, как процедура уже работает, вызов потока поставится в очередь до тех пор, пока она не завершит свою работу. Это обеспечит корректную работу, но запуск потока вероятно может произойти позже запланированного.<BR>Все запущенные потоки остановятся, как только основная программа завершит свою работу.</P>
 <H3 class="operation">Thread.CreateMutex ()</H3>
 <P class="operationsummary">Создать мьютекс (сокр. от "mutual exclusion") - взаимное исключение, который может быть использован для синхронизации потоков.<BR>Мьютекс может быть только создан, но не удален. Лучше всего создать все необходимые мьютексы при старте программы и держать их номера в глобальных переменных.</P>
 <H4 class="returns">Возвращает</H4>
@@ -1589,21 +1667,21 @@
 <H3 class="operation">Vector.Add (size, A, B)</H3>
 <P class="operationsummary">Сложение двух векторов путем сложения соответствующих элементов (C[0]=A[0]+B[0], C[1]=A[1]+B[1]...)</P>
 <H4 class="parameter">size</H4>
-<P class="parametersummary">Сколько элементов брать складывать</P>
+<P class="parametersummary">Количество элементов для сложения</P>
 <H4 class="parameter">A</H4>
 <P class="parametersummary">Первый вектор</P>
 <H4 class="parameter">B</H4>
 <P class="parametersummary">Второй вектор</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">Вектор, содержащий результат сложения</P>
+<P class="returnssummary">Массив, содержащий результат сложения</P>
 <H3 class="operation">Vector.Data (size, data)</H3>
-<P class="operationsummary">Set up a vector of a given size and initialize the elements with data drawn from a text. For this, the text will be split apart on blank spaces and every part is treated as a decimal number.<BR>For example: V = Vector.Data(4,"47 11 8 15") will result in an number array with the 4 values 47 11 8 15.</P>
+<P class="operationsummary">Создает вектор заданного размера и заполняет элементы данными, полученными из текста. Каждое число должно быть десятичным и разделяется пробелами.<BR>Например: V = Vector.Data(4, "47 11 8 15") создаст массив чисел с 4 значениями 47 11 8 15. (Первый индекс - 0)</P>
 <H4 class="parameter">size</H4>
-<P class="parametersummary">Size of the resulting vector</P>
+<P class="parametersummary">Размер создаваемого вектора</P>
 <H4 class="parameter">data</H4>
-<P class="parametersummary">Data in text form to be filled into the array. When the text contains too few elements, the vector is padded with 0 to reach the specified number of elements</P>
+<P class="parametersummary">Данные в текстовой форме, которые внесутся в массив. Если текст содержит недостаточно элементов, то введется 0, чтобы достичь указанного количества элементов</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">The created vector</P>
+<P class="returnssummary">Созданный вектор</P>
 <H3 class="operation">Vector.Init (size, value)</H3>
 <P class="operationsummary">Создать вектор заданного размера с указанным количеством элементов, содержащих одинаковое число.</P>
 <H4 class="parameter">size</H4>
@@ -1633,7 +1711,7 @@
 <H4 class="parameter">A</H4>
 <P class="parametersummary">Массив, содержащий элементы для сортировки</P>
 <H4 class="returns">Возвращает</H4>
-<P class="returnssummary">Вектор, содержащий элементы в порядке возрастания значений</P>
+<P class="returnssummary">Массив, содержащий элементы в порядке возрастания значений</P>
 
 <H1 class="chapter">Appendix - Sensors</H1>
 
