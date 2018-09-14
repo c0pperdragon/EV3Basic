@@ -283,6 +283,14 @@
             <param name="size">Anzahl der Zahlen, die gelesen werden sollen.</param>
             <returns>Ein Array mit den gelesenen Zahlen.</returns>
         </member>
+        <member name="M:SmallBasicEV3Extension.EV3File.WriteNumberArray(Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive,Microsoft.SmallBasic.Library.Primitive)">
+            <summary>
+            Schreibt ein ganzes Array von Zahlen im Binärformat in eine Datei.
+            </summary>
+            <param name="handle">Die Nummer, die vom Open... - Befehl zurückgeben wurde.</param>
+            <param name="size">Anzahl der Zahlen, die geschrieben werden sollen.</param>
+            <param name="data">Ein Array mit den zu schreibenden Zahlen.</param>
+        </member>
         <member name="M:SmallBasicEV3Extension.EV3File.ConvertToNumber(Microsoft.SmallBasic.Library.Primitive)">
             <summary>
             Befehl um einen Text in eine Zahl zu konvertieren. 
@@ -861,6 +869,21 @@
         <member name="P:SmallBasicEV3Extension.EV3.BatteryLevel">
             <summary>
             Aktueller Ladezustand der Batterie in Prozent (Wertebereich 0 bis 100).
+            </summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.EV3.BatteryVoltage">
+            <summary>
+            The aktuelle Batteriespannung in Volt.
+            </summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.EV3.BatteryCurrent">
+            <summary>
+            Der aktuelle Batteriestrom in Ampere.
+            </summary>
+        </member>
+        <member name="P:SmallBasicEV3Extension.EV3.BrickName">
+            <summary>
+            Der individuelle Name des EV3-Bricks.
             </summary>
         </member>
         <member name="T:SmallBasicEV3Extension.Motor">

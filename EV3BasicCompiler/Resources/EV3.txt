@@ -74,6 +74,24 @@ subcall EV3.BATTERYLEVEL  // F
 	MOVE8_F l8 level
 }
 
+subcall EV3.BATTERYVOLTAGE  // F
+{
+	OUT_F voltage
+	UI_READ GET_VBATT voltage
+}
+
+subcall EV3.BATTERYCURRENT  // F
+{
+	OUT_F current
+	UI_READ GET_IBATT current
+}
+
+subcall EV3.BRICKNAME     // S
+{
+	OUT_S result 252
+	COM_GET GET_BRICKNAME 18 result
+}
+
 subcall EV3.SYSTEMCALL     // SF
 {
 	IN_S commandline 252

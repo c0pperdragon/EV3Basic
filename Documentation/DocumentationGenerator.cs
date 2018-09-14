@@ -158,6 +158,10 @@ namespace Documentation
                 flist.Sort();
                 foreach (var fkey in flist)
                 {
+                    // skip certain functions to not fill up the documentation                    
+                    if (opkey.Equals("F") && fkey.StartsWith("Call") && !fkey.Equals("Call0") && !fkey.Equals("Call1") && !fkey.Equals("Call2"))
+                    {   continue;
+                    }
                     EV3Function f = o.functions[fkey];
                     target.WriteLine("<H3 class=\"operation\">"+opkey+"."+fkey+" "+f.GetParameterList()+"</H3>");
                     target.WriteLine("<P class=\"operationsummary\">"+f.summary.Replace("\n","<BR>").Replace("<>","&lt;&gt;")+"</P>");

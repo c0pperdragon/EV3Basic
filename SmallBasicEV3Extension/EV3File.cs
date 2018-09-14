@@ -311,6 +311,52 @@ namespace SmallBasicEV3Extension
         }
 
         /// <summary>
+        /// Write a whole array of numbers in binary fom to the file. The numbers are encoded in IEEE single precision floating point representation.
+        /// </summary>
+        /// <param name="handle">The file handle (previously obtained from an Open... call)</param>
+        /// <param name="size">Number of values to write</param>
+        /// <param name="data">Array holding the values</param>
+        public static void WriteNumberArray(Primitive handle, Primitive size, Primitive data)
+        {
+            int hdl = handle;
+            int siz = size;
+            lock (openFiles)
+            {
+                if (hdl >= 0 && hdl < openFiles.Length && openFiles[hdl] != null && siz > 0)
+                {
+                    ByteCodeBuffer c = new ByteCodeBuffer();
+                    c.OP(0x2F);                // opInit_Bytes
+                    c.LOCVAR(2);               // prepare writing data from local variable
+                    c.CONST(4*siz);            //  number of bytes (including the address)
+                    for (int i = 0; i < siz; i++)  // extract the written data from the array
+                    {   Primitive v = data == 0 ? null : Primitive.GetArrayValue(data, new Primitive((double)i));
+                        double d = v;
+                        //  optional payload floats
+                        byte[] b = BitConverter.GetBytes((Single)d);
+                        for (int j = 0; j < 4; j++)
+                        {    c.CONST(b[j]);       
+                        }
+                    }
+
+                    c.OP(0xC0);       // opFile
+                    c.CONST(0x00);    // OPEN_APPEND = 0x00
+                    c.STRING(openFiles[hdl].name);
+                    c.LOCVAR(0);     // result: 16-bit handle
+                    c.OP(0xC0);       // opFile
+                    c.CONST(0x1D);    // WRITE_BYTES = 0x1D
+                    c.LOCVAR(0);
+                    c.CONST(4*siz);   // write 4 bytes for each number
+                    c.LOCVAR(2);      // where to take the byte from
+                    c.OP(0xC0);       // opFile
+                    c.CONST(0x07);    // CLOSE = 0x07
+                    c.LOCVAR(0);
+                    EV3RemoteControler.DirectCommand(c, 0, 2+4*siz);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Utility function to convert a text to a number. 
         /// </summary>
         /// <param name="text">A text holding a number in decimal representation (with optional fractional digits)</param>

@@ -1,3 +1,5 @@
 LCD.Clear()
-LCD.Write(40,60,"Hello World")
+LCD.Write(20,40,"Hello World")
+LCD.Write(20,60,"my name is")
+LCD.Write(20,80,EV3.Brickname)
 Program.Delay(10000)

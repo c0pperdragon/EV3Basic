@@ -1,0 +1,28 @@
+' Example for file access
+
+' write stuff to a file
+f = EV3File.OpenWrite("data.txt")
+EV3File.WriteByte(f,47)
+EV3File.WriteByte(f,8)
+EV3File.WriteLine(f,"so many words")
+A[0] = 4.6
+A[1] = 7
+A[2] = 66.3
+EV3File.WriteNumberArray(f,3,A)
+EV3File.WriteLine(f,"the end")
+EV3File.Close(f)
+
+' read back everything and write to screen
+f = EV3File.OpenRead("data.txt")
+LCD.Clear()
+LCD.Write(10,10, EV3File.ReadByte(f))
+LCD.Write(50,10, EV3File.ReadByte(f))
+LCD.Write(10,30, EV3File.ReadLine(f))
+B = EV3File.ReadNumberArray(f, 3)
+LCD.Write(10,50, B[0])
+LCD.Write(10,65, B[1])
+LCD.Write(10,80, B[2])
+LCD.Write(10,100, EV3File.ReadLine(f))
+EV3File.Close(f)
+
+Program.Delay(100000)

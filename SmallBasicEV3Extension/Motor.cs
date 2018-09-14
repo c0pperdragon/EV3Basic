@@ -220,6 +220,7 @@ namespace SmallBasicEV3Extension
 
         /// <summary>
         /// Query the current speed of a single motor.
+        /// Note that this command does not work for motors connected via daisy-chaining.
         /// </summary>
         /// <param name="port">Motor port name</param>
         /// <returns>Current speed in range -100 to 100</returns>
@@ -483,6 +484,7 @@ namespace SmallBasicEV3Extension
         /// <summary>
         /// Query the current rotation count of a single motor. 
         /// As long as the counter is not reset it will accurately measure all movements of a motor, even if the motor is driven by some external force while not actively running.
+        /// Note that this command does not work for motors connected via daisy-chaining.
         /// </summary>
         /// <param name="port">Motor port name</param>
         /// <returns>The current rotation count in degrees</returns>

@@ -170,6 +170,46 @@ empty:
     ARRAY RESIZE a 0
 }
 
+subcall EV3FILE.WRITENUMBERARRAY    // FFAV
+{
+	IN_F handle
+	IN_F size
+	IN_16 a
+
+	JR_LTF handle 1.0 invalidhandle
+	JR_GTF handle 32767.0 invalidhandle
+	DATA16 handle16
+	DATA8 byte8
+	MOVEF_16 handle handle16
+
+	DATA32 size32
+	MOVEF_32 size size32
+	JR_LTEQ32 size32 0 empty
+
+	DATA32 len          // real size of array
+	ARRAY SIZE a len
+
+	ARRAY8 buffer 4     // buffer for a single float
+
+	DATA32 i            // loop counter
+	MOVE32_32 0 i
+copyloop:
+	JR_GTEQ32 i size32 over
+	JR_GTEQ32 i len outofbounds
+	ARRAY_READ a i buffer
+outofbounds:
+	FILE WRITE_BYTES handle16 4 buffer
+
+	ADD32 i 1 i
+	JR copyloop
+
+over:
+invalidhandle:
+empty:
+	RETURN
+}
+
+
 subcall EV3FILE.CONVERTTONUMBER            // SF
 {
 	IN_S s 252

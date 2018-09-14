@@ -106,6 +106,89 @@ namespace SmallBasicEV3Extension
                 }
             }
         }
+        /// <summary>
+        /// The current charge level of the battery in volts.
+        /// </summary>
+        public static Primitive BatteryVoltage
+        {
+            get
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0x81);           // UI_READ
+                c.CONST(0x01);        // CMD: GET_VBATT = 0x01
+                c.GLOBVAR(0);
+                byte[] result = EV3RemoteControler.DirectCommand(c, 4, 0);
+
+                if (result == null || result.Length < 4)
+                {
+                    return new Primitive(0.0);
+                }
+                else
+                {
+                    return new Primitive((double)BitConverter.ToSingle(result, 0));
+                }
+            }
+        }
+        /// <summary>
+        /// The electric current being consumed from the battery in amperes.
+        /// </summary>
+        public static Primitive BatteryCurrent
+        {
+            get
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0x81);           // UI_READ
+                c.CONST(0x02);        // CMD: GET_IBATT = 0x02
+                c.GLOBVAR(0);
+                byte[] result = EV3RemoteControler.DirectCommand(c, 4, 0);
+
+                if (result == null || result.Length < 4)
+                {
+                    return new Primitive(0.0);
+                }
+                else
+                {
+                    return new Primitive((double)BitConverter.ToSingle(result, 0));
+                }
+            }
+        }
+
+        /// <summary>
+        /// The individual name of the EV3 brick.
+        /// </summary>
+        public static Primitive BrickName
+        {
+            get
+            {
+                ByteCodeBuffer c = new ByteCodeBuffer();
+                c.OP(0xD3);            // opCOM_GET
+                c.CONST(0x0D);         // GET_BRICKNAME
+                c.CONST(18);           // maximum length
+                c.GLOBVAR(0);        
+                byte[] response = EV3RemoteControler.DirectCommand(c, 20, 0);
+
+                // check response
+                if (response != null && response.Length >= 20)
+                {
+                    // find the null-termination
+                    for (int len = 0; len < 19; len++)
+                    {
+                        if (response[len] == 0)
+                        {
+                            // extract the message text
+                            char[] msg = new char[len];
+                            for (int i = 0; i < len; i++)
+                            {
+                                msg[i] = (char)response[i];
+                            }
+                            return new Primitive(new String(msg));
+                        }
+                    }
+                }
+                // no proper string found 
+                return new Primitive("");
+            }
+        }
 
         /// <summary>
         /// Execute one system command by the command shell of the EV3 linux system. All threads of the virtual machine are halted until the system command is finished.
